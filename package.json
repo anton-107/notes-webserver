@@ -28,6 +28,8 @@
     "typescript": "^4.6.4"
   },
   "dependencies": {
-    "express": "^4.18.1"
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.1",
+    "authentication-module": "anton-107/authenticator"
   }
 }

@@ -16,9 +16,18 @@ class HttpResponseAxios implements HttpResponse {
 }
 
 export class HttpClient {
+  private cookies: string[] = [];
+
+  public addCookie(cookie: string) {
+    this.cookies.push(cookie);
+  }
   public async get(url: string): Promise<HttpResponse> {
     axios;
-    const resp = await axios.get(url);
+    const resp = await axios.get(url, {
+      headers: {
+        Cookie: this.cookies.join("; "),
+      },
+    });
     return new HttpResponseAxios(resp);
   }
 }

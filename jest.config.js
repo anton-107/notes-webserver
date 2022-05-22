@@ -10,4 +10,5 @@ module.exports = {
       statements: 100,
     },
   },
+  transformIgnorePatterns: ["/node_modules/(?!(authentication-module)/)"],
 };
