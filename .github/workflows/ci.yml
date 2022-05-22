@@ -1,0 +1,20 @@
+name: CI build
+on: [push]
+jobs:
+  Build-And-Test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [16]
+    name: Node ${{ matrix.node }} sample
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm ci
+      - run: npm test
+      - run: npm run test:coverage
+      - run: npm run lint
+      - run: npm run check-format
