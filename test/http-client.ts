@@ -25,8 +25,8 @@ export class HttpClient {
     axios;
     const resp = await axios.get(url, {
       headers: {
-        Cookie: this.cookies.join('; ')
-      }
+        Cookie: this.cookies.join("; "),
+      },
     });
     return new HttpResponseAxios(resp);
   }

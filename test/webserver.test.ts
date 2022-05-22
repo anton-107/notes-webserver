@@ -6,7 +6,13 @@ describe("Notes webserver", () => {
   let server;
 
   beforeAll(() => {
-    server = new NotesWebserver();
+    server = new NotesWebserver({
+      userStore: {
+        getUserByName() {
+          return null;
+        },
+      },
+    });
     server.listen(testPort);
   });
 
@@ -23,7 +29,7 @@ describe("Notes webserver", () => {
     expect(response.getBody()).not.toContain("Sign out");
   });
   it("should render home page for a signed in user", async () => {
-    const userToken = 'sample-user-token:user1';
+    const userToken = "sample-user-token:user1";
     const testClient = new HttpClient();
     testClient.addCookie(`Authentication=usertoken ${userToken}`);
     const response = await testClient.get(`http://localhost:${testPort}/home`);

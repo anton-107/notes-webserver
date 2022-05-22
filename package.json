@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "cookie-parser": "^1.4.6",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "authentication-module": "anton-107/authenticator"
   }
 }
