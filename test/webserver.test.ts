@@ -1,5 +1,7 @@
 import { NotesWebserver } from "../src/notes-webserver";
 import { HttpClient } from "./http-client";
+import { UserStore } from "authentication-module//src/authenticator";
+import { mock, instance } from "ts-mockito";
 
 describe("Notes webserver", () => {
   const testPort = 8134;
@@ -7,11 +9,7 @@ describe("Notes webserver", () => {
 
   beforeAll(() => {
     server = new NotesWebserver({
-      userStore: {
-        getUserByName() {
-          return null;
-        },
-      },
+      userStore: instance(mock<UserStore>()),
     });
     server.listen(testPort);
   });

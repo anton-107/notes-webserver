@@ -5,6 +5,7 @@ import {
   Authenticator,
   UserStore,
 } from "authentication-module/src/authenticator";
+import { Argon2HashingFunction } from "authentication-module/src/argon2-hashing";
 
 interface NotesWebserverProperties {
   userStore: UserStore;
@@ -20,6 +21,7 @@ export class NotesWebserver {
 
     const authenticator = new Authenticator({
       userStore: properties.userStore,
+      passwordHashingFunction: new Argon2HashingFunction(),
     });
 
     this.app.get("/home", (req, res) => {
