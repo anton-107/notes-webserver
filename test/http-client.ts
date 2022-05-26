@@ -22,7 +22,6 @@ export class HttpClient {
     this.cookies.push(cookie);
   }
   public async get(url: string): Promise<HttpResponse> {
-    axios;
     const resp = await axios.get(url, {
       headers: {
         Cookie: this.cookies.join("; "),

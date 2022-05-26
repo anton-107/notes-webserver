@@ -31,11 +31,17 @@ export class NotesWebserver {
       const user = authenticator.authenticate(authToken);
 
       if (!user.isAuthenticated) {
-        res.send("<h1>hello anonymous!</h1><a>Sign in</a>");
+        res.send(
+          "<h1>hello anonymous!</h1><a data-testid='sign-in-link' href='/signin'>Sign in</a>"
+        );
         return;
       }
 
       res.send(`<h1>hello ${user.username}!</h1><a>Sign out</a>`);
+    });
+    this.app.get("/signin", (req, res) => {
+      res.setHeader("Content-Type", "text/html; charset=utf-8");
+      res.send("Sign in here");
     });
   }
 

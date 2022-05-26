@@ -23,6 +23,8 @@
     "axios": "^0.27.2",
     "eslint": "^8.16.0",
     "jest": "^28.1.0",
+    "jest-cucumber": "^3.0.1",
+    "node-html-parser": "^5.3.3",
     "prettier": "2.6.2",
     "ts-jest": "^28.0.2",
     "ts-mockito": "^2.6.1",
