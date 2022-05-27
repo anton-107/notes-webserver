@@ -41,7 +41,14 @@ export class NotesWebserver {
     });
     this.app.get("/signin", (req, res) => {
       res.setHeader("Content-Type", "text/html; charset=utf-8");
-      res.send("Sign in here");
+      res.send(`<form method='post' action='/signin'>
+        <input name='user-login' data-testid='user-login' />
+        <input name='user-password' data-testid='user-password' type='password' />
+      </form>`);
+    });
+    this.app.post("/signin", (req, res) => {
+      res.setHeader("Location", "/home");
+      res.sendStatus(303);
     });
   }
 

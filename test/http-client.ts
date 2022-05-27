@@ -1,8 +1,9 @@
 import { AxiosResponse, default as axios } from "axios";
 
-interface HttpResponse {
+export interface HttpResponse {
   getHeader(headerName: string): string;
   getBody(): string;
+  getResponsePath(): string;
 }
 
 class HttpResponseAxios implements HttpResponse {
@@ -12,6 +13,9 @@ class HttpResponseAxios implements HttpResponse {
   }
   getBody(): string {
     return this.response.data;
+  }
+  getResponsePath(): string {
+    return this.response.request.path;
   }
 }
 
@@ -23,6 +27,17 @@ export class HttpClient {
   }
   public async get(url: string): Promise<HttpResponse> {
     const resp = await axios.get(url, {
+      headers: {
+        Cookie: this.cookies.join("; "),
+      },
+    });
+    return new HttpResponseAxios(resp);
+  }
+  public async postForm(
+    url: string,
+    formData: { [key: string]: string }
+  ): Promise<HttpResponse> {
+    const resp = await axios.postForm(url, formData, {
       headers: {
         Cookie: this.cookies.join("; "),
       },
