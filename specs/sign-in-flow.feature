@@ -17,9 +17,9 @@ Feature: User sign in flow
       And I press 'Enter' on keyboard
       Then I am navigated to /home page
       When page is loaded
-      # Then I see 'user-greeting' element
-      # And it has inner text of 'Hello user1!'
-      # And I see 'sign-out-link' element
+      Then I see 'user-greeting' element
+      And it has inner text of 'hello user1!'
+      And I see 'sign-out-button' element
       # When I click on it
       # Then I am navigated to /signout page
       # When page is loaded

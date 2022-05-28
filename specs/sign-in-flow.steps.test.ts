@@ -1,7 +1,8 @@
+import { Argon2HashingFunction } from "authentication-module/src/argon2-hashing";
 import { UserStore } from "authentication-module/src/authenticator";
 import { loadFeature, defineFeature } from "jest-cucumber";
 import parse from "node-html-parser";
-import { instance, mock } from "ts-mockito";
+import { instance, mock, when } from "ts-mockito";
 import { NotesWebserver } from "../src/notes-webserver";
 import { HttpClient, HttpResponse } from "../test/http-client";
 
@@ -55,10 +56,20 @@ defineFeature(feature, (test) => {
     form[inputName] = value;
   };
 
+  const hashingFunction = new Argon2HashingFunction();
+  const testUserStore = mock<UserStore>();
+  when(testUserStore.getUserByName("user1")).thenCall(async () => {
+    return {
+      username: "user1",
+      passwordHash: await hashingFunction.generateHash("1234"),
+    };
+  });
+
   test("Sucessful sign in for user1", ({ given, when, then, and }) => {
     given("web server is running", () => {
       server = new NotesWebserver({
-        userStore: instance(mock<UserStore>()),
+        userStore: instance(testUserStore),
+        jwtSerializerSecretKey: "some-secret",
       });
       server.listen(testPort);
     });
@@ -85,7 +96,6 @@ defineFeature(feature, (test) => {
       const formAction = formEl.getAttribute("action");
       expect(formMethod).toBeTruthy();
       expect(formAction).toBeTruthy();
-      console.log("Send form: ", formMethod, formAction, form);
       if (formMethod !== "post") {
         throw "only post form method is implemented in this step definition";
       }
@@ -93,5 +103,10 @@ defineFeature(feature, (test) => {
     });
     then(/^I am navigated to \/([a-z]+) page$/, checkCurrentPage);
     when("page is loaded", processNewPage);
+    then(/^I see '([a-z-]+)' element$/, checkElement);
+    and(/^it has inner text of '(.+)'$/, async (innerText) => {
+      expect(el.innerText).toBe(innerText);
+    });
+    then(/^I see '([a-z-]+)' element$/, checkElement);
   });
 });

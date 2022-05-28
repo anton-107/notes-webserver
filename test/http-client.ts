@@ -38,7 +38,7 @@ export class HttpClient {
   }
   public async postForm(
     url: string,
-    formData: { [key: string]: string }
+    formObject: { [key: string]: string }
   ): Promise<HttpResponse> {
     const headers = new Headers({
       Cookie: this.cookies.join("; "),
@@ -47,7 +47,7 @@ export class HttpClient {
     let resp = await fetch(url, {
       method: "post",
       headers,
-      body: JSON.stringify(formData),
+      body: new URLSearchParams(formObject),
       redirect: "manual",
     });
 

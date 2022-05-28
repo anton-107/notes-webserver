@@ -11,6 +11,7 @@ describe("Notes webserver", () => {
   beforeAll(() => {
     server = new NotesWebserver({
       userStore: instance(mock<UserStore>()),
+      jwtSerializerSecretKey: "no-secret",
     });
     server.listen(testPort);
   });
@@ -36,16 +37,19 @@ describe("Notes webserver", () => {
     const signInHref = signInLink.getAttribute("href");
     expect(signInHref).toBe("/signin");
   });
-  it("should render home page for a signed in user", async () => {
-    const userToken = "sample-user-token:user1";
+  it("should render home page for an anonymous user if access token is incorrect", async () => {
     const testClient = new HttpClient();
-    testClient.addCookie(`Authentication=usertoken ${userToken}`);
+    testClient.addCookie("Authentication=jwt some-invalid-jwt-token");
     const response = await testClient.get(`http://localhost:${testPort}/home`);
     expect(response.getHeader("content-type")).toContain("text/html");
 
     const body = await response.getBody();
-    expect(body).toContain("hello user1!");
-    expect(body).not.toContain("Sign in");
-    expect(body).toContain("Sign out");
+    expect(body).toContain("hello anonymous!");
+
+    const root = parse(body);
+    const signInLink = root.querySelector("*[data-testid=sign-in-link]");
+    const signOutLink = root.querySelector("*[data-testid=sign-out-link]");
+    expect(signInLink).toBeTruthy();
+    expect(signOutLink).toBe(null);
   });
 });
