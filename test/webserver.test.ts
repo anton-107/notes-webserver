@@ -23,9 +23,11 @@ describe("Notes webserver", () => {
     const testClient = new HttpClient();
     const response = await testClient.get(`http://localhost:${testPort}/home`);
     expect(response.getHeader("content-type")).toContain("text/html");
-    expect(response.getBody()).toContain("hello anonymous!");
 
-    const root = parse(response.getBody());
+    const body = await response.getBody();
+    expect(body).toContain("hello anonymous!");
+
+    const root = parse(body);
     const signInLink = root.querySelector("*[data-testid=sign-in-link]");
     const signOutLink = root.querySelector("*[data-testid=sign-out-link]");
     expect(signInLink).toBeTruthy();
@@ -41,8 +43,9 @@ describe("Notes webserver", () => {
     const response = await testClient.get(`http://localhost:${testPort}/home`);
     expect(response.getHeader("content-type")).toContain("text/html");
 
-    expect(response.getBody()).toContain("hello user1!");
-    expect(response.getBody()).not.toContain("Sign in");
-    expect(response.getBody()).toContain("Sign out");
+    const body = await response.getBody();
+    expect(body).toContain("hello user1!");
+    expect(body).not.toContain("Sign in");
+    expect(body).toContain("Sign out");
   });
 });

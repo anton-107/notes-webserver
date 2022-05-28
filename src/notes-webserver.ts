@@ -28,6 +28,7 @@ export class NotesWebserver {
       res.setHeader("Content-Type", "text/html; charset=utf-8");
 
       const authToken = req.cookies["Authentication"];
+      console.log("authToken", authToken);
       const user = authenticator.authenticate(authToken);
 
       if (!user.isAuthenticated) {
@@ -47,6 +48,7 @@ export class NotesWebserver {
       </form>`);
     });
     this.app.post("/signin", (req, res) => {
+      res.cookie("Authentication", "some-token");
       res.setHeader("Location", "/home");
       res.sendStatus(303);
     });

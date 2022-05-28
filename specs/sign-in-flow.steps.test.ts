@@ -35,8 +35,8 @@ defineFeature(feature, (test) => {
     currentPage = response.getResponsePath();
   };
 
-  const processNewPage = () => {
-    pageRoot = parse(response.getBody());
+  const processNewPage = async () => {
+    pageRoot = parse(await response.getBody());
     form = {};
   };
 
@@ -92,5 +92,6 @@ defineFeature(feature, (test) => {
       await postFormRequest(formAction, form);
     });
     then(/^I am navigated to \/([a-z]+) page$/, checkCurrentPage);
+    when("page is loaded", processNewPage);
   });
 });

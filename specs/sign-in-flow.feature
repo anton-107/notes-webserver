@@ -16,7 +16,7 @@ Feature: User sign in flow
       And I focus on it and type '1234'
       And I press 'Enter' on keyboard
       Then I am navigated to /home page
-      # When page is loaded
+      When page is loaded
       # Then I see 'user-greeting' element
       # And it has inner text of 'Hello user1!'
       # And I see 'sign-out-link' element
