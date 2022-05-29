@@ -25,6 +25,7 @@ Feature: User sign in flow
       When page is loaded
       Then I see 'signout-complete' element
       When I visit /home page
-      # Then I see 'sign-in-link' element
-      # And I do not see 'sign-out-link' element
-      # And I do not see 'user-greeting' element
+      When page is loaded
+      Then I see 'sign-in-link' element
+      And I do not see 'sign-out-link' element
+      And I do not see 'user-greeting' element

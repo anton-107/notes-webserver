@@ -69,6 +69,7 @@ export class NotesWebserver {
       res.sendStatus(303);
     });
     this.app.post("/signout", async (req, res) => {
+      res.clearCookie("Authentication");
       res.send(`<div data-testid='signout-complete'>You are signed out</div>`);
     });
   }

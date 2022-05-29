@@ -49,6 +49,10 @@ defineFeature(feature, (test) => {
     el = pageRoot.querySelector(`*[data-testid=${elementDataID}]`);
     expect(el).toBeTruthy();
   };
+  const checkElementIsNotPresent = (elementDataID) => {
+    el = pageRoot.querySelector(`*[data-testid=${elementDataID}]`);
+    expect(el).toBe(null);
+  };
 
   const setInputValue = (value) => {
     const inputName = el.getAttribute("name");
@@ -135,5 +139,9 @@ defineFeature(feature, (test) => {
     when("page is loaded", processNewPage);
     then(/^I see '([a-z-]+)' element$/, checkElement);
     when(/^I visit \/([a-z]+) page$/, loadPage);
+    when("page is loaded", processNewPage);
+    then(/^I see '([a-z-]+)' element$/, checkElement);
+    and(/^I do not see '([a-z-]+)' element$/, checkElementIsNotPresent);
+    and(/^I do not see '([a-z-]+)' element$/, checkElementIsNotPresent);
   });
 });

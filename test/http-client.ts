@@ -25,6 +25,11 @@ export class HttpClient {
   public addCookie(cookie: string) {
     this.cookies.push(cookie);
   }
+  private removeCookie(cookieName: string) {
+    this.cookies = this.cookies.filter((c) => {
+      return !c.startsWith(`${cookieName}=`);
+    });
+  }
   public async get(url: string): Promise<FetchResponse> {
     const headers = new Headers({
       Cookie: this.cookies.join("; "),
@@ -51,18 +56,47 @@ export class HttpClient {
       redirect: "manual",
     });
 
+    this.processCookies(resp.headers.raw()["set-cookie"]);
+
     if (resp.status >= 300 && resp.status < 400) {
-      const cookieHeader = resp.headers.get("set-cookie");
-      const cookie = cookieHeader.split(";");
-      this.addCookie(cookie[0]);
       resp = await fetch(resp.headers.get("location"), {
         method: "get",
         headers: new Headers({
           Cookie: this.cookies.join("; "),
         }),
       });
+      this.processCookies(resp.headers.raw()["set-cookie"]);
     }
 
     return new FetchResponse(resp);
+  }
+
+  private processCookies(cookies: string[]) {
+    if (!cookies) {
+      return;
+    }
+    cookies.forEach((c) => {
+      const parts = c.split(";");
+      let cookieName,
+        cookieValue,
+        hasExpired = false;
+      parts.forEach((p, index) => {
+        const parts = p.trim().split("=");
+        if (index === 0) {
+          cookieName = parts[0];
+          cookieValue = parts[1];
+          return;
+        }
+        if (parts[0] === "Expires") {
+          const expirationDate = new Date(parts[1]);
+          hasExpired = new Date() > expirationDate;
+        }
+      });
+      if (hasExpired) {
+        this.removeCookie(cookieName);
+      } else {
+        this.addCookie(`${cookieName}=${cookieValue}`);
+      }
+    });
   }
 }
