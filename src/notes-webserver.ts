@@ -68,6 +68,9 @@ export class NotesWebserver {
       res.setHeader("Location", "/home");
       res.sendStatus(303);
     });
+    this.app.post("/signout", async (req, res) => {
+      res.send(`<div data-testid='signout-complete'>You are signed out</div>`);
+    });
   }
 
   public listen(port: number): void {

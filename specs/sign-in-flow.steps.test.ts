@@ -1,7 +1,7 @@
 import { Argon2HashingFunction } from "authentication-module/src/argon2-hashing";
 import { UserStore } from "authentication-module/src/authenticator";
 import { loadFeature, defineFeature } from "jest-cucumber";
-import parse from "node-html-parser";
+import parse, { HTMLElement } from "node-html-parser";
 import { instance, mock, when } from "ts-mockito";
 import { NotesWebserver } from "../src/notes-webserver";
 import { HttpClient, HttpResponse } from "../test/http-client";
@@ -15,8 +15,8 @@ defineFeature(feature, (test) => {
   let server;
   let currentPage; // last url the client loaded
   let response: HttpResponse; // response of the last testClient call
-  let pageRoot; // root element of currently loaded page
-  let el; // currently selected element
+  let pageRoot: HTMLElement; // root element of currently loaded page
+  let el: HTMLElement; // currently selected element
   let form = {}; // form for the page
 
   afterAll(() => {
@@ -56,6 +56,33 @@ defineFeature(feature, (test) => {
     form[inputName] = value;
   };
 
+  const handleLinkClick = async () => {
+    const href = el.getAttribute("href");
+    await getRequest(String(href));
+  };
+  const handleButtonClick = async () => {
+    const form = el.parentNode;
+    expect(form.tagName).toBe("FORM");
+    expect(form.getAttribute("method")).toBe("post");
+    const url = form.getAttribute("action");
+    await postFormRequest(url, {});
+  };
+
+  const handleClick = async () => {
+    switch (el.tagName) {
+      case "A":
+        return await handleLinkClick();
+      case "BUTTON":
+        return await handleButtonClick();
+      default:
+        throw `handleClick for ${el.tagName} is not supported`;
+    }
+  };
+
+  const loadPage = async (page) => {
+    await getRequest(`/${page}`);
+  };
+
   const hashingFunction = new Argon2HashingFunction();
   const testUserStore = mock<UserStore>();
   when(testUserStore.getUserByName("user1")).thenCall(async () => {
@@ -73,15 +100,10 @@ defineFeature(feature, (test) => {
       });
       server.listen(testPort);
     });
-    when(/^I visit \/([a-z]+) page$/, async (page) => {
-      await getRequest(`/${page}`);
-    });
+    when(/^I visit \/([a-z]+) page$/, loadPage);
     when("page is loaded", processNewPage);
     then(/^I see '([a-z-]+)' element$/, checkElement);
-    when("I click on it", async () => {
-      const href = el.getAttribute("href");
-      await getRequest(String(href));
-    });
+    when("I click on it", handleClick);
     then(/^I am navigated to \/([a-z]+) page$/, checkCurrentPage);
     when("page is loaded", processNewPage);
     then(/^I see '([a-z-]+)' element$/, checkElement);
@@ -108,5 +130,10 @@ defineFeature(feature, (test) => {
       expect(el.innerText).toBe(innerText);
     });
     then(/^I see '([a-z-]+)' element$/, checkElement);
+    when("I click on it", handleClick);
+    then(/^I am navigated to \/([a-z]+) page$/, checkCurrentPage);
+    when("page is loaded", processNewPage);
+    then(/^I see '([a-z-]+)' element$/, checkElement);
+    when(/^I visit \/([a-z]+) page$/, loadPage);
   });
 });

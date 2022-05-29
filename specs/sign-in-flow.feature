@@ -20,11 +20,11 @@ Feature: User sign in flow
       Then I see 'user-greeting' element
       And it has inner text of 'hello user1!'
       And I see 'sign-out-button' element
-      # When I click on it
-      # Then I am navigated to /signout page
-      # When page is loaded
-      # Then I see 'signout-complete' element
-      # When I visit /home page
+      When I click on it
+      Then I am navigated to /signout page
+      When page is loaded
+      Then I see 'signout-complete' element
+      When I visit /home page
       # Then I see 'sign-in-link' element
       # And I do not see 'sign-out-link' element
       # And I do not see 'user-greeting' element
