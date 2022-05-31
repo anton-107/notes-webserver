@@ -6,7 +6,7 @@ import { parse } from "node-html-parser";
 
 describe("Notes webserver", () => {
   const testPort = 8134;
-  let server;
+  let server: NotesWebserver;
 
   beforeAll(() => {
     server = new NotesWebserver({

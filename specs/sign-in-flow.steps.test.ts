@@ -12,24 +12,27 @@ defineFeature(feature, (test) => {
   const testClient = new HttpClient();
   const testPort = 8135;
 
-  let server;
-  let currentPage; // last url the client loaded
+  let server: NotesWebserver;
+  let currentPage: string; // last url the client loaded
   let response: HttpResponse; // response of the last testClient call
   let pageRoot: HTMLElement; // root element of currently loaded page
   let el: HTMLElement; // currently selected element
-  let form = {}; // form for the page
+  let form: { [key: string]: string } = {}; // form for the page
 
   afterAll(() => {
     server && server.stop();
   });
 
-  const getRequest = async (url) => {
+  const getRequest = async (url: string) => {
     currentPage = url;
     const address = `http://localhost:${testPort}${url}`;
     response = await testClient.get(address);
   };
 
-  const postFormRequest = async (url, formData) => {
+  const postFormRequest = async (
+    url: string,
+    formData: { [key: string]: string }
+  ) => {
     const address = `http://localhost:${testPort}${url}`;
     response = await testClient.postForm(address, formData);
     // convention: every post request ends up with a redirect:
@@ -41,20 +44,20 @@ defineFeature(feature, (test) => {
     form = {};
   };
 
-  const checkCurrentPage = async (page) => {
+  const checkCurrentPage = async (page: string) => {
     expect(currentPage).toBe(`/${page}`);
   };
 
-  const checkElement = (elementDataID) => {
+  const checkElement = (elementDataID: string) => {
     el = pageRoot.querySelector(`*[data-testid=${elementDataID}]`);
     expect(el).toBeTruthy();
   };
-  const checkElementIsNotPresent = (elementDataID) => {
+  const checkElementIsNotPresent = (elementDataID: string) => {
     el = pageRoot.querySelector(`*[data-testid=${elementDataID}]`);
     expect(el).toBe(null);
   };
 
-  const setInputValue = (value) => {
+  const setInputValue = (value: string) => {
     const inputName = el.getAttribute("name");
     expect(inputName).toBeTruthy();
     form[inputName] = value;
@@ -83,7 +86,7 @@ defineFeature(feature, (test) => {
     }
   };
 
-  const loadPage = async (page) => {
+  const loadPage = async (page: string) => {
     await getRequest(`/${page}`);
   };
 

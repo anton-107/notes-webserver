@@ -1,13 +1,17 @@
-import * as express from "express";
-import * as cookieParser from "cookie-parser";
+import * as http from "http";
+import express from "express";
+import cookieParser from "cookie-parser";
 import { Express } from "express";
-import * as bodyParser from "body-parser";
+import bodyParser from "body-parser";
 import {
   Authenticator,
   UserStore,
-} from "authentication-module/src/authenticator";
-import { Argon2HashingFunction } from "authentication-module/src/argon2-hashing";
-import { JWTSerializer } from "authentication-module/src/jwt-serializer";
+} from "authentication-module/dist/authenticator";
+import { Argon2HashingFunction } from "authentication-module/dist/argon2-hashing";
+import {
+  JWTSerializer,
+  StandardJwtImplementation,
+} from "authentication-module/dist/jwt-serializer";
 
 interface NotesWebserverProperties {
   userStore: UserStore;
@@ -16,7 +20,7 @@ interface NotesWebserverProperties {
 
 export class NotesWebserver {
   private app: Express;
-  private server;
+  private server: http.Server;
 
   constructor(properties: NotesWebserverProperties) {
     this.app = express();
@@ -26,6 +30,7 @@ export class NotesWebserver {
       userStore: properties.userStore,
       passwordHashingFunction: new Argon2HashingFunction(),
       authTokensSerializer: new JWTSerializer(
+        new StandardJwtImplementation(),
         properties.jwtSerializerSecretKey
       ),
     });
