@@ -62,6 +62,7 @@ export class NotesWebserver {
       res.send(`<form method='post' action='/signin'>
         <input name='user-login' data-testid='user-login' />
         <input name='user-password' data-testid='user-password' type='password' />
+        <input type='submit' />
       </form>`);
     });
     this.app.post("/signin", bodyParser.urlencoded(), async (req, res) => {
