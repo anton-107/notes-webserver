@@ -10,5 +10,6 @@ module.exports = {
       statements: 100,
     },
   },
+  collectCoverageFrom: ["src/**/*"],
   transformIgnorePatterns: ["/node_modules/(?!(authentication-module)/)"],
 };

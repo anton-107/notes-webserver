@@ -54,7 +54,9 @@ export class NotesWebserver {
       }
 
       res.send(
-        `<h1 data-testid='user-greeting'>hello ${user.username}!</h1><form method='post' action='/signout'><button type='submit' data-testid='sign-out-button'>Sign out</button></form>`
+        `<h1 data-testid='user-greeting'>hello ${user.username}!</h1>
+        <form method='post' action='/signout'><button type='submit' data-testid='sign-out-button'>Sign out</button></form>
+        <a href='/new-notebook' data-testid='create-new-notebook-link'>Create new notebook</a>`
       );
     });
     this.app.get("/signin", (req, res) => {
