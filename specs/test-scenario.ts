@@ -2,6 +2,7 @@ import { Argon2HashingFunction } from "authentication-module/dist/argon2-hashing
 import { UserStore } from "authentication-module/dist/authenticator";
 import parse, { HTMLElement } from "node-html-parser";
 import { instance, mock, when } from "ts-mockito";
+import { NotebookStore } from "../src/notebook-store";
 import { NotesWebserver } from "../src/notes-webserver";
 import { HttpClient, HttpResponse } from "../test/http-client";
 
@@ -29,6 +30,7 @@ export class TestScenario {
     this.server = new NotesWebserver({
       userStore: instance(testUserStore),
       jwtSerializerSecretKey: "some-secret",
+      notebookStore: new NotebookStore(),
     });
 
     this.server.listen(this.testPort);

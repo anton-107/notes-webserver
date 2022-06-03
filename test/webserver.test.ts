@@ -3,6 +3,7 @@ import { HttpClient } from "./http-client";
 import { UserStore } from "authentication-module//src/authenticator";
 import { mock, instance } from "ts-mockito";
 import { parse } from "node-html-parser";
+import { NotebookStore } from "../src/notebook-store";
 
 describe("Notes webserver", () => {
   const testPort = 8134;
@@ -12,6 +13,7 @@ describe("Notes webserver", () => {
     server = new NotesWebserver({
       userStore: instance(mock<UserStore>()),
       jwtSerializerSecretKey: "no-secret",
+      notebookStore: new NotebookStore(),
     });
     server.listen(testPort);
   });

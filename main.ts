@@ -1,6 +1,7 @@
 import { User, UserStore } from "authentication-module/src/authenticator";
 import { NotesWebserver } from "./src/notes-webserver";
 import { Argon2HashingFunction } from "authentication-module/dist/argon2-hashing";
+import { NotebookStore } from "./src/notebook-store";
 
 class InMemoryUserStore implements UserStore {
   private users: User[] = [];
@@ -18,6 +19,7 @@ const userStore = new InMemoryUserStore();
 const server = new NotesWebserver({
   userStore: userStore,
   jwtSerializerSecretKey: String(Math.random),
+  notebookStore: new NotebookStore(),
 });
 
 async function main() {

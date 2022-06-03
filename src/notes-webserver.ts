@@ -12,9 +12,11 @@ import {
   JWTSerializer,
   StandardJwtImplementation,
 } from "authentication-module/dist/jwt-serializer";
+import { NotebookStore } from "./notebook-store";
 
 interface NotesWebserverProperties {
   userStore: UserStore;
+  notebookStore: NotebookStore;
   jwtSerializerSecretKey: string;
 }
 
@@ -53,10 +55,16 @@ export class NotesWebserver {
         return;
       }
 
+      const notebooks = await properties.notebookStore.listAll(user.username);
+
       res.send(
         `<h1 data-testid='user-greeting'>hello ${user.username}!</h1>
         <form method='post' action='/signout'><button type='submit' data-testid='sign-out-button'>Sign out</button></form>
-        <a href='/new-notebook' data-testid='create-new-notebook-link'>Create new notebook</a>`
+        <a href='/new-notebook' data-testid='create-new-notebook-link'>Create new notebook</a>
+        ${notebooks.map(
+          (x) => `<div><span data-testid='notebook-name'>${x.name}</span></div>`
+        )}
+        `
       );
     });
     this.app.get("/signin", (req, res) => {
@@ -67,19 +75,44 @@ export class NotesWebserver {
         <input type='submit' />
       </form>`);
     });
-    this.app.post("/signin", bodyParser.urlencoded(), async (req, res) => {
-      const signinResult = await authenticator.signIn(
-        req.body["user-login"],
-        req.body["user-password"]
-      );
-      res.cookie("Authentication", signinResult.accessToken);
-      res.setHeader("Location", "/home");
-      res.sendStatus(303);
-    });
+    this.app.post(
+      "/signin",
+      bodyParser.urlencoded({ extended: true }),
+      async (req, res) => {
+        const signinResult = await authenticator.signIn(
+          req.body["user-login"],
+          req.body["user-password"]
+        );
+        res.cookie("Authentication", signinResult.accessToken);
+        res.setHeader("Location", "/home");
+        res.sendStatus(303);
+      }
+    );
     this.app.post("/signout", async (req, res) => {
       res.clearCookie("Authentication");
       res.send(`<div data-testid='signout-complete'>You are signed out</div>`);
     });
+    this.app.get("/new-notebook", (req, res) => {
+      res.setHeader("Content-Type", "text/html; charset=utf-8");
+      res.send(`<form method='post' action='/notebook'>
+        <input name='notebook-name' data-testid='notebook-name-input' />
+        <input type='submit' />
+      </form>`);
+    });
+    this.app.post(
+      "/notebook",
+      bodyParser.urlencoded({ extended: true }),
+      async (req, res) => {
+        const authToken = req.cookies["Authentication"];
+        const user = await authenticator.authenticate(authToken);
+        await properties.notebookStore.add({
+          name: req.body["notebook-name"],
+          owner: user.username,
+        });
+        res.setHeader("Location", "/home");
+        res.sendStatus(303);
+      }
+    );
   }
 
   public listen(port: number): void {
