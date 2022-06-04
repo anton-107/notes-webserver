@@ -1,10 +1,9 @@
 import { Argon2HashingFunction } from "authentication-module/dist/argon2-hashing";
-import { UserStore } from "authentication-module/dist/authenticator";
 import parse, { HTMLElement } from "node-html-parser";
-import { instance, mock, when } from "ts-mockito";
-import { NotebookStore } from "../src/notebook-store";
+import { dependenciesConfiguration } from "../src/configuration/configuration";
 import { NotesWebserver } from "../src/notes-webserver";
 import { HttpClient, HttpResponse } from "../test/http-client";
+import { routes } from "./../src/router";
 
 export class TestScenario {
   private server: NotesWebserver;
@@ -17,20 +16,17 @@ export class TestScenario {
 
   constructor(private testPort: number) {}
 
-  public startServer() {
+  public async startServer() {
     const hashingFunction = new Argon2HashingFunction();
-    const testUserStore = mock<UserStore>();
-    when(testUserStore.getUserByName("user1")).thenCall(async () => {
-      return {
-        username: "user1",
-        passwordHash: await hashingFunction.generateHash("1234"),
-      };
+    const config = dependenciesConfiguration();
+    config.userStore.addUser({
+      username: "user1",
+      passwordHash: await hashingFunction.generateHash("1234"),
     });
 
     this.server = new NotesWebserver({
-      userStore: instance(testUserStore),
-      jwtSerializerSecretKey: "some-secret",
-      notebookStore: new NotebookStore(),
+      ...config,
+      routes,
     });
 
     this.server.listen(this.testPort);

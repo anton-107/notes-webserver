@@ -3,21 +3,14 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import { Express } from "express";
 import bodyParser from "body-parser";
-import {
-  Authenticator,
-  UserStore,
-} from "authentication-module/dist/authenticator";
-import { Argon2HashingFunction } from "authentication-module/dist/argon2-hashing";
-import {
-  JWTSerializer,
-  StandardJwtImplementation,
-} from "authentication-module/dist/jwt-serializer";
+import { Authenticator } from "authentication-module/dist/authenticator";
 import { NotebookStore } from "./notebook-store";
+import { HttpResponse, Route, RouteHandler } from "./router";
 
 interface NotesWebserverProperties {
-  userStore: UserStore;
+  authenticator: Authenticator;
   notebookStore: NotebookStore;
-  jwtSerializerSecretKey: string;
+  routes: Route[];
 }
 
 export class NotesWebserver {
@@ -28,45 +21,23 @@ export class NotesWebserver {
     this.app = express();
     this.app.use(cookieParser());
 
-    const authenticator = new Authenticator({
-      userStore: properties.userStore,
-      passwordHashingFunction: new Argon2HashingFunction(),
-      authTokensSerializer: new JWTSerializer(
-        new StandardJwtImplementation(),
-        properties.jwtSerializerSecretKey
-      ),
+    properties.routes.forEach((route) => {
+      switch (route.method) {
+        case "GET":
+          return this.app.get(route.path, async (req, res) => {
+            const module = await import(route.import);
+            const handler: RouteHandler = module[route.action];
+            const response: HttpResponse = await handler({
+              authenticationToken: req.cookies["Authentication"],
+            });
+            response.headers.forEach((h) => {
+              res.setHeader(h.headerName, h.headerValue);
+            });
+            res.send(response.body);
+          });
+      }
     });
 
-    this.app.get("/home", async (req, res) => {
-      res.setHeader("Content-Type", "text/html; charset=utf-8");
-
-      const responseToAnonymous =
-        "<h1>hello anonymous!</h1><a data-testid='sign-in-link' href='/signin'>Sign in</a>";
-
-      const authToken = req.cookies["Authentication"];
-      if (!authToken) {
-        res.send(responseToAnonymous);
-        return;
-      }
-
-      const user = await authenticator.authenticate(authToken);
-      if (!user.isAuthenticated) {
-        res.send(responseToAnonymous);
-        return;
-      }
-
-      const notebooks = await properties.notebookStore.listAll(user.username);
-
-      res.send(
-        `<h1 data-testid='user-greeting'>hello ${user.username}!</h1>
-        <form method='post' action='/signout'><button type='submit' data-testid='sign-out-button'>Sign out</button></form>
-        <a href='/new-notebook' data-testid='create-new-notebook-link'>Create new notebook</a>
-        ${notebooks.map(
-          (x) => `<div><span data-testid='notebook-name'>${x.name}</span></div>`
-        )}
-        `
-      );
-    });
     this.app.get("/signin", (req, res) => {
       res.setHeader("Content-Type", "text/html; charset=utf-8");
       res.send(`<form method='post' action='/signin'>
@@ -79,7 +50,7 @@ export class NotesWebserver {
       "/signin",
       bodyParser.urlencoded({ extended: true }),
       async (req, res) => {
-        const signinResult = await authenticator.signIn(
+        const signinResult = await properties.authenticator.signIn(
           req.body["user-login"],
           req.body["user-password"]
         );
@@ -104,7 +75,7 @@ export class NotesWebserver {
       bodyParser.urlencoded({ extended: true }),
       async (req, res) => {
         const authToken = req.cookies["Authentication"];
-        const user = await authenticator.authenticate(authToken);
+        const user = await properties.authenticator.authenticate(authToken);
         await properties.notebookStore.add({
           name: req.body["notebook-name"],
           owner: user.username,

@@ -1,25 +1,11 @@
-import { User, UserStore } from "authentication-module/src/authenticator";
 import { NotesWebserver } from "./src/notes-webserver";
-import { Argon2HashingFunction } from "authentication-module/dist/argon2-hashing";
-import { NotebookStore } from "./src/notebook-store";
+import { routes } from "./src/router";
+import { dependenciesConfiguration } from "./src/configuration/configuration";
 
-class InMemoryUserStore implements UserStore {
-  private users: User[] = [];
-
-  public async getUserByName(username: string): Promise<User | null> {
-    return this.users.find((u) => u.username === username) || null;
-  }
-  public async addUser(user: User): Promise<void> {
-    this.users.push(user);
-  }
-}
-
-const hashingFunction = new Argon2HashingFunction();
-const userStore = new InMemoryUserStore();
+const config = dependenciesConfiguration();
 const server = new NotesWebserver({
-  userStore: userStore,
-  jwtSerializerSecretKey: String(Math.random),
-  notebookStore: new NotebookStore(),
+  ...config,
+  routes,
 });
 
 async function main() {
@@ -28,7 +14,9 @@ async function main() {
   console.log(
     `Notes webserver is listening on http://localhost:${localPort}/home`
   );
-  const passwordHash = await hashingFunction.generateHash("1234");
-  await userStore.addUser({ username: "user1", passwordHash });
+  const passwordHash = await config.passwordHashingFunction.generateHash(
+    "1234"
+  );
+  await config.userStore.addUser({ username: "user1", passwordHash });
 }
 main();

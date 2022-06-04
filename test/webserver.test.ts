@@ -1,9 +1,8 @@
-import { NotesWebserver } from "../src/notes-webserver";
-import { HttpClient } from "./http-client";
-import { UserStore } from "authentication-module//src/authenticator";
-import { mock, instance } from "ts-mockito";
 import { parse } from "node-html-parser";
-import { NotebookStore } from "../src/notebook-store";
+import { dependenciesConfiguration } from "../src/configuration/configuration";
+import { NotesWebserver } from "../src/notes-webserver";
+import { routes } from "../src/router";
+import { HttpClient } from "./http-client";
 
 describe("Notes webserver", () => {
   const testPort = 8134;
@@ -11,9 +10,8 @@ describe("Notes webserver", () => {
 
   beforeAll(() => {
     server = new NotesWebserver({
-      userStore: instance(mock<UserStore>()),
-      jwtSerializerSecretKey: "no-secret",
-      notebookStore: new NotebookStore(),
+      ...dependenciesConfiguration(),
+      routes,
     });
     server.listen(testPort);
   });
