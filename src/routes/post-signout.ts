@@ -1,24 +1,7 @@
-import { Authenticator } from "authentication-module/dist/authenticator";
-import { dependenciesConfiguration } from "../configuration/configuration";
-import {
-  HttpResponse,
-  HttpStatus,
-  PostFormRequest,
-  PostFormRouteHandler,
-} from "../router";
+import { HttpResponse, HttpStatus, PostFormRouteHandler } from "../router";
 
-interface SigninActionProperties {
-  authenticationToken: string;
-  authenticator: Authenticator;
-}
-
-export class SigninAction {
-  constructor(private properties: SigninActionProperties) {}
-  public async render(form: { [key: string]: string }): Promise<HttpResponse> {
-    const signinResult = await this.properties.authenticator.signIn(
-      form["user-login"],
-      form["user-password"]
-    );
+export class SignoutAction {
+  public async render(): Promise<HttpResponse> {
     return {
       status: HttpStatus.OK,
       headers: [
@@ -32,11 +15,7 @@ export class SigninAction {
   }
 }
 
-export const postSignoutHandler: PostFormRouteHandler = async (
-  request: PostFormRequest
-): Promise<HttpResponse> => {
-  return await new SigninAction({
-    authenticationToken: request.authenticationToken,
-    ...dependenciesConfiguration(),
-  }).render(request.postBody);
-};
+export const postSignoutHandler: PostFormRouteHandler =
+  async (): Promise<HttpResponse> => {
+    return await new SignoutAction().render();
+  };

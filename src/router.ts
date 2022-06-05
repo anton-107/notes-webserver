@@ -1,5 +1,6 @@
 import { join } from "path";
 import { getHomeHandler } from "./routes/get-home";
+import { getNewNotebookHandler } from "./routes/get-new-notebook";
 import { getSigninHandler } from "./routes/get-signin";
 import { postNotebookHandler } from "./routes/post-notebook";
 import { postSigninHandler } from "./routes/post-signin";
@@ -65,6 +66,12 @@ export const routes: Route[] = [
     path: "/signout",
     import: join(__dirname, "./routes/post-signout.ts"),
     action: postSignoutHandler.name,
+  },
+  {
+    method: "GET",
+    path: "/new-notebook",
+    import: join(__dirname, "./routes/get-new-notebook.ts"),
+    action: getNewNotebookHandler.name,
   },
   {
     method: "POST",

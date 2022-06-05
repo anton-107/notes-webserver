@@ -57,13 +57,6 @@ export class NotesWebserver {
           );
       }
     });
-    this.app.get("/new-notebook", (req, res) => {
-      res.setHeader("Content-Type", "text/html; charset=utf-8");
-      res.send(`<form method='post' action='/notebook'>
-        <input name='notebook-name' data-testid='notebook-name-input' />
-        <input type='submit' />
-      </form>`);
-    });
   }
 
   public listen(port: number): void {
