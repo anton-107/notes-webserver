@@ -1,5 +1,6 @@
 import { join } from "path";
-import { handler } from "./routes/get-home";
+import { getHomeHandler } from "./routes/get-home";
+import { postNotebookHandler } from "./routes/post-notebook";
 
 export interface Route {
   method: "GET" | "POST";
@@ -12,23 +13,42 @@ export interface HttpRequest {
   authenticationToken: string;
 }
 
+export interface PostFormRequest extends HttpRequest {
+  postBody: { [key: string]: string };
+}
+
 export interface HttpResponseHeader {
   headerName: string;
   headerValue: string;
 }
 
+export enum HttpStatus {
+  OK = 200,
+  SEE_OTHER = 303,
+}
+
 export interface HttpResponse {
   headers: HttpResponseHeader[];
   body: string;
+  status: HttpStatus;
 }
 
 export type RouteHandler = (r: HttpRequest) => Promise<HttpResponse>;
+export type PostFormRouteHandler = (
+  r: PostFormRequest
+) => Promise<HttpResponse>;
 
 export const routes: Route[] = [
   {
     method: "GET",
     path: "/home",
     import: join(__dirname, "./routes/get-home.ts"),
-    action: handler.name,
+    action: getHomeHandler.name,
+  },
+  {
+    method: "POST",
+    path: "/notebook",
+    import: join(__dirname, "./routes/post-notebook.ts"),
+    action: postNotebookHandler.name,
   },
 ];

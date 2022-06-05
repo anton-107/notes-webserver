@@ -5,6 +5,7 @@ import {
   HttpRequest,
   HttpResponse,
   HttpResponseHeader,
+  HttpStatus,
   RouteHandler,
 } from "../router";
 
@@ -30,6 +31,7 @@ class HomePage {
     const authToken = this.properties.authenticationToken;
     if (!authToken) {
       return {
+        status: HttpStatus.OK,
         headers,
         body: responseToAnonymous,
       };
@@ -38,6 +40,7 @@ class HomePage {
     const user = await this.properties.authenticator.authenticate(authToken);
     if (!user.isAuthenticated) {
       return {
+        status: HttpStatus.OK,
         headers,
         body: responseToAnonymous,
       };
@@ -58,13 +61,14 @@ class HomePage {
       `;
 
     return {
+      status: HttpStatus.OK,
       headers,
       body,
     };
   }
 }
 
-export const handler: RouteHandler = async (
+export const getHomeHandler: RouteHandler = async (
   request: HttpRequest
 ): Promise<HttpResponse> => {
   return await new HomePage({
@@ -72,4 +76,4 @@ export const handler: RouteHandler = async (
     ...dependenciesConfiguration(),
   }).render();
 };
-exports.handler = handler;
+exports.getHomeHandler = getHomeHandler;

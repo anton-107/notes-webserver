@@ -4,12 +4,15 @@ import cookieParser from "cookie-parser";
 import { Express } from "express";
 import bodyParser from "body-parser";
 import { Authenticator } from "authentication-module/dist/authenticator";
-import { NotebookStore } from "./notebook-store";
-import { HttpResponse, Route, RouteHandler } from "./router";
+import {
+  HttpResponse,
+  PostFormRouteHandler,
+  Route,
+  RouteHandler,
+} from "./router";
 
 interface NotesWebserverProperties {
   authenticator: Authenticator;
-  notebookStore: NotebookStore;
   routes: Route[];
 }
 
@@ -33,8 +36,26 @@ export class NotesWebserver {
             response.headers.forEach((h) => {
               res.setHeader(h.headerName, h.headerValue);
             });
+            res.status(response.status);
             res.send(response.body);
           });
+        case "POST":
+          return this.app.post(
+            route.path,
+            bodyParser.urlencoded({ extended: true }),
+            async (req, res) => {
+              const module = await import(route.import);
+              const handler: PostFormRouteHandler = module[route.action];
+              const response: HttpResponse = await handler({
+                authenticationToken: req.cookies["Authentication"],
+                postBody: req.body,
+              });
+              response.headers.forEach((h) => {
+                res.setHeader(h.headerName, h.headerValue);
+              });
+              res.sendStatus(response.status);
+            }
+          );
       }
     });
 
@@ -70,20 +91,6 @@ export class NotesWebserver {
         <input type='submit' />
       </form>`);
     });
-    this.app.post(
-      "/notebook",
-      bodyParser.urlencoded({ extended: true }),
-      async (req, res) => {
-        const authToken = req.cookies["Authentication"];
-        const user = await properties.authenticator.authenticate(authToken);
-        await properties.notebookStore.add({
-          name: req.body["notebook-name"],
-          owner: user.username,
-        });
-        res.setHeader("Location", "/home");
-        res.sendStatus(303);
-      }
-    );
   }
 
   public listen(port: number): void {
