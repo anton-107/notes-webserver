@@ -76,4 +76,3 @@ export const getHomeHandler: RouteHandler = async (
     ...dependenciesConfiguration(),
   }).render();
 };
-exports.getHomeHandler = getHomeHandler;

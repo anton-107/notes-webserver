@@ -59,14 +59,6 @@ export class NotesWebserver {
       }
     });
 
-    this.app.get("/signin", (req, res) => {
-      res.setHeader("Content-Type", "text/html; charset=utf-8");
-      res.send(`<form method='post' action='/signin'>
-        <input name='user-login' data-testid='user-login' />
-        <input name='user-password' data-testid='user-password' type='password' />
-        <input type='submit' />
-      </form>`);
-    });
     this.app.post(
       "/signin",
       bodyParser.urlencoded({ extended: true }),

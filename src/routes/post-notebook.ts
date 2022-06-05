@@ -49,4 +49,3 @@ export const postNotebookHandler: PostFormRouteHandler = async (
     ...dependenciesConfiguration(),
   }).render(request.postBody);
 };
-exports.postNotebookHandler = postNotebookHandler;

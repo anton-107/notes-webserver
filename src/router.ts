@@ -1,5 +1,6 @@
 import { join } from "path";
 import { getHomeHandler } from "./routes/get-home";
+import { getSigninHandler } from "./routes/get-signin";
 import { postNotebookHandler } from "./routes/post-notebook";
 
 export interface Route {
@@ -44,6 +45,12 @@ export const routes: Route[] = [
     path: "/home",
     import: join(__dirname, "./routes/get-home.ts"),
     action: getHomeHandler.name,
+  },
+  {
+    method: "GET",
+    path: "/signin",
+    import: join(__dirname, "./routes/get-signin.ts"),
+    action: getSigninHandler.name,
   },
   {
     method: "POST",
