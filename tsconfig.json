@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
+    "target": "es2021",
     "module": "commonjs",
+    "lib": ["es2021", "es2017", "es7", "es6"],
     "esModuleInterop": true,
-    "target": "es6",
     "noImplicitAny": true,
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "declaration": true,
   },
   "include": ["src/**/*"]
 }

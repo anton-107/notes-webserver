@@ -1,0 +1,37 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.dependenciesConfiguration = void 0;
+const argon2_hashing_1 = require("authentication-module/dist/argon2-hashing");
+const authenticator_1 = require("authentication-module/dist/authenticator");
+const jwt_serializer_1 = require("authentication-module/dist/jwt-serializer");
+const notebook_store_1 = require("../notebook-store");
+class InMemoryUserStore {
+    constructor() {
+        this.users = [];
+    }
+    async getUserByName(username) {
+        return this.users.find((u) => u.username === username);
+    }
+    async addUser(user) {
+        this.users.push(user);
+    }
+}
+const passwordHashingFunction = new argon2_hashing_1.Argon2HashingFunction();
+const userStore = new InMemoryUserStore();
+const jwtSerializerSecretKey = String(Math.random());
+const notebookStore = new notebook_store_1.NotebookStore();
+const dependenciesConfiguration = () => {
+    return {
+        userStore,
+        authenticator: new authenticator_1.Authenticator({
+            userStore,
+            passwordHashingFunction,
+            authTokensSerializer: new jwt_serializer_1.JWTSerializer(new jwt_serializer_1.StandardJwtImplementation(), jwtSerializerSecretKey),
+        }),
+        jwtSerializerSecretKey,
+        passwordHashingFunction,
+        notebookStore,
+    };
+};
+exports.dependenciesConfiguration = dependenciesConfiguration;
+//# sourceMappingURL=configuration.js.map
