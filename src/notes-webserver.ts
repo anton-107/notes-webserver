@@ -3,7 +3,6 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import { Express } from "express";
 import bodyParser from "body-parser";
-import { Authenticator } from "authentication-module/dist/authenticator";
 import {
   HttpResponse,
   PostFormRouteHandler,
@@ -12,7 +11,6 @@ import {
 } from "./router";
 
 interface NotesWebserverProperties {
-  authenticator: Authenticator;
   routes: Route[];
 }
 
@@ -58,20 +56,6 @@ export class NotesWebserver {
           );
       }
     });
-
-    this.app.post(
-      "/signin",
-      bodyParser.urlencoded({ extended: true }),
-      async (req, res) => {
-        const signinResult = await properties.authenticator.signIn(
-          req.body["user-login"],
-          req.body["user-password"]
-        );
-        res.cookie("Authentication", signinResult.accessToken);
-        res.setHeader("Location", "/home");
-        res.sendStatus(303);
-      }
-    );
     this.app.post("/signout", async (req, res) => {
       res.clearCookie("Authentication");
       res.send(`<div data-testid='signout-complete'>You are signed out</div>`);
