@@ -51,14 +51,11 @@ export class NotesWebserver {
               response.headers.forEach((h) => {
                 res.setHeader(h.headerName, h.headerValue);
               });
-              res.sendStatus(response.status);
+              res.status(response.status);
+              res.send(response.body);
             }
           );
       }
-    });
-    this.app.post("/signout", async (req, res) => {
-      res.clearCookie("Authentication");
-      res.send(`<div data-testid='signout-complete'>You are signed out</div>`);
     });
     this.app.get("/new-notebook", (req, res) => {
       res.setHeader("Content-Type", "text/html; charset=utf-8");

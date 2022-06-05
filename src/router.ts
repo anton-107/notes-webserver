@@ -3,6 +3,7 @@ import { getHomeHandler } from "./routes/get-home";
 import { getSigninHandler } from "./routes/get-signin";
 import { postNotebookHandler } from "./routes/post-notebook";
 import { postSigninHandler } from "./routes/post-signin";
+import { postSignoutHandler } from "./routes/post-signout";
 
 export interface Route {
   method: "GET" | "POST";
@@ -58,6 +59,12 @@ export const routes: Route[] = [
     path: "/signin",
     import: join(__dirname, "./routes/post-signin.ts"),
     action: postSigninHandler.name,
+  },
+  {
+    method: "POST",
+    path: "/signout",
+    import: join(__dirname, "./routes/post-signout.ts"),
+    action: postSignoutHandler.name,
   },
   {
     method: "POST",
