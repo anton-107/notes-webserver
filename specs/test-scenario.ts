@@ -1,4 +1,4 @@
-import { Argon2HashingFunction } from "authentication-module/dist/argon2-hashing";
+import { ScryptHashingFunction } from "authentication-module/dist/scrypt-hashing";
 import parse, { HTMLElement } from "node-html-parser";
 import { dependenciesConfiguration } from "../src/configuration/configuration";
 import { NotesWebserver } from "../src/notes-webserver";
@@ -17,7 +17,7 @@ export class TestScenario {
   constructor(private testPort: number) {}
 
   public async startServer() {
-    const hashingFunction = new Argon2HashingFunction();
+    const hashingFunction = new ScryptHashingFunction();
     const config = dependenciesConfiguration();
     config.userStore.addUser({
       username: "user1",

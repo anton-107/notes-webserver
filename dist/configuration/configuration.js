@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dependenciesConfiguration = void 0;
-const argon2_hashing_1 = require("authentication-module/dist/argon2-hashing");
+const scrypt_hashing_1 = require("authentication-module/dist/scrypt-hashing");
 const authenticator_1 = require("authentication-module/dist/authenticator");
 const jwt_serializer_1 = require("authentication-module/dist/jwt-serializer");
 const notebook_store_1 = require("../notebook-store");
@@ -16,7 +16,7 @@ class InMemoryUserStore {
         this.users.push(user);
     }
 }
-const passwordHashingFunction = new argon2_hashing_1.Argon2HashingFunction();
+const passwordHashingFunction = new scrypt_hashing_1.ScryptHashingFunction();
 const userStore = new InMemoryUserStore();
 const jwtSerializerSecretKey = String(Math.random());
 const notebookStore = new notebook_store_1.NotebookStore();

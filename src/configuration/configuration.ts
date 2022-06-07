@@ -1,4 +1,4 @@
-import { Argon2HashingFunction } from "authentication-module/dist/argon2-hashing";
+import { ScryptHashingFunction } from "authentication-module/dist/scrypt-hashing";
 import {
   Authenticator,
   PasswordHashingFunction,
@@ -30,7 +30,7 @@ class InMemoryUserStore implements UserStore {
   }
 }
 
-const passwordHashingFunction = new Argon2HashingFunction();
+const passwordHashingFunction = new ScryptHashingFunction();
 const userStore = new InMemoryUserStore();
 const jwtSerializerSecretKey = String(Math.random());
 const notebookStore = new NotebookStore();
