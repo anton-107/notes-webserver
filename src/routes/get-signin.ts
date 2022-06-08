@@ -1,4 +1,4 @@
-import { HttpResponse, HttpStatus, RouteHandler } from "../router";
+import { HttpResponse, HttpStatus, HttpRequestHandler } from "../http";
 
 export class SigninPage {
   public async render(): Promise<HttpResponse> {
@@ -14,7 +14,7 @@ export class SigninPage {
   }
 }
 
-export const getSigninHandler: RouteHandler =
+export const getSigninHandler: HttpRequestHandler =
   async (): Promise<HttpResponse> => {
     return await new SigninPage().render();
   };

@@ -1,13 +1,14 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { dependenciesConfiguration } from "./../configuration/configuration";
 import { NotebookStore } from "./../notebook-store";
+
 import {
   HttpRequest,
   HttpResponse,
   HttpResponseHeader,
   HttpStatus,
-  RouteHandler,
-} from "../router";
+  HttpRequestHandler,
+} from "../http";
 
 interface HomePageProperties {
   authenticationToken: string;
@@ -68,7 +69,7 @@ class HomePage {
   }
 }
 
-export const getHomeHandler: RouteHandler = async (
+export const getHomeHandler: HttpRequestHandler = async (
   request: HttpRequest
 ): Promise<HttpResponse> => {
   return await new HomePage({

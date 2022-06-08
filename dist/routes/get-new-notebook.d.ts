@@ -1,5 +1,5 @@
-import { HttpResponse, RouteHandler } from "../router";
+import { HttpResponse, HttpRequestHandler } from "../http";
 export declare class NewNotebookPage {
     render(): Promise<HttpResponse>;
 }
-export declare const getNewNotebookHandler: RouteHandler;
+export declare const getNewNotebookHandler: HttpRequestHandler;

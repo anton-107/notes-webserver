@@ -1,4 +1,4 @@
-import { HttpResponse, HttpStatus, RouteHandler } from "../router";
+import { HttpResponse, HttpStatus, HttpRequestHandler } from "../http";
 
 export class NewNotebookPage {
   public async render(): Promise<HttpResponse> {
@@ -13,7 +13,7 @@ export class NewNotebookPage {
   }
 }
 
-export const getNewNotebookHandler: RouteHandler =
+export const getNewNotebookHandler: HttpRequestHandler =
   async (): Promise<HttpResponse> => {
     return await new NewNotebookPage().render();
   };

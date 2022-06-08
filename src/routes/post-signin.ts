@@ -4,8 +4,8 @@ import {
   HttpResponse,
   HttpStatus,
   PostFormRequest,
-  PostFormRouteHandler,
-} from "../router";
+  PostFormHttpHandler,
+} from "../http";
 
 interface SigninActionProperties {
   authenticationToken: string;
@@ -36,7 +36,7 @@ export class SigninAction {
   }
 }
 
-export const postSigninHandler: PostFormRouteHandler = async (
+export const postSigninHandler: PostFormHttpHandler = async (
   request: PostFormRequest
 ): Promise<HttpResponse> => {
   return await new SigninAction({

@@ -1,5 +1,5 @@
-import { HttpResponse, PostFormRouteHandler } from "../router";
+import { HttpResponse, PostFormHttpHandler } from "../http";
 export declare class SignoutAction {
     render(): Promise<HttpResponse>;
 }
-export declare const postSignoutHandler: PostFormRouteHandler;
+export declare const postSignoutHandler: PostFormHttpHandler;

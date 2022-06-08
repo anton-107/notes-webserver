@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getHomeHandler = void 0;
 const configuration_1 = require("./../configuration/configuration");
-const router_1 = require("../router");
+const http_1 = require("../http");
 class HomePage {
     constructor(properties) {
         this.properties = properties;
@@ -17,7 +17,7 @@ class HomePage {
         const authToken = this.properties.authenticationToken;
         if (!authToken) {
             return {
-                status: router_1.HttpStatus.OK,
+                status: http_1.HttpStatus.OK,
                 headers,
                 body: responseToAnonymous,
             };
@@ -25,7 +25,7 @@ class HomePage {
         const user = await this.properties.authenticator.authenticate(authToken);
         if (!user.isAuthenticated) {
             return {
-                status: router_1.HttpStatus.OK,
+                status: http_1.HttpStatus.OK,
                 headers,
                 body: responseToAnonymous,
             };
@@ -39,7 +39,7 @@ class HomePage {
             .join("")}
       `;
         return {
-            status: router_1.HttpStatus.OK,
+            status: http_1.HttpStatus.OK,
             headers,
             body,
         };

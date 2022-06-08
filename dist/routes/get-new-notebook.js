@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getNewNotebookHandler = exports.NewNotebookPage = void 0;
-const router_1 = require("../router");
+const http_1 = require("../http");
 class NewNotebookPage {
     async render() {
         return {
-            status: router_1.HttpStatus.OK,
+            status: http_1.HttpStatus.OK,
             headers: [],
             body: `<form method='post' action='/notebook'>
         <input name='notebook-name' data-testid='notebook-name-input' />

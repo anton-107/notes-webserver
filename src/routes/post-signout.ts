@@ -1,4 +1,4 @@
-import { HttpResponse, HttpStatus, PostFormRouteHandler } from "../router";
+import { HttpResponse, HttpStatus, PostFormHttpHandler } from "../http";
 
 export class SignoutAction {
   public async render(): Promise<HttpResponse> {
@@ -15,7 +15,7 @@ export class SignoutAction {
   }
 }
 
-export const postSignoutHandler: PostFormRouteHandler =
+export const postSignoutHandler: PostFormHttpHandler =
   async (): Promise<HttpResponse> => {
     return await new SignoutAction().render();
   };

@@ -3,12 +3,8 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import { Express } from "express";
 import bodyParser from "body-parser";
-import {
-  HttpResponse,
-  PostFormRouteHandler,
-  Route,
-  RouteHandler,
-} from "./router";
+import { HttpResponse, PostFormHttpHandler, HttpRequestHandler } from "./http";
+import { Route } from "./router";
 
 interface NotesWebserverProperties {
   routes: Route[];
@@ -27,7 +23,7 @@ export class NotesWebserver {
         case "GET":
           return this.app.get(route.path, async (req, res) => {
             const module = await import(route.import);
-            const handler: RouteHandler = module[route.action];
+            const handler: HttpRequestHandler = module[route.action];
             const response: HttpResponse = await handler({
               authenticationToken: req.cookies["Authentication"],
             });
@@ -43,7 +39,7 @@ export class NotesWebserver {
             bodyParser.urlencoded({ extended: true }),
             async (req, res) => {
               const module = await import(route.import);
-              const handler: PostFormRouteHandler = module[route.action];
+              const handler: PostFormHttpHandler = module[route.action];
               const response: HttpResponse = await handler({
                 authenticationToken: req.cookies["Authentication"],
                 postBody: req.body,

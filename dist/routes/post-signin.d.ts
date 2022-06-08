@@ -1,5 +1,5 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
-import { HttpResponse, PostFormRouteHandler } from "../router";
+import { HttpResponse, PostFormHttpHandler } from "../http";
 interface SigninActionProperties {
     authenticationToken: string;
     authenticator: Authenticator;
@@ -11,5 +11,5 @@ export declare class SigninAction {
         [key: string]: string;
     }): Promise<HttpResponse>;
 }
-export declare const postSigninHandler: PostFormRouteHandler;
+export declare const postSigninHandler: PostFormHttpHandler;
 export {};

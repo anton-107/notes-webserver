@@ -6,8 +6,8 @@ import {
   HttpResponseHeader,
   HttpStatus,
   PostFormRequest,
-  PostFormRouteHandler,
-} from "../router";
+  PostFormHttpHandler,
+} from "../http";
 
 interface CreateNotebookActionProperties {
   authenticationToken: string;
@@ -41,7 +41,7 @@ export class CreateNotebookAction {
   }
 }
 
-export const postNotebookHandler: PostFormRouteHandler = async (
+export const postNotebookHandler: PostFormHttpHandler = async (
   request: PostFormRequest
 ): Promise<HttpResponse> => {
   return await new CreateNotebookAction({

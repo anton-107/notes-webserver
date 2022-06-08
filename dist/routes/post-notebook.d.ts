@@ -1,6 +1,6 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { NotebookStore } from "../notebook-store";
-import { HttpResponse, PostFormRouteHandler } from "../router";
+import { HttpResponse, PostFormHttpHandler } from "../http";
 interface CreateNotebookActionProperties {
     authenticationToken: string;
     authenticator: Authenticator;
@@ -13,5 +13,5 @@ export declare class CreateNotebookAction {
         [key: string]: string;
     }): Promise<HttpResponse>;
 }
-export declare const postNotebookHandler: PostFormRouteHandler;
+export declare const postNotebookHandler: PostFormHttpHandler;
 export {};

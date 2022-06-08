@@ -1,2 +1,2 @@
-import { RouteHandler } from "../router";
-export declare const getHomeHandler: RouteHandler;
+import { HttpRequestHandler } from "../http";
+export declare const getHomeHandler: HttpRequestHandler;

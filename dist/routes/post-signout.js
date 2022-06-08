@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postSignoutHandler = exports.SignoutAction = void 0;
-const router_1 = require("../router");
+const http_1 = require("../http");
 class SignoutAction {
     async render() {
         return {
-            status: router_1.HttpStatus.OK,
+            status: http_1.HttpStatus.OK,
             headers: [
                 {
                     headerName: "Set-Cookie",

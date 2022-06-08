@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postNotebookHandler = exports.CreateNotebookAction = void 0;
 const configuration_1 = require("../configuration/configuration");
-const router_1 = require("../router");
+const http_1 = require("../http");
 class CreateNotebookAction {
     constructor(properties) {
         this.properties = properties;
@@ -19,7 +19,7 @@ class CreateNotebookAction {
             headerValue: "/home",
         });
         return {
-            status: router_1.HttpStatus.SEE_OTHER,
+            status: http_1.HttpStatus.SEE_OTHER,
             headers,
             body: "",
         };

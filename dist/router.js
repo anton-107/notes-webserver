@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.routes = exports.HttpStatus = void 0;
+exports.routes = void 0;
 const path_1 = require("path");
 const get_home_1 = require("./routes/get-home");
 const get_new_notebook_1 = require("./routes/get-new-notebook");
@@ -8,11 +8,6 @@ const get_signin_1 = require("./routes/get-signin");
 const post_notebook_1 = require("./routes/post-notebook");
 const post_signin_1 = require("./routes/post-signin");
 const post_signout_1 = require("./routes/post-signout");
-var HttpStatus;
-(function (HttpStatus) {
-    HttpStatus[HttpStatus["OK"] = 200] = "OK";
-    HttpStatus[HttpStatus["SEE_OTHER"] = 303] = "SEE_OTHER";
-})(HttpStatus = exports.HttpStatus || (exports.HttpStatus = {}));
 exports.routes = [
     {
         method: "GET",
