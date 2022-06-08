@@ -20,17 +20,12 @@ export class SigninAction {
       form["user-password"]
     );
     return {
-      status: HttpStatus.SEE_OTHER,
-      headers: [
-        {
-          headerName: "Location",
-          headerValue: "/home",
-        },
-        {
-          headerName: "Set-Cookie",
-          headerValue: `Authentication=${signinResult.accessToken}`,
-        },
-      ],
+      isBase64Encoded: false,
+      statusCode: HttpStatus.SEE_OTHER,
+      headers: {
+        Location: "/home",
+        "Set-Cookie": `Authentication=${signinResult.accessToken}`,
+      },
       body: "",
     };
   }

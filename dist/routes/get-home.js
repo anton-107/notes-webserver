@@ -8,16 +8,14 @@ class HomePage {
         this.properties = properties;
     }
     async render() {
-        const headers = [];
-        headers.push({
-            headerName: "Content-Type",
-            headerValue: "text/html; charset=utf-8",
-        });
+        const headers = {};
+        headers["Content-Type"] = "text/html; charset=utf-8";
         const responseToAnonymous = "<h1>hello anonymous!</h1><a data-testid='sign-in-link' href='/signin'>Sign in</a>";
         const authToken = this.properties.authenticationToken;
         if (!authToken) {
             return {
-                status: http_1.HttpStatus.OK,
+                isBase64Encoded: false,
+                statusCode: http_1.HttpStatus.OK,
                 headers,
                 body: responseToAnonymous,
             };
@@ -25,7 +23,8 @@ class HomePage {
         const user = await this.properties.authenticator.authenticate(authToken);
         if (!user.isAuthenticated) {
             return {
-                status: http_1.HttpStatus.OK,
+                isBase64Encoded: false,
+                statusCode: http_1.HttpStatus.OK,
                 headers,
                 body: responseToAnonymous,
             };
@@ -39,7 +38,8 @@ class HomePage {
             .join("")}
       `;
         return {
-            status: http_1.HttpStatus.OK,
+            isBase64Encoded: false,
+            statusCode: http_1.HttpStatus.OK,
             headers,
             body,
         };

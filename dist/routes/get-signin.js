@@ -5,8 +5,9 @@ const http_1 = require("../http");
 class SigninPage {
     async render() {
         return {
-            status: http_1.HttpStatus.OK,
-            headers: [],
+            isBase64Encoded: false,
+            statusCode: http_1.HttpStatus.OK,
+            headers: {},
             body: `<form method='post' action='/signin'>
         <input name='user-login' data-testid='user-login' />
         <input name='user-password' data-testid='user-password' type='password' />

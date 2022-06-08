@@ -10,17 +10,12 @@ class SigninAction {
     async render(form) {
         const signinResult = await this.properties.authenticator.signIn(form["user-login"], form["user-password"]);
         return {
-            status: http_1.HttpStatus.SEE_OTHER,
-            headers: [
-                {
-                    headerName: "Location",
-                    headerValue: "/home",
-                },
-                {
-                    headerName: "Set-Cookie",
-                    headerValue: `Authentication=${signinResult.accessToken}`,
-                },
-            ],
+            isBase64Encoded: false,
+            statusCode: http_1.HttpStatus.SEE_OTHER,
+            headers: {
+                Location: "/home",
+                "Set-Cookie": `Authentication=${signinResult.accessToken}`,
+            },
             body: "",
         };
     }

@@ -6,20 +6,16 @@ export interface PostFormRequest extends HttpRequest {
   postBody: { [key: string]: string };
 }
 
-export interface HttpResponseHeader {
-  headerName: string;
-  headerValue: string;
-}
-
 export enum HttpStatus {
   OK = 200,
   SEE_OTHER = 303,
 }
 
 export interface HttpResponse {
-  headers: HttpResponseHeader[];
+  isBase64Encoded: boolean;
+  headers: { [name: string]: string };
   body: string;
-  status: HttpStatus;
+  statusCode: HttpStatus;
 }
 
 export type HttpRequestHandler = (r: HttpRequest) => Promise<HttpResponse>;

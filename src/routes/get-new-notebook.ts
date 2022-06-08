@@ -3,8 +3,9 @@ import { HttpResponse, HttpStatus, HttpRequestHandler } from "../http";
 export class NewNotebookPage {
   public async render(): Promise<HttpResponse> {
     return {
-      status: HttpStatus.OK,
-      headers: [],
+      isBase64Encoded: false,
+      statusCode: HttpStatus.OK,
+      headers: {},
       body: `<form method='post' action='/notebook'>
         <input name='notebook-name' data-testid='notebook-name-input' />
         <input type='submit' />

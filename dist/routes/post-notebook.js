@@ -8,18 +8,17 @@ class CreateNotebookAction {
         this.properties = properties;
     }
     async render(form) {
-        const headers = [];
+        const headers = {};
+        headers["Content-Type"] = "text/html; charset=utf-8";
         const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);
         await this.properties.notebookStore.add({
             name: form["notebook-name"],
             owner: user.username,
         });
-        headers.push({
-            headerName: "Location",
-            headerValue: "/home",
-        });
+        headers["Location"] = "/home";
         return {
-            status: http_1.HttpStatus.SEE_OTHER,
+            isBase64Encoded: false,
+            statusCode: http_1.HttpStatus.SEE_OTHER,
             headers,
             body: "",
         };

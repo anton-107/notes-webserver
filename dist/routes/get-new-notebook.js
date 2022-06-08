@@ -5,8 +5,9 @@ const http_1 = require("../http");
 class NewNotebookPage {
     async render() {
         return {
-            status: http_1.HttpStatus.OK,
-            headers: [],
+            isBase64Encoded: false,
+            statusCode: http_1.HttpStatus.OK,
+            headers: {},
             body: `<form method='post' action='/notebook'>
         <input name='notebook-name' data-testid='notebook-name-input' />
         <input type='submit' />

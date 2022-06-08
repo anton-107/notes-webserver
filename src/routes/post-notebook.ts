@@ -3,7 +3,6 @@ import { dependenciesConfiguration } from "../configuration/configuration";
 import { NotebookStore } from "../notebook-store";
 import {
   HttpResponse,
-  HttpResponseHeader,
   HttpStatus,
   PostFormRequest,
   PostFormHttpHandler,
@@ -18,7 +17,8 @@ interface CreateNotebookActionProperties {
 export class CreateNotebookAction {
   constructor(private properties: CreateNotebookActionProperties) {}
   public async render(form: { [key: string]: string }): Promise<HttpResponse> {
-    const headers: HttpResponseHeader[] = [];
+    const headers: { [name: string]: string } = {};
+    headers["Content-Type"] = "text/html; charset=utf-8";
     const user = await this.properties.authenticator.authenticate(
       this.properties.authenticationToken
     );
@@ -28,13 +28,11 @@ export class CreateNotebookAction {
       owner: user.username,
     });
 
-    headers.push({
-      headerName: "Location",
-      headerValue: "/home",
-    });
+    headers["Location"] = "/home";
 
     return {
-      status: HttpStatus.SEE_OTHER,
+      isBase64Encoded: false,
+      statusCode: HttpStatus.SEE_OTHER,
       headers,
       body: "",
     };

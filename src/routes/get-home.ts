@@ -5,7 +5,6 @@ import { NotebookStore } from "./../notebook-store";
 import {
   HttpRequest,
   HttpResponse,
-  HttpResponseHeader,
   HttpStatus,
   HttpRequestHandler,
 } from "../http";
@@ -20,11 +19,8 @@ class HomePage {
   constructor(private properties: HomePageProperties) {}
 
   public async render(): Promise<HttpResponse> {
-    const headers: HttpResponseHeader[] = [];
-    headers.push({
-      headerName: "Content-Type",
-      headerValue: "text/html; charset=utf-8",
-    });
+    const headers: { [name: string]: string } = {};
+    headers["Content-Type"] = "text/html; charset=utf-8";
 
     const responseToAnonymous =
       "<h1>hello anonymous!</h1><a data-testid='sign-in-link' href='/signin'>Sign in</a>";
@@ -32,7 +28,8 @@ class HomePage {
     const authToken = this.properties.authenticationToken;
     if (!authToken) {
       return {
-        status: HttpStatus.OK,
+        isBase64Encoded: false,
+        statusCode: HttpStatus.OK,
         headers,
         body: responseToAnonymous,
       };
@@ -41,7 +38,8 @@ class HomePage {
     const user = await this.properties.authenticator.authenticate(authToken);
     if (!user.isAuthenticated) {
       return {
-        status: HttpStatus.OK,
+        isBase64Encoded: false,
+        statusCode: HttpStatus.OK,
         headers,
         body: responseToAnonymous,
       };
@@ -62,7 +60,8 @@ class HomePage {
       `;
 
     return {
-      status: HttpStatus.OK,
+      isBase64Encoded: false,
+      statusCode: HttpStatus.OK,
       headers,
       body,
     };

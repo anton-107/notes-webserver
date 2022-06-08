@@ -27,10 +27,10 @@ export class NotesWebserver {
             const response: HttpResponse = await handler({
               authenticationToken: req.cookies["Authentication"],
             });
-            response.headers.forEach((h) => {
-              res.setHeader(h.headerName, h.headerValue);
+            Object.keys(response.headers).forEach((k) => {
+              res.setHeader(k, response.headers[k]);
             });
-            res.status(response.status);
+            res.status(response.statusCode);
             res.send(response.body);
           });
         case "POST":
@@ -44,10 +44,10 @@ export class NotesWebserver {
                 authenticationToken: req.cookies["Authentication"],
                 postBody: req.body,
               });
-              response.headers.forEach((h) => {
-                res.setHeader(h.headerName, h.headerValue);
+              Object.keys(response.headers).forEach((k) => {
+                res.setHeader(k, response.headers[k]);
               });
-              res.status(response.status);
+              res.status(response.statusCode);
               res.send(response.body);
             }
           );

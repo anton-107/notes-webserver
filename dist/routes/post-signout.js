@@ -5,13 +5,11 @@ const http_1 = require("../http");
 class SignoutAction {
     async render() {
         return {
-            status: http_1.HttpStatus.OK,
-            headers: [
-                {
-                    headerName: "Set-Cookie",
-                    headerValue: `Authentication=;Expires=Thu, 01 Jan 1970 00:00:00 GMT`,
-                },
-            ],
+            isBase64Encoded: false,
+            statusCode: http_1.HttpStatus.OK,
+            headers: {
+                "Set-Cookie": `Authentication=;Expires=Thu, 01 Jan 1970 00:00:00 GMT`,
+            },
             body: "<div data-testid='signout-complete'>You are signed out</div>",
         };
     }
