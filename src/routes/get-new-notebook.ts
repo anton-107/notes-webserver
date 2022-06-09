@@ -5,7 +5,9 @@ export class NewNotebookPage {
     return {
       isBase64Encoded: false,
       statusCode: HttpStatus.OK,
-      headers: {},
+      headers: {
+        "Content-Type": "text/html; charset=utf-8",
+      },
       body: `<form method='post' action='/notebook'>
         <input name='notebook-name' data-testid='notebook-name-input' />
         <input type='submit' />

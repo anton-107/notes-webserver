@@ -18,7 +18,6 @@ export class CreateNotebookAction {
   constructor(private properties: CreateNotebookActionProperties) {}
   public async render(form: { [key: string]: string }): Promise<HttpResponse> {
     const headers: { [name: string]: string } = {};
-    headers["Content-Type"] = "text/html; charset=utf-8";
     const user = await this.properties.authenticator.authenticate(
       this.properties.authenticationToken
     );

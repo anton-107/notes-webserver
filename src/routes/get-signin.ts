@@ -5,7 +5,9 @@ export class SigninPage {
     return {
       isBase64Encoded: false,
       statusCode: HttpStatus.OK,
-      headers: {},
+      headers: {
+        "Content-Type": "text/html; charset=utf-8",
+      },
       body: `<form method='post' action='/signin'>
         <input name='user-login' data-testid='user-login' />
         <input name='user-password' data-testid='user-password' type='password' />
