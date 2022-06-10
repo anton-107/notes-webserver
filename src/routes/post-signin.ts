@@ -36,6 +36,6 @@ export const postSigninHandler: PostFormHttpHandler = async (
 ): Promise<HttpResponse> => {
   return await new SigninAction({
     authenticationToken: request.authenticationToken,
-    ...dependenciesConfiguration(),
+    ...dependenciesConfiguration({}),
   }).render(request.postBody);
 };

@@ -27,7 +27,7 @@ exports.CreateNotebookAction = CreateNotebookAction;
 const postNotebookHandler = async (request) => {
     return await new CreateNotebookAction({
         authenticationToken: request.authenticationToken,
-        ...(0, configuration_1.dependenciesConfiguration)(),
+        ...(0, configuration_1.dependenciesConfiguration)({}),
     }).render(request.postBody);
 };
 exports.postNotebookHandler = postNotebookHandler;

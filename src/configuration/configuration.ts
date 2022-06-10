@@ -17,6 +17,7 @@ export interface ServiceConfiguration {
   passwordHashingFunction: PasswordHashingFunction;
   userStore: UserStore;
   jwtSerializerSecretKey: string;
+  baseUrl: string;
 }
 
 class InMemoryUserStore implements UserStore {
@@ -30,12 +31,16 @@ class InMemoryUserStore implements UserStore {
   }
 }
 
+const baseUrl = process.env["BASE_URL"] || "";
 const passwordHashingFunction = new ScryptHashingFunction();
 const userStore = new InMemoryUserStore();
 const jwtSerializerSecretKey = String(Math.random());
 const notebookStore = new NotebookStore();
 
-export const dependenciesConfiguration = (): ServiceConfiguration => {
+type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
+export const dependenciesConfiguration = (
+  overrides: ServiceConfigurationOverrides
+): ServiceConfiguration => {
   return {
     userStore,
     authenticator: new Authenticator({
@@ -49,5 +54,7 @@ export const dependenciesConfiguration = (): ServiceConfiguration => {
     jwtSerializerSecretKey,
     passwordHashingFunction,
     notebookStore,
+    baseUrl,
+    ...overrides,
   };
 };

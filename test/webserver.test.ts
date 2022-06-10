@@ -10,7 +10,7 @@ describe("Notes webserver", () => {
 
   beforeAll(() => {
     server = new NotesWebserver({
-      ...dependenciesConfiguration(),
+      ...dependenciesConfiguration({}),
       routes,
     });
     server.listen(testPort);

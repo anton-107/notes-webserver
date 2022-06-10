@@ -24,7 +24,7 @@ exports.SigninAction = SigninAction;
 const postSigninHandler = async (request) => {
     return await new SigninAction({
         authenticationToken: request.authenticationToken,
-        ...(0, configuration_1.dependenciesConfiguration)(),
+        ...(0, configuration_1.dependenciesConfiguration)({}),
     }).render(request.postBody);
 };
 exports.postSigninHandler = postSigninHandler;

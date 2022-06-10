@@ -6,5 +6,8 @@ export interface ServiceConfiguration {
     passwordHashingFunction: PasswordHashingFunction;
     userStore: UserStore;
     jwtSerializerSecretKey: string;
+    baseUrl: string;
 }
-export declare const dependenciesConfiguration: () => ServiceConfiguration;
+declare type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
+export declare const dependenciesConfiguration: (overrides: ServiceConfigurationOverrides) => ServiceConfiguration;
+export {};

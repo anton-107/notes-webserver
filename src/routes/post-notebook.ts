@@ -43,6 +43,6 @@ export const postNotebookHandler: PostFormHttpHandler = async (
 ): Promise<HttpResponse> => {
   return await new CreateNotebookAction({
     authenticationToken: request.authenticationToken,
-    ...dependenciesConfiguration(),
+    ...dependenciesConfiguration({}),
   }).render(request.postBody);
 };

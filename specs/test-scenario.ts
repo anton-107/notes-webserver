@@ -18,7 +18,7 @@ export class TestScenario {
 
   public async startServer() {
     const hashingFunction = new ScryptHashingFunction();
-    const config = dependenciesConfiguration();
+    const config = dependenciesConfiguration({});
     config.userStore.addUser({
       username: "user1",
       passwordHash: await hashingFunction.generateHash("1234"),
