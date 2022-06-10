@@ -9,7 +9,6 @@ class CreateNotebookAction {
     }
     async render(form) {
         const headers = {};
-        headers["Content-Type"] = "text/html; charset=utf-8";
         const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);
         await this.properties.notebookStore.add({
             name: form["notebook-name"],
