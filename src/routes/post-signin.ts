@@ -10,6 +10,7 @@ import {
 interface SigninActionProperties {
   authenticationToken: string;
   authenticator: Authenticator;
+  baseUrl: string;
 }
 
 export class SigninAction {
@@ -23,7 +24,7 @@ export class SigninAction {
       isBase64Encoded: false,
       statusCode: HttpStatus.SEE_OTHER,
       headers: {
-        Location: "/home",
+        Location: `${this.properties.baseUrl}/home`,
         "Set-Cookie": `Authentication=${signinResult.accessToken}`,
       },
       body: "",

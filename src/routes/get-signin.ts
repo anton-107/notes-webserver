@@ -1,6 +1,13 @@
+import { dependenciesConfiguration } from "../configuration/configuration";
 import { HttpResponse, HttpStatus, HttpRequestHandler } from "../http";
 
+interface SigninPageProperties {
+  baseUrl: string;
+}
+
 export class SigninPage {
+  constructor(private properties: SigninPageProperties) {}
+
   public async render(): Promise<HttpResponse> {
     return {
       isBase64Encoded: false,
@@ -8,7 +15,7 @@ export class SigninPage {
       headers: {
         "Content-Type": "text/html; charset=utf-8",
       },
-      body: `<form method='post' action='/signin'>
+      body: `<form method='post' action='${this.properties.baseUrl}/signin'>
         <input name='user-login' data-testid='user-login' />
         <input name='user-password' data-testid='user-password' type='password' />
         <input type='submit' />
@@ -19,5 +26,5 @@ export class SigninPage {
 
 export const getSigninHandler: HttpRequestHandler =
   async (): Promise<HttpResponse> => {
-    return await new SigninPage().render();
+    return await new SigninPage({ ...dependenciesConfiguration({}) }).render();
   };

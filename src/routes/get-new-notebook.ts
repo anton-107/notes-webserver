@@ -1,6 +1,12 @@
+import { dependenciesConfiguration } from "../configuration/configuration";
 import { HttpResponse, HttpStatus, HttpRequestHandler } from "../http";
 
+interface NewNotebookPageProperties {
+  baseUrl: string;
+}
+
 export class NewNotebookPage {
+  constructor(private properties: NewNotebookPageProperties) {}
   public async render(): Promise<HttpResponse> {
     return {
       isBase64Encoded: false,
@@ -8,7 +14,7 @@ export class NewNotebookPage {
       headers: {
         "Content-Type": "text/html; charset=utf-8",
       },
-      body: `<form method='post' action='/notebook'>
+      body: `<form method='post' action='${this.properties.baseUrl}/notebook'>
         <input name='notebook-name' data-testid='notebook-name-input' />
         <input type='submit' />
       </form>`,
@@ -18,5 +24,7 @@ export class NewNotebookPage {
 
 export const getNewNotebookHandler: HttpRequestHandler =
   async (): Promise<HttpResponse> => {
-    return await new NewNotebookPage().render();
+    return await new NewNotebookPage({
+      ...dependenciesConfiguration({}),
+    }).render();
   };

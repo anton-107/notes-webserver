@@ -14,7 +14,7 @@ class CreateNotebookAction {
             name: form["notebook-name"],
             owner: user.username,
         });
-        headers["Location"] = "/home";
+        headers["Location"] = `${this.properties.baseUrl}/home`;
         return {
             isBase64Encoded: false,
             statusCode: http_1.HttpStatus.SEE_OTHER,

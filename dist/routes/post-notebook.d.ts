@@ -5,6 +5,7 @@ interface CreateNotebookActionProperties {
     authenticationToken: string;
     authenticator: Authenticator;
     notebookStore: NotebookStore;
+    baseUrl: string;
 }
 export declare class CreateNotebookAction {
     private properties;

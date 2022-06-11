@@ -16,7 +16,7 @@ class InMemoryUserStore {
         this.users.push(user);
     }
 }
-const baseUrl = process.env['BASE_URL'] || '';
+const baseUrl = process.env["BASE_URL"] || "";
 const passwordHashingFunction = new scrypt_hashing_1.ScryptHashingFunction();
 const userStore = new InMemoryUserStore();
 const jwtSerializerSecretKey = String(Math.random());
@@ -33,7 +33,7 @@ const dependenciesConfiguration = (overrides) => {
         passwordHashingFunction,
         notebookStore,
         baseUrl,
-        ...overrides
+        ...overrides,
     };
 };
 exports.dependenciesConfiguration = dependenciesConfiguration;

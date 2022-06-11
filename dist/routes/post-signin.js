@@ -13,7 +13,7 @@ class SigninAction {
             isBase64Encoded: false,
             statusCode: http_1.HttpStatus.SEE_OTHER,
             headers: {
-                Location: "/home",
+                Location: `${this.properties.baseUrl}/home`,
                 "Set-Cookie": `Authentication=${signinResult.accessToken}`,
             },
             body: "",

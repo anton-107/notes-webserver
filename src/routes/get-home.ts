@@ -8,7 +8,6 @@ import {
   HttpStatus,
   HttpRequestHandler,
 } from "../http";
-import { SupportInfo } from "prettier";
 
 interface HomePageProperties {
   authenticationToken: string;

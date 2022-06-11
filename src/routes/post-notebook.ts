@@ -12,6 +12,7 @@ interface CreateNotebookActionProperties {
   authenticationToken: string;
   authenticator: Authenticator;
   notebookStore: NotebookStore;
+  baseUrl: string;
 }
 
 export class CreateNotebookAction {
@@ -27,7 +28,7 @@ export class CreateNotebookAction {
       owner: user.username,
     });
 
-    headers["Location"] = "/home";
+    headers["Location"] = `${this.properties.baseUrl}/home`;
 
     return {
       isBase64Encoded: false,

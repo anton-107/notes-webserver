@@ -3,6 +3,7 @@ import { HttpResponse, PostFormHttpHandler } from "../http";
 interface SigninActionProperties {
     authenticationToken: string;
     authenticator: Authenticator;
+    baseUrl: string;
 }
 export declare class SigninAction {
     private properties;
