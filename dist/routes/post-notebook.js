@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postNotebookHandler = exports.CreateNotebookAction = void 0;
 const configuration_1 = require("../configuration/configuration");
-const http_1 = require("../http");
+const http_1 = require("../http/http");
+const body_parser_1 = require("../http/body-parser");
 class CreateNotebookAction {
     constructor(properties) {
         this.properties = properties;
@@ -28,7 +29,7 @@ const postNotebookHandler = async (request) => {
     return await new CreateNotebookAction({
         authenticationToken: request.authenticationToken,
         ...(0, configuration_1.dependenciesConfiguration)({}),
-    }).render(request.postBody);
+    }).render((0, body_parser_1.parseBody)(request));
 };
 exports.postNotebookHandler = postNotebookHandler;
 //# sourceMappingURL=post-notebook.js.map

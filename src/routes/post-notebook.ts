@@ -6,7 +6,8 @@ import {
   HttpStatus,
   PostFormRequest,
   PostFormHttpHandler,
-} from "../http";
+} from "../http/http";
+import { FormBody, parseBody } from "../http/body-parser";
 
 interface CreateNotebookActionProperties {
   authenticationToken: string;
@@ -17,7 +18,7 @@ interface CreateNotebookActionProperties {
 
 export class CreateNotebookAction {
   constructor(private properties: CreateNotebookActionProperties) {}
-  public async render(form: { [key: string]: string }): Promise<HttpResponse> {
+  public async render(form: FormBody): Promise<HttpResponse> {
     const headers: { [name: string]: string } = {};
     const user = await this.properties.authenticator.authenticate(
       this.properties.authenticationToken
@@ -45,5 +46,5 @@ export const postNotebookHandler: PostFormHttpHandler = async (
   return await new CreateNotebookAction({
     authenticationToken: request.authenticationToken,
     ...dependenciesConfiguration({}),
-  }).render(request.postBody);
+  }).render(parseBody(request));
 };

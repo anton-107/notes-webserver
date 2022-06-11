@@ -7,7 +7,7 @@ import {
   HttpResponse,
   HttpStatus,
   HttpRequestHandler,
-} from "../http";
+} from "../http/http";
 
 interface HomePageProperties {
   authenticationToken: string;

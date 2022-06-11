@@ -1,5 +1,6 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
-import { HttpResponse, PostFormHttpHandler } from "../http";
+import { FormBody } from "../http/body-parser";
+import { HttpResponse, PostFormHttpHandler } from "../http/http";
 interface SigninActionProperties {
     authenticationToken: string;
     authenticator: Authenticator;
@@ -8,9 +9,7 @@ interface SigninActionProperties {
 export declare class SigninAction {
     private properties;
     constructor(properties: SigninActionProperties);
-    render(form: {
-        [key: string]: string;
-    }): Promise<HttpResponse>;
+    render(form: FormBody): Promise<HttpResponse>;
 }
 export declare const postSigninHandler: PostFormHttpHandler;
 export {};

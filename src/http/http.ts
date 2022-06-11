@@ -1,9 +1,10 @@
 export interface HttpRequest {
   authenticationToken: string;
+  headers: { [key: string]: string | string[] };
 }
 
 export interface PostFormRequest extends HttpRequest {
-  postBody: { [key: string]: string };
+  body: string;
 }
 
 export enum HttpStatus {

@@ -1,11 +1,12 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { dependenciesConfiguration } from "../configuration/configuration";
+import { FormBody, parseBody } from "../http/body-parser";
 import {
   HttpResponse,
   HttpStatus,
   PostFormRequest,
   PostFormHttpHandler,
-} from "../http";
+} from "../http/http";
 
 interface SigninActionProperties {
   authenticationToken: string;
@@ -15,7 +16,7 @@ interface SigninActionProperties {
 
 export class SigninAction {
   constructor(private properties: SigninActionProperties) {}
-  public async render(form: { [key: string]: string }): Promise<HttpResponse> {
+  public async render(form: FormBody): Promise<HttpResponse> {
     const signinResult = await this.properties.authenticator.signIn(
       form["user-login"],
       form["user-password"]
@@ -38,5 +39,5 @@ export const postSigninHandler: PostFormHttpHandler = async (
   return await new SigninAction({
     authenticationToken: request.authenticationToken,
     ...dependenciesConfiguration({}),
-  }).render(request.postBody);
+  }).render(parseBody(request));
 };

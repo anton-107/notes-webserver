@@ -42,6 +42,7 @@ class NotesWebserver {
                         const handler = module[route.action];
                         const response = await handler({
                             authenticationToken: req.cookies["Authentication"],
+                            headers: req.headers,
                         });
                         Object.keys(response.headers).forEach((k) => {
                             res.setHeader(k, response.headers[k]);
@@ -50,12 +51,13 @@ class NotesWebserver {
                         res.send(response.body);
                     });
                 case "POST":
-                    return this.app.post(route.path, body_parser_1.default.urlencoded({ extended: true }), async (req, res) => {
+                    return this.app.post(route.path, body_parser_1.default.raw({ type: () => true }), async (req, res) => {
                         const module = await Promise.resolve().then(() => __importStar(require(route.import)));
                         const handler = module[route.action];
                         const response = await handler({
                             authenticationToken: req.cookies["Authentication"],
-                            postBody: req.body,
+                            body: req.body.toString('utf-8'),
+                            headers: req.headers,
                         });
                         Object.keys(response.headers).forEach((k) => {
                             res.setHeader(k, response.headers[k]);

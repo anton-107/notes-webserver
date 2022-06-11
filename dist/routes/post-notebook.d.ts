@@ -1,6 +1,7 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { NotebookStore } from "../notebook-store";
-import { HttpResponse, PostFormHttpHandler } from "../http";
+import { HttpResponse, PostFormHttpHandler } from "../http/http";
+import { FormBody } from "../http/body-parser";
 interface CreateNotebookActionProperties {
     authenticationToken: string;
     authenticator: Authenticator;
@@ -10,9 +11,7 @@ interface CreateNotebookActionProperties {
 export declare class CreateNotebookAction {
     private properties;
     constructor(properties: CreateNotebookActionProperties);
-    render(form: {
-        [key: string]: string;
-    }): Promise<HttpResponse>;
+    render(form: FormBody): Promise<HttpResponse>;
 }
 export declare const postNotebookHandler: PostFormHttpHandler;
 export {};

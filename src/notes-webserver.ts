@@ -2,9 +2,13 @@ import * as http from "http";
 import express from "express";
 import cookieParser from "cookie-parser";
 import { Express } from "express";
-import bodyParser from "body-parser";
-import { HttpResponse, PostFormHttpHandler, HttpRequestHandler } from "./http";
+import {
+  HttpResponse,
+  PostFormHttpHandler,
+  HttpRequestHandler,
+} from "./http/http";
 import { Route } from "./router";
+import bodyParser from "body-parser";
 
 interface NotesWebserverProperties {
   routes: Route[];
@@ -26,6 +30,7 @@ export class NotesWebserver {
             const handler: HttpRequestHandler = module[route.action];
             const response: HttpResponse = await handler({
               authenticationToken: req.cookies["Authentication"],
+              headers: req.headers,
             });
             Object.keys(response.headers).forEach((k) => {
               res.setHeader(k, response.headers[k]);
@@ -36,13 +41,14 @@ export class NotesWebserver {
         case "POST":
           return this.app.post(
             route.path,
-            bodyParser.urlencoded({ extended: true }),
+            bodyParser.raw({ type: () => true }),
             async (req, res) => {
               const module = await import(route.import);
               const handler: PostFormHttpHandler = module[route.action];
               const response: HttpResponse = await handler({
                 authenticationToken: req.cookies["Authentication"],
-                postBody: req.body,
+                body: req.body.toString("utf-8"),
+                headers: req.headers,
               });
               Object.keys(response.headers).forEach((k) => {
                 res.setHeader(k, response.headers[k]);

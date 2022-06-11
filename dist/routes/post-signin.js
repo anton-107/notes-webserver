@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postSigninHandler = exports.SigninAction = void 0;
 const configuration_1 = require("../configuration/configuration");
-const http_1 = require("../http");
+const body_parser_1 = require("../http/body-parser");
+const http_1 = require("../http/http");
 class SigninAction {
     constructor(properties) {
         this.properties = properties;
@@ -25,7 +26,7 @@ const postSigninHandler = async (request) => {
     return await new SigninAction({
         authenticationToken: request.authenticationToken,
         ...(0, configuration_1.dependenciesConfiguration)({}),
-    }).render(request.postBody);
+    }).render((0, body_parser_1.parseBody)(request));
 };
 exports.postSigninHandler = postSigninHandler;
 //# sourceMappingURL=post-signin.js.map

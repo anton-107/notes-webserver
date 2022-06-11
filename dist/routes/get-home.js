@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getHomeHandler = exports.HomePage = void 0;
 const configuration_1 = require("./../configuration/configuration");
-const http_1 = require("../http");
+const http_1 = require("../http/http");
 class HomePage {
     constructor(properties) {
         this.properties = properties;

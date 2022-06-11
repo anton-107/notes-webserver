@@ -1,4 +1,4 @@
-import { HttpResponse, HttpRequestHandler } from "../http";
+import { HttpResponse, HttpRequestHandler } from "../http/http";
 interface SigninPageProperties {
     baseUrl: string;
 }

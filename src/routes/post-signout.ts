@@ -1,4 +1,4 @@
-import { HttpResponse, HttpStatus, PostFormHttpHandler } from "../http";
+import { HttpResponse, HttpStatus, PostFormHttpHandler } from "../http/http";
 
 export class SignoutAction {
   public async render(): Promise<HttpResponse> {

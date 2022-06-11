@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postSignoutHandler = exports.SignoutAction = void 0;
-const http_1 = require("../http");
+const http_1 = require("../http/http");
 class SignoutAction {
     async render() {
         return {
