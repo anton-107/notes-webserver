@@ -56,7 +56,7 @@ class NotesWebserver {
                         const handler = module[route.action];
                         const response = await handler({
                             authenticationToken: req.cookies["Authentication"],
-                            body: req.body.toString('utf-8'),
+                            body: req.body.toString("utf-8"),
                             headers: req.headers,
                         });
                         Object.keys(response.headers).forEach((k) => {
