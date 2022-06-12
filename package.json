@@ -6,8 +6,9 @@
   "scripts": {
     "build": "tsc",
     "start": "ts-node main.ts",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
+    "test": "jest -c jest.config.js",
+    "test:dev": "jest -c jest.config.dev.js",
+    "test:coverage": "jest  -c jest.config.js --coverage",
     "check-format": "prettier --check .",
     "fix-format": "prettier --write .",
     "lint": "eslint . --ext .ts",
@@ -36,7 +37,10 @@
     "typescript": "^4.6.4"
   },
   "dependencies": {
+    "@aws/dynamodb-data-mapper": "^0.7.3",
+    "@aws/dynamodb-data-mapper-annotations": "^0.7.3",
     "authentication-module": "anton-107/authenticator",
+    "aws-sdk": "^2.1152.0",
     "cookie-parser": "^1.4.6",
     "express": "^4.18.1"
   }
