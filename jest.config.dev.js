@@ -3,5 +3,5 @@ module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
   transformIgnorePatterns: ["/node_modules/(?!(authentication-module)/)"],
-  testRegex: "\\.dev\\.ts$"
+  testRegex: "\\.dev\\.ts$",
 };
