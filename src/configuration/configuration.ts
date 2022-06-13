@@ -1,15 +1,11 @@
-import { ScryptHashingFunction } from "authentication-module/dist/scrypt-hashing";
 import {
   Authenticator,
   PasswordHashingFunction,
-  User,
   UserStore,
 } from "authentication-module/dist/authenticator";
-import {
-  JWTSerializer,
-  StandardJwtImplementation,
-} from "authentication-module/dist/jwt-serializer";
 import { NotebookStore } from "../notebook-store";
+import { commonConfiguration } from "./common";
+import { userStoreDynamoConfiguration } from "./user-store-dynamo";
 
 export interface ServiceConfiguration {
   authenticator: Authenticator;
@@ -19,42 +15,18 @@ export interface ServiceConfiguration {
   jwtSerializerSecretKey: string;
   baseUrl: string;
 }
+export type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
 
-class InMemoryUserStore implements UserStore {
-  private users: User[] = [];
-
-  public async getUserByName(username: string): Promise<User | null> {
-    return this.users.find((u) => u.username === username);
-  }
-  public async addUser(user: User): Promise<void> {
-    this.users.push(user);
-  }
-}
-
-const baseUrl = process.env["BASE_URL"] || "";
-const passwordHashingFunction = new ScryptHashingFunction();
-const userStore = new InMemoryUserStore();
-const jwtSerializerSecretKey = String(Math.random());
-const notebookStore = new NotebookStore();
-
-type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
 export const dependenciesConfiguration = (
   overrides: ServiceConfigurationOverrides
 ): ServiceConfiguration => {
-  return {
-    userStore,
-    authenticator: new Authenticator({
-      userStore,
-      passwordHashingFunction,
-      authTokensSerializer: new JWTSerializer(
-        new StandardJwtImplementation(),
-        jwtSerializerSecretKey
-      ),
-    }),
-    jwtSerializerSecretKey,
-    passwordHashingFunction,
-    notebookStore,
-    baseUrl,
+  const contextConfiguration: ServiceConfigurationOverrides = {};
+  if (process.env["USER_STORE_TYPE"] === "dynamodb") {
+    Object.assign(contextConfiguration, userStoreDynamoConfiguration());
+  }
+  contextConfiguration.baseUrl = process.env["BASE_URL"] || "";
+  return commonConfiguration({
+    ...contextConfiguration,
     ...overrides,
-  };
+  });
 };

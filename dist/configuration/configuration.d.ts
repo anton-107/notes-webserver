@@ -8,6 +8,5 @@ export interface ServiceConfiguration {
     jwtSerializerSecretKey: string;
     baseUrl: string;
 }
-declare type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
+export declare type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
 export declare const dependenciesConfiguration: (overrides: ServiceConfigurationOverrides) => ServiceConfiguration;
-export {};
