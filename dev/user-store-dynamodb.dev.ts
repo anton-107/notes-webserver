@@ -42,7 +42,7 @@ describe("UserStoreDynamodb: development test", () => {
     const store = new UserStoreDynamodb({
       dataMapper: mapper,
     });
-    const username = `testuser1_${Math.random()}`;
+    const username = `user1`;
     await store.addUser({
       username,
       passwordHash: "passwordHash1",

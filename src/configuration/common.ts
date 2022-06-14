@@ -22,7 +22,7 @@ export const commonConfiguration = (
   return {
     userStore,
     authenticator: new Authenticator({
-      userStore,
+      userStore: overrides.userStore || userStore,
       passwordHashingFunction,
       authTokensSerializer: new JWTSerializer(
         new StandardJwtImplementation(),
