@@ -6,6 +6,7 @@ class InMemoryUserStore {
         this.users = [];
     }
     async getUserByName(username) {
+        console.log(`[InMemoryUserStore] fetching up user ${username}`);
         return this.users.find((u) => u.username === username);
     }
     async addUser(user) {

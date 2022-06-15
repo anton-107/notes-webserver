@@ -27,6 +27,7 @@ export class HomePage {
 
     const authToken = this.properties.authenticationToken;
     if (!authToken) {
+      console.log("No auth token is present");
       return {
         isBase64Encoded: false,
         statusCode: HttpStatus.OK,
@@ -37,6 +38,7 @@ export class HomePage {
 
     const user = await this.properties.authenticator.authenticate(authToken);
     if (!user.isAuthenticated) {
+      console.log("Not authenticated:", user.errorMessage);
       return {
         isBase64Encoded: false,
         statusCode: HttpStatus.OK,

@@ -36,6 +36,7 @@ class UserStoreDynamodb {
     }
     async getUserByName(username) {
         try {
+            console.log(`[UserStoreDynamodb] fetching up user ${username}`);
             const entity = await this.properties.dataMapper.get(Object.assign(new UserEntity(), { username, sortKey: "USER" }));
             return {
                 username: entity.username,

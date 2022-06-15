@@ -30,6 +30,7 @@ export class UserStoreDynamodb implements UserStore {
 
   public async getUserByName(username: string): Promise<User> {
     try {
+      console.log(`[UserStoreDynamodb] fetching up user ${username}`);
       const entity = await this.properties.dataMapper.get(
         Object.assign(new UserEntity(), { username, sortKey: "USER" })
       );
