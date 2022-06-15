@@ -9,7 +9,9 @@ class SigninAction {
         this.properties = properties;
     }
     async render(form) {
+        console.log("signin attempt", form["user-login"]);
         const signinResult = await this.properties.authenticator.signIn(form["user-login"], form["user-password"]);
+        console.log("signin result", signinResult.isAuthenticated, signinResult.authenticationFailedReason);
         return {
             isBase64Encoded: false,
             statusCode: http_1.HttpStatus.SEE_OTHER,

@@ -17,9 +17,15 @@ interface SigninActionProperties {
 export class SigninAction {
   constructor(private properties: SigninActionProperties) {}
   public async render(form: FormBody): Promise<HttpResponse> {
+    console.log("signin attempt", form["user-login"]);
     const signinResult = await this.properties.authenticator.signIn(
       form["user-login"],
       form["user-password"]
+    );
+    console.log(
+      "signin result",
+      signinResult.isAuthenticated,
+      signinResult.authenticationFailedReason
     );
     return {
       isBase64Encoded: false,
