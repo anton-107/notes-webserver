@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.postSigninHandler = exports.SigninAction = void 0;
 const configuration_1 = require("../configuration/configuration");
 const body_parser_1 = require("../http/body-parser");
+const cookie_parser_1 = require("../http/cookie-parser");
 const http_1 = require("../http/http");
 class SigninAction {
     constructor(properties) {
@@ -26,7 +27,7 @@ class SigninAction {
 exports.SigninAction = SigninAction;
 const postSigninHandler = async (request) => {
     return await new SigninAction({
-        authenticationToken: request.authenticationToken,
+        authenticationToken: (0, cookie_parser_1.parseCookie)(request.headers, "Authentication"),
         ...(0, configuration_1.dependenciesConfiguration)({}),
     }).render((0, body_parser_1.parseBody)(request));
 };

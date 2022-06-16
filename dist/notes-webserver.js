@@ -41,7 +41,6 @@ class NotesWebserver {
                         const module = await Promise.resolve().then(() => __importStar(require(route.import)));
                         const handler = module[route.action];
                         const response = await handler({
-                            authenticationToken: req.cookies["Authentication"],
                             headers: req.headers,
                         });
                         Object.keys(response.headers).forEach((k) => {
@@ -55,7 +54,6 @@ class NotesWebserver {
                         const module = await Promise.resolve().then(() => __importStar(require(route.import)));
                         const handler = module[route.action];
                         const response = await handler({
-                            authenticationToken: req.cookies["Authentication"],
                             body: req.body.toString("utf-8"),
                             headers: req.headers,
                         });

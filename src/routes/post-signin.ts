@@ -1,6 +1,7 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { dependenciesConfiguration } from "../configuration/configuration";
 import { FormBody, parseBody } from "../http/body-parser";
+import { parseCookie } from "../http/cookie-parser";
 import {
   HttpResponse,
   HttpStatus,
@@ -43,7 +44,7 @@ export const postSigninHandler: PostFormHttpHandler = async (
   request: PostFormRequest
 ): Promise<HttpResponse> => {
   return await new SigninAction({
-    authenticationToken: request.authenticationToken,
+    authenticationToken: parseCookie(request.headers, "Authentication"),
     ...dependenciesConfiguration({}),
   }).render(parseBody(request));
 };

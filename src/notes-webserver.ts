@@ -29,7 +29,6 @@ export class NotesWebserver {
             const module = await import(route.import);
             const handler: HttpRequestHandler = module[route.action];
             const response: HttpResponse = await handler({
-              authenticationToken: req.cookies["Authentication"],
               headers: req.headers,
             });
             Object.keys(response.headers).forEach((k) => {
@@ -46,7 +45,6 @@ export class NotesWebserver {
               const module = await import(route.import);
               const handler: PostFormHttpHandler = module[route.action];
               const response: HttpResponse = await handler({
-                authenticationToken: req.cookies["Authentication"],
                 body: req.body.toString("utf-8"),
                 headers: req.headers,
               });

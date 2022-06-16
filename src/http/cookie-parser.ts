@@ -1,0 +1,14 @@
+import { parse } from "querystring";
+import { HttpHeaders } from "./http";
+
+export function parseCookie(
+  headers: HttpHeaders,
+  cookieName: string
+): string | null {
+  const cookieHeader = String(headers["Cookie"] || headers["cookie"]);
+  const parts = parse(cookieHeader);
+  if (!parts || !parts[cookieName]) {
+    return null;
+  }
+  return String(parts[cookieName]);
+}

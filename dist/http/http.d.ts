@@ -1,8 +1,8 @@
+export declare type HttpHeaders = {
+    [key: string]: string | string[];
+};
 export interface HttpRequest {
-    authenticationToken: string;
-    headers: {
-        [key: string]: string | string[];
-    };
+    headers: HttpHeaders;
 }
 export interface PostFormRequest extends HttpRequest {
     body: string;

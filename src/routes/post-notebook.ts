@@ -8,6 +8,7 @@ import {
   PostFormHttpHandler,
 } from "../http/http";
 import { FormBody, parseBody } from "../http/body-parser";
+import { parseCookie } from "../http/cookie-parser";
 
 interface CreateNotebookActionProperties {
   authenticationToken: string;
@@ -44,7 +45,7 @@ export const postNotebookHandler: PostFormHttpHandler = async (
   request: PostFormRequest
 ): Promise<HttpResponse> => {
   return await new CreateNotebookAction({
-    authenticationToken: request.authenticationToken,
+    authenticationToken: parseCookie(request.headers, "Authentication"),
     ...dependenciesConfiguration({}),
   }).render(parseBody(request));
 };

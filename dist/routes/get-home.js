@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getHomeHandler = exports.HomePage = void 0;
 const configuration_1 = require("./../configuration/configuration");
 const http_1 = require("../http/http");
+const cookie_parser_1 = require("../http/cookie-parser");
 class HomePage {
     constructor(properties) {
         this.properties = properties;
@@ -13,7 +14,7 @@ class HomePage {
         const responseToAnonymous = `<h1>hello anonymous!</h1><a data-testid='sign-in-link' href='${this.properties.baseUrl}/signin'>Sign in</a>`;
         const authToken = this.properties.authenticationToken;
         if (!authToken) {
-            console.log('No auth token is present');
+            console.log("No auth token is present");
             return {
                 isBase64Encoded: false,
                 statusCode: http_1.HttpStatus.OK,
@@ -23,7 +24,7 @@ class HomePage {
         }
         const user = await this.properties.authenticator.authenticate(authToken);
         if (!user.isAuthenticated) {
-            console.log('Not authenticated:', user.errorMessage);
+            console.log("Not authenticated:", user.errorMessage);
             return {
                 isBase64Encoded: false,
                 statusCode: http_1.HttpStatus.OK,
@@ -50,7 +51,7 @@ class HomePage {
 exports.HomePage = HomePage;
 const getHomeHandler = async (request) => {
     return await new HomePage({
-        authenticationToken: request.authenticationToken,
+        authenticationToken: (0, cookie_parser_1.parseCookie)(request.headers, "Authentication"),
         ...(0, configuration_1.dependenciesConfiguration)({}),
     }).render();
 };

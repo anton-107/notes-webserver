@@ -8,6 +8,7 @@ import {
   HttpStatus,
   HttpRequestHandler,
 } from "../http/http";
+import { parseCookie } from "../http/cookie-parser";
 
 interface HomePageProperties {
   authenticationToken: string;
@@ -78,7 +79,7 @@ export const getHomeHandler: HttpRequestHandler = async (
   request: HttpRequest
 ): Promise<HttpResponse> => {
   return await new HomePage({
-    authenticationToken: request.authenticationToken,
+    authenticationToken: parseCookie(request.headers, "Authentication"),
     ...dependenciesConfiguration({}),
   }).render();
 };

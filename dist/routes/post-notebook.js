@@ -4,6 +4,7 @@ exports.postNotebookHandler = exports.CreateNotebookAction = void 0;
 const configuration_1 = require("../configuration/configuration");
 const http_1 = require("../http/http");
 const body_parser_1 = require("../http/body-parser");
+const cookie_parser_1 = require("../http/cookie-parser");
 class CreateNotebookAction {
     constructor(properties) {
         this.properties = properties;
@@ -27,7 +28,7 @@ class CreateNotebookAction {
 exports.CreateNotebookAction = CreateNotebookAction;
 const postNotebookHandler = async (request) => {
     return await new CreateNotebookAction({
-        authenticationToken: request.authenticationToken,
+        authenticationToken: (0, cookie_parser_1.parseCookie)(request.headers, "Authentication"),
         ...(0, configuration_1.dependenciesConfiguration)({}),
     }).render((0, body_parser_1.parseBody)(request));
 };
