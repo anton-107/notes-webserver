@@ -18,7 +18,6 @@ const commonConfiguration = (overrides) => {
             passwordHashingFunction,
             authTokensSerializer: new jwt_serializer_1.JWTSerializer(new jwt_serializer_1.StandardJwtImplementation(), jwtSerializerSecretKey),
         }),
-        jwtSerializerSecretKey,
         passwordHashingFunction,
         notebookStore,
         baseUrl: "",

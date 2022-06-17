@@ -29,7 +29,6 @@ export const commonConfiguration = (
         jwtSerializerSecretKey
       ),
     }),
-    jwtSerializerSecretKey,
     passwordHashingFunction,
     notebookStore,
     baseUrl: "",

@@ -12,7 +12,6 @@ export interface ServiceConfiguration {
   notebookStore: NotebookStore;
   passwordHashingFunction: PasswordHashingFunction;
   userStore: UserStore;
-  jwtSerializerSecretKey: string;
   baseUrl: string;
 }
 export type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
