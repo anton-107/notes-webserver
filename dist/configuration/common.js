@@ -16,7 +16,10 @@ const commonConfiguration = (overrides) => {
         authenticator: new authenticator_1.Authenticator({
             userStore: overrides.userStore || userStore,
             passwordHashingFunction,
-            authTokensSerializer: new jwt_serializer_1.JWTSerializer(new jwt_serializer_1.StandardJwtImplementation(), jwtSerializerSecretKey),
+            authTokensSerializer: new jwt_serializer_1.JWTSerializer({
+                jwt: new jwt_serializer_1.StandardJwtImplementation(),
+                secretKeyProvider: new jwt_serializer_1.SimpleStringProvider(jwtSerializerSecretKey)
+            }),
         }),
         passwordHashingFunction,
         notebookStore,

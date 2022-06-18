@@ -1,6 +1,7 @@
 import { InMemoryUserStore } from "../stores/user-store-inmemory";
 import {
   JWTSerializer,
+  SimpleStringProvider,
   StandardJwtImplementation,
 } from "authentication-module/dist/jwt-serializer";
 import { ScryptHashingFunction } from "authentication-module/dist/scrypt-hashing";
@@ -24,10 +25,10 @@ export const commonConfiguration = (
     authenticator: new Authenticator({
       userStore: overrides.userStore || userStore,
       passwordHashingFunction,
-      authTokensSerializer: new JWTSerializer(
-        new StandardJwtImplementation(),
-        jwtSerializerSecretKey
-      ),
+      authTokensSerializer: new JWTSerializer({
+        jwt: new StandardJwtImplementation(),
+        secretKeyProvider: new SimpleStringProvider(jwtSerializerSecretKey),
+      }),
     }),
     passwordHashingFunction,
     notebookStore,
