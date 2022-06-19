@@ -9,16 +9,18 @@ const notebook_store_1 = require("../notebook-store");
 const passwordHashingFunction = new scrypt_hashing_1.ScryptHashingFunction();
 const userStore = new user_store_inmemory_1.InMemoryUserStore();
 const jwtSerializerSecretKey = String(Math.random());
+const jwtSerializerSecretProvider = new jwt_serializer_1.SimpleStringProvider(jwtSerializerSecretKey);
 const notebookStore = new notebook_store_1.NotebookStore();
 const commonConfiguration = (overrides) => {
     return {
         userStore,
+        jwtSerializerSecretProvider,
         authenticator: new authenticator_1.Authenticator({
             userStore: overrides.userStore || userStore,
             passwordHashingFunction,
             authTokensSerializer: new jwt_serializer_1.JWTSerializer({
                 jwt: new jwt_serializer_1.StandardJwtImplementation(),
-                secretKeyProvider: new jwt_serializer_1.SimpleStringProvider(jwtSerializerSecretKey),
+                secretKeyProvider: overrides.jwtSerializerSecretProvider || jwtSerializerSecretProvider,
             }),
         }),
         passwordHashingFunction,

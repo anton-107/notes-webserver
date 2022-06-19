@@ -14,4 +14,11 @@ describe("Configuration", () => {
     const config = dependenciesConfiguration({});
     expect(config.userStore).not.toBe(null);
   });
+  it("should secrets manager provider as jwtSerializerSecretProvider", () => {
+    process.env = Object.assign({}, process.env, {
+      JWT_SERIALIZER_SECRET_ID: "jwtSerializerSecretRANDOM-STRING-SUFFIX",
+    });
+    const config = dependenciesConfiguration({});
+    expect(config.jwtSerializerSecretProvider).not.toBe(null);
+  });
 });

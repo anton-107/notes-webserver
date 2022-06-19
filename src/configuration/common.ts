@@ -15,6 +15,9 @@ import {
 const passwordHashingFunction = new ScryptHashingFunction();
 const userStore = new InMemoryUserStore();
 const jwtSerializerSecretKey = String(Math.random());
+const jwtSerializerSecretProvider = new SimpleStringProvider(
+  jwtSerializerSecretKey
+);
 const notebookStore = new NotebookStore();
 
 export const commonConfiguration = (
@@ -22,12 +25,14 @@ export const commonConfiguration = (
 ): ServiceConfiguration => {
   return {
     userStore,
+    jwtSerializerSecretProvider,
     authenticator: new Authenticator({
       userStore: overrides.userStore || userStore,
       passwordHashingFunction,
       authTokensSerializer: new JWTSerializer({
         jwt: new StandardJwtImplementation(),
-        secretKeyProvider: new SimpleStringProvider(jwtSerializerSecretKey),
+        secretKeyProvider:
+          overrides.jwtSerializerSecretProvider || jwtSerializerSecretProvider,
       }),
     }),
     passwordHashingFunction,
