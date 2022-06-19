@@ -18,7 +18,7 @@ const commonConfiguration = (overrides) => {
             passwordHashingFunction,
             authTokensSerializer: new jwt_serializer_1.JWTSerializer({
                 jwt: new jwt_serializer_1.StandardJwtImplementation(),
-                secretKeyProvider: new jwt_serializer_1.SimpleStringProvider(jwtSerializerSecretKey)
+                secretKeyProvider: new jwt_serializer_1.SimpleStringProvider(jwtSerializerSecretKey),
             }),
         }),
         passwordHashingFunction,
