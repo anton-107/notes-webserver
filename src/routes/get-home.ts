@@ -1,6 +1,6 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { dependenciesConfiguration } from "./../configuration/configuration";
-import { NotebookStore } from "./../notebook-store";
+import { NotebookStore } from "./../stores/notebook-store";
 
 import {
   HttpRequest,

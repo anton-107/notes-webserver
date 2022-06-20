@@ -1,6 +1,6 @@
 import { Authenticator, PasswordHashingFunction, UserStore } from "authentication-module/dist/authenticator";
 import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
-import { NotebookStore } from "../notebook-store";
+import { NotebookStore } from "../stores/notebook-store";
 export interface ServiceConfiguration {
     authenticator: Authenticator;
     jwtSerializerSecretProvider: SecretKeyProvider;

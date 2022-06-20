@@ -4,7 +4,7 @@ import {
   UserStore,
 } from "authentication-module/dist/authenticator";
 import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
-import { NotebookStore } from "../notebook-store";
+import { NotebookStore } from "../stores/notebook-store";
 import { commonConfiguration } from "./common";
 import { jwtSerializerSecretsManagerConfiguration } from "./jwt-serializer-secrets-manager";
 import { userStoreDynamoConfiguration } from "./user-store-dynamo";

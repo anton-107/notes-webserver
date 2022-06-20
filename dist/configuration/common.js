@@ -5,12 +5,12 @@ const user_store_inmemory_1 = require("../stores/user-store-inmemory");
 const jwt_serializer_1 = require("authentication-module/dist/jwt-serializer");
 const scrypt_hashing_1 = require("authentication-module/dist/scrypt-hashing");
 const authenticator_1 = require("authentication-module/dist/authenticator");
-const notebook_store_1 = require("../notebook-store");
+const notebook_store_1 = require("../stores/notebook-store");
 const passwordHashingFunction = new scrypt_hashing_1.ScryptHashingFunction();
 const userStore = new user_store_inmemory_1.InMemoryUserStore();
 const jwtSerializerSecretKey = String(Math.random());
 const jwtSerializerSecretProvider = new jwt_serializer_1.SimpleStringProvider(jwtSerializerSecretKey);
-const notebookStore = new notebook_store_1.NotebookStore();
+const notebookStore = new notebook_store_1.InMemoryNotebookStore();
 const commonConfiguration = (overrides) => {
     return {
         userStore,

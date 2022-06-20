@@ -1,5 +1,5 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
-import { NotebookStore } from "../notebook-store";
+import { NotebookStore } from "../stores/notebook-store";
 import { HttpResponse, PostFormHttpHandler } from "../http/http";
 import { FormBody } from "../http/body-parser";
 interface CreateNotebookActionProperties {

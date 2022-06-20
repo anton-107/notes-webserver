@@ -6,7 +6,7 @@ import {
 } from "authentication-module/dist/jwt-serializer";
 import { ScryptHashingFunction } from "authentication-module/dist/scrypt-hashing";
 import { Authenticator } from "authentication-module/dist/authenticator";
-import { NotebookStore } from "../notebook-store";
+import { InMemoryNotebookStore } from "../stores/notebook-store";
 import {
   ServiceConfiguration,
   ServiceConfigurationOverrides,
@@ -18,7 +18,7 @@ const jwtSerializerSecretKey = String(Math.random());
 const jwtSerializerSecretProvider = new SimpleStringProvider(
   jwtSerializerSecretKey
 );
-const notebookStore = new NotebookStore();
+const notebookStore = new InMemoryNotebookStore();
 
 export const commonConfiguration = (
   overrides: ServiceConfigurationOverrides
