@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.parseCookie = void 0;
-const querystring_1 = require("querystring");
+const cookie_1 = require("cookie");
 function parseCookie(headers, cookieName) {
     const cookieHeader = String(headers["Cookie"] || headers["cookie"]);
-    const parts = (0, querystring_1.parse)(cookieHeader);
+    const parts = (0, cookie_1.parse)(cookieHeader);
+    console.log('parts', parts);
     if (!parts || !parts[cookieName]) {
         return null;
     }

@@ -1,4 +1,4 @@
-import { parse } from "querystring";
+import { parse } from "cookie";
 import { HttpHeaders } from "./http";
 
 export function parseCookie(
@@ -7,6 +7,7 @@ export function parseCookie(
 ): string | null {
   const cookieHeader = String(headers["Cookie"] || headers["cookie"]);
   const parts = parse(cookieHeader);
+  console.log("parts", parts);
   if (!parts || !parts[cookieName]) {
     return null;
   }
