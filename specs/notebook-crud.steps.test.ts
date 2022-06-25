@@ -39,5 +39,9 @@ defineFeature(feature, (test) => {
     and(/^it has inner text of '(.+)'$/, (innerText) =>
       testScenario.checkInnerText(innerText)
     );
+    when("I click on it", () => testScenario.handleClick());
+    then(/^I am navigated to \/([a-z-{}/]+) page$/, (url) =>
+      testScenario.checkCurrentPage(url)
+    );
   });
 });

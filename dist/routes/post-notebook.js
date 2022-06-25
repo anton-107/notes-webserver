@@ -5,6 +5,7 @@ const configuration_1 = require("../configuration/configuration");
 const http_1 = require("../http/http");
 const body_parser_1 = require("../http/body-parser");
 const cookie_parser_1 = require("../http/cookie-parser");
+const short_uuid_1 = require("short-uuid");
 class CreateNotebookAction {
     constructor(properties) {
         this.properties = properties;
@@ -13,6 +14,7 @@ class CreateNotebookAction {
         const headers = {};
         const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);
         await this.properties.notebookStore.add({
+            id: (0, short_uuid_1.generate)(),
             name: form["notebook-name"],
             owner: user.username,
         });

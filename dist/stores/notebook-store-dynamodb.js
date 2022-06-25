@@ -27,6 +27,10 @@ __decorate([
     (0, dynamodb_data_mapper_annotations_1.attribute)(),
     __metadata("design:type", String)
 ], NotebookEntity.prototype, "name", void 0);
+__decorate([
+    (0, dynamodb_data_mapper_annotations_1.attribute)(),
+    __metadata("design:type", String)
+], NotebookEntity.prototype, "id", void 0);
 NotebookEntity = __decorate([
     (0, dynamodb_data_mapper_annotations_1.table)(NOTEBOOK_TABLE_NAME)
 ], NotebookEntity);
@@ -56,6 +60,7 @@ class NotebookStoreDynamodb {
                 r.push({
                     name: entity.name,
                     owner: entity.owner,
+                    id: entity.id,
                 });
             }
             return r;

@@ -37,7 +37,7 @@ class HomePage {
       <form method='post' action='${this.properties.baseUrl}/signout'><button type='submit' data-testid='sign-out-button'>Sign out</button></form>
       <a href='${this.properties.baseUrl}/new-notebook' data-testid='create-new-notebook-link'>Create new notebook</a>
       ${notebooks
-            .map((x) => `<div><span data-testid='notebook-name'>${x.name}</span></div>`)
+            .map((x) => `<div><a href='/notebook/${x.id}' data-testid='notebook-name'>${x.name}</a></div>`)
             .join("")}
       `;
         return {

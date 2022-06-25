@@ -61,7 +61,8 @@ export class HomePage {
       }/new-notebook' data-testid='create-new-notebook-link'>Create new notebook</a>
       ${notebooks
         .map(
-          (x) => `<div><span data-testid='notebook-name'>${x.name}</span></div>`
+          (x) =>
+            `<div><a href='/notebook/${x.id}' data-testid='notebook-name'>${x.name}</a></div>`
         )
         .join("")}
       `;

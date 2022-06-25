@@ -12,6 +12,7 @@ describe("NotebookStoreDynamodb", () => {
       dataMapper: instance(dataMapperMock),
     });
     await store.add({
+      id: "SomeShortID",
       owner: "testuser1",
       name: "Notebook 1",
     });
@@ -27,6 +28,7 @@ describe("NotebookStoreDynamodb", () => {
     });
     expect(async () => {
       await store.add({
+        id: "SomeShortID",
         owner: "testuser1",
         name: "notebook 1",
       });
