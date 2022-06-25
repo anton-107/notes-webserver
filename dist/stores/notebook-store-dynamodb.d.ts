@@ -4,6 +4,7 @@ export declare class NotebookEntity implements Notebook {
     owner: string;
     sortKey: string;
     name: string;
+    id: string;
 }
 interface NotebookStoreDynamodbProps {
     dataMapper: DataMapper;

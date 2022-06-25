@@ -20,6 +20,9 @@ export class NotebookEntity implements Notebook {
 
   @attribute()
   name: string;
+
+  @attribute()
+  id: string;
 }
 
 interface NotebookStoreDynamodbProps {
@@ -53,6 +56,7 @@ export class NotebookStoreDynamodb implements NotebookStore {
         r.push({
           name: entity.name,
           owner: entity.owner,
+          id: entity.id,
         });
       }
       return r;

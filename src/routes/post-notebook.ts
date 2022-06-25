@@ -9,6 +9,7 @@ import {
 } from "../http/http";
 import { FormBody, parseBody } from "../http/body-parser";
 import { parseCookie } from "../http/cookie-parser";
+import { generate } from "short-uuid";
 
 interface CreateNotebookActionProperties {
   authenticationToken: string;
@@ -26,6 +27,7 @@ export class CreateNotebookAction {
     );
 
     await this.properties.notebookStore.add({
+      id: generate(),
       name: form["notebook-name"],
       owner: user.username,
     });

@@ -82,7 +82,8 @@ export class TestScenario {
     }
   }
   public checkCurrentPage(page: string) {
-    expect(this.currentPage).toBe(`/${page}`);
+    const regex = page.replace("{notebook-id}", "[A-z0-9]{1,32}");
+    expect(this.currentPage).toMatch(new RegExp(`^/${regex}$`));
   }
   public setInputValue = (value: string) => {
     const inputName = this.el.getAttribute("name");
