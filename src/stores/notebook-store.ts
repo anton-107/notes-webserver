@@ -7,6 +7,7 @@ export interface Notebook {
 export interface NotebookStore {
   add(notebook: Notebook): Promise<void>;
   listAll(owner: string): Promise<Notebook[]>;
+  getOne(owner: string, id: string): Promise<Notebook | undefined>;
 }
 
 export class InMemoryNotebookStore implements NotebookStore {
@@ -17,5 +18,8 @@ export class InMemoryNotebookStore implements NotebookStore {
   }
   public async listAll(owner: string): Promise<Notebook[]> {
     return this.items.filter((x) => x.owner === owner);
+  }
+  public async getOne(owner: string, id: string): Promise<Notebook> {
+    return this.items.find((x) => x.owner === owner && x.id === id);
   }
 }

@@ -70,6 +70,9 @@ class NotebookStoreDynamodb {
             return [];
         }
     }
+    async getOne(owner, id) {
+        throw new Error("Method not implemented.");
+    }
 }
 exports.NotebookStoreDynamodb = NotebookStoreDynamodb;
 //# sourceMappingURL=notebook-store-dynamodb.js.map

@@ -42,6 +42,7 @@ class NotesWebserver {
                         const handler = module[route.action];
                         const response = await handler({
                             headers: req.headers,
+                            params: req.params,
                         });
                         Object.keys(response.headers).forEach((k) => {
                             res.setHeader(k, response.headers[k]);
@@ -56,6 +57,7 @@ class NotesWebserver {
                         const response = await handler({
                             body: req.body.toString("utf-8"),
                             headers: req.headers,
+                            params: req.params,
                         });
                         Object.keys(response.headers).forEach((k) => {
                             res.setHeader(k, response.headers[k]);

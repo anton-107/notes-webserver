@@ -3,11 +3,15 @@ import fetch, { Headers, Response } from "node-fetch";
 export interface HttpResponse {
   getHeader(headerName: string): string;
   getBody(): Promise<string>;
+  getStatus(): number;
   getResponsePath(): string;
 }
 
 class FetchResponse implements HttpResponse {
   constructor(private response: Response) {}
+  getStatus(): number {
+    return this.response.status;
+  }
   getHeader(headerName: string): string {
     return this.response.headers.get(headerName);
   }

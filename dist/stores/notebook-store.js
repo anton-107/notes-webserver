@@ -11,6 +11,9 @@ class InMemoryNotebookStore {
     async listAll(owner) {
         return this.items.filter((x) => x.owner === owner);
     }
+    async getOne(owner, id) {
+        return this.items.find(x => x.owner === owner && x.id === id);
+    }
 }
 exports.InMemoryNotebookStore = InMemoryNotebookStore;
 //# sourceMappingURL=notebook-store.js.map

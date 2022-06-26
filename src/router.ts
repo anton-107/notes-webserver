@@ -5,6 +5,7 @@ import { getSigninHandler } from "./routes/get-signin";
 import { postNotebookHandler } from "./routes/post-notebook";
 import { postSigninHandler } from "./routes/post-signin";
 import { postSignoutHandler } from "./routes/post-signout";
+import { getOneNotebookHandler } from "./routes/get-one-notebook";
 
 export interface Route {
   method: "GET" | "POST";
@@ -49,5 +50,11 @@ export const routes: Route[] = [
     path: "/notebook",
     import: join(__dirname, "./routes/post-notebook"),
     action: postNotebookHandler.name,
+  },
+  {
+    method: "GET",
+    path: "/notebook/:notebookID",
+    import: join(__dirname, "./routes/get-one-notebook"),
+    action: getOneNotebookHandler.name,
   },
 ];

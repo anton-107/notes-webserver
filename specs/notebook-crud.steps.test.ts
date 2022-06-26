@@ -43,5 +43,12 @@ defineFeature(feature, (test) => {
     then(/^I am navigated to \/([a-z-{}/]+) page$/, (url) =>
       testScenario.checkCurrentPage(url)
     );
+    when("page is loaded", () => testScenario.processNewPage());
+    then(/^I see '([a-z-]+)' element$/, (selector) =>
+      testScenario.checkElement(selector)
+    );
+    and(/^it has inner text of '(.+)'$/, (innerText) =>
+      testScenario.checkInnerText(innerText)
+    );
   });
 });

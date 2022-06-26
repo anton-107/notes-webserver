@@ -3,13 +3,18 @@ export declare type HttpHeaders = {
 };
 export interface HttpRequest {
     headers: HttpHeaders;
+    params: {
+        [key: string]: string;
+    };
 }
 export interface PostFormRequest extends HttpRequest {
     body: string;
 }
 export declare enum HttpStatus {
     OK = 200,
-    SEE_OTHER = 303
+    SEE_OTHER = 303,
+    FORBIDDEN = 403,
+    NOT_FOUND = 404
 }
 export interface HttpResponse {
     isBase64Encoded: boolean;

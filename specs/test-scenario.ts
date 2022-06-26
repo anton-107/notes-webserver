@@ -54,6 +54,7 @@ export class TestScenario {
     await this.getRequest(`/${page}`);
   }
   public async processNewPage() {
+    expect(this.response.getStatus()).toBeLessThan(300);
     this.pageRoot = parse(await this.response.getBody());
     this.form = {};
   }

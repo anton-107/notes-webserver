@@ -73,4 +73,14 @@ describe("NotebookStoreDynamodb", () => {
     const notebooks = await store.listAll("testuser1");
     expect(notebooks.length).toBe(0);
   });
+  it("should should implement getOne method (but doesn't yet)", async () => {
+    // todo: implement the method and test
+    const dataMapperMock = mock<DataMapper>();
+    const store = new NotebookStoreDynamodb({
+      dataMapper: instance(dataMapperMock),
+    });
+    expect(
+      async () => await store.getOne("user", "notebook")
+    ).rejects.toThrow();
+  });
 });

@@ -65,4 +65,8 @@ export class NotebookStoreDynamodb implements NotebookStore {
       return [];
     }
   }
+  public async getOne(owner: string, id: string): Promise<Notebook> {
+    console.log("Not implemented: getOne() for", owner, id);
+    throw new Error("Method not implemented.");
+  }
 }
