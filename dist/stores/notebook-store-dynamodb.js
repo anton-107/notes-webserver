@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NotebookStoreDynamodb = exports.NotebookEntity = void 0;
 const dynamodb_data_mapper_annotations_1 = require("@aws/dynamodb-data-mapper-annotations");
-const uuid_1 = require("uuid");
 const NOTEBOOK_TABLE_NAME = "notes-webserver-notebook";
 let NotebookEntity = class NotebookEntity {
 };
@@ -42,7 +41,7 @@ class NotebookStoreDynamodb {
     async add(notebook) {
         try {
             const entity = Object.assign(new NotebookEntity(), notebook, {
-                sortKey: `NOTEBOOK_${Date.now()}_${(0, uuid_1.v4)()}`,
+                sortKey: `NOTEBOOK_${notebook.id}`,
             });
             const objectSaved = await this.properties.dataMapper.put(entity);
             console.info("Notebook saved", objectSaved);
@@ -71,7 +70,21 @@ class NotebookStoreDynamodb {
         }
     }
     async getOne(owner, id) {
-        throw new Error("Method not implemented.");
+        try {
+            const entity = await this.properties.dataMapper.get(Object.assign(new NotebookEntity, {
+                owner,
+                sortKey: `NOTEBOOK_${id}`
+            }));
+            return {
+                owner: entity.owner,
+                id: entity.id,
+                name: entity.name
+            };
+        }
+        catch (err) {
+            console.error(`Could not find notebook for ${owner}/${id}`, err);
+            return null;
+        }
     }
 }
 exports.NotebookStoreDynamodb = NotebookStoreDynamodb;

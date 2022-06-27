@@ -5,7 +5,6 @@ import {
   table,
 } from "@aws/dynamodb-data-mapper-annotations";
 import { Notebook, NotebookStore } from "./notebook-store";
-import { v4 } from "uuid";
 import { DataMapper } from "@aws/dynamodb-data-mapper";
 
 const NOTEBOOK_TABLE_NAME = "notes-webserver-notebook";
@@ -34,7 +33,7 @@ export class NotebookStoreDynamodb implements NotebookStore {
   public async add(notebook: Notebook): Promise<void> {
     try {
       const entity = Object.assign(new NotebookEntity(), notebook, {
-        sortKey: `NOTEBOOK_${Date.now()}_${v4()}`,
+        sortKey: `NOTEBOOK_${notebook.id}`,
       });
       const objectSaved = await this.properties.dataMapper.put(entity);
       console.info("Notebook saved", objectSaved);
@@ -65,8 +64,22 @@ export class NotebookStoreDynamodb implements NotebookStore {
       return [];
     }
   }
-  public async getOne(owner: string, id: string): Promise<Notebook> {
-    console.log("Not implemented: getOne() for", owner, id);
-    throw new Error("Method not implemented.");
+  public async getOne(owner: string, id: string): Promise<Notebook | null> {
+    try {
+      const entity = await this.properties.dataMapper.get(
+        Object.assign(new NotebookEntity(), {
+          owner,
+          sortKey: `NOTEBOOK_${id}`,
+        })
+      );
+      return {
+        owner: entity.owner,
+        id: entity.id,
+        name: entity.name,
+      };
+    } catch (err) {
+      console.error(`Could not find notebook for ${owner}/${id}`, err);
+      return null;
+    }
   }
 }

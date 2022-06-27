@@ -4,6 +4,7 @@ import {
   NotebookEntity,
   NotebookStoreDynamodb,
 } from "./../src/stores/notebook-store-dynamodb";
+import { generate } from "short-uuid";
 
 const CREATE_TABLE_BEFORE_TESTS = true;
 const DELETE_TABLE_AFTER_TESTS = true;
@@ -44,10 +45,12 @@ describe("NotebookStoreDynamodb: development test", () => {
     });
     const username = `user1`;
     await store.add({
+      id: generate(),
       owner: username,
       name: "Notebook 1",
     });
     await store.add({
+      id: generate(),
       owner: username,
       name: "Notebook 2",
     });
@@ -56,5 +59,19 @@ describe("NotebookStoreDynamodb: development test", () => {
     expect(notebooks.length).toBe(2);
     expect(notebooks[0].name).toBe("Notebook 1");
     expect(notebooks[1].name).toBe("Notebook 2");
+  });
+  it("should fetch one item", async () => {
+    const store = new NotebookStoreDynamodb({
+      dataMapper: mapper,
+    });
+    const owner = `user2`;
+    const id = generate();
+    await store.add({
+      id,
+      owner,
+      name: "Notebook 3",
+    });
+    const notebook = await store.getOne(owner, id);
+    expect(notebook.name).toBe("Notebook 3");
   });
 });

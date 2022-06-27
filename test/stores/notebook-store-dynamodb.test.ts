@@ -73,14 +73,28 @@ describe("NotebookStoreDynamodb", () => {
     const notebooks = await store.listAll("testuser1");
     expect(notebooks.length).toBe(0);
   });
-  it("should should implement getOne method (but doesn't yet)", async () => {
-    // todo: implement the method and test
+  it("should return null if dynamodb mapper throws an error on getting an item", async () => {
     const dataMapperMock = mock<DataMapper>();
+    when(dataMapperMock.get(anything())).thenCall(() => {
+      throw Error("this is a test error");
+    });
     const store = new NotebookStoreDynamodb({
       dataMapper: instance(dataMapperMock),
     });
-    expect(
-      async () => await store.getOne("user", "notebook")
-    ).rejects.toThrow();
+    const notebook = await store.getOne("testuser1", "sample-id");
+    expect(notebook).toBe(null);
+  });
+  it("should return one notebook", async () => {
+    const dataMapperMock = mock<DataMapper>();
+    when(dataMapperMock.get(anything())).thenResolve({
+      id: "test-notebook",
+      owner: "user1",
+      name: "My notebook",
+    });
+    const store = new NotebookStoreDynamodb({
+      dataMapper: instance(dataMapperMock),
+    });
+    const notebook = await store.getOne("user1", "test-notebook");
+    expect(notebook.name).toBe("My notebook");
   });
 });

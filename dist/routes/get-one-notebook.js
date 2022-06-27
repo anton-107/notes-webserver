@@ -11,7 +11,7 @@ class NotebookDetailsPage {
     async render() {
         const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);
         if (!user.isAuthenticated) {
-            console.error('User is not authenticated', user);
+            console.error("User is not authenticated", user);
             return {
                 isBase64Encoded: false,
                 statusCode: http_1.HttpStatus.FORBIDDEN,
@@ -21,7 +21,7 @@ class NotebookDetailsPage {
         }
         const notebook = await this.properties.notebookStore.getOne(user.username, this.properties.notebookID);
         if (!notebook) {
-            console.error('Notebook is not found for user ', user.username, this.properties.notebookID);
+            console.error("Notebook is not found for user ", user.username, this.properties.notebookID);
             return {
                 isBase64Encoded: false,
                 statusCode: http_1.HttpStatus.NOT_FOUND,
