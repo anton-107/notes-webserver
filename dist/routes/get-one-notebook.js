@@ -43,7 +43,7 @@ exports.NotebookDetailsPage = NotebookDetailsPage;
 const getOneNotebookHandler = async (request) => {
     return await new NotebookDetailsPage({
         ...(0, configuration_1.dependenciesConfiguration)({}),
-        notebookID: request.params.notebookID,
+        notebookID: request.pathParameters.notebookID,
         authenticationToken: (0, cookie_parser_1.parseCookie)(request.headers, "Authentication"),
     }).render();
 };

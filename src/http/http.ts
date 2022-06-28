@@ -1,7 +1,7 @@
 export type HttpHeaders = { [key: string]: string | string[] };
 export interface HttpRequest {
   headers: HttpHeaders;
-  params: { [key: string]: string };
+  pathParameters: { [key: string]: string };
 }
 
 export interface PostFormRequest extends HttpRequest {

@@ -71,14 +71,14 @@ class NotebookStoreDynamodb {
     }
     async getOne(owner, id) {
         try {
-            const entity = await this.properties.dataMapper.get(Object.assign(new NotebookEntity, {
+            const entity = await this.properties.dataMapper.get(Object.assign(new NotebookEntity(), {
                 owner,
-                sortKey: `NOTEBOOK_${id}`
+                sortKey: `NOTEBOOK_${id}`,
             }));
             return {
                 owner: entity.owner,
                 id: entity.id,
-                name: entity.name
+                name: entity.name,
             };
         }
         catch (err) {

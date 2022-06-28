@@ -3,7 +3,7 @@ export declare type HttpHeaders = {
 };
 export interface HttpRequest {
     headers: HttpHeaders;
-    params: {
+    pathParameters: {
         [key: string]: string;
     };
 }

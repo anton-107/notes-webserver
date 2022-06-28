@@ -62,7 +62,7 @@ export class HomePage {
       ${notebooks
         .map(
           (x) =>
-            `<div><a href='/notebook/${x.id}' data-testid='notebook-name'>${x.name}</a></div>`
+            `<div><a href='${this.properties.baseUrl}/notebook/${x.id}' data-testid='notebook-name'>${x.name}</a></div>`
         )
         .join("")}
       `;

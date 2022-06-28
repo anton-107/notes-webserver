@@ -68,7 +68,7 @@ export const getOneNotebookHandler: HttpRequestHandler = async (
 ): Promise<HttpResponse> => {
   return await new NotebookDetailsPage({
     ...dependenciesConfiguration({}),
-    notebookID: request.params.notebookID,
+    notebookID: request.pathParameters.notebookID,
     authenticationToken: parseCookie(request.headers, "Authentication"),
   }).render();
 };
