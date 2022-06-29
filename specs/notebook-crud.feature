@@ -23,3 +23,4 @@ Feature: Notebooks handling
       When page is loaded
       Then I see 'notebook-name' element
       And it has inner text of 'Health and fitness'
+      And I see 'delete-notebook-button' element

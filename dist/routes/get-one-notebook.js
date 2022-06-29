@@ -35,7 +35,13 @@ class NotebookDetailsPage {
             headers: {
                 "Content-Type": "text/html; charset=utf-8",
             },
-            body: `<h1  data-testid='notebook-name'>${notebook.name}</h1>`,
+            body: `
+        <h1  data-testid='notebook-name'>${notebook.name}</h1>
+        <form method='POST' action='${this.properties.baseUrl}/delete-notebook'>
+          <input type='hidden' name='notebookID' value='${notebook.id}' />
+          <input type='submit' value='Delete this notebook' data-testid='delete-notebook-button' />
+        </form>
+      `,
         };
     }
 }

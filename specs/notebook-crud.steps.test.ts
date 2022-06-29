@@ -50,5 +50,8 @@ defineFeature(feature, (test) => {
     and(/^it has inner text of '(.+)'$/, (innerText) =>
       testScenario.checkInnerText(innerText)
     );
+    and(/^I see '([a-z-]+)' element$/, (selector) =>
+      testScenario.checkElement(selector)
+    );
   });
 });
