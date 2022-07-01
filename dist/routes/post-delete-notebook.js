@@ -21,7 +21,7 @@ class DeleteNotebookAction {
                 body: "Forbidden.",
             };
         }
-        if (!form['notebookID']) {
+        if (!form["notebookID"]) {
             console.error("No notebook id found in request", form);
             return {
                 isBase64Encoded: false,

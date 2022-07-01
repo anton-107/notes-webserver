@@ -36,7 +36,7 @@ describe("Route POST /delete-notebook", () => {
       notebookStore: instance(notebookStoreMock),
     });
     const resp = await h.render({});
-    expect(resp.statusCode).toBe(HttpStatus.FORBIDDEN);
+    expect(resp.statusCode).toBe(HttpStatus.BAD_REQUEST);
   });
   it("should return 5xx if notebook store throws an error", async () => {
     const authenticatorMock = mock<Authenticator>();
