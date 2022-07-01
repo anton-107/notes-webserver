@@ -14,6 +14,13 @@ class InMemoryNotebookStore {
     async getOne(owner, id) {
         return this.items.find((x) => x.owner === owner && x.id === id);
     }
+    async deleteOne(owner, id) {
+        const index = this.items.findIndex((x) => x.owner === owner && x.id === id);
+        if (index < 0) {
+            throw Error("Notebook is not found");
+        }
+        this.items.splice(index, 1);
+    }
 }
 exports.InMemoryNotebookStore = InMemoryNotebookStore;
 //# sourceMappingURL=notebook-store.js.map

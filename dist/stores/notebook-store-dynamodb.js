@@ -86,6 +86,10 @@ class NotebookStoreDynamodb {
             return null;
         }
     }
+    async deleteOne(owner, id) {
+        console.warn("Method is not implemented: deleteOne. Was called with:", owner, id);
+        throw new Error("Method not implemented.");
+    }
 }
 exports.NotebookStoreDynamodb = NotebookStoreDynamodb;
 //# sourceMappingURL=notebook-store-dynamodb.js.map

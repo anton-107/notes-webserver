@@ -8,6 +8,7 @@ export interface NotebookStore {
   add(notebook: Notebook): Promise<void>;
   listAll(owner: string): Promise<Notebook[]>;
   getOne(owner: string, id: string): Promise<Notebook | undefined>;
+  deleteOne(owner: string, id: string): Promise<void>;
 }
 
 export class InMemoryNotebookStore implements NotebookStore {
@@ -21,5 +22,12 @@ export class InMemoryNotebookStore implements NotebookStore {
   }
   public async getOne(owner: string, id: string): Promise<Notebook> {
     return this.items.find((x) => x.owner === owner && x.id === id);
+  }
+  public async deleteOne(owner: string, id: string): Promise<void> {
+    const index = this.items.findIndex((x) => x.owner === owner && x.id === id);
+    if (index < 0) {
+      throw Error("Notebook is not found");
+    }
+    this.items.splice(index, 1);
   }
 }

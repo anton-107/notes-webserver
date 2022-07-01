@@ -82,4 +82,12 @@ export class NotebookStoreDynamodb implements NotebookStore {
       return null;
     }
   }
+  public async deleteOne(owner: string, id: string): Promise<void> {
+    console.warn(
+      "Method is not implemented: deleteOne. Was called with:",
+      owner,
+      id
+    );
+    throw new Error("Method not implemented.");
+  }
 }

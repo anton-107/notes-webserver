@@ -9,6 +9,7 @@ const post_notebook_1 = require("./routes/post-notebook");
 const post_signin_1 = require("./routes/post-signin");
 const post_signout_1 = require("./routes/post-signout");
 const get_one_notebook_1 = require("./routes/get-one-notebook");
+const post_delete_notebook_1 = require("./routes/post-delete-notebook");
 exports.routes = [
     {
         method: "GET",
@@ -51,6 +52,12 @@ exports.routes = [
         path: "/notebook/:notebookID",
         import: (0, path_1.join)(__dirname, "./routes/get-one-notebook"),
         action: get_one_notebook_1.getOneNotebookHandler.name,
+    },
+    {
+        method: "POST",
+        path: "/delete-notebook",
+        import: (0, path_1.join)(__dirname, "./routes/post-delete-notebook"),
+        action: post_delete_notebook_1.deleteOneNotebookHandler.name,
     },
 ];
 //# sourceMappingURL=router.js.map

@@ -1,12 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postNotebookHandler = exports.CreateNotebookAction = void 0;
+exports.deleteOneNotebookHandler = exports.DeleteNotebookAction = void 0;
 const configuration_1 = require("../configuration/configuration");
 const http_1 = require("../http/http");
 const body_parser_1 = require("../http/body-parser");
 const cookie_parser_1 = require("../http/cookie-parser");
-const short_uuid_1 = require("short-uuid");
-class CreateNotebookAction {
+class DeleteNotebookAction {
     constructor(properties) {
         this.properties = properties;
     }
@@ -22,12 +21,29 @@ class CreateNotebookAction {
                 body: "Forbidden.",
             };
         }
-        await this.properties.notebookStore.add({
-            id: (0, short_uuid_1.generate)(),
-            name: form["notebook-name"],
-            owner: user.username,
-        });
+        if (!form['notebookID']) {
+            console.error("No notebook id found in request", form);
+            return {
+                isBase64Encoded: false,
+                statusCode: http_1.HttpStatus.BAD_REQUEST,
+                headers: {},
+                body: "Bad request.",
+            };
+        }
+        try {
+            await this.properties.notebookStore.deleteOne(user.username, form["notebookID"]);
+        }
+        catch (err) {
+            console.log("Could not delete notebook", form, err);
+            return {
+                isBase64Encoded: false,
+                statusCode: http_1.HttpStatus.INTERNAL_SERVER_ERROR,
+                headers: {},
+                body: "Internal server error.",
+            };
+        }
         headers["Location"] = `${this.properties.baseUrl}/home`;
+        console.log("notebook deleted", user.username, form);
         return {
             isBase64Encoded: false,
             statusCode: http_1.HttpStatus.SEE_OTHER,
@@ -36,12 +52,12 @@ class CreateNotebookAction {
         };
     }
 }
-exports.CreateNotebookAction = CreateNotebookAction;
-const postNotebookHandler = async (request) => {
-    return await new CreateNotebookAction({
+exports.DeleteNotebookAction = DeleteNotebookAction;
+const deleteOneNotebookHandler = async (request) => {
+    return await new DeleteNotebookAction({
         authenticationToken: (0, cookie_parser_1.parseCookie)(request.headers, "Authentication"),
         ...(0, configuration_1.dependenciesConfiguration)({}),
     }).render((0, body_parser_1.parseBody)(request));
 };
-exports.postNotebookHandler = postNotebookHandler;
-//# sourceMappingURL=post-notebook.js.map
+exports.deleteOneNotebookHandler = deleteOneNotebookHandler;
+//# sourceMappingURL=post-delete-notebook.js.map

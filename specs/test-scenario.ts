@@ -5,6 +5,8 @@ import { NotesWebserver } from "../src/notes-webserver";
 import { HttpClient, HttpResponse } from "../test/http-client";
 import { routes } from "./../src/router";
 
+type FormData = { [key: string]: string };
+
 export class TestScenario {
   private server: NotesWebserver;
   private currentPage: string; // last url the client loaded
@@ -121,13 +123,17 @@ export class TestScenario {
     const form = this.el.parentNode;
     expect(form.tagName).toBe("FORM");
     expect(form.getAttribute("method")).toBe("post");
+
+    const formData: FormData = {};
+    const formElements = form.querySelectorAll("input");
+    formElements.forEach((x) => {
+      formData[x.getAttribute("name")] = x.getAttribute("value");
+    });
+
     const url = form.getAttribute("action");
-    await this.postFormRequest(url, {});
+    await this.postFormRequest(url, formData);
   }
-  private async postFormRequest(
-    url: string,
-    formData: { [key: string]: string }
-  ) {
+  private async postFormRequest(url: string, formData: FormData) {
     const address = `http://localhost:${this.testPort}${url}`;
     this.response = await this.testClient.postForm(address, formData);
     // convention: every post request ends up with a redirect:
