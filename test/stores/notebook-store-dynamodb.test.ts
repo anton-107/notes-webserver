@@ -97,4 +97,18 @@ describe("NotebookStoreDynamodb", () => {
     const notebook = await store.getOne("user1", "test-notebook");
     expect(notebook.name).toBe("My notebook");
   });
+  it("should should implement deleteOne method (but doesn't yet)", async () => {
+    const dataMapperMock = mock<DataMapper>();
+    when(dataMapperMock.get(anything())).thenResolve({
+      id: "test-notebook",
+      owner: "user1",
+      name: "My notebook",
+    });
+    const store = new NotebookStoreDynamodb({
+      dataMapper: instance(dataMapperMock),
+    });
+    expect(async () => {
+      await store.deleteOne("user1", "test-notebook");
+    }).rejects.toThrow();
+  });
 });

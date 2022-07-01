@@ -60,9 +60,9 @@ export class NotebookDetailsPage {
       },
       body: `
         <h1  data-testid='notebook-name'>${notebook.name}</h1>
-        <form method='POST' action='${this.properties.baseUrl}/delete-notebook'>
+        <form method='post' action='${this.properties.baseUrl}/delete-notebook'>
           <input type='hidden' name='notebookID' value='${notebook.id}' />
-          <input type='submit' value='Delete this notebook' data-testid='delete-notebook-button' />
+          <button type='submit' value='Delete this notebook' data-testid='delete-notebook-button' />
         </form>
       `,
     };

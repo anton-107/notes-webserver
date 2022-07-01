@@ -24,3 +24,7 @@ Feature: Notebooks handling
       Then I see 'notebook-name' element
       And it has inner text of 'Health and fitness'
       And I see 'delete-notebook-button' element
+      When I click on it
+      Then I am navigated to /home page
+      When page is loaded
+      Then I do not see 'notebook-name' element
