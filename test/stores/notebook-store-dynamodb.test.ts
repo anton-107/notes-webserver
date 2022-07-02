@@ -97,18 +97,16 @@ describe("NotebookStoreDynamodb", () => {
     const notebook = await store.getOne("user1", "test-notebook");
     expect(notebook.name).toBe("My notebook");
   });
-  it("should should implement deleteOne method (but doesn't yet)", async () => {
+  it("should should throw an error if dynamodb mapper throws an error on deleting an item", async () => {
     const dataMapperMock = mock<DataMapper>();
-    when(dataMapperMock.get(anything())).thenResolve({
-      id: "test-notebook",
-      owner: "user1",
-      name: "My notebook",
+    when(dataMapperMock.delete(anything())).thenCall(() => {
+      throw Error("this is a test error on delete");
     });
     const store = new NotebookStoreDynamodb({
       dataMapper: instance(dataMapperMock),
     });
     expect(async () => {
       await store.deleteOne("user1", "test-notebook");
-    }).rejects.toThrow();
+    }).rejects.toThrow("this is a test error on delete");
   });
 });

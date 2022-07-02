@@ -6,8 +6,8 @@ import {
 } from "./../src/stores/notebook-store-dynamodb";
 import { generate } from "short-uuid";
 
-const CREATE_TABLE_BEFORE_TESTS = true;
-const DELETE_TABLE_AFTER_TESTS = true;
+const CREATE_TABLE_BEFORE_TESTS = false;
+const DELETE_TABLE_AFTER_TESTS = false;
 
 describe("NotebookStoreDynamodb: development test", () => {
   const mapper = new DataMapper({
@@ -73,5 +73,23 @@ describe("NotebookStoreDynamodb: development test", () => {
     });
     const notebook = await store.getOne(owner, id);
     expect(notebook.name).toBe("Notebook 3");
+  });
+  it("should delete one item", async () => {
+    const store = new NotebookStoreDynamodb({
+      dataMapper: mapper,
+    });
+    const owner = `user3`;
+    const id = generate();
+    await store.add({
+      id,
+      owner,
+      name: "Notebook 4",
+    });
+    let notebook = await store.getOne(owner, id);
+    expect(notebook.name).toBe("Notebook 4");
+
+    await store.deleteOne(owner, id);
+    notebook = await store.getOne(owner, id);
+    expect(notebook).toBe(null);
   });
 });

@@ -83,11 +83,16 @@ export class NotebookStoreDynamodb implements NotebookStore {
     }
   }
   public async deleteOne(owner: string, id: string): Promise<void> {
-    console.warn(
-      "Method is not implemented: deleteOne. Was called with:",
-      owner,
-      id
-    );
-    throw new Error("Method not implemented.");
+    try {
+      await this.properties.dataMapper.delete(
+        Object.assign(new NotebookEntity(), {
+          owner,
+          sortKey: `NOTEBOOK_${id}`,
+        })
+      );
+    } catch (err) {
+      console.error(`Could not delete notebook for ${owner}/${id}`, err);
+      throw err;
+    }
   }
 }
