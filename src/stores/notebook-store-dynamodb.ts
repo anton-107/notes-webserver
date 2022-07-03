@@ -95,4 +95,18 @@ export class NotebookStoreDynamodb implements NotebookStore {
       throw err;
     }
   }
+  public async editOne(notebook: Notebook): Promise<void> {
+    try {
+      await this.properties.dataMapper.update(
+        Object.assign(
+          new NotebookEntity(),
+          { sortKey: `NOTEBOOK_${notebook.id}` },
+          notebook
+        )
+      );
+    } catch (err) {
+      console.error("Could not edit notebook", notebook, err);
+      throw err;
+    }
+  }
 }

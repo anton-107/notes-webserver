@@ -14,6 +14,14 @@ class InMemoryNotebookStore {
     async getOne(owner, id) {
         return this.items.find((x) => x.owner === owner && x.id === id);
     }
+    async editOne(notebook) {
+        const item = this.items.find((x) => x.owner === notebook.owner && x.id === notebook.id);
+        if (!item) {
+            console.error("Notebook is not found for edit", notebook);
+            throw Error("Notebook is not found");
+        }
+        item.name = notebook.name;
+    }
     async deleteOne(owner, id) {
         const index = this.items.findIndex((x) => x.owner === owner && x.id === id);
         if (index < 0) {

@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOneNotebookHandler = exports.NotebookDetailsPage = void 0;
+exports.getEditNotebookHandler = exports.NotebookEditPage = void 0;
 const configuration_1 = require("../configuration/configuration");
 const cookie_parser_1 = require("../http/cookie-parser");
 const http_1 = require("../http/http");
-class NotebookDetailsPage {
+class NotebookEditPage {
     constructor(properties) {
         this.properties = properties;
     }
@@ -37,22 +37,23 @@ class NotebookDetailsPage {
             },
             body: `
         <h1 data-testid='notebook-name'>${notebook.name}</h1>
-        <a href='${this.properties.baseUrl}/notebook/${notebook.id}/edit' data-testid='edit-notebook-link'>Edit this notebook</a>
-        <form method='post' action='${this.properties.baseUrl}/delete-notebook'>
-          <input type='hidden' name='notebookID' value='${notebook.id}' />
-          <button type='submit' data-testid='delete-notebook-button'>Delete this notebook</button>
+        <form method='post' action='${this.properties.baseUrl}/notebook/${notebook.id}/edit'>
+          <input type='hidden' name='notebook-id' value='${notebook.id}' />
+          <input type='text' name='notebook-name' value='${notebook.name}' data-testid='notebook-name-input' />
+          <button type='submit' data-testid='edit-notebook-button'>Update</button>
         </form>
+        <a href='${this.properties.baseUrl}/notebook/${notebook.id}'>Cancel edit</a>
       `,
         };
     }
 }
-exports.NotebookDetailsPage = NotebookDetailsPage;
-const getOneNotebookHandler = async (request) => {
-    return await new NotebookDetailsPage({
+exports.NotebookEditPage = NotebookEditPage;
+const getEditNotebookHandler = async (request) => {
+    return await new NotebookEditPage({
         ...(0, configuration_1.dependenciesConfiguration)({}),
         notebookID: request.pathParameters.notebookID,
         authenticationToken: (0, cookie_parser_1.parseCookie)(request.headers, "Authentication"),
     }).render();
 };
-exports.getOneNotebookHandler = getOneNotebookHandler;
-//# sourceMappingURL=get-one-notebook.js.map
+exports.getEditNotebookHandler = getEditNotebookHandler;
+//# sourceMappingURL=get-edit-notebook.js.map

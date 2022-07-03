@@ -16,5 +16,6 @@ export declare class NotebookStoreDynamodb implements NotebookStore {
     listAll(owner: string): Promise<Notebook[]>;
     getOne(owner: string, id: string): Promise<Notebook | null>;
     deleteOne(owner: string, id: string): Promise<void>;
+    editOne(notebook: Notebook): Promise<void>;
 }
 export {};

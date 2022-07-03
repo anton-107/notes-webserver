@@ -92,6 +92,7 @@ export class TestScenario {
     const inputName = this.el.getAttribute("name");
     expect(inputName).toBeTruthy();
     this.form[inputName] = value;
+    this.el.setAttribute("value", value);
   };
   public async submitForm() {
     const forms = this.pageRoot.querySelectorAll("form");
@@ -104,6 +105,13 @@ export class TestScenario {
     if (formMethod !== "post") {
       throw "only post form method is implemented in this step definition";
     }
+
+    // serialize form elements:
+    const formElements = formEl.querySelectorAll("input");
+    formElements.forEach((x) => {
+      this.form[x.getAttribute("name")] = x.getAttribute("value");
+    });
+
     await this.postFormRequest(formAction, this.form);
   }
   public checkInnerText(innerText: string) {

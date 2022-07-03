@@ -15,6 +15,8 @@ describe("NotebookStoreDynamodb: development test", () => {
     tableNamePrefix: "dev_",
   });
 
+  let notebookID = "";
+
   beforeAll(async function () {
     if (!CREATE_TABLE_BEFORE_TESTS) {
       console.log("Skipping creating the test table");
@@ -56,7 +58,8 @@ describe("NotebookStoreDynamodb: development test", () => {
     });
 
     const notebooks = await store.listAll(username);
-    expect(notebooks.length).toBe(2);
+    expect(notebooks.length).toBeGreaterThan(1);
+    notebooks.sort((a, b) => a.name.localeCompare(b.name));
     expect(notebooks[0].name).toBe("Notebook 1");
     expect(notebooks[1].name).toBe("Notebook 2");
   });
@@ -65,14 +68,27 @@ describe("NotebookStoreDynamodb: development test", () => {
       dataMapper: mapper,
     });
     const owner = `user2`;
-    const id = generate();
+    notebookID = generate();
     await store.add({
-      id,
+      id: notebookID,
       owner,
       name: "Notebook 3",
     });
-    const notebook = await store.getOne(owner, id);
+    const notebook = await store.getOne(owner, notebookID);
     expect(notebook.name).toBe("Notebook 3");
+  });
+  it("should edit one item", async () => {
+    const store = new NotebookStoreDynamodb({
+      dataMapper: mapper,
+    });
+    const owner = `user2`;
+    await store.editOne({
+      id: notebookID,
+      owner,
+      name: "Notebook 3 (edited)",
+    });
+    const notebook = await store.getOne(owner, notebookID);
+    expect(notebook.name).toBe("Notebook 3 (edited)");
   });
   it("should delete one item", async () => {
     const store = new NotebookStoreDynamodb({

@@ -98,6 +98,15 @@ class NotebookStoreDynamodb {
             throw err;
         }
     }
+    async editOne(notebook) {
+        try {
+            await this.properties.dataMapper.update(Object.assign(new NotebookEntity(), { sortKey: `NOTEBOOK_${notebook.id}` }, notebook));
+        }
+        catch (err) {
+            console.error("Could not edit notebook", notebook, err);
+            throw err;
+        }
+    }
 }
 exports.NotebookStoreDynamodb = NotebookStoreDynamodb;
 //# sourceMappingURL=notebook-store-dynamodb.js.map
