@@ -109,4 +109,20 @@ describe("NotebookStoreDynamodb", () => {
       await store.deleteOne("user1", "test-notebook");
     }).rejects.toThrow("this is a test error on delete");
   });
+  it("should should throw an error if dynamodb mapper throws an error on editing an item", async () => {
+    const dataMapperMock = mock<DataMapper>();
+    when(dataMapperMock.update(anything())).thenCall(() => {
+      throw Error("this is a test error on edit");
+    });
+    const store = new NotebookStoreDynamodb({
+      dataMapper: instance(dataMapperMock),
+    });
+    expect(async () => {
+      await store.editOne({
+        owner: "user1",
+        name: "test-notebook",
+        id: "test-notebook-id",
+      });
+    }).rejects.toThrow("this is a test error on edit");
+  });
 });

@@ -23,6 +23,23 @@ Feature: Notebooks handling
       When page is loaded
       Then I see 'notebook-name' element
       And it has inner text of 'Health and fitness'
+      And I see 'edit-notebook-link' element
+      When I click on it
+      Then I am navigated to /notebook/{notebook-id}/edit page
+      When page is loaded
+      Then I see 'notebook-name-input' element
+      And I focus on it and clear its value
+      And I focus on it and type 'Health, fitness and diet'
+      And I press 'Enter' on keyboard
+      Then I am navigated to /home page
+      When page is loaded
+      Then I see 'notebook-name' element
+      And it has inner text of 'Health, fitness and diet'
+      When I click on it
+      Then I am navigated to /notebook/{notebook-id} page
+      When page is loaded
+      Then I see 'notebook-name' element
+      And it has inner text of 'Health, fitness and diet'
       And I see 'delete-notebook-button' element
       When I click on it
       Then I am navigated to /home page

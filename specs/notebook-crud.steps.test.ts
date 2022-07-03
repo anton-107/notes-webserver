@@ -50,6 +50,47 @@ defineFeature(feature, (test) => {
     and(/^it has inner text of '(.+)'$/, (innerText) =>
       testScenario.checkInnerText(innerText)
     );
+
+    and(/^I see '([a-z-]+)' element$/, (selector) =>
+      testScenario.checkElement(selector)
+    );
+    when("I click on it", () => testScenario.handleClick());
+    then(/^I am navigated to \/([a-z-{}/]+) page$/, (url) =>
+      testScenario.checkCurrentPage(url)
+    );
+    when("page is loaded", () => testScenario.processNewPage());
+    then(/^I see '([a-z-]+)' element$/, (selector) =>
+      testScenario.checkElement(selector)
+    );
+    and("i focus on it and clear its value", () => {
+      testScenario.setInputValue("");
+    });
+    and(/^I focus on it and type '([A-z0-9 ,]+)'$/, (value) =>
+      testScenario.setInputValue(value)
+    );
+    and(/^I press 'Enter' on keyboard$/, () => testScenario.submitForm());
+    then(/^I am navigated to \/([a-z-]+) page$/, (url) =>
+      testScenario.checkCurrentPage(url)
+    );
+    when("page is loaded", () => testScenario.processNewPage());
+    then(/^I see '([a-z-]+)' element$/, (selector) =>
+      testScenario.checkElement(selector)
+    );
+    and(/^it has inner text of '(.+)'$/, (innerText) =>
+      testScenario.checkInnerText(innerText)
+    );
+    when("I click on it", () => testScenario.handleClick());
+    then(/^I am navigated to \/([a-z-{}/]+) page$/, (url) =>
+      testScenario.checkCurrentPage(url)
+    );
+    when("page is loaded", () => testScenario.processNewPage());
+    then(/^I see '([a-z-]+)' element$/, (selector) =>
+      testScenario.checkElement(selector)
+    );
+    and(/^it has inner text of '(.+)'$/, (innerText) =>
+      testScenario.checkInnerText(innerText)
+    );
+
     and(/^I see '([a-z-]+)' element$/, (selector) =>
       testScenario.checkElement(selector)
     );

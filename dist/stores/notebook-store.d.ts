@@ -7,6 +7,7 @@ export interface NotebookStore {
     add(notebook: Notebook): Promise<void>;
     listAll(owner: string): Promise<Notebook[]>;
     getOne(owner: string, id: string): Promise<Notebook | undefined>;
+    editOne(notebook: Notebook): Promise<void>;
     deleteOne(owner: string, id: string): Promise<void>;
 }
 export declare class InMemoryNotebookStore implements NotebookStore {
@@ -14,5 +15,6 @@ export declare class InMemoryNotebookStore implements NotebookStore {
     add(notebook: Notebook): Promise<void>;
     listAll(owner: string): Promise<Notebook[]>;
     getOne(owner: string, id: string): Promise<Notebook>;
+    editOne(notebook: Notebook): Promise<void>;
     deleteOne(owner: string, id: string): Promise<void>;
 }

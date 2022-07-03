@@ -9,7 +9,7 @@ import {
 } from "../http/http";
 import { NotebookStore } from "../stores/notebook-store";
 
-interface NotebookDetailsPageProperties {
+interface NotebookEditPageProperties {
   authenticationToken: string;
   authenticator: Authenticator;
   notebookStore: NotebookStore;
@@ -17,8 +17,8 @@ interface NotebookDetailsPageProperties {
   baseUrl: string;
 }
 
-export class NotebookDetailsPage {
-  constructor(private properties: NotebookDetailsPageProperties) {}
+export class NotebookEditPage {
+  constructor(private properties: NotebookEditPageProperties) {}
   public async render(): Promise<HttpResponse> {
     const user = await this.properties.authenticator.authenticate(
       this.properties.authenticationToken
@@ -60,20 +60,21 @@ export class NotebookDetailsPage {
       },
       body: `
         <h1 data-testid='notebook-name'>${notebook.name}</h1>
-        <a href='${this.properties.baseUrl}/notebook/${notebook.id}/edit' data-testid='edit-notebook-link'>Edit this notebook</a>
-        <form method='post' action='${this.properties.baseUrl}/delete-notebook'>
-          <input type='hidden' name='notebookID' value='${notebook.id}' />
-          <button type='submit' data-testid='delete-notebook-button'>Delete this notebook</button>
+        <form method='post' action='${this.properties.baseUrl}/notebook/${notebook.id}/edit'>
+          <input type='hidden' name='notebook-id' value='${notebook.id}' />
+          <input type='text' name='notebook-name' value='${notebook.name}' data-testid='notebook-name-input' />
+          <button type='submit' data-testid='edit-notebook-button'>Update</button>
         </form>
+        <a href='${this.properties.baseUrl}/notebook/${notebook.id}'>Cancel edit</a>
       `,
     };
   }
 }
 
-export const getOneNotebookHandler: HttpRequestHandler = async (
+export const getEditNotebookHandler: HttpRequestHandler = async (
   request: HttpRequest
 ): Promise<HttpResponse> => {
-  return await new NotebookDetailsPage({
+  return await new NotebookEditPage({
     ...dependenciesConfiguration({}),
     notebookID: request.pathParameters.notebookID,
     authenticationToken: parseCookie(request.headers, "Authentication"),
