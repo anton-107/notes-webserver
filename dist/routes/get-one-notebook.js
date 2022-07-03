@@ -39,7 +39,7 @@ class NotebookDetailsPage {
         <h1  data-testid='notebook-name'>${notebook.name}</h1>
         <form method='post' action='${this.properties.baseUrl}/delete-notebook'>
           <input type='hidden' name='notebookID' value='${notebook.id}' />
-          <button type='submit' value='Delete this notebook' data-testid='delete-notebook-button' />
+          <button type='submit' data-testid='delete-notebook-button'>Delete this notebook</button>
         </form>
       `,
         };
