@@ -1,4 +1,4 @@
-import { NotebookDetailsPage } from "./../../src/routes/get-one-notebook";
+import { NotebookDetailsPage } from "./../../src/routes/notebook/get-one-notebook";
 import { anything, instance, mock, when } from "ts-mockito";
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { NotebookStore } from "../../src/stores/notebook-store";

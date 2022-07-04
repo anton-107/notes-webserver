@@ -1,4 +1,4 @@
-import { EditNotebookAction } from "../../src/routes/post-edit-notebook";
+import { EditNotebookAction } from "../../src/routes/notebook/post-edit-notebook";
 import { anything, instance, mock, when } from "ts-mockito";
 import { Authenticator } from "authentication-module/dist/authenticator";
 import {

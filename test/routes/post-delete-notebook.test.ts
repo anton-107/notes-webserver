@@ -1,4 +1,4 @@
-import { DeleteNotebookAction } from "./../../src/routes/post-delete-notebook";
+import { DeleteNotebookAction } from "./../../src/routes/notebook/post-delete-notebook";
 import { anything, instance, mock, when } from "ts-mockito";
 import { Authenticator } from "authentication-module/dist/authenticator";
 import {

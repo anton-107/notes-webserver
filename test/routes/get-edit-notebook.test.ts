@@ -1,4 +1,4 @@
-import { NotebookEditPage } from "../../src/routes/get-edit-notebook";
+import { NotebookEditPage } from "../../src/routes/notebook/get-edit-notebook";
 import { anything, instance, mock, when } from "ts-mockito";
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { NotebookStore } from "../../src/stores/notebook-store";
