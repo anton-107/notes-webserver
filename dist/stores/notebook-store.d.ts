@@ -1,12 +1,12 @@
+import { EntityStore } from "./entity-store";
 export interface Notebook {
     id: string;
     name: string;
     owner: string;
 }
-export interface NotebookStore {
+export interface NotebookStore extends EntityStore<Notebook> {
     add(notebook: Notebook): Promise<void>;
     listAll(owner: string): Promise<Notebook[]>;
-    getOne(owner: string, id: string): Promise<Notebook | undefined>;
     editOne(notebook: Notebook): Promise<void>;
     deleteOne(owner: string, id: string): Promise<void>;
 }
