@@ -24,19 +24,6 @@ class NotebookHtmlView {
       `,
         };
     }
-    renderCreationFormOneEntity() {
-        return {
-            isBase64Encoded: false,
-            statusCode: http_1.HttpStatus.OK,
-            headers: {
-                "Content-Type": "text/html; charset=utf-8",
-            },
-            body: `<form method='post' action='${this.properties.baseUrl}/notebook'>
-        <input name='notebook-name' data-testid='notebook-name-input' />
-        <input type='submit' />
-      </form>`,
-        };
-    }
 }
 exports.NotebookHtmlView = NotebookHtmlView;
 //# sourceMappingURL=notebook-html-view.js.map

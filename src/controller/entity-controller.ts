@@ -4,7 +4,6 @@ import { EntityStore } from "../stores/entity-store";
 
 export interface EntityView<T> {
   renderEditingFormOneEntity(entity: T): HttpResponse;
-  renderCreationFormOneEntity(): HttpResponse;
 }
 
 export interface EntityControllerProperties<T> {
@@ -54,9 +53,7 @@ export abstract class EntityController<T> {
 
     return this.properties.entityView.renderEditingFormOneEntity(entity);
   }
-  public async showCreateNewEntityPage(): Promise<HttpResponse> {
-    return this.properties.entityView.renderCreationFormOneEntity();
-  }
+  // public async showCreateNewEntityPage() {}
   // public async showSingleEntityDetailsPage() {}
   // public async showEntityListPage() {}
   // public async performCreateSingleEntityAction() {}

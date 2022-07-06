@@ -3,7 +3,6 @@ import { HttpResponse } from "../http/http";
 import { EntityStore } from "../stores/entity-store";
 export interface EntityView<T> {
     renderEditingFormOneEntity(entity: T): HttpResponse;
-    renderCreationFormOneEntity(): HttpResponse;
 }
 export interface EntityControllerProperties<T> {
     authenticationToken: string;
@@ -16,5 +15,4 @@ export declare abstract class EntityController<T> {
     constructor(properties: EntityControllerProperties<T>);
     protected abstract getEntityName(): string;
     showEditSingleEntityPage(entityID: string): Promise<HttpResponse>;
-    showCreateNewEntityPage(): Promise<HttpResponse>;
 }

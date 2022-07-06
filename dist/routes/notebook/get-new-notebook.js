@@ -1,19 +1,31 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNewNotebookHandler = void 0;
+exports.getNewNotebookHandler = exports.NewNotebookPage = void 0;
 const configuration_1 = require("../../configuration/configuration");
-const notebook_controller_1 = require("../../controller/notebook/notebook-controller");
-const cookie_parser_1 = require("../../http/cookie-parser");
-const notebook_html_view_1 = require("../../views/notebook/notebook-html-view");
-const getNewNotebookHandler = async (request) => {
-    const configuration = (0, configuration_1.dependenciesConfiguration)({});
-    const properties = {
-        ...configuration,
-        authenticationToken: (0, cookie_parser_1.parseCookie)(request.headers, "Authentication"),
-        entityView: new notebook_html_view_1.NotebookHtmlView({ ...configuration }),
-        entityStore: configuration.notebookStore,
-    };
-    return await new notebook_controller_1.NotebookController(properties).showCreateNewEntityPage();
+const http_1 = require("../../http/http");
+class NewNotebookPage {
+    constructor(properties) {
+        this.properties = properties;
+    }
+    async render() {
+        return {
+            isBase64Encoded: false,
+            statusCode: http_1.HttpStatus.OK,
+            headers: {
+                "Content-Type": "text/html; charset=utf-8",
+            },
+            body: `<form method='post' action='${this.properties.baseUrl}/notebook'>
+        <input name='notebook-name' data-testid='notebook-name-input' />
+        <input type='submit' />
+      </form>`,
+        };
+    }
+}
+exports.NewNotebookPage = NewNotebookPage;
+const getNewNotebookHandler = async () => {
+    return await new NewNotebookPage({
+        ...(0, configuration_1.dependenciesConfiguration)({}),
+    }).render();
 };
 exports.getNewNotebookHandler = getNewNotebookHandler;
 //# sourceMappingURL=get-new-notebook.js.map

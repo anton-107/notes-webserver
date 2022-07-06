@@ -29,9 +29,6 @@ class EntityController {
         }
         return this.properties.entityView.renderEditingFormOneEntity(entity);
     }
-    async showCreateNewEntityPage() {
-        return this.properties.entityView.renderCreationFormOneEntity();
-    }
 }
 exports.EntityController = EntityController;
 //# sourceMappingURL=entity-controller.js.map
