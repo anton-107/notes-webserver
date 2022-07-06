@@ -1,30 +1,21 @@
 import { dependenciesConfiguration } from "../../configuration/configuration";
-import { HttpResponse, HttpStatus, HttpRequestHandler } from "../../http/http";
+import { HttpResponse, HttpRequestHandler, HttpRequest } from "../../http/http";
+import { NotebookController } from "../../controller/notebook/notebook-controller";
+import { EntityControllerProperties } from "../../controller/entity-controller";
+import { Notebook } from "../../stores/notebook-store";
+import { parseCookie } from "../../http/cookie-parser";
+import { NotebookHtmlView } from "../../views/notebook/notebook-html-view";
 
-interface NewNotebookPageProperties {
-  baseUrl: string;
-}
-
-export class NewNotebookPage {
-  constructor(private properties: NewNotebookPageProperties) {}
-  public async render(): Promise<HttpResponse> {
-    return {
-      isBase64Encoded: false,
-      statusCode: HttpStatus.OK,
-      headers: {
-        "Content-Type": "text/html; charset=utf-8",
-      },
-      body: `<form method='post' action='${this.properties.baseUrl}/notebook'>
-        <input name='notebook-name' data-testid='notebook-name-input' />
-        <input type='submit' />
-      </form>`,
-    };
-  }
-}
-
-export const getNewNotebookHandler: HttpRequestHandler =
-  async (): Promise<HttpResponse> => {
-    return await new NewNotebookPage({
-      ...dependenciesConfiguration({}),
-    }).render();
+export const getNewNotebookHandler: HttpRequestHandler = async (
+  request: HttpRequest
+): Promise<HttpResponse> => {
+  const configuration = dependenciesConfiguration({});
+  const properties: EntityControllerProperties<Notebook> = {
+    ...configuration,
+    authenticationToken: parseCookie(request.headers, "Authentication"),
+    entityView: new NotebookHtmlView({ ...configuration }),
+    entityStore: configuration.notebookStore,
   };
+
+  return await new NotebookController(properties).showCreateNewEntityPage();
+};

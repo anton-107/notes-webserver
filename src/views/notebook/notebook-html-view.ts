@@ -26,4 +26,17 @@ export class NotebookHtmlView implements EntityView<Notebook> {
       `,
     };
   }
+  public renderCreationFormOneEntity(): HttpResponse {
+    return {
+      isBase64Encoded: false,
+      statusCode: HttpStatus.OK,
+      headers: {
+        "Content-Type": "text/html; charset=utf-8",
+      },
+      body: `<form method='post' action='${this.properties.baseUrl}/notebook'>
+        <input name='notebook-name' data-testid='notebook-name-input' />
+        <input type='submit' />
+      </form>`,
+    };
+  }
 }
