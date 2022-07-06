@@ -1,11 +1,2 @@
-import { HttpResponse, HttpRequestHandler } from "../../http/http";
-interface NewNotebookPageProperties {
-    baseUrl: string;
-}
-export declare class NewNotebookPage {
-    private properties;
-    constructor(properties: NewNotebookPageProperties);
-    render(): Promise<HttpResponse>;
-}
+import { HttpRequestHandler } from "../../http/http";
 export declare const getNewNotebookHandler: HttpRequestHandler;
-export {};
