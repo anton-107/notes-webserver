@@ -37,6 +37,23 @@ class NotebookHtmlView {
       </form>`,
         };
     }
+    renderDetailsPageOneEntity(notebook) {
+        return {
+            isBase64Encoded: false,
+            statusCode: http_1.HttpStatus.OK,
+            headers: {
+                "Content-Type": "text/html; charset=utf-8",
+            },
+            body: `
+        <h1 data-testid='notebook-name'>${notebook.name}</h1>
+        <a href='${this.properties.baseUrl}/notebook/${notebook.id}/edit' data-testid='edit-notebook-link'>Edit this notebook</a>
+        <form method='post' action='${this.properties.baseUrl}/delete-notebook'>
+          <input type='hidden' name='notebookID' value='${notebook.id}' />
+          <button type='submit' data-testid='delete-notebook-button'>Delete this notebook</button>
+        </form>
+      `,
+        };
+    }
 }
 exports.NotebookHtmlView = NotebookHtmlView;
 //# sourceMappingURL=notebook-html-view.js.map

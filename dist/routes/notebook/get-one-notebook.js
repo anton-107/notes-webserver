@@ -1,58 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOneNotebookHandler = exports.NotebookDetailsPage = void 0;
+exports.getOneNotebookHandler = void 0;
 const configuration_1 = require("../../configuration/configuration");
+const notebook_controller_1 = require("../../controller/notebook/notebook-controller");
 const cookie_parser_1 = require("../../http/cookie-parser");
-const http_1 = require("../../http/http");
-class NotebookDetailsPage {
-    constructor(properties) {
-        this.properties = properties;
-    }
-    async render() {
-        const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);
-        if (!user.isAuthenticated) {
-            console.error("User is not authenticated", user);
-            return {
-                isBase64Encoded: false,
-                statusCode: http_1.HttpStatus.FORBIDDEN,
-                headers: {},
-                body: "Forbidden.",
-            };
-        }
-        const notebook = await this.properties.notebookStore.getOne(user.username, this.properties.notebookID);
-        if (!notebook) {
-            console.error("Notebook is not found for user ", user.username, this.properties.notebookID);
-            return {
-                isBase64Encoded: false,
-                statusCode: http_1.HttpStatus.NOT_FOUND,
-                headers: {},
-                body: "Not found.",
-            };
-        }
-        return {
-            isBase64Encoded: false,
-            statusCode: http_1.HttpStatus.OK,
-            headers: {
-                "Content-Type": "text/html; charset=utf-8",
-            },
-            body: `
-        <h1 data-testid='notebook-name'>${notebook.name}</h1>
-        <a href='${this.properties.baseUrl}/notebook/${notebook.id}/edit' data-testid='edit-notebook-link'>Edit this notebook</a>
-        <form method='post' action='${this.properties.baseUrl}/delete-notebook'>
-          <input type='hidden' name='notebookID' value='${notebook.id}' />
-          <button type='submit' data-testid='delete-notebook-button'>Delete this notebook</button>
-        </form>
-      `,
-        };
-    }
-}
-exports.NotebookDetailsPage = NotebookDetailsPage;
+const notebook_html_view_1 = require("../../views/notebook/notebook-html-view");
 const getOneNotebookHandler = async (request) => {
-    return await new NotebookDetailsPage({
-        ...(0, configuration_1.dependenciesConfiguration)({}),
-        notebookID: request.pathParameters.notebookID,
+    const configuration = (0, configuration_1.dependenciesConfiguration)({});
+    const properties = {
+        ...configuration,
         authenticationToken: (0, cookie_parser_1.parseCookie)(request.headers, "Authentication"),
-    }).render();
+        entityView: new notebook_html_view_1.NotebookHtmlView({ ...configuration }),
+        entityStore: configuration.notebookStore,
+    };
+    return await new notebook_controller_1.NotebookController(properties).showSingleEntityDetailsPage(request.pathParameters.notebookID);
 };
 exports.getOneNotebookHandler = getOneNotebookHandler;
 //# sourceMappingURL=get-one-notebook.js.map

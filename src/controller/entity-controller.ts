@@ -5,6 +5,7 @@ import { EntityStore } from "../stores/entity-store";
 export interface EntityView<T> {
   renderEditingFormOneEntity(entity: T): HttpResponse;
   renderCreationFormOneEntity(): HttpResponse;
+  renderDetailsPageOneEntity(entity: T): HttpResponse;
 }
 
 export interface EntityControllerProperties<T> {
@@ -57,7 +58,42 @@ export abstract class EntityController<T> {
   public async showCreateNewEntityPage(): Promise<HttpResponse> {
     return this.properties.entityView.renderCreationFormOneEntity();
   }
-  // public async showSingleEntityDetailsPage() {}
+  public async showSingleEntityDetailsPage(
+    entityID: string
+  ): Promise<HttpResponse> {
+    const user = await this.properties.authenticator.authenticate(
+      this.properties.authenticationToken
+    );
+
+    if (!user.isAuthenticated) {
+      console.error("User is not authenticated", user);
+      return {
+        isBase64Encoded: false,
+        statusCode: HttpStatus.FORBIDDEN,
+        headers: {},
+        body: "Forbidden.",
+      };
+    }
+
+    const entity = await this.properties.entityStore.getOne(
+      user.username,
+      entityID
+    );
+    if (!entity) {
+      console.error(
+        `${this.getEntityName()} is not found for user `,
+        user.username,
+        entityID
+      );
+      return {
+        isBase64Encoded: false,
+        statusCode: HttpStatus.NOT_FOUND,
+        headers: {},
+        body: "Not found.",
+      };
+    }
+    return this.properties.entityView.renderDetailsPageOneEntity(entity);
+  }
   // public async showEntityListPage() {}
   // public async performCreateSingleEntityAction() {}
   // public async performUpdateSingleEntityAction() {}

@@ -32,6 +32,29 @@ class EntityController {
     async showCreateNewEntityPage() {
         return this.properties.entityView.renderCreationFormOneEntity();
     }
+    async showSingleEntityDetailsPage(entityID) {
+        const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);
+        if (!user.isAuthenticated) {
+            console.error("User is not authenticated", user);
+            return {
+                isBase64Encoded: false,
+                statusCode: http_1.HttpStatus.FORBIDDEN,
+                headers: {},
+                body: "Forbidden.",
+            };
+        }
+        const entity = await this.properties.entityStore.getOne(user.username, entityID);
+        if (!entity) {
+            console.error(`${this.getEntityName()} is not found for user `, user.username, entityID);
+            return {
+                isBase64Encoded: false,
+                statusCode: http_1.HttpStatus.NOT_FOUND,
+                headers: {},
+                body: "Not found.",
+            };
+        }
+        return this.properties.entityView.renderDetailsPageOneEntity(entity);
+    }
 }
 exports.EntityController = EntityController;
 //# sourceMappingURL=entity-controller.js.map

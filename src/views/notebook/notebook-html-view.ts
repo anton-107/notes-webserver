@@ -39,4 +39,21 @@ export class NotebookHtmlView implements EntityView<Notebook> {
       </form>`,
     };
   }
+  public renderDetailsPageOneEntity(notebook: Notebook): HttpResponse {
+    return {
+      isBase64Encoded: false,
+      statusCode: HttpStatus.OK,
+      headers: {
+        "Content-Type": "text/html; charset=utf-8",
+      },
+      body: `
+        <h1 data-testid='notebook-name'>${notebook.name}</h1>
+        <a href='${this.properties.baseUrl}/notebook/${notebook.id}/edit' data-testid='edit-notebook-link'>Edit this notebook</a>
+        <form method='post' action='${this.properties.baseUrl}/delete-notebook'>
+          <input type='hidden' name='notebookID' value='${notebook.id}' />
+          <button type='submit' data-testid='delete-notebook-button'>Delete this notebook</button>
+        </form>
+      `,
+    };
+  }
 }

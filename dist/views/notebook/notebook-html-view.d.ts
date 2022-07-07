@@ -9,4 +9,5 @@ export declare class NotebookHtmlView implements EntityView<Notebook> {
     constructor(properties: HtmlViewProperties);
     renderEditingFormOneEntity(notebook: Notebook): HttpResponse;
     renderCreationFormOneEntity(): HttpResponse;
+    renderDetailsPageOneEntity(notebook: Notebook): HttpResponse;
 }

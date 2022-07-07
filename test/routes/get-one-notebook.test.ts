@@ -1,8 +1,9 @@
-import { NotebookDetailsPage } from "./../../src/routes/notebook/get-one-notebook";
 import { anything, instance, mock, when } from "ts-mockito";
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { NotebookStore } from "../../src/stores/notebook-store";
 import { HttpStatus } from "../../src/http/http";
+import { NotebookController } from "../../src/controller/notebook/notebook-controller";
+import { NotebookHtmlView } from "../../src/views/notebook/notebook-html-view";
 
 describe("Route GET /notebook/:notebookID", () => {
   it("should return forbidden if user is not authenticated", async () => {
@@ -11,14 +12,13 @@ describe("Route GET /notebook/:notebookID", () => {
       isAuthenticated: false,
     });
     const notebookStoreMock = mock<NotebookStore>();
-    const h = new NotebookDetailsPage({
+    const h = new NotebookController({
       authenticationToken: "",
-      notebookID: "",
-      baseUrl: "",
+      entityView: new NotebookHtmlView({ baseUrl: "" }),
       authenticator: instance(authenticatorMock),
-      notebookStore: instance(notebookStoreMock),
+      entityStore: instance(notebookStoreMock),
     });
-    const resp = await h.render();
+    const resp = await h.showSingleEntityDetailsPage("");
     expect(resp.statusCode).toBe(HttpStatus.FORBIDDEN);
   });
   it("should return not found if user does not own the requested notebook", async () => {
@@ -31,14 +31,13 @@ describe("Route GET /notebook/:notebookID", () => {
     when(notebookStoreMock.getOne("testuser1", "user2-notebook")).thenResolve(
       undefined
     );
-    const h = new NotebookDetailsPage({
+    const h = new NotebookController({
       authenticationToken: "user1-token",
-      notebookID: "user2-notebook",
-      baseUrl: "",
+      entityView: new NotebookHtmlView({ baseUrl: "" }),
       authenticator: instance(authenticatorMock),
-      notebookStore: instance(notebookStoreMock),
+      entityStore: instance(notebookStoreMock),
     });
-    const resp = await h.render();
+    const resp = await h.showSingleEntityDetailsPage("user2-notebook");
     expect(resp.statusCode).toBe(HttpStatus.NOT_FOUND);
   });
 });
