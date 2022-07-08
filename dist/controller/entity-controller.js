@@ -55,6 +55,41 @@ class EntityController {
         }
         return this.properties.entityView.renderDetailsPageOneEntity(entity);
     }
+    async performDeleteSingleEntityAction(entityID) {
+        const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);
+        if (!user.isAuthenticated) {
+            console.error("User is not authenticated", user);
+            return {
+                isBase64Encoded: false,
+                statusCode: http_1.HttpStatus.FORBIDDEN,
+                headers: {},
+                body: "Forbidden.",
+            };
+        }
+        if (!entityID) {
+            console.error(`No ${this.getEntityName()} id found in request`, entityID);
+            return {
+                isBase64Encoded: false,
+                statusCode: http_1.HttpStatus.BAD_REQUEST,
+                headers: {},
+                body: "Bad request.",
+            };
+        }
+        try {
+            await this.properties.entityStore.deleteOne(user.username, entityID);
+        }
+        catch (err) {
+            console.log(`Could not delete ${this.getEntityName()}`, entityID, err);
+            return {
+                isBase64Encoded: false,
+                statusCode: http_1.HttpStatus.INTERNAL_SERVER_ERROR,
+                headers: {},
+                body: "Internal server error.",
+            };
+        }
+        console.log(`${this.getEntityName()} deleted`, user.username, entityID);
+        return this.properties.httpRedirectView.showRedirect("/home");
+    }
 }
 exports.EntityController = EntityController;
 //# sourceMappingURL=entity-controller.js.map

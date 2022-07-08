@@ -5,6 +5,7 @@ import { EntityControllerProperties } from "../../controller/entity-controller";
 import { Notebook } from "../../stores/notebook-store";
 import { parseCookie } from "../../http/cookie-parser";
 import { NotebookHtmlView } from "../../views/notebook/notebook-html-view";
+import { HttpRedirectView } from "../../views/http-redirect-view";
 
 export const getNewNotebookHandler: HttpRequestHandler = async (
   request: HttpRequest
@@ -14,6 +15,7 @@ export const getNewNotebookHandler: HttpRequestHandler = async (
     ...configuration,
     authenticationToken: parseCookie(request.headers, "Authentication"),
     entityView: new NotebookHtmlView({ ...configuration }),
+    httpRedirectView: new HttpRedirectView({ ...configuration }),
     entityStore: configuration.notebookStore,
   };
 

@@ -1,6 +1,7 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { HttpResponse, HttpStatus } from "../http/http";
 import { EntityStore } from "../stores/entity-store";
+import { HttpRedirectView } from "../views/http-redirect-view";
 
 export interface EntityView<T> {
   renderEditingFormOneEntity(entity: T): HttpResponse;
@@ -13,6 +14,7 @@ export interface EntityControllerProperties<T> {
   authenticator: Authenticator;
   entityStore: EntityStore<T>;
   entityView: EntityView<T>;
+  httpRedirectView: HttpRedirectView;
 }
 
 export abstract class EntityController<T> {
@@ -94,8 +96,48 @@ export abstract class EntityController<T> {
     }
     return this.properties.entityView.renderDetailsPageOneEntity(entity);
   }
+  public async performDeleteSingleEntityAction(
+    entityID: string
+  ): Promise<HttpResponse> {
+    const user = await this.properties.authenticator.authenticate(
+      this.properties.authenticationToken
+    );
+
+    if (!user.isAuthenticated) {
+      console.error("User is not authenticated", user);
+      return {
+        isBase64Encoded: false,
+        statusCode: HttpStatus.FORBIDDEN,
+        headers: {},
+        body: "Forbidden.",
+      };
+    }
+    if (!entityID) {
+      console.error(`No ${this.getEntityName()} id found in request`, entityID);
+      return {
+        isBase64Encoded: false,
+        statusCode: HttpStatus.BAD_REQUEST,
+        headers: {},
+        body: "Bad request.",
+      };
+    }
+
+    try {
+      await this.properties.entityStore.deleteOne(user.username, entityID);
+    } catch (err) {
+      console.log(`Could not delete ${this.getEntityName()}`, entityID, err);
+      return {
+        isBase64Encoded: false,
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        headers: {},
+        body: "Internal server error.",
+      };
+    }
+
+    console.log(`${this.getEntityName()} deleted`, user.username, entityID);
+    return this.properties.httpRedirectView.showRedirect("/home");
+  }
   // public async showEntityListPage() {}
   // public async performCreateSingleEntityAction() {}
   // public async performUpdateSingleEntityAction() {}
-  // public async performDeleteSingleEntityAction() {}
 }

@@ -1,6 +1,7 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { HttpResponse } from "../http/http";
 import { EntityStore } from "../stores/entity-store";
+import { HttpRedirectView } from "../views/http-redirect-view";
 export interface EntityView<T> {
     renderEditingFormOneEntity(entity: T): HttpResponse;
     renderCreationFormOneEntity(): HttpResponse;
@@ -11,6 +12,7 @@ export interface EntityControllerProperties<T> {
     authenticator: Authenticator;
     entityStore: EntityStore<T>;
     entityView: EntityView<T>;
+    httpRedirectView: HttpRedirectView;
 }
 export declare abstract class EntityController<T> {
     private properties;
@@ -19,4 +21,5 @@ export declare abstract class EntityController<T> {
     showEditSingleEntityPage(entityID: string): Promise<HttpResponse>;
     showCreateNewEntityPage(): Promise<HttpResponse>;
     showSingleEntityDetailsPage(entityID: string): Promise<HttpResponse>;
+    performDeleteSingleEntityAction(entityID: string): Promise<HttpResponse>;
 }

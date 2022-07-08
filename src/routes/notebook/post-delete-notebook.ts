@@ -1,81 +1,32 @@
-import { Authenticator } from "authentication-module/dist/authenticator";
 import { dependenciesConfiguration } from "../../configuration/configuration";
-import { NotebookStore } from "../../stores/notebook-store";
+import { EntityControllerProperties } from "../../controller/entity-controller";
+import { NotebookController } from "../../controller/notebook/notebook-controller";
+import { parseBody } from "../../http/body-parser";
+import { parseCookie } from "../../http/cookie-parser";
 import {
   HttpResponse,
-  HttpStatus,
-  PostFormRequest,
   PostFormHttpHandler,
+  PostFormRequest,
 } from "../../http/http";
-import { FormBody, parseBody } from "../../http/body-parser";
-import { parseCookie } from "../../http/cookie-parser";
-
-interface DeleteNotebookActionProperties {
-  authenticationToken: string;
-  authenticator: Authenticator;
-  notebookStore: NotebookStore;
-  baseUrl: string;
-}
-
-export class DeleteNotebookAction {
-  constructor(private properties: DeleteNotebookActionProperties) {}
-  public async render(form: FormBody): Promise<HttpResponse> {
-    const headers: { [name: string]: string } = {};
-    const user = await this.properties.authenticator.authenticate(
-      this.properties.authenticationToken
-    );
-
-    if (!user.isAuthenticated) {
-      console.error("User is not authenticated", user);
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.FORBIDDEN,
-        headers: {},
-        body: "Forbidden.",
-      };
-    }
-    if (!form["notebookID"]) {
-      console.error("No notebook id found in request", form);
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.BAD_REQUEST,
-        headers: {},
-        body: "Bad request.",
-      };
-    }
-
-    try {
-      await this.properties.notebookStore.deleteOne(
-        user.username,
-        form["notebookID"]
-      );
-    } catch (err) {
-      console.log("Could not delete notebook", form, err);
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        headers: {},
-        body: "Internal server error.",
-      };
-    }
-
-    headers["Location"] = `${this.properties.baseUrl}/home`;
-
-    console.log("notebook deleted", user.username, form);
-    return {
-      isBase64Encoded: false,
-      statusCode: HttpStatus.SEE_OTHER,
-      headers,
-      body: "",
-    };
-  }
-}
+import { Notebook } from "../../stores/notebook-store";
+import { HttpRedirectView } from "../../views/http-redirect-view";
+import { NotebookHtmlView } from "../../views/notebook/notebook-html-view";
 
 export const deleteOneNotebookHandler: PostFormHttpHandler = async (
   request: PostFormRequest
 ): Promise<HttpResponse> => {
-  return await new DeleteNotebookAction({
+  const configuration = dependenciesConfiguration({});
+  const properties: EntityControllerProperties<Notebook> = {
+    ...configuration,
     authenticationToken: parseCookie(request.headers, "Authentication"),
-    ...dependenciesConfiguration({}),
-  }).render(parseBody(request));
+    entityView: new NotebookHtmlView({ ...configuration }),
+    httpRedirectView: new HttpRedirectView({ ...configuration }),
+    entityStore: configuration.notebookStore,
+  };
+
+  const requestBody = parseBody(request);
+
+  return await new NotebookController(
+    properties
+  ).performDeleteSingleEntityAction(requestBody["notebookID"]);
 };

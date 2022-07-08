@@ -4,6 +4,7 @@ import { anything, instance, mock, when } from "ts-mockito";
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { NotebookStore } from "../../src/stores/notebook-store";
 import { HttpStatus } from "../../src/http/http";
+import { HttpRedirectView } from "../../src/views/http-redirect-view";
 
 describe("Route GET /notebook/:notebookID/edit", () => {
   it("should return forbidden if user is not authenticated", async () => {
@@ -16,6 +17,7 @@ describe("Route GET /notebook/:notebookID/edit", () => {
       authenticationToken: "",
       authenticator: instance(authenticatorMock),
       entityView: new NotebookHtmlView({ baseUrl: "" }),
+      httpRedirectView: new HttpRedirectView({ baseUrl: "" }),
       entityStore: instance(notebookStoreMock),
     });
     const resp = await h.showEditSingleEntityPage("");
@@ -35,6 +37,7 @@ describe("Route GET /notebook/:notebookID/edit", () => {
       authenticationToken: "user1-token",
       authenticator: instance(authenticatorMock),
       entityView: new NotebookHtmlView({ baseUrl: "" }),
+      httpRedirectView: new HttpRedirectView({ baseUrl: "" }),
       entityStore: instance(notebookStoreMock),
     });
     const resp = await h.showEditSingleEntityPage("user2-notebook");

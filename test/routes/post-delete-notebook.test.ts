@@ -1,4 +1,3 @@
-import { DeleteNotebookAction } from "./../../src/routes/notebook/post-delete-notebook";
 import { anything, instance, mock, when } from "ts-mockito";
 import { Authenticator } from "authentication-module/dist/authenticator";
 import {
@@ -6,6 +5,9 @@ import {
   NotebookStore,
 } from "../../src/stores/notebook-store";
 import { HttpStatus } from "../../src/http/http";
+import { NotebookController } from "../../src/controller/notebook/notebook-controller";
+import { NotebookHtmlView } from "../../src/views/notebook/notebook-html-view";
+import { HttpRedirectView } from "../../src/views/http-redirect-view";
 
 describe("Route POST /delete-notebook", () => {
   it("should return forbidden if user is not authenticated", async () => {
@@ -14,13 +16,14 @@ describe("Route POST /delete-notebook", () => {
       isAuthenticated: false,
     });
     const notebookStoreMock = mock<NotebookStore>();
-    const h = new DeleteNotebookAction({
+    const h = new NotebookController({
       authenticationToken: "",
-      baseUrl: "",
+      entityView: new NotebookHtmlView({ baseUrl: "" }),
+      httpRedirectView: new HttpRedirectView({ baseUrl: "" }),
       authenticator: instance(authenticatorMock),
-      notebookStore: instance(notebookStoreMock),
+      entityStore: instance(notebookStoreMock),
     });
-    const resp = await h.render({});
+    const resp = await h.performDeleteSingleEntityAction("");
     expect(resp.statusCode).toBe(HttpStatus.FORBIDDEN);
   });
   it("should return bad request if notebook id is not passed", async () => {
@@ -29,13 +32,14 @@ describe("Route POST /delete-notebook", () => {
       isAuthenticated: true,
     });
     const notebookStoreMock = mock<NotebookStore>();
-    const h = new DeleteNotebookAction({
+    const h = new NotebookController({
       authenticationToken: "",
-      baseUrl: "",
+      entityView: new NotebookHtmlView({ baseUrl: "" }),
+      httpRedirectView: new HttpRedirectView({ baseUrl: "" }),
       authenticator: instance(authenticatorMock),
-      notebookStore: instance(notebookStoreMock),
+      entityStore: instance(notebookStoreMock),
     });
-    const resp = await h.render({});
+    const resp = await h.performDeleteSingleEntityAction("");
     expect(resp.statusCode).toBe(HttpStatus.BAD_REQUEST);
   });
   it("should return 5xx if notebook store throws an error", async () => {
@@ -44,13 +48,14 @@ describe("Route POST /delete-notebook", () => {
       isAuthenticated: true,
       username: "testuser",
     });
-    const h = new DeleteNotebookAction({
+    const h = new NotebookController({
       authenticationToken: "",
-      baseUrl: "",
+      entityView: new NotebookHtmlView({ baseUrl: "" }),
+      httpRedirectView: new HttpRedirectView({ baseUrl: "" }),
       authenticator: instance(authenticatorMock),
-      notebookStore: new InMemoryNotebookStore(),
+      entityStore: new InMemoryNotebookStore(),
     });
-    const resp = await h.render({ notebookID: "test-id" });
+    const resp = await h.performDeleteSingleEntityAction("test-id");
     expect(resp.statusCode).toBe(HttpStatus.INTERNAL_SERVER_ERROR);
   });
 });

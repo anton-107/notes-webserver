@@ -1,10 +1,7 @@
 import { EntityView } from "../../controller/entity-controller";
 import { HttpResponse, HttpStatus } from "../../http/http";
 import { Notebook } from "../../stores/notebook-store";
-
-export interface HtmlViewProperties {
-  baseUrl: string;
-}
+import { HtmlViewProperties } from "../interfaces";
 
 export class NotebookHtmlView implements EntityView<Notebook> {
   constructor(private properties: HtmlViewProperties) {}
