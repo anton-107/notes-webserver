@@ -5,6 +5,8 @@ import {
 } from "authentication-module/dist/authenticator";
 import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
 import { NotebookStore } from "../stores/notebook-store";
+import { HttpRedirectView } from "../views/http-redirect-view";
+import { NotebookHtmlView } from "../views/notebook/notebook-html-view";
 import { commonConfiguration } from "./common";
 import { jwtSerializerSecretsManagerConfiguration } from "./jwt-serializer-secrets-manager";
 import { notebookStoreDynamoConfiguration } from "./notebook-store-dynamo";
@@ -43,4 +45,16 @@ export const dependenciesConfiguration = (
     ...contextConfiguration,
     ...overrides,
   });
+};
+export const notebookControllerConfiguration = (
+  overrides: ServiceConfigurationOverrides
+) => {
+  const configuration = dependenciesConfiguration({});
+  return {
+    ...configuration,
+    entityView: new NotebookHtmlView({ ...configuration }),
+    httpRedirectView: new HttpRedirectView({ ...configuration }),
+    entityStore: configuration.notebookStore,
+    ...overrides,
+  };
 };
