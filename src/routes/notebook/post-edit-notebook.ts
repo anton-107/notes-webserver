@@ -1,70 +1,32 @@
-import { Authenticator } from "authentication-module/dist/authenticator";
 import { dependenciesConfiguration } from "../../configuration/configuration";
-import { NotebookStore } from "../../stores/notebook-store";
+import { EntityControllerProperties } from "../../controller/entity-controller";
+import { NotebookController } from "../../controller/notebook/notebook-controller";
+import { parseBody } from "../../http/body-parser";
+import { parseCookie } from "../../http/cookie-parser";
 import {
   HttpResponse,
-  HttpStatus,
-  PostFormRequest,
   PostFormHttpHandler,
+  PostFormRequest,
 } from "../../http/http";
-import { FormBody, parseBody } from "../../http/body-parser";
-import { parseCookie } from "../../http/cookie-parser";
-
-interface EditNotebookActionProperties {
-  authenticationToken: string;
-  authenticator: Authenticator;
-  notebookStore: NotebookStore;
-  baseUrl: string;
-}
-
-export class EditNotebookAction {
-  constructor(private properties: EditNotebookActionProperties) {}
-  public async render(form: FormBody): Promise<HttpResponse> {
-    const headers: { [name: string]: string } = {};
-    const user = await this.properties.authenticator.authenticate(
-      this.properties.authenticationToken
-    );
-    if (!user.isAuthenticated) {
-      console.error("User is not authenticated", user);
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.FORBIDDEN,
-        headers: {},
-        body: "Forbidden.",
-      };
-    }
-
-    try {
-      await this.properties.notebookStore.editOne({
-        id: form["notebook-id"],
-        name: form["notebook-name"],
-        owner: user.username,
-      });
-    } catch (err) {
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        headers: {},
-        body: "Internal server error.",
-      };
-    }
-
-    headers["Location"] = `${this.properties.baseUrl}/home`;
-
-    return {
-      isBase64Encoded: false,
-      statusCode: HttpStatus.SEE_OTHER,
-      headers,
-      body: "",
-    };
-  }
-}
+import { Notebook } from "../../stores/notebook-store";
+import { HttpRedirectView } from "../../views/http-redirect-view";
+import { NotebookHtmlView } from "../../views/notebook/notebook-html-view";
 
 export const postEditNotebookHandler: PostFormHttpHandler = async (
   request: PostFormRequest
 ): Promise<HttpResponse> => {
-  return await new EditNotebookAction({
+  const configuration = dependenciesConfiguration({});
+  const properties: EntityControllerProperties<Notebook> = {
+    ...configuration,
     authenticationToken: parseCookie(request.headers, "Authentication"),
-    ...dependenciesConfiguration({}),
-  }).render(parseBody(request));
+    entityView: new NotebookHtmlView({ ...configuration }),
+    httpRedirectView: new HttpRedirectView({ ...configuration }),
+    entityStore: configuration.notebookStore,
+  };
+
+  const requestBody = parseBody(request);
+
+  return await new NotebookController(
+    properties
+  ).performUpdateSingleEntityAction(requestBody);
 };

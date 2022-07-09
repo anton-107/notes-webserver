@@ -1,4 +1,5 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
+import { FormBody } from "../http/body-parser";
 import { HttpResponse } from "../http/http";
 import { EntityStore } from "../stores/entity-store";
 import { HttpRedirectView } from "../views/http-redirect-view";
@@ -18,8 +19,10 @@ export declare abstract class EntityController<T> {
     private properties;
     constructor(properties: EntityControllerProperties<T>);
     protected abstract getEntityName(): string;
+    protected abstract mapRequestToEntity(username: string, requestForm: FormBody): T;
     showEditSingleEntityPage(entityID: string): Promise<HttpResponse>;
     showCreateNewEntityPage(): Promise<HttpResponse>;
     showSingleEntityDetailsPage(entityID: string): Promise<HttpResponse>;
     performDeleteSingleEntityAction(entityID: string): Promise<HttpResponse>;
+    performUpdateSingleEntityAction(form: FormBody): Promise<HttpResponse>;
 }

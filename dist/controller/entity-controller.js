@@ -90,6 +90,30 @@ class EntityController {
         console.log(`${this.getEntityName()} deleted`, user.username, entityID);
         return this.properties.httpRedirectView.showRedirect("/home");
     }
+    async performUpdateSingleEntityAction(form) {
+        const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);
+        if (!user.isAuthenticated) {
+            console.error("User is not authenticated", user);
+            return {
+                isBase64Encoded: false,
+                statusCode: http_1.HttpStatus.FORBIDDEN,
+                headers: {},
+                body: "Forbidden.",
+            };
+        }
+        try {
+            await this.properties.entityStore.editOne(this.mapRequestToEntity(user.username, form));
+        }
+        catch (err) {
+            return {
+                isBase64Encoded: false,
+                statusCode: http_1.HttpStatus.INTERNAL_SERVER_ERROR,
+                headers: {},
+                body: "Internal server error.",
+            };
+        }
+        return this.properties.httpRedirectView.showRedirect("/home");
+    }
 }
 exports.EntityController = EntityController;
 //# sourceMappingURL=entity-controller.js.map

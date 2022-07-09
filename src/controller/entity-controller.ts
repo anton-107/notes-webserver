@@ -1,4 +1,5 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
+import { FormBody } from "../http/body-parser";
 import { HttpResponse, HttpStatus } from "../http/http";
 import { EntityStore } from "../stores/entity-store";
 import { HttpRedirectView } from "../views/http-redirect-view";
@@ -20,6 +21,10 @@ export interface EntityControllerProperties<T> {
 export abstract class EntityController<T> {
   constructor(private properties: EntityControllerProperties<T>) {}
   protected abstract getEntityName(): string;
+  protected abstract mapRequestToEntity(
+    username: string,
+    requestForm: FormBody
+  ): T;
   public async showEditSingleEntityPage(
     entityID: string
   ): Promise<HttpResponse> {
@@ -137,7 +142,37 @@ export abstract class EntityController<T> {
     console.log(`${this.getEntityName()} deleted`, user.username, entityID);
     return this.properties.httpRedirectView.showRedirect("/home");
   }
+  public async performUpdateSingleEntityAction(
+    form: FormBody
+  ): Promise<HttpResponse> {
+    const user = await this.properties.authenticator.authenticate(
+      this.properties.authenticationToken
+    );
+    if (!user.isAuthenticated) {
+      console.error("User is not authenticated", user);
+      return {
+        isBase64Encoded: false,
+        statusCode: HttpStatus.FORBIDDEN,
+        headers: {},
+        body: "Forbidden.",
+      };
+    }
+
+    try {
+      await this.properties.entityStore.editOne(
+        this.mapRequestToEntity(user.username, form)
+      );
+    } catch (err) {
+      return {
+        isBase64Encoded: false,
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        headers: {},
+        body: "Internal server error.",
+      };
+    }
+
+    return this.properties.httpRedirectView.showRedirect("/home");
+  }
   // public async showEntityListPage() {}
   // public async performCreateSingleEntityAction() {}
-  // public async performUpdateSingleEntityAction() {}
 }
