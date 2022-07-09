@@ -21,7 +21,11 @@ export interface EntityControllerProperties<T> {
 export abstract class EntityController<T> {
   constructor(private properties: EntityControllerProperties<T>) {}
   protected abstract getEntityName(): string;
-  protected abstract mapRequestToEntity(
+  protected abstract mapRequestToExistingEntity(
+    username: string,
+    requestForm: FormBody
+  ): T;
+  protected abstract mapRequestToNewEntity(
     username: string,
     requestForm: FormBody
   ): T;
@@ -160,7 +164,7 @@ export abstract class EntityController<T> {
 
     try {
       await this.properties.entityStore.editOne(
-        this.mapRequestToEntity(user.username, form)
+        this.mapRequestToExistingEntity(user.username, form)
       );
     } catch (err) {
       return {
@@ -173,6 +177,26 @@ export abstract class EntityController<T> {
 
     return this.properties.httpRedirectView.showRedirect("/home");
   }
+  public async performCreateSingleEntityAction(
+    form: FormBody
+  ): Promise<HttpResponse> {
+    const user = await this.properties.authenticator.authenticate(
+      this.properties.authenticationToken
+    );
+    if (!user.isAuthenticated) {
+      console.error("User is not authenticated", user);
+      return {
+        isBase64Encoded: false,
+        statusCode: HttpStatus.FORBIDDEN,
+        headers: {},
+        body: "Forbidden.",
+      };
+    }
+
+    await this.properties.entityStore.add(
+      this.mapRequestToNewEntity(user.username, form)
+    );
+    return this.properties.httpRedirectView.showRedirect("/home");
+  }
   // public async showEntityListPage() {}
-  // public async performCreateSingleEntityAction() {}
 }

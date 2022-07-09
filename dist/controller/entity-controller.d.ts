@@ -19,10 +19,12 @@ export declare abstract class EntityController<T> {
     private properties;
     constructor(properties: EntityControllerProperties<T>);
     protected abstract getEntityName(): string;
-    protected abstract mapRequestToEntity(username: string, requestForm: FormBody): T;
+    protected abstract mapRequestToExistingEntity(username: string, requestForm: FormBody): T;
+    protected abstract mapRequestToNewEntity(username: string, requestForm: FormBody): T;
     showEditSingleEntityPage(entityID: string): Promise<HttpResponse>;
     showCreateNewEntityPage(): Promise<HttpResponse>;
     showSingleEntityDetailsPage(entityID: string): Promise<HttpResponse>;
     performDeleteSingleEntityAction(entityID: string): Promise<HttpResponse>;
     performUpdateSingleEntityAction(form: FormBody): Promise<HttpResponse>;
+    performCreateSingleEntityAction(form: FormBody): Promise<HttpResponse>;
 }

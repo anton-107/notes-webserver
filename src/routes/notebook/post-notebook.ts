@@ -1,62 +1,31 @@
-import { Authenticator } from "authentication-module/dist/authenticator";
 import { dependenciesConfiguration } from "../../configuration/configuration";
-import { NotebookStore } from "../../stores/notebook-store";
+import { EntityControllerProperties } from "../../controller/entity-controller";
+import { NotebookController } from "../../controller/notebook/notebook-controller";
+import { parseBody } from "../../http/body-parser";
+import { parseCookie } from "../../http/cookie-parser";
 import {
   HttpResponse,
-  HttpStatus,
-  PostFormRequest,
   PostFormHttpHandler,
+  PostFormRequest,
 } from "../../http/http";
-import { FormBody, parseBody } from "../../http/body-parser";
-import { parseCookie } from "../../http/cookie-parser";
-import { generate } from "short-uuid";
-
-interface CreateNotebookActionProperties {
-  authenticationToken: string;
-  authenticator: Authenticator;
-  notebookStore: NotebookStore;
-  baseUrl: string;
-}
-
-export class CreateNotebookAction {
-  constructor(private properties: CreateNotebookActionProperties) {}
-  public async render(form: FormBody): Promise<HttpResponse> {
-    const headers: { [name: string]: string } = {};
-    const user = await this.properties.authenticator.authenticate(
-      this.properties.authenticationToken
-    );
-    if (!user.isAuthenticated) {
-      console.error("User is not authenticated", user);
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.FORBIDDEN,
-        headers: {},
-        body: "Forbidden.",
-      };
-    }
-
-    await this.properties.notebookStore.add({
-      id: generate(),
-      name: form["notebook-name"],
-      owner: user.username,
-    });
-
-    headers["Location"] = `${this.properties.baseUrl}/home`;
-
-    return {
-      isBase64Encoded: false,
-      statusCode: HttpStatus.SEE_OTHER,
-      headers,
-      body: "",
-    };
-  }
-}
+import { Notebook } from "../../stores/notebook-store";
+import { HttpRedirectView } from "../../views/http-redirect-view";
+import { NotebookHtmlView } from "../../views/notebook/notebook-html-view";
 
 export const postNotebookHandler: PostFormHttpHandler = async (
   request: PostFormRequest
 ): Promise<HttpResponse> => {
-  return await new CreateNotebookAction({
+  const configuration = dependenciesConfiguration({});
+  const properties: EntityControllerProperties<Notebook> = {
+    ...configuration,
     authenticationToken: parseCookie(request.headers, "Authentication"),
-    ...dependenciesConfiguration({}),
-  }).render(parseBody(request));
+    entityView: new NotebookHtmlView({ ...configuration }),
+    httpRedirectView: new HttpRedirectView({ ...configuration }),
+    entityStore: configuration.notebookStore,
+  };
+
+  const requestBody = parseBody(request);
+  return await new NotebookController(
+    properties
+  ).performCreateSingleEntityAction(requestBody);
 };

@@ -102,7 +102,7 @@ class EntityController {
             };
         }
         try {
-            await this.properties.entityStore.editOne(this.mapRequestToEntity(user.username, form));
+            await this.properties.entityStore.editOne(this.mapRequestToExistingEntity(user.username, form));
         }
         catch (err) {
             return {
@@ -112,6 +112,20 @@ class EntityController {
                 body: "Internal server error.",
             };
         }
+        return this.properties.httpRedirectView.showRedirect("/home");
+    }
+    async performCreateSingleEntityAction(form) {
+        const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);
+        if (!user.isAuthenticated) {
+            console.error("User is not authenticated", user);
+            return {
+                isBase64Encoded: false,
+                statusCode: http_1.HttpStatus.FORBIDDEN,
+                headers: {},
+                body: "Forbidden.",
+            };
+        }
+        await this.properties.entityStore.add(this.mapRequestToNewEntity(user.username, form));
         return this.properties.httpRedirectView.showRedirect("/home");
     }
 }
