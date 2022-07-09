@@ -6,7 +6,7 @@ import { HttpStatus } from "../../src/http/http";
 import {
   InMemoryNotebookStore,
   NotebookStore,
-} from "../../src/stores/notebook-store";
+} from "../../src/stores/notebook/notebook-store";
 
 describe("Route POST /delete-notebook", () => {
   const controllerConfiguration = notebookControllerConfiguration({});

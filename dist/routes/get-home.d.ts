@@ -1,5 +1,5 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
-import { NotebookStore } from "./../stores/notebook-store";
+import { NotebookStore } from "../stores/notebook/notebook-store";
 import { HttpResponse, HttpRequestHandler } from "../http/http";
 interface HomePageProperties {
     authenticationToken: string;

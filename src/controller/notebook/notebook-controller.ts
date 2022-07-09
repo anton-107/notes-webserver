@@ -1,6 +1,6 @@
 import { generate } from "short-uuid";
 import { FormBody } from "../../http/body-parser";
-import { Notebook } from "../../stores/notebook-store";
+import { Notebook } from "../../stores/notebook/notebook-store";
 import { EntityController } from "../entity-controller";
 
 export class NotebookController extends EntityController<Notebook> {

@@ -1,4 +1,4 @@
-import { EntityStore } from "./entity-store";
+import { EntityStore } from "../entity-store";
 
 export interface Notebook {
   id: string;

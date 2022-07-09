@@ -1,4 +1,4 @@
-import { InMemoryUserStore } from "../stores/user-store-inmemory";
+import { InMemoryUserStore } from "../stores/user/user-store-inmemory";
 import {
   JWTSerializer,
   SimpleStringProvider,
@@ -6,7 +6,7 @@ import {
 } from "authentication-module/dist/jwt-serializer";
 import { ScryptHashingFunction } from "authentication-module/dist/scrypt-hashing";
 import { Authenticator } from "authentication-module/dist/authenticator";
-import { InMemoryNotebookStore } from "../stores/notebook-store";
+import { InMemoryNotebookStore } from "../stores/notebook/notebook-store";
 import {
   ServiceConfiguration,
   ServiceConfigurationOverrides,

@@ -1,6 +1,6 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
 import { DynamoDB } from "aws-sdk";
-import { NotebookStoreDynamodb } from "../stores/notebook-store-dynamodb";
+import { NotebookStoreDynamodb } from "../stores/notebook/notebook-store-dynamodb";
 import { ServiceConfigurationOverrides } from "./configuration";
 
 export const notebookStoreDynamoConfiguration =

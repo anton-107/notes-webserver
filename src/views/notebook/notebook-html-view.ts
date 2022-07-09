@@ -1,6 +1,6 @@
 import { EntityView } from "../../controller/entity-controller";
 import { HttpResponse, HttpStatus } from "../../http/http";
-import { Notebook } from "../../stores/notebook-store";
+import { Notebook } from "../../stores/notebook/notebook-store";
 import { HtmlViewProperties } from "../interfaces";
 
 export class NotebookHtmlView implements EntityView<Notebook> {

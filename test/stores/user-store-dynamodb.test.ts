@@ -1,6 +1,6 @@
 import { mock, instance, verify, anything, when } from "ts-mockito";
 import { DataMapper } from "@aws/dynamodb-data-mapper";
-import { UserStoreDynamodb } from "../../src/stores/user-store-dynamodb";
+import { UserStoreDynamodb } from "../../src/stores/user/user-store-dynamodb";
 
 describe("UserStoreDynamodb", () => {
   it("should add a user", async () => {

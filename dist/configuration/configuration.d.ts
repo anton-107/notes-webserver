@@ -1,6 +1,6 @@
 import { Authenticator, PasswordHashingFunction, UserStore } from "authentication-module/dist/authenticator";
 import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
-import { NotebookStore } from "../stores/notebook-store";
+import { NotebookStore } from "../stores/notebook/notebook-store";
 import { HttpRedirectView } from "../views/http-redirect-view";
 import { NotebookHtmlView } from "../views/notebook/notebook-html-view";
 export interface ServiceConfiguration {

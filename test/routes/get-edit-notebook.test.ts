@@ -3,7 +3,7 @@ import { anything, instance, mock, when } from "ts-mockito";
 import { notebookControllerConfiguration } from "../../src/configuration/configuration";
 import { NotebookController } from "../../src/controller/notebook/notebook-controller";
 import { HttpStatus } from "../../src/http/http";
-import { NotebookStore } from "../../src/stores/notebook-store";
+import { NotebookStore } from "../../src/stores/notebook/notebook-store";
 
 describe("Route GET /notebook/:notebookID/edit", () => {
   const controllerConfiguration = notebookControllerConfiguration({});
