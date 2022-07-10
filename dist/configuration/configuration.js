@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.notebookControllerConfiguration = exports.dependenciesConfiguration = void 0;
+exports.personControllerConfiguration = exports.notebookControllerConfiguration = exports.dependenciesConfiguration = void 0;
 const http_redirect_view_1 = require("../views/http-redirect-view");
 const notebook_html_view_1 = require("../views/notebook/notebook-html-view");
+const person_html_view_1 = require("../views/person/person-html-view");
 const common_1 = require("./common");
 const jwt_serializer_secrets_manager_1 = require("./jwt-serializer-secrets-manager");
 const notebook_store_dynamo_1 = require("./notebook-store-dynamo");
@@ -36,4 +37,15 @@ const notebookControllerConfiguration = (overrides) => {
     };
 };
 exports.notebookControllerConfiguration = notebookControllerConfiguration;
+const personControllerConfiguration = (overrides) => {
+    const configuration = (0, exports.dependenciesConfiguration)({});
+    return {
+        ...configuration,
+        entityView: new person_html_view_1.PersonHtmlView({ ...configuration }),
+        httpRedirectView: new http_redirect_view_1.HttpRedirectView({ ...configuration }),
+        entityStore: configuration.personStore,
+        ...overrides,
+    };
+};
+exports.personControllerConfiguration = personControllerConfiguration;
 //# sourceMappingURL=configuration.js.map

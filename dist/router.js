@@ -12,6 +12,12 @@ const get_one_notebook_1 = require("./routes/notebook/get-one-notebook");
 const get_edit_notebook_1 = require("./routes/notebook/get-edit-notebook");
 const post_edit_notebook_1 = require("./routes/notebook/post-edit-notebook");
 const post_delete_notebook_1 = require("./routes/notebook/post-delete-notebook");
+const get_new_person_1 = require("./routes/person/get-new-person");
+const post_person_1 = require("./routes/person/post-person");
+const get_one_person_1 = require("./routes/person/get-one-person");
+const get_edit_person_1 = require("./routes/person/get-edit-person");
+const post_edit_person_1 = require("./routes/person/post-edit-person");
+const post_delete_person_1 = require("./routes/person/post-delete-person");
 exports.routes = [
     {
         method: "GET",
@@ -72,6 +78,42 @@ exports.routes = [
         path: "/delete-notebook",
         import: (0, path_1.join)(__dirname, "./routes/notebook/post-delete-notebook"),
         action: post_delete_notebook_1.deleteOneNotebookHandler.name,
+    },
+    {
+        method: "GET",
+        path: "/new-person",
+        import: (0, path_1.join)(__dirname, "./routes/person/get-new-person"),
+        action: get_new_person_1.getNewPersonHandler.name,
+    },
+    {
+        method: "POST",
+        path: "/person",
+        import: (0, path_1.join)(__dirname, "./routes/person/post-person"),
+        action: post_person_1.postPersonHandler.name,
+    },
+    {
+        method: "GET",
+        path: "/person/:personID",
+        import: (0, path_1.join)(__dirname, "./routes/person/get-one-person"),
+        action: get_one_person_1.getOnePersonHandler.name,
+    },
+    {
+        method: "GET",
+        path: "/person/:personID/edit",
+        import: (0, path_1.join)(__dirname, "./routes/person/get-edit-person"),
+        action: get_edit_person_1.getEditPersonHandler.name,
+    },
+    {
+        method: "POST",
+        path: "/person/:personID/edit",
+        import: (0, path_1.join)(__dirname, "./routes/person/post-edit-person"),
+        action: post_edit_person_1.postEditPersonHandler.name,
+    },
+    {
+        method: "POST",
+        path: "/delete-person",
+        import: (0, path_1.join)(__dirname, "./routes/person/post-delete-person"),
+        action: post_delete_person_1.deleteOnePersonHandler.name,
     },
 ];
 //# sourceMappingURL=router.js.map

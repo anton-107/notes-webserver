@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteOnePersonHandler = void 0;
+const configuration_1 = require("../../configuration/configuration");
+const person_controller_1 = require("../../controller/person/person-controller");
+const body_parser_1 = require("../../http/body-parser");
+const cookie_parser_1 = require("../../http/cookie-parser");
+const deleteOnePersonHandler = async (request) => {
+    const requestBody = (0, body_parser_1.parseBody)(request);
+    return await new person_controller_1.PersonController({
+        ...(0, configuration_1.personControllerConfiguration)({}),
+        authenticationToken: (0, cookie_parser_1.parseCookie)(request.headers, "Authentication"),
+    }).performDeleteSingleEntityAction(requestBody["personID"]);
+};
+exports.deleteOnePersonHandler = deleteOnePersonHandler;
+//# sourceMappingURL=post-delete-person.js.map

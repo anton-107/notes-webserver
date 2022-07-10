@@ -5,8 +5,10 @@ import {
 } from "authentication-module/dist/authenticator";
 import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
 import { NotebookStore } from "../stores/notebook/notebook-store";
+import { PersonStore } from "../stores/person/person-store";
 import { HttpRedirectView } from "../views/http-redirect-view";
 import { NotebookHtmlView } from "../views/notebook/notebook-html-view";
+import { PersonHtmlView } from "../views/person/person-html-view";
 import { commonConfiguration } from "./common";
 import { jwtSerializerSecretsManagerConfiguration } from "./jwt-serializer-secrets-manager";
 import { notebookStoreDynamoConfiguration } from "./notebook-store-dynamo";
@@ -16,6 +18,7 @@ export interface ServiceConfiguration {
   authenticator: Authenticator;
   jwtSerializerSecretProvider: SecretKeyProvider;
   notebookStore: NotebookStore;
+  personStore: PersonStore;
   passwordHashingFunction: PasswordHashingFunction;
   userStore: UserStore;
   baseUrl: string;
@@ -55,6 +58,18 @@ export const notebookControllerConfiguration = (
     entityView: new NotebookHtmlView({ ...configuration }),
     httpRedirectView: new HttpRedirectView({ ...configuration }),
     entityStore: configuration.notebookStore,
+    ...overrides,
+  };
+};
+export const personControllerConfiguration = (
+  overrides: ServiceConfigurationOverrides
+) => {
+  const configuration = dependenciesConfiguration({});
+  return {
+    ...configuration,
+    entityView: new PersonHtmlView({ ...configuration }),
+    httpRedirectView: new HttpRedirectView({ ...configuration }),
+    entityStore: configuration.personStore,
     ...overrides,
   };
 };

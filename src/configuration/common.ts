@@ -11,6 +11,7 @@ import {
   ServiceConfiguration,
   ServiceConfigurationOverrides,
 } from "./configuration";
+import { InMemoryPersonStore } from "../stores/person/person-store";
 
 const passwordHashingFunction = new ScryptHashingFunction();
 const userStore = new InMemoryUserStore();
@@ -19,6 +20,7 @@ const jwtSerializerSecretProvider = new SimpleStringProvider(
   jwtSerializerSecretKey
 );
 const notebookStore = new InMemoryNotebookStore();
+const personStore = new InMemoryPersonStore();
 
 export const commonConfiguration = (
   overrides: ServiceConfigurationOverrides
@@ -37,6 +39,7 @@ export const commonConfiguration = (
     }),
     passwordHashingFunction,
     notebookStore,
+    personStore,
     baseUrl: "",
     ...overrides,
   };
