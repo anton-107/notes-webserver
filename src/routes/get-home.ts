@@ -9,11 +9,13 @@ import {
   HttpRequestHandler,
 } from "../http/http";
 import { parseCookie } from "../http/cookie-parser";
+import { PersonStore } from "../stores/person/person-store";
 
 interface HomePageProperties {
   authenticationToken: string;
   authenticator: Authenticator;
   notebookStore: NotebookStore;
+  personStore: PersonStore;
   baseUrl: string;
 }
 
@@ -51,6 +53,7 @@ export class HomePage {
     const notebooks = await this.properties.notebookStore.listAll(
       user.username
     );
+    const people = await this.properties.personStore.listAll(user.username);
 
     const body = `<h1 data-testid='user-greeting'>hello ${user.username}!</h1>
       <form method='post' action='${
@@ -63,6 +66,16 @@ export class HomePage {
         .map(
           (x) =>
             `<div><a href='${this.properties.baseUrl}/notebook/${x.id}' data-testid='notebook-name'>${x.name}</a></div>`
+        )
+        .join("")}
+
+      <a href='${
+        this.properties.baseUrl
+      }/new-person' data-testid='create-new-person-link'>Add new person</a>
+      ${people
+        .map(
+          (x) =>
+            `<div><a href='${this.properties.baseUrl}/person/${x.id}' data-testid='person-name'>${x.name}</a></div>`
         )
         .join("")}
       `;

@@ -6,11 +6,13 @@ const jwt_serializer_1 = require("authentication-module/dist/jwt-serializer");
 const scrypt_hashing_1 = require("authentication-module/dist/scrypt-hashing");
 const authenticator_1 = require("authentication-module/dist/authenticator");
 const notebook_store_1 = require("../stores/notebook/notebook-store");
+const person_store_1 = require("../stores/person/person-store");
 const passwordHashingFunction = new scrypt_hashing_1.ScryptHashingFunction();
 const userStore = new user_store_inmemory_1.InMemoryUserStore();
 const jwtSerializerSecretKey = String(Math.random());
 const jwtSerializerSecretProvider = new jwt_serializer_1.SimpleStringProvider(jwtSerializerSecretKey);
 const notebookStore = new notebook_store_1.InMemoryNotebookStore();
+const personStore = new person_store_1.InMemoryPersonStore();
 const commonConfiguration = (overrides) => {
     return {
         userStore,
@@ -25,6 +27,7 @@ const commonConfiguration = (overrides) => {
         }),
         passwordHashingFunction,
         notebookStore,
+        personStore,
         baseUrl: "",
         ...overrides,
     };

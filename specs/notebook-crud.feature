@@ -2,7 +2,7 @@ Feature: Notebooks handling
 
     Create/Read/Update/Delete a notebook
 
-    Scenario: Notebook creation
+    Scenario: Notebook create-read-update-delete cycle
       Given web server is running
       Given I am logged in as 'user1'/'1234'
       When I visit /home page
