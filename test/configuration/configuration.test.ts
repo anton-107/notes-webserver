@@ -23,6 +23,14 @@ describe("Configuration", () => {
     expect(config.notebookStore).not.toBe(null);
   });
 
+  it("should set up person store in dynamodb", () => {
+    process.env = Object.assign({}, process.env, {
+      PERSON_STORE_TYPE: "dynamodb",
+    });
+    const config = dependenciesConfiguration({});
+    expect(config.personStore).not.toBe(null);
+  });
+
   it("should secrets manager provider as jwtSerializerSecretProvider", () => {
     process.env = Object.assign({}, process.env, {
       JWT_SERIALIZER_SECRET_ID: "jwtSerializerSecretRANDOM-STRING-SUFFIX",

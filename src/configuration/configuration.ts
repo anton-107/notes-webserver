@@ -12,6 +12,7 @@ import { PersonHtmlView } from "../views/person/person-html-view";
 import { commonConfiguration } from "./common";
 import { jwtSerializerSecretsManagerConfiguration } from "./jwt-serializer-secrets-manager";
 import { notebookStoreDynamoConfiguration } from "./notebook-store-dynamo";
+import { personStoreDynamoConfiguration } from "./person-store-dynamo";
 import { userStoreDynamoConfiguration } from "./user-store-dynamo";
 
 export interface ServiceConfiguration {
@@ -34,6 +35,9 @@ export const dependenciesConfiguration = (
   }
   if (process.env["NOTEBOOK_STORE_TYPE"] === "dynamodb") {
     Object.assign(contextConfiguration, notebookStoreDynamoConfiguration());
+  }
+  if (process.env["PERSON_STORE_TYPE"] === "dynamodb") {
+    Object.assign(contextConfiguration, personStoreDynamoConfiguration());
   }
   if (process.env["JWT_SERIALIZER_SECRET_ID"]) {
     Object.assign(

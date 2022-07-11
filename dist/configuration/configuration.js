@@ -7,6 +7,7 @@ const person_html_view_1 = require("../views/person/person-html-view");
 const common_1 = require("./common");
 const jwt_serializer_secrets_manager_1 = require("./jwt-serializer-secrets-manager");
 const notebook_store_dynamo_1 = require("./notebook-store-dynamo");
+const person_store_dynamo_1 = require("./person-store-dynamo");
 const user_store_dynamo_1 = require("./user-store-dynamo");
 const dependenciesConfiguration = (overrides) => {
     const contextConfiguration = {};
@@ -15,6 +16,9 @@ const dependenciesConfiguration = (overrides) => {
     }
     if (process.env["NOTEBOOK_STORE_TYPE"] === "dynamodb") {
         Object.assign(contextConfiguration, (0, notebook_store_dynamo_1.notebookStoreDynamoConfiguration)());
+    }
+    if (process.env["PERSON_STORE_TYPE"] === "dynamodb") {
+        Object.assign(contextConfiguration, (0, person_store_dynamo_1.personStoreDynamoConfiguration)());
     }
     if (process.env["JWT_SERIALIZER_SECRET_ID"]) {
         Object.assign(contextConfiguration, (0, jwt_serializer_secrets_manager_1.jwtSerializerSecretsManagerConfiguration)(process.env["JWT_SERIALIZER_SECRET_ID"]));
