@@ -1,6 +1,6 @@
 import { generate } from "short-uuid";
 import { FormBody } from "../../http/body-parser";
-import { Person } from "../../stores/person/person-store";
+import { Person } from "../../model/person-model";
 import { EntityController } from "../entity-controller";
 
 export class PersonController extends EntityController<Person> {

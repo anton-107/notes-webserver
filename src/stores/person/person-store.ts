@@ -1,11 +1,5 @@
+import { Person } from "../../model/person-model";
 import { EntityStore } from "../entity-store";
-
-export interface Person {
-  id: string;
-  name: string;
-  email: string;
-  manager: string;
-}
 
 export interface PersonStore extends EntityStore<Person> {
   add(person: Person): Promise<void>;

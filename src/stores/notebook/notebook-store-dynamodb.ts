@@ -4,8 +4,9 @@ import {
   rangeKey,
   table,
 } from "@aws/dynamodb-data-mapper-annotations";
-import { Notebook, NotebookStore } from "./notebook-store";
+import { NotebookStore } from "./notebook-store";
 import { DataMapper } from "@aws/dynamodb-data-mapper";
+import { Notebook } from "../../model/notebook-model";
 
 const NOTEBOOK_TABLE_NAME = "notes-webserver-notebook";
 

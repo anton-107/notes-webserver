@@ -1,5 +1,6 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
-import { Person, PersonStore } from "./person-store";
+import { PersonStore } from "./person-store";
+import { Person } from "../../model/person-model";
 export declare class PersonEntity implements Person {
     manager: string;
     sortKey: string;

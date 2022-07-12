@@ -5,7 +5,8 @@ import {
   table,
 } from "@aws/dynamodb-data-mapper-annotations";
 import { DataMapper } from "@aws/dynamodb-data-mapper";
-import { Person, PersonStore } from "./person-store";
+import { PersonStore } from "./person-store";
+import { Person } from "../../model/person-model";
 
 const PERSON_TABLE_NAME = "notes-webserver-people";
 

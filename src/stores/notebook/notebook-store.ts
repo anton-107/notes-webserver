@@ -1,10 +1,5 @@
+import { Notebook } from "../../model/notebook-model";
 import { EntityStore } from "../entity-store";
-
-export interface Notebook {
-  id: string;
-  name: string;
-  owner: string;
-}
 
 export interface NotebookStore extends EntityStore<Notebook> {
   add(notebook: Notebook): Promise<void>;

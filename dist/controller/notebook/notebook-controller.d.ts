@@ -1,5 +1,5 @@
 import { FormBody } from "../../http/body-parser";
-import { Notebook } from "../../stores/notebook/notebook-store";
+import { Notebook } from "../../model/notebook-model";
 import { EntityController } from "../entity-controller";
 export declare class NotebookController extends EntityController<Notebook> {
     protected getEntityName(): string;

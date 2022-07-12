@@ -1,6 +1,6 @@
 import { EntityView } from "../../controller/entity-controller";
 import { HttpResponse } from "../../http/http";
-import { Person } from "../../stores/person/person-store";
+import { Person } from "../../model/person-model";
 import { HtmlViewProperties } from "../interfaces";
 export declare class PersonHtmlView implements EntityView<Person> {
     private properties;
