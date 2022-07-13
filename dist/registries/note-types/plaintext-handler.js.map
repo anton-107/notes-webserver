@@ -1,0 +1,1 @@
+{"version":3,"file":"plaintext-handler.js","sourceRoot":"","sources":["../../../src/registries/note-types/plaintext-handler.ts"],"names":[],"mappings":";;;AAGA,MAAa,gBAAgB;IACpB,QAAQ;QACb,OAAO,WAAW,CAAC;IACrB,CAAC;IACM,eAAe;QACpB,OAAO,YAAY,CAAC;IACtB,CAAC;IACM,MAAM,CAAC,IAAU;QACtB,OAAO;YACL,GAAG,IAAI;YACP,eAAe,EAAE,IAAI,CAAC,OAAO;SAC9B,CAAC;IACJ,CAAC;CACF;AAbD,4CAaC"}
