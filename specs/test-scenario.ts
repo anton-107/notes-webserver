@@ -16,6 +16,10 @@ export class TestScenario {
   private pageRoot: HTMLElement; // root element of currently loaded page
   private el: HTMLElement; // currently selected element
 
+  // testing single noteebook page:
+  private notebookHref: string;
+  private notebookID: string;
+
   constructor(private testPort: number) {}
 
   public async startServer() {
@@ -51,6 +55,24 @@ export class TestScenario {
     this.setInputValue(password);
     await this.submitForm();
     this.checkCurrentPage("home");
+  }
+  public async createNotebook(notebookName: string) {
+    await this.loadPage("home");
+    await this.processNewPage();
+    this.checkElement("create-new-notebook-link");
+    await this.handleClick();
+    await this.processNewPage();
+    this.checkElement("notebook-name-input");
+    this.setInputValue(notebookName);
+    await this.submitForm();
+    this.checkCurrentPage("home");
+    await this.processNewPage();
+    this.checkElement("notebook-name");
+    this.checkInnerText(notebookName);
+    this.captureNotebookHref();
+  }
+  public async navigateToNotebookPage() {
+    await this.getRequest(this.notebookHref);
   }
   public async loadPage(page: string) {
     await this.getRequest(`/${page}`);
@@ -147,5 +169,11 @@ export class TestScenario {
     this.response = await this.testClient.postForm(address, formData);
     // convention: every post request ends up with a redirect:
     this.currentPage = this.response.getResponsePath();
+  }
+  private captureNotebookHref() {
+    this.notebookHref = this.el.getAttribute("href");
+    expect(this.notebookHref.startsWith("/notebook/")).toBe(true);
+    this.notebookID = this.notebookHref.replace("/notebook/", "");
+    expect(this.notebookID.length > 1).toBe(true);
   }
 }
