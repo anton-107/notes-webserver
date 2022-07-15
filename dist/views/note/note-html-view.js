@@ -15,7 +15,8 @@ class NoteHtmlView {
             },
             body: `
         <h1>Edit note</h1>
-        <form method='post' action='${this.properties.baseUrl}/notebook/${note.id}/edit'>
+        <form method='post' action='${this.properties.baseUrl}/note/${note.id}/edit'>
+          <input type='hidden' name='note-id' value='${note.id}' />
           <input type='hidden' name='notebook-id' value='${note.notebook.id}' />
           <textarea name='note-content' data-testid='note-content-input'>${note.content}</textarea>
           <button type='submit' data-testid='edit-note-button'>Update</button>
@@ -54,7 +55,10 @@ class NoteHtmlView {
     }
     renderMacroListOfNotes(notes) {
         return `
-      ${notes.map((note) => `<div data-testid='note-content'>${note.content}</div>`)}
+      ${notes.map((note) => `<div>
+          <div data-testid='note-content'>${note.content}</div>
+          <a href='${this.properties.baseUrl}/notebook/${note.notebook.id}/note/${note.id}/edit' data-testid='note-edit-link'>Edit</a>
+        </div>`)}
     `;
     }
 }

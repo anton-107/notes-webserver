@@ -9,7 +9,7 @@ import {
 } from "../../http/http";
 import { NoteHtmlView } from "../../views/note/note-html-view";
 
-export const postNewNoteHandler: HttpRequestHandler = async (
+export const postEditNoteHandler: HttpRequestHandler = async (
   request: PostFormRequest
 ): Promise<HttpResponse> => {
   const configuration = noteControllerConfiguration({});
@@ -19,5 +19,5 @@ export const postNewNoteHandler: HttpRequestHandler = async (
     entityView: new NoteHtmlView({ ...configuration }),
     authenticationToken: parseCookie(request.headers, "Authentication"),
     notebookID: null,
-  }).performCreateSingleEntityAction(requestBody);
+  }).performUpdateSingleEntityAction(requestBody);
 };

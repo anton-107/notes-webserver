@@ -20,3 +20,16 @@ Feature: Notes handling
     When page is loaded
     Then I see 'note-content' element
     And it has inner text of 'This is my test note'
+    And I see 'note-edit-link' element
+  Scenario: Edit note
+    When I click on it
+    Then I am navigated to /notebook/{notebook-id}/note/{note-id}/edit page
+    When page is loaded
+    Then I see 'note-content-input' element
+    And I focus on it and type 'This is my test note (edited)'
+    And I press 'Enter' on keyboard
+    Then I am navigated to /notebook/{notebook-id} page
+    When page is loaded
+    Then I see 'note-content' element
+    And it has inner text of 'This is my test note (edited)'
+  

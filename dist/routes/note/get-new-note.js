@@ -13,6 +13,7 @@ const getNewNoteHandler = async (request) => {
             ...configuration,
             notebookID: request.pathParameters.notebookID,
         }),
+        notebookID: request.pathParameters.notebookID,
         authenticationToken: (0, cookie_parser_1.parseCookie)(request.headers, "Authentication"),
     }).showCreateNewEntityPage();
 };

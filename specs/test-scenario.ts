@@ -109,6 +109,7 @@ export class TestScenario {
   public checkCurrentPage(page: string) {
     let regex = page.replace("{notebook-id}", "[A-z0-9]{1,32}");
     regex = regex.replace("{person-id}", "[A-z0-9]{1,32}");
+    regex = regex.replace("{note-id}", "[A-z0-9]{1,32}");
     expect(this.currentPage).toMatch(new RegExp(`^/${regex}$`));
   }
   public setInputValue = (value: string) => {

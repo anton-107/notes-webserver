@@ -4,6 +4,7 @@ import { FormBody } from "../../http/body-parser";
 import { NotebookStore } from "../../stores/notebook/notebook-store";
 export interface NoteControllerProperties extends EntityControllerProperties<Note> {
     notebookStore: NotebookStore;
+    notebookID: string | null;
 }
 export declare class NoteController extends EntityController<Note> {
     private noteControllerProperties;

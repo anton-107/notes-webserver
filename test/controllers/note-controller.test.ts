@@ -24,6 +24,7 @@ describe("Note controller", () => {
       authenticationToken: "",
       notebookStore: instance(notebookStoreMock),
       entityView: instance(viewMock),
+      notebookID: null,
     });
     const resp = await c.performCreateSingleEntityAction({});
     expect(resp.statusCode).toBe(HttpStatus.FORBIDDEN);
@@ -45,6 +46,7 @@ describe("Note controller", () => {
       authenticationToken: "",
       notebookStore: instance(notebookStoreMock),
       entityView: instance(viewMock),
+      notebookID: null,
     });
 
     const resp = await c.performUpdateSingleEntityAction({});
