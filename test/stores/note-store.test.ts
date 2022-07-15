@@ -19,6 +19,8 @@ describe("Notes store", () => {
       type: { type: "" },
       notebook: { owner: "", name: "", id: "notebook-1" },
     });
+    const notes = await s.listAll("testuser");
+    expect(notes.length).toBe(1);
     let note = await s.getOne("testuser", "note-id");
     expect(note.content).toBe("new content");
     await s.deleteOne("testuser", "note-id");
