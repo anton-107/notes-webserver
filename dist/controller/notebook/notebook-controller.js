@@ -21,6 +21,14 @@ class NotebookController extends entity_controller_1.EntityController {
             owner: username,
         };
     }
+    async isAuthorizedToCreate(user, entity) {
+        console.log("everyone is authorized to create a notebook", entity, user);
+        return true;
+    }
+    getEntityURL(entity) {
+        console.log("notebook list is currently shown on home", entity);
+        return "/home";
+    }
 }
 exports.NotebookController = NotebookController;
 //# sourceMappingURL=notebook-controller.js.map

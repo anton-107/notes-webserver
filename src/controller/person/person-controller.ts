@@ -26,4 +26,15 @@ export class PersonController extends EntityController<Person> {
       manager: username,
     };
   }
+  protected async isAuthorizedToCreate(
+    user: string,
+    entity: Person
+  ): Promise<boolean> {
+    console.log("everyone is authorized to add a person", entity, user);
+    return true;
+  }
+  protected getEntityURL(entity: Person): string {
+    console.log("list of people is currently shown on home", entity);
+    return "/home";
+  }
 }

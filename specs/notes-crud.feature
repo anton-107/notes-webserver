@@ -9,3 +9,10 @@ Feature: Notes handling
     When I navigate to this notebook page
     When page is loaded
     Then I see 'create-new-note-link' element
+    When I click on it
+    Then I am navigated to /notebook/{notebook-id}/new-note page
+    When page is loaded
+    Then I see 'note-content-input' element
+    And I focus on it and type 'This is my test note'
+    And I press 'Enter' on keyboard
+    Then I am navigated to /notebook/{notebook-id} page

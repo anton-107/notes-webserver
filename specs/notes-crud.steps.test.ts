@@ -4,7 +4,7 @@ import { TestScenario } from "./test-scenario";
 const feature = loadFeature("./specs/notes-crud.feature");
 
 defineFeature(feature, (test) => {
-  test("Note creation", ({ given, when, then }) => {
+  test("Note creation", ({ given, when, then, and }) => {
     const testScenario = new TestScenario(8138);
     afterAll(() => testScenario.stopServer());
 
@@ -22,6 +22,21 @@ defineFeature(feature, (test) => {
     when("page is loaded", () => testScenario.processNewPage());
     then(/^I see '([a-z-]+)' element$/, (selector) =>
       testScenario.checkElement(selector)
+    );
+    when("I click on it", () => testScenario.handleClick());
+    then(/^I am navigated to \/([a-z-{}/]+) page$/, (url) =>
+      testScenario.checkCurrentPage(url)
+    );
+    when("page is loaded", () => testScenario.processNewPage());
+    then(/^I see '([a-z-]+)' element$/, (selector) =>
+      testScenario.checkElement(selector)
+    );
+    and(/^I focus on it and type '([A-z0-9 ]+)'$/, (value) =>
+      testScenario.setInputValue(value)
+    );
+    and(/^I press 'Enter' on keyboard$/, () => testScenario.submitForm());
+    then(/^I am navigated to \/([a-z-{}/]+) page$/, (url) =>
+      testScenario.checkCurrentPage(url)
     );
   });
 });

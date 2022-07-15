@@ -18,6 +18,8 @@ const get_one_person_1 = require("./routes/person/get-one-person");
 const get_edit_person_1 = require("./routes/person/get-edit-person");
 const post_edit_person_1 = require("./routes/person/post-edit-person");
 const post_delete_person_1 = require("./routes/person/post-delete-person");
+const get_new_note_1 = require("./routes/note/get-new-note");
+const post_new_note_1 = require("./routes/note/post-new-note");
 exports.routes = [
     {
         method: "GET",
@@ -114,6 +116,18 @@ exports.routes = [
         path: "/delete-person",
         import: (0, path_1.join)(__dirname, "./routes/person/post-delete-person"),
         action: post_delete_person_1.deleteOnePersonHandler.name,
+    },
+    {
+        method: "GET",
+        path: "/notebook/:notebookID/new-note",
+        import: (0, path_1.join)(__dirname, "./routes/note/get-new-note"),
+        action: get_new_note_1.getNewNoteHandler.name,
+    },
+    {
+        method: "POST",
+        path: "/note",
+        import: (0, path_1.join)(__dirname, "./routes/note/post-new-note"),
+        action: post_new_note_1.postNewNoteHandler.name,
     },
 ];
 //# sourceMappingURL=router.js.map

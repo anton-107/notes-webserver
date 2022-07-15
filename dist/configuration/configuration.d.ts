@@ -1,5 +1,6 @@
 import { Authenticator, PasswordHashingFunction, UserStore } from "authentication-module/dist/authenticator";
 import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
+import { NoteStore } from "../stores/note/note-store";
 import { NotebookStore } from "../stores/notebook/notebook-store";
 import { PersonStore } from "../stores/person/person-store";
 import { HttpRedirectView } from "../views/http-redirect-view";
@@ -10,6 +11,7 @@ export interface ServiceConfiguration {
     jwtSerializerSecretProvider: SecretKeyProvider;
     notebookStore: NotebookStore;
     personStore: PersonStore;
+    noteStore: NoteStore;
     passwordHashingFunction: PasswordHashingFunction;
     userStore: UserStore;
     baseUrl: string;
@@ -21,6 +23,7 @@ export declare const notebookControllerConfiguration: (overrides: ServiceConfigu
     jwtSerializerSecretProvider: SecretKeyProvider;
     notebookStore: NotebookStore;
     personStore: PersonStore;
+    noteStore: NoteStore;
     passwordHashingFunction: PasswordHashingFunction;
     userStore: UserStore;
     baseUrl: string;
@@ -33,10 +36,23 @@ export declare const personControllerConfiguration: (overrides: ServiceConfigura
     jwtSerializerSecretProvider: SecretKeyProvider;
     notebookStore: NotebookStore;
     personStore: PersonStore;
+    noteStore: NoteStore;
     passwordHashingFunction: PasswordHashingFunction;
     userStore: UserStore;
     baseUrl: string;
     entityView: PersonHtmlView;
     httpRedirectView: HttpRedirectView;
     entityStore: PersonStore;
+};
+export declare const noteControllerConfiguration: (overrides: ServiceConfigurationOverrides) => {
+    authenticator: Authenticator;
+    jwtSerializerSecretProvider: SecretKeyProvider;
+    notebookStore: NotebookStore;
+    personStore: PersonStore;
+    noteStore: NoteStore;
+    passwordHashingFunction: PasswordHashingFunction;
+    userStore: UserStore;
+    baseUrl: string;
+    httpRedirectView: HttpRedirectView;
+    entityStore: NoteStore;
 };

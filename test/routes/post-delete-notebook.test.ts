@@ -3,6 +3,7 @@ import { anything, instance, mock, when } from "ts-mockito";
 import { notebookControllerConfiguration } from "../../src/configuration/configuration";
 import { NotebookController } from "../../src/controller/notebook/notebook-controller";
 import { HttpStatus } from "../../src/http/http";
+import { Notebook } from "../../src/model/notebook-model";
 import {
   InMemoryNotebookStore,
   NotebookStore,
@@ -41,7 +42,7 @@ describe("Route POST /delete-notebook", () => {
     const resp = await h.performDeleteSingleEntityAction("");
     expect(resp.statusCode).toBe(HttpStatus.BAD_REQUEST);
   });
-  it("should return 5xx if notebook store throws an error", async () => {
+  it("should return 4xx if notebook does not exist or user does not own it", async () => {
     const authenticatorMock = mock<Authenticator>();
     when(authenticatorMock.authenticate(anything())).thenResolve({
       isAuthenticated: true,
@@ -52,6 +53,27 @@ describe("Route POST /delete-notebook", () => {
       authenticationToken: "",
       authenticator: instance(authenticatorMock),
       entityStore: new InMemoryNotebookStore(),
+    });
+    const resp = await h.performDeleteSingleEntityAction("test-id");
+    expect(resp.statusCode).toBe(HttpStatus.FORBIDDEN);
+  });
+  it("should return 5xx if notebook store throws an error", async () => {
+    const authenticatorMock = mock<Authenticator>();
+    const notebookStoreMock = mock<NotebookStore>();
+    const notebookMock = mock<Notebook>();
+    when(authenticatorMock.authenticate(anything())).thenResolve({
+      isAuthenticated: true,
+      username: "testuser",
+    });
+    when(notebookStoreMock.getOne(anything(), anything())).thenResolve(
+      Object.assign({}, instance(notebookMock))
+    );
+    when(notebookStoreMock.deleteOne(anything(), anything())).thenReject();
+    const h = new NotebookController({
+      ...controllerConfiguration,
+      authenticationToken: "",
+      authenticator: instance(authenticatorMock),
+      entityStore: instance(notebookStoreMock),
     });
     const resp = await h.performDeleteSingleEntityAction("test-id");
     expect(resp.statusCode).toBe(HttpStatus.INTERNAL_SERVER_ERROR);

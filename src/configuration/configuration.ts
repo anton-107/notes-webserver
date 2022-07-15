@@ -4,6 +4,7 @@ import {
   UserStore,
 } from "authentication-module/dist/authenticator";
 import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
+import { NoteStore } from "../stores/note/note-store";
 import { NotebookStore } from "../stores/notebook/notebook-store";
 import { PersonStore } from "../stores/person/person-store";
 import { HttpRedirectView } from "../views/http-redirect-view";
@@ -20,6 +21,7 @@ export interface ServiceConfiguration {
   jwtSerializerSecretProvider: SecretKeyProvider;
   notebookStore: NotebookStore;
   personStore: PersonStore;
+  noteStore: NoteStore;
   passwordHashingFunction: PasswordHashingFunction;
   userStore: UserStore;
   baseUrl: string;
@@ -74,6 +76,17 @@ export const personControllerConfiguration = (
     entityView: new PersonHtmlView({ ...configuration }),
     httpRedirectView: new HttpRedirectView({ ...configuration }),
     entityStore: configuration.personStore,
+    ...overrides,
+  };
+};
+export const noteControllerConfiguration = (
+  overrides: ServiceConfigurationOverrides
+) => {
+  const configuration = dependenciesConfiguration({});
+  return {
+    ...configuration,
+    httpRedirectView: new HttpRedirectView({ ...configuration }),
+    entityStore: configuration.noteStore,
     ...overrides,
   };
 };

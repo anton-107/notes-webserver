@@ -23,6 +23,14 @@ class PersonController extends entity_controller_1.EntityController {
             manager: username,
         };
     }
+    async isAuthorizedToCreate(user, entity) {
+        console.log("everyone is authorized to add a person", entity, user);
+        return true;
+    }
+    getEntityURL(entity) {
+        console.log("list of people is currently shown on home", entity);
+        return "/home";
+    }
 }
 exports.PersonController = PersonController;
 //# sourceMappingURL=person-controller.js.map

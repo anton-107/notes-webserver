@@ -29,6 +29,11 @@ export abstract class EntityController<T> {
     username: string,
     requestForm: FormBody
   ): T;
+  protected abstract isAuthorizedToCreate(
+    user: string,
+    entity: T
+  ): Promise<boolean>;
+  protected abstract getEntityURL(entity: T): string;
   public async showEditSingleEntityPage(
     entityID: string
   ): Promise<HttpResponse> {
@@ -131,7 +136,28 @@ export abstract class EntityController<T> {
       };
     }
 
+    console.log("getting one");
+    const entity = await this.properties.entityStore.getOne(
+      user.username,
+      entityID
+    );
+    console.log("got one");
+    if (!entity) {
+      console.error(
+        `Entity ${this.getEntityName()} is not found for deletion`,
+        user,
+        entityID
+      );
+      return {
+        isBase64Encoded: false,
+        statusCode: HttpStatus.FORBIDDEN,
+        headers: {},
+        body: "Forbidden.",
+      };
+    }
+
     try {
+      console.log("deleting one");
       await this.properties.entityStore.deleteOne(user.username, entityID);
     } catch (err) {
       console.log(`Could not delete ${this.getEntityName()}`, entityID, err);
@@ -144,7 +170,9 @@ export abstract class EntityController<T> {
     }
 
     console.log(`${this.getEntityName()} deleted`, user.username, entityID);
-    return this.properties.httpRedirectView.showRedirect("/home");
+    return this.properties.httpRedirectView.showRedirect(
+      this.getEntityURL(entity)
+    );
   }
   public async performUpdateSingleEntityAction(
     form: FormBody
@@ -161,11 +189,9 @@ export abstract class EntityController<T> {
         body: "Forbidden.",
       };
     }
-
+    const entity = this.mapRequestToExistingEntity(user.username, form);
     try {
-      await this.properties.entityStore.editOne(
-        this.mapRequestToExistingEntity(user.username, form)
-      );
+      await this.properties.entityStore.editOne(entity);
     } catch (err) {
       return {
         isBase64Encoded: false,
@@ -175,7 +201,9 @@ export abstract class EntityController<T> {
       };
     }
 
-    return this.properties.httpRedirectView.showRedirect("/home");
+    return this.properties.httpRedirectView.showRedirect(
+      this.getEntityURL(entity)
+    );
   }
   public async performCreateSingleEntityAction(
     form: FormBody
@@ -193,10 +221,27 @@ export abstract class EntityController<T> {
       };
     }
 
-    await this.properties.entityStore.add(
-      this.mapRequestToNewEntity(user.username, form)
+    const entity = this.mapRequestToNewEntity(user.username, form);
+    const isAuthorized = await this.isAuthorizedToCreate(user.username, entity);
+
+    if (!isAuthorized) {
+      console.error(
+        `User is not authorized to create ${this.getEntityName()}`,
+        user,
+        entity
+      );
+      return {
+        isBase64Encoded: false,
+        statusCode: HttpStatus.FORBIDDEN,
+        headers: {},
+        body: "Forbidden.",
+      };
+    }
+
+    await this.properties.entityStore.add(entity);
+    return this.properties.httpRedirectView.showRedirect(
+      this.getEntityURL(entity)
     );
-    return this.properties.httpRedirectView.showRedirect("/home");
   }
   // public async showEntityListPage() {}
 }

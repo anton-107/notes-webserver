@@ -15,6 +15,8 @@ import { getOnePersonHandler } from "./routes/person/get-one-person";
 import { getEditPersonHandler } from "./routes/person/get-edit-person";
 import { postEditPersonHandler } from "./routes/person/post-edit-person";
 import { deleteOnePersonHandler } from "./routes/person/post-delete-person";
+import { getNewNoteHandler } from "./routes/note/get-new-note";
+import { postNewNoteHandler } from "./routes/note/post-new-note";
 
 export interface Route {
   method: "GET" | "POST";
@@ -119,5 +121,17 @@ export const routes: Route[] = [
     path: "/delete-person",
     import: join(__dirname, "./routes/person/post-delete-person"),
     action: deleteOnePersonHandler.name,
+  },
+  {
+    method: "GET",
+    path: "/notebook/:notebookID/new-note",
+    import: join(__dirname, "./routes/note/get-new-note"),
+    action: getNewNoteHandler.name,
+  },
+  {
+    method: "POST",
+    path: "/note",
+    import: join(__dirname, "./routes/note/post-new-note"),
+    action: postNewNoteHandler.name,
   },
 ];

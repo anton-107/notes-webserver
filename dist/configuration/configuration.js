@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.personControllerConfiguration = exports.notebookControllerConfiguration = exports.dependenciesConfiguration = void 0;
+exports.noteControllerConfiguration = exports.personControllerConfiguration = exports.notebookControllerConfiguration = exports.dependenciesConfiguration = void 0;
 const http_redirect_view_1 = require("../views/http-redirect-view");
 const notebook_html_view_1 = require("../views/notebook/notebook-html-view");
 const person_html_view_1 = require("../views/person/person-html-view");
@@ -52,4 +52,14 @@ const personControllerConfiguration = (overrides) => {
     };
 };
 exports.personControllerConfiguration = personControllerConfiguration;
+const noteControllerConfiguration = (overrides) => {
+    const configuration = (0, exports.dependenciesConfiguration)({});
+    return {
+        ...configuration,
+        httpRedirectView: new http_redirect_view_1.HttpRedirectView({ ...configuration }),
+        entityStore: configuration.noteStore,
+        ...overrides,
+    };
+};
+exports.noteControllerConfiguration = noteControllerConfiguration;
 //# sourceMappingURL=configuration.js.map
