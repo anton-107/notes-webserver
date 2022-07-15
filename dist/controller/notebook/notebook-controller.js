@@ -2,8 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NotebookController = void 0;
 const short_uuid_1 = require("short-uuid");
+const http_1 = require("../../http/http");
 const entity_controller_1 = require("../entity-controller");
 class NotebookController extends entity_controller_1.EntityController {
+    constructor(notebookControllerProperties) {
+        super(notebookControllerProperties);
+        this.notebookControllerProperties = notebookControllerProperties;
+    }
     getEntityName() {
         return "notebook";
     }
@@ -28,6 +33,20 @@ class NotebookController extends entity_controller_1.EntityController {
     getEntityURL(entity) {
         console.log("notebook list is currently shown on home", entity);
         return "/home";
+    }
+    async showSingleEntityDetailsPage(entityID) {
+        const response = await super.showSingleEntityDetailsPage(entityID);
+        if (response.statusCode !== http_1.HttpStatus.OK) {
+            return response;
+        }
+        return {
+            ...response,
+            body: response.body.replace("{{MACRO_LIST_NOTES}}", await this.showNotesInNotebook(response.authorizedUser, entityID)),
+        };
+    }
+    async showNotesInNotebook(owner, notebookID) {
+        const notes = await this.notebookControllerProperties.noteStore.listAllInNotebook(owner, notebookID);
+        return this.notebookControllerProperties.noteHtmlView.renderMacroListOfNotes(notes);
     }
 }
 exports.NotebookController = NotebookController;

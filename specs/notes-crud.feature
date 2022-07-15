@@ -16,3 +16,7 @@ Feature: Notes handling
     And I focus on it and type 'This is my test note'
     And I press 'Enter' on keyboard
     Then I am navigated to /notebook/{notebook-id} page
+  Scenario: Read added note
+    When page is loaded
+    Then I see 'note-content' element
+    And it has inner text of 'This is my test note'

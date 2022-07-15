@@ -52,6 +52,11 @@ class NoteHtmlView {
             body: `${entity.id}`,
         };
     }
+    renderMacroListOfNotes(notes) {
+        return `
+      ${notes.map((note) => `<div data-testid='note-content'>${note.content}</div>`)}
+    `;
+    }
 }
 exports.NoteHtmlView = NoteHtmlView;
 //# sourceMappingURL=note-html-view.js.map

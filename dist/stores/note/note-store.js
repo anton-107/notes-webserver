@@ -11,6 +11,9 @@ class InMemoryNoteStore {
     async listAll(owner) {
         return this.items.filter((x) => x.owner === owner);
     }
+    async listAllInNotebook(owner, notebookID) {
+        return this.items.filter((x) => x.owner === owner && x.notebook.id === notebookID);
+    }
     async getOne(owner, id) {
         return this.items.find((x) => x.owner === owner && x.id === id);
     }

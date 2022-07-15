@@ -18,6 +18,10 @@ export interface EntityControllerProperties<T> {
   httpRedirectView: HttpRedirectView;
 }
 
+export interface EntityControllerHttpResponse extends HttpResponse {
+  authorizedUser: string | null;
+}
+
 export abstract class EntityController<T> {
   constructor(private properties: EntityControllerProperties<T>) {}
   protected abstract getEntityName(): string;
@@ -76,7 +80,7 @@ export abstract class EntityController<T> {
   }
   public async showSingleEntityDetailsPage(
     entityID: string
-  ): Promise<HttpResponse> {
+  ): Promise<EntityControllerHttpResponse> {
     const user = await this.properties.authenticator.authenticate(
       this.properties.authenticationToken
     );
@@ -88,6 +92,7 @@ export abstract class EntityController<T> {
         statusCode: HttpStatus.FORBIDDEN,
         headers: {},
         body: "Forbidden.",
+        authorizedUser: null,
       };
     }
 
@@ -102,13 +107,17 @@ export abstract class EntityController<T> {
         entityID
       );
       return {
+        authorizedUser: user.username,
         isBase64Encoded: false,
         statusCode: HttpStatus.NOT_FOUND,
         headers: {},
         body: "Not found.",
       };
     }
-    return this.properties.entityView.renderDetailsPageOneEntity(entity);
+    return {
+      ...this.properties.entityView.renderDetailsPageOneEntity(entity),
+      authorizedUser: user.username,
+    };
   }
   public async performDeleteSingleEntityAction(
     entityID: string

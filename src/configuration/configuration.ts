@@ -8,6 +8,7 @@ import { NoteStore } from "../stores/note/note-store";
 import { NotebookStore } from "../stores/notebook/notebook-store";
 import { PersonStore } from "../stores/person/person-store";
 import { HttpRedirectView } from "../views/http-redirect-view";
+import { NoteHtmlView } from "../views/note/note-html-view";
 import { NotebookHtmlView } from "../views/notebook/notebook-html-view";
 import { PersonHtmlView } from "../views/person/person-html-view";
 import { commonConfiguration } from "./common";
@@ -64,6 +65,8 @@ export const notebookControllerConfiguration = (
     entityView: new NotebookHtmlView({ ...configuration }),
     httpRedirectView: new HttpRedirectView({ ...configuration }),
     entityStore: configuration.notebookStore,
+    noteStore: configuration.noteStore,
+    noteHtmlView: new NoteHtmlView({ ...configuration }),
     ...overrides,
   };
 };

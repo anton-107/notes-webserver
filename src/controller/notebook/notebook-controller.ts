@@ -1,9 +1,27 @@
 import { generate } from "short-uuid";
 import { FormBody } from "../../http/body-parser";
+import { HttpStatus } from "../../http/http";
 import { Notebook } from "../../model/notebook-model";
-import { EntityController } from "../entity-controller";
+import { NoteStore } from "../../stores/note/note-store";
+import { NoteHtmlView } from "../../views/note/note-html-view";
+import {
+  EntityController,
+  EntityControllerHttpResponse,
+  EntityControllerProperties,
+} from "../entity-controller";
+
+export interface NotebookControllerProperties
+  extends EntityControllerProperties<Notebook> {
+  noteHtmlView: NoteHtmlView;
+  noteStore: NoteStore;
+}
 
 export class NotebookController extends EntityController<Notebook> {
+  constructor(
+    private notebookControllerProperties: NotebookControllerProperties
+  ) {
+    super(notebookControllerProperties);
+  }
   protected getEntityName(): string {
     return "notebook";
   }
@@ -34,5 +52,34 @@ export class NotebookController extends EntityController<Notebook> {
   protected getEntityURL(entity: Notebook): string {
     console.log("notebook list is currently shown on home", entity);
     return "/home";
+  }
+
+  public async showSingleEntityDetailsPage(
+    entityID: string
+  ): Promise<EntityControllerHttpResponse> {
+    const response = await super.showSingleEntityDetailsPage(entityID);
+    if (response.statusCode !== HttpStatus.OK) {
+      return response;
+    }
+    return {
+      ...response,
+      body: response.body.replace(
+        "{{MACRO_LIST_NOTES}}",
+        await this.showNotesInNotebook(response.authorizedUser, entityID)
+      ),
+    };
+  }
+  private async showNotesInNotebook(
+    owner: string,
+    notebookID: string
+  ): Promise<string> {
+    const notes =
+      await this.notebookControllerProperties.noteStore.listAllInNotebook(
+        owner,
+        notebookID
+      );
+    return this.notebookControllerProperties.noteHtmlView.renderMacroListOfNotes(
+      notes
+    );
   }
 }

@@ -11,4 +11,5 @@ export declare class NoteHtmlView implements EntityView<Note> {
     renderEditingFormOneEntity(note: Note): HttpResponse;
     renderCreationFormOneEntity(): HttpResponse;
     renderDetailsPageOneEntity(entity: Note): HttpResponse;
+    renderMacroListOfNotes(notes: Note[]): string;
 }

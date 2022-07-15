@@ -4,6 +4,7 @@ import { EntityStore } from "../entity-store";
 export interface NoteStore extends EntityStore<Note> {
   add(note: Note): Promise<void>;
   listAll(owner: string): Promise<Note[]>;
+  listAllInNotebook(owner: string, notebookID: string): Promise<Note[]>;
   editOne(note: Note): Promise<void>;
   deleteOne(owner: string, id: string): Promise<void>;
 }
@@ -16,6 +17,14 @@ export class InMemoryNoteStore implements NoteStore {
   }
   public async listAll(owner: string): Promise<Note[]> {
     return this.items.filter((x) => x.owner === owner);
+  }
+  public async listAllInNotebook(
+    owner: string,
+    notebookID: string
+  ): Promise<Note[]> {
+    return this.items.filter(
+      (x) => x.owner === owner && x.notebook.id === notebookID
+    );
   }
   public async getOne(owner: string, id: string): Promise<Note> {
     return this.items.find((x) => x.owner === owner && x.id === id);

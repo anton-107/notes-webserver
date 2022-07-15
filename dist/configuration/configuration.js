@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.noteControllerConfiguration = exports.personControllerConfiguration = exports.notebookControllerConfiguration = exports.dependenciesConfiguration = void 0;
 const http_redirect_view_1 = require("../views/http-redirect-view");
+const note_html_view_1 = require("../views/note/note-html-view");
 const notebook_html_view_1 = require("../views/notebook/notebook-html-view");
 const person_html_view_1 = require("../views/person/person-html-view");
 const common_1 = require("./common");
@@ -37,6 +38,8 @@ const notebookControllerConfiguration = (overrides) => {
         entityView: new notebook_html_view_1.NotebookHtmlView({ ...configuration }),
         httpRedirectView: new http_redirect_view_1.HttpRedirectView({ ...configuration }),
         entityStore: configuration.notebookStore,
+        noteStore: configuration.noteStore,
+        noteHtmlView: new note_html_view_1.NoteHtmlView({ ...configuration }),
         ...overrides,
     };
 };

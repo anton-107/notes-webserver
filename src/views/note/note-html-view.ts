@@ -9,7 +9,7 @@ export interface NoteHtmlViewProperties extends HtmlViewProperties {
 
 export class NoteHtmlView implements EntityView<Note> {
   constructor(private properties: NoteHtmlViewProperties) {}
-  renderEditingFormOneEntity(note: Note): HttpResponse {
+  public renderEditingFormOneEntity(note: Note): HttpResponse {
     return {
       isBase64Encoded: false,
       statusCode: HttpStatus.OK,
@@ -27,7 +27,7 @@ export class NoteHtmlView implements EntityView<Note> {
       `,
     };
   }
-  renderCreationFormOneEntity(): HttpResponse {
+  public renderCreationFormOneEntity(): HttpResponse {
     return {
       isBase64Encoded: false,
       statusCode: HttpStatus.OK,
@@ -45,7 +45,7 @@ export class NoteHtmlView implements EntityView<Note> {
       `,
     };
   }
-  renderDetailsPageOneEntity(entity: Note): HttpResponse {
+  public renderDetailsPageOneEntity(entity: Note): HttpResponse {
     return {
       isBase64Encoded: false,
       statusCode: HttpStatus.OK,
@@ -54,5 +54,12 @@ export class NoteHtmlView implements EntityView<Note> {
       },
       body: `${entity.id}`,
     };
+  }
+  public renderMacroListOfNotes(notes: Note[]): string {
+    return `
+      ${notes.map(
+        (note) => `<div data-testid='note-content'>${note.content}</div>`
+      )}
+    `;
   }
 }
