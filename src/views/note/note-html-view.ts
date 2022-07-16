@@ -24,6 +24,10 @@ export class NoteHtmlView implements EntityView<Note> {
           <textarea name='note-content' data-testid='note-content-input'>${note.content}</textarea>
           <button type='submit' data-testid='edit-note-button'>Update</button>
         </form>
+        <form method='post' action='${this.properties.baseUrl}/note/delete'>
+          <input type='hidden' name='note-id' value='${note.id}' />
+          <button type='submit' data-testid='note-delete-button'>Delete this note</button>
+        </form>
         <a href='${this.properties.baseUrl}/notebook/${note.notebook.id}'>Cancel edit</a>
       `,
     };

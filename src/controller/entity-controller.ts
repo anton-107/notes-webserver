@@ -145,12 +145,11 @@ export abstract class EntityController<T> {
       };
     }
 
-    console.log("getting one");
     const entity = await this.properties.entityStore.getOne(
       user.username,
       entityID
     );
-    console.log("got one");
+
     if (!entity) {
       console.error(
         `Entity ${this.getEntityName()} is not found for deletion`,
@@ -166,7 +165,6 @@ export abstract class EntityController<T> {
     }
 
     try {
-      console.log("deleting one");
       await this.properties.entityStore.deleteOne(user.username, entityID);
     } catch (err) {
       console.log(`Could not delete ${this.getEntityName()}`, entityID, err);

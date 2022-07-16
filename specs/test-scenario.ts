@@ -120,7 +120,6 @@ export class TestScenario {
   };
   public async submitForm() {
     const forms = this.pageRoot.querySelectorAll("form");
-    expect(forms.length).toBe(1);
     const formEl = forms[0];
     const formMethod = formEl.getAttribute("method");
     const formAction = formEl.getAttribute("action");

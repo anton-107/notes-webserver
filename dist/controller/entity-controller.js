@@ -80,9 +80,7 @@ class EntityController {
                 body: "Bad request.",
             };
         }
-        console.log("getting one");
         const entity = await this.properties.entityStore.getOne(user.username, entityID);
-        console.log("got one");
         if (!entity) {
             console.error(`Entity ${this.getEntityName()} is not found for deletion`, user, entityID);
             return {
@@ -93,7 +91,6 @@ class EntityController {
             };
         }
         try {
-            console.log("deleting one");
             await this.properties.entityStore.deleteOne(user.username, entityID);
         }
         catch (err) {

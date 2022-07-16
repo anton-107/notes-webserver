@@ -32,4 +32,14 @@ Feature: Notes handling
     When page is loaded
     Then I see 'note-content' element
     And it has inner text of 'This is my test note (edited)'
+  Scenario: Delete note
+    And I see 'note-edit-link' element
+    When I click on it
+    Then I am navigated to /notebook/{notebook-id}/note/{note-id}/edit page
+    When page is loaded
+    Then I see 'note-delete-button' element
+    When I click on it
+    Then I am navigated to /notebook/{notebook-id} page
+    When page is loaded
+    Then I do not see 'note-content' element
   
