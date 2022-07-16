@@ -13,6 +13,7 @@ import { NotebookHtmlView } from "../views/notebook/notebook-html-view";
 import { PersonHtmlView } from "../views/person/person-html-view";
 import { commonConfiguration } from "./common";
 import { jwtSerializerSecretsManagerConfiguration } from "./jwt-serializer-secrets-manager";
+import { noteStoreDynamoConfiguration } from "./note-store-dynamo";
 import { notebookStoreDynamoConfiguration } from "./notebook-store-dynamo";
 import { personStoreDynamoConfiguration } from "./person-store-dynamo";
 import { userStoreDynamoConfiguration } from "./user-store-dynamo";
@@ -38,6 +39,9 @@ export const dependenciesConfiguration = (
   }
   if (process.env["NOTEBOOK_STORE_TYPE"] === "dynamodb") {
     Object.assign(contextConfiguration, notebookStoreDynamoConfiguration());
+  }
+  if (process.env["NOTE_STORE_TYPE"] === "dynamodb") {
+    Object.assign(contextConfiguration, noteStoreDynamoConfiguration());
   }
   if (process.env["PERSON_STORE_TYPE"] === "dynamodb") {
     Object.assign(contextConfiguration, personStoreDynamoConfiguration());

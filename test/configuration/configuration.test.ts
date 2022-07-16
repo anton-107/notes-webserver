@@ -23,6 +23,14 @@ describe("Configuration", () => {
     expect(config.notebookStore).not.toBe(null);
   });
 
+  it("should set up note store in dynamodb", () => {
+    process.env = Object.assign({}, process.env, {
+      NOTE_STORE_TYPE: "dynamodb",
+    });
+    const config = dependenciesConfiguration({});
+    expect(config.notebookStore).not.toBe(null);
+  });
+
   it("should set up person store in dynamodb", () => {
     process.env = Object.assign({}, process.env, {
       PERSON_STORE_TYPE: "dynamodb",
