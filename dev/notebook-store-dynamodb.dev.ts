@@ -3,7 +3,7 @@ import { DynamoDB } from "aws-sdk";
 import {
   NotebookEntity,
   NotebookStoreDynamodb,
-} from "./../src/stores/notebook-store-dynamodb";
+} from "./../src/stores/notebook/notebook-store-dynamodb";
 import { generate } from "short-uuid";
 
 const CREATE_TABLE_BEFORE_TESTS = false;
@@ -60,8 +60,8 @@ describe("NotebookStoreDynamodb: development test", () => {
     const notebooks = await store.listAll(username);
     expect(notebooks.length).toBeGreaterThan(1);
     notebooks.sort((a, b) => a.name.localeCompare(b.name));
-    expect(notebooks[0].name).toBe("Notebook 1");
-    expect(notebooks[1].name).toBe("Notebook 2");
+    expect(notebooks[0].name).toMatch(/^Notebook \d/);
+    expect(notebooks[1].name).toMatch(/^Notebook \d/);
   });
   it("should fetch one item", async () => {
     const store = new NotebookStoreDynamodb({

@@ -1,5 +1,5 @@
 import { Notebook } from "./notebook-model";
-interface NoteType {
+export interface NoteType {
     type: string;
 }
 export interface Note {
@@ -12,4 +12,3 @@ export interface Note {
 export interface RenderedNote extends Note {
     renderedContent: string;
 }
-export {};
