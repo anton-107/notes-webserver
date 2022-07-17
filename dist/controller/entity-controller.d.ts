@@ -15,11 +15,9 @@ export interface EntityControllerProperties<T> {
     entityView: EntityView<T>;
     httpRedirectView: HttpRedirectView;
 }
-export interface EntityControllerHttpResponse extends HttpResponse {
-    authorizedUser: string | null;
-}
 export declare abstract class EntityController<T> {
     private properties;
+    protected authorizedUserName: string | null;
     constructor(properties: EntityControllerProperties<T>);
     protected abstract getEntityName(): string;
     protected abstract mapRequestToExistingEntity(username: string, requestForm: FormBody): T;
@@ -28,7 +26,7 @@ export declare abstract class EntityController<T> {
     protected abstract getEntityURL(entity: T): string;
     showEditSingleEntityPage(entityID: string): Promise<HttpResponse>;
     showCreateNewEntityPage(): Promise<HttpResponse>;
-    showSingleEntityDetailsPage(entityID: string): Promise<EntityControllerHttpResponse>;
+    showSingleEntityDetailsPage(entityID: string): Promise<HttpResponse>;
     performDeleteSingleEntityAction(entityID: string): Promise<HttpResponse>;
     performUpdateSingleEntityAction(form: FormBody): Promise<HttpResponse>;
     performCreateSingleEntityAction(form: FormBody): Promise<HttpResponse>;

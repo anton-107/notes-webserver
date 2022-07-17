@@ -41,7 +41,7 @@ class NotebookController extends entity_controller_1.EntityController {
         }
         return {
             ...response,
-            body: response.body.replace("{{MACRO_LIST_NOTES}}", await this.showNotesInNotebook(response.authorizedUser, entityID)),
+            body: response.body.replace("{{MACRO_LIST_NOTES}}", await this.showNotesInNotebook(this.authorizedUserName, entityID)),
         };
     }
     async showNotesInNotebook(owner, notebookID) {

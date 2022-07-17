@@ -1,12 +1,11 @@
 import { generate } from "short-uuid";
 import { FormBody } from "../../http/body-parser";
-import { HttpStatus } from "../../http/http";
+import { HttpResponse, HttpStatus } from "../../http/http";
 import { Notebook } from "../../model/notebook-model";
 import { NoteStore } from "../../stores/note/note-store";
 import { NoteHtmlView } from "../../views/note/note-html-view";
 import {
   EntityController,
-  EntityControllerHttpResponse,
   EntityControllerProperties,
 } from "../entity-controller";
 
@@ -56,7 +55,7 @@ export class NotebookController extends EntityController<Notebook> {
 
   public async showSingleEntityDetailsPage(
     entityID: string
-  ): Promise<EntityControllerHttpResponse> {
+  ): Promise<HttpResponse> {
     const response = await super.showSingleEntityDetailsPage(entityID);
     if (response.statusCode !== HttpStatus.OK) {
       return response;
@@ -65,7 +64,7 @@ export class NotebookController extends EntityController<Notebook> {
       ...response,
       body: response.body.replace(
         "{{MACRO_LIST_NOTES}}",
-        await this.showNotesInNotebook(response.authorizedUser, entityID)
+        await this.showNotesInNotebook(this.authorizedUserName, entityID)
       ),
     };
   }
