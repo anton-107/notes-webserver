@@ -41,7 +41,7 @@ class NoteHtmlView {
         <form method='post' action='${this.properties.baseUrl}/note'>
           <input type='hidden' name='notebook-id' value='${this.properties.notebookID}' />
           <textarea name='note-content' data-testid='note-content-input'></textarea>
-          <button type='submit' data-testid='edit-notebook-button'>Update</button>
+          <button type='submit' data-testid='edit-notebook-button'>Add</button>
         </form>
         <a href='${this.properties.baseUrl}/notebook/${this.properties.notebookID}'>Cancel</a>
       `,

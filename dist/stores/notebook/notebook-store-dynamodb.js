@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NotebookStoreDynamodb = exports.NotebookEntity = void 0;
 const dynamodb_data_mapper_annotations_1 = require("@aws/dynamodb-data-mapper-annotations");
+const dynamodb_expressions_1 = require("@aws/dynamodb-expressions");
 const NOTEBOOK_TABLE_NAME = "notes-webserver-notebook";
 let NotebookEntity = class NotebookEntity {
 };
@@ -55,7 +56,13 @@ class NotebookStoreDynamodb {
         try {
             console.log(`[NotebookStoreDynamodb] fetching up notebooks for owner ${owner}`);
             const r = [];
-            for await (const entity of this.properties.dataMapper.query(NotebookEntity, { owner })) {
+            for await (const entity of this.properties.dataMapper.query(NotebookEntity, {
+                type: "And",
+                conditions: [
+                    { type: "Equals", subject: "owner", object: owner },
+                    new dynamodb_expressions_1.FunctionExpression("begins_with", new dynamodb_expressions_1.AttributePath("sortKey"), "NOTEBOOK_"),
+                ],
+            })) {
                 r.push({
                     name: entity.name,
                     owner: entity.owner,

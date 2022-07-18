@@ -7,6 +7,7 @@ import {
 import { NotebookStore } from "./notebook-store";
 import { DataMapper } from "@aws/dynamodb-data-mapper";
 import { Notebook } from "../../model/notebook-model";
+import { FunctionExpression, AttributePath } from "@aws/dynamodb-expressions";
 
 const NOTEBOOK_TABLE_NAME = "notes-webserver-notebook";
 
@@ -51,7 +52,17 @@ export class NotebookStoreDynamodb implements NotebookStore {
       const r: Notebook[] = [];
       for await (const entity of this.properties.dataMapper.query(
         NotebookEntity,
-        { owner }
+        {
+          type: "And",
+          conditions: [
+            { type: "Equals", subject: "owner", object: owner },
+            new FunctionExpression(
+              "begins_with",
+              new AttributePath("sortKey"),
+              "NOTEBOOK_"
+            ),
+          ],
+        }
       )) {
         r.push({
           name: entity.name,
