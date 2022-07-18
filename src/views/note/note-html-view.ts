@@ -62,12 +62,14 @@ export class NoteHtmlView implements EntityView<Note> {
   }
   public renderMacroListOfNotes(notes: Note[]): string {
     return `
-      ${notes.map(
-        (note) => `<div>
+      ${notes
+        .map(
+          (note) => `<div>
           <div data-testid='note-content'>${note.content}</div>
           <a href='${this.properties.baseUrl}/notebook/${note.notebook.id}/note/${note.id}/edit' data-testid='note-edit-link'>Edit</a>
         </div>`
-      )}
+        )
+        .join("")}
     `;
   }
 }
