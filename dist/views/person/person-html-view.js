@@ -17,8 +17,12 @@ class PersonHtmlView {
         <h1 data-testid='person-name'>${person.name}</h1>
         <form method='post' action='${this.properties.baseUrl}/person/${person.id}/edit'>
           <input type='hidden' name='person-id' value='${person.id}' />
-          <input type='text' name='person-name' value='${person.name}' data-testid='person-name-input' />
-          <input type='text' name='person-email' value='${person.email}' data-testid='person-email-input' />
+          <label>Person name:
+            <input type='text' name='person-name' value='${person.name}' data-testid='person-name-input' />
+          </label>
+          <label>Person email:
+            <input type='text' name='person-email' value='${person.email}' data-testid='person-email-input' />
+          </label>
           <button type='submit' data-testid='edit-person-button'>Update</button>
         </form>
         <a href='${this.properties.baseUrl}/person/${person.id}'>Cancel edit</a>
@@ -33,8 +37,12 @@ class PersonHtmlView {
                 "Content-Type": "text/html; charset=utf-8",
             },
             body: `<form method='post' action='${this.properties.baseUrl}/person'>
-        <input name='person-name' data-testid='person-name-input' />
-        <input name='person-email' data-testid='person-email-input' />
+        <label>Person name:
+          <input name='person-name' data-testid='person-name-input' />
+        </label>
+        <label>Person email:
+          <input name='person-email' data-testid='person-email-input' />
+        </label>
         <input type='submit' />
       </form>`,
         };
