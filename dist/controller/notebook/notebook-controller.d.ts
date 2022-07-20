@@ -18,4 +18,5 @@ export declare class NotebookController extends EntityController<Notebook> {
     protected getEntityURL(entity: Notebook): string;
     showSingleEntityDetailsPage(entityID: string): Promise<HttpResponse>;
     private showNotesInNotebook;
+    private showLinksToAddNotes;
 }

@@ -9,6 +9,24 @@ export interface NoteHtmlViewProperties extends HtmlViewProperties {
 
 export class NoteHtmlView implements EntityView<Note> {
   constructor(private properties: NoteHtmlViewProperties) {}
+  public renderCreationFormOneEntity(): HttpResponse {
+    return {
+      isBase64Encoded: false,
+      statusCode: HttpStatus.OK,
+      headers: {
+        "Content-Type": "text/html; charset=utf-8",
+      },
+      body: `
+        <h1 data-testid='notebook-name'>Add new note</h1>
+        <form method='post' action='${this.properties.baseUrl}/note'>
+          <input type='hidden' name='notebook-id' value='${this.properties.notebookID}' />
+          <textarea name='note-content' data-testid='note-content-input'></textarea>
+          <button type='submit' data-testid='edit-notebook-button'>Add</button>
+        </form>
+        <a href='${this.properties.baseUrl}/notebook/${this.properties.notebookID}'>Cancel</a>
+      `,
+    };
+  }
   public renderEditingFormOneEntity(note: Note): HttpResponse {
     return {
       isBase64Encoded: false,
@@ -32,24 +50,6 @@ export class NoteHtmlView implements EntityView<Note> {
       `,
     };
   }
-  public renderCreationFormOneEntity(): HttpResponse {
-    return {
-      isBase64Encoded: false,
-      statusCode: HttpStatus.OK,
-      headers: {
-        "Content-Type": "text/html; charset=utf-8",
-      },
-      body: `
-        <h1 data-testid='notebook-name'>Add new note</h1>
-        <form method='post' action='${this.properties.baseUrl}/note'>
-          <input type='hidden' name='notebook-id' value='${this.properties.notebookID}' />
-          <textarea name='note-content' data-testid='note-content-input'></textarea>
-          <button type='submit' data-testid='edit-notebook-button'>Add</button>
-        </form>
-        <a href='${this.properties.baseUrl}/notebook/${this.properties.notebookID}'>Cancel</a>
-      `,
-    };
-  }
   public renderDetailsPageOneEntity(entity: Note): HttpResponse {
     return {
       isBase64Encoded: false,
@@ -70,6 +70,15 @@ export class NoteHtmlView implements EntityView<Note> {
         </div>`
         )
         .join("")}
+    `;
+  }
+  public renderMacroLinksToAddNotes(notebookID: string): string {
+    return `
+      <h2>Add a new note</h2>
+      <ul>
+        <li><a href='${this.properties.baseUrl}/notebook/${notebookID}/new-note' data-testid='create-new-note-link'>Add a plain note</a></li>
+        <li><a href='${this.properties.baseUrl}/notebook/${notebookID}/new-note/date-range' data-testid='create-new-date-range-link'>Add a date range entry</a></li>
+      </ul>
     `;
   }
 }

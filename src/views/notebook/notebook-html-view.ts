@@ -50,8 +50,12 @@ export class NotebookHtmlView implements EntityView<Notebook> {
           <input type='hidden' name='notebookID' value='${notebook.id}' />
           <button type='submit' data-testid='delete-notebook-button'>Delete this notebook</button>
         </form>
+        <div>
         {{MACRO_LIST_NOTES}}
-        <a href='${this.properties.baseUrl}/notebook/${notebook.id}/new-note' data-testid='create-new-note-link'>Add new note</a>
+        </div>
+        <div>
+        {{MACRO_LIST_LINKS_TO_ADD_NOTES}}
+        </div>
       `,
     };
   }

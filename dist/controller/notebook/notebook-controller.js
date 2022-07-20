@@ -41,12 +41,17 @@ class NotebookController extends entity_controller_1.EntityController {
         }
         return {
             ...response,
-            body: response.body.replace("{{MACRO_LIST_NOTES}}", await this.showNotesInNotebook(this.authorizedUserName, entityID)),
+            body: response.body
+                .replace("{{MACRO_LIST_NOTES}}", await this.showNotesInNotebook(this.authorizedUserName, entityID))
+                .replace("{{MACRO_LIST_LINKS_TO_ADD_NOTES}}", await this.showLinksToAddNotes(entityID)),
         };
     }
     async showNotesInNotebook(owner, notebookID) {
         const notes = await this.notebookControllerProperties.noteStore.listAllInNotebook(owner, notebookID);
         return this.notebookControllerProperties.noteHtmlView.renderMacroListOfNotes(notes);
+    }
+    showLinksToAddNotes(notebookID) {
+        return this.notebookControllerProperties.noteHtmlView.renderMacroLinksToAddNotes(notebookID);
     }
 }
 exports.NotebookController = NotebookController;

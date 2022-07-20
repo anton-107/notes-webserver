@@ -62,10 +62,15 @@ export class NotebookController extends EntityController<Notebook> {
     }
     return {
       ...response,
-      body: response.body.replace(
-        "{{MACRO_LIST_NOTES}}",
-        await this.showNotesInNotebook(this.authorizedUserName, entityID)
-      ),
+      body: response.body
+        .replace(
+          "{{MACRO_LIST_NOTES}}",
+          await this.showNotesInNotebook(this.authorizedUserName, entityID)
+        )
+        .replace(
+          "{{MACRO_LIST_LINKS_TO_ADD_NOTES}}",
+          await this.showLinksToAddNotes(entityID)
+        ),
     };
   }
   private async showNotesInNotebook(
@@ -79,6 +84,11 @@ export class NotebookController extends EntityController<Notebook> {
       );
     return this.notebookControllerProperties.noteHtmlView.renderMacroListOfNotes(
       notes
+    );
+  }
+  private showLinksToAddNotes(notebookID: string) {
+    return this.notebookControllerProperties.noteHtmlView.renderMacroLinksToAddNotes(
+      notebookID
     );
   }
 }

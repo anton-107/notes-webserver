@@ -6,6 +6,24 @@ class NoteHtmlView {
     constructor(properties) {
         this.properties = properties;
     }
+    renderCreationFormOneEntity() {
+        return {
+            isBase64Encoded: false,
+            statusCode: http_1.HttpStatus.OK,
+            headers: {
+                "Content-Type": "text/html; charset=utf-8",
+            },
+            body: `
+        <h1 data-testid='notebook-name'>Add new note</h1>
+        <form method='post' action='${this.properties.baseUrl}/note'>
+          <input type='hidden' name='notebook-id' value='${this.properties.notebookID}' />
+          <textarea name='note-content' data-testid='note-content-input'></textarea>
+          <button type='submit' data-testid='edit-notebook-button'>Add</button>
+        </form>
+        <a href='${this.properties.baseUrl}/notebook/${this.properties.notebookID}'>Cancel</a>
+      `,
+        };
+    }
     renderEditingFormOneEntity(note) {
         return {
             isBase64Encoded: false,
@@ -29,24 +47,6 @@ class NoteHtmlView {
       `,
         };
     }
-    renderCreationFormOneEntity() {
-        return {
-            isBase64Encoded: false,
-            statusCode: http_1.HttpStatus.OK,
-            headers: {
-                "Content-Type": "text/html; charset=utf-8",
-            },
-            body: `
-        <h1 data-testid='notebook-name'>Add new note</h1>
-        <form method='post' action='${this.properties.baseUrl}/note'>
-          <input type='hidden' name='notebook-id' value='${this.properties.notebookID}' />
-          <textarea name='note-content' data-testid='note-content-input'></textarea>
-          <button type='submit' data-testid='edit-notebook-button'>Add</button>
-        </form>
-        <a href='${this.properties.baseUrl}/notebook/${this.properties.notebookID}'>Cancel</a>
-      `,
-        };
-    }
     renderDetailsPageOneEntity(entity) {
         return {
             isBase64Encoded: false,
@@ -65,6 +65,15 @@ class NoteHtmlView {
           <a href='${this.properties.baseUrl}/notebook/${note.notebook.id}/note/${note.id}/edit' data-testid='note-edit-link'>Edit</a>
         </div>`)
             .join("")}
+    `;
+    }
+    renderMacroLinksToAddNotes(notebookID) {
+        return `
+      <h2>Add a new note</h2>
+      <ul>
+        <li><a href='${this.properties.baseUrl}/notebook/${notebookID}/new-note' data-testid='create-new-note-link'>Add a plain note</a></li>
+        <li><a href='${this.properties.baseUrl}/notebook/${notebookID}/new-note/date-range' data-testid='create-new-date-range-link'>Add a date range entry</a></li>
+      </ul>
     `;
     }
 }
