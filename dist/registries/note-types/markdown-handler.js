@@ -6,7 +6,7 @@ class MarkdownHandler {
         return "markdown";
     }
     typeDisplayName() {
-        return "Markdown formatting";
+        return "markdown formatted note";
     }
     render(note) {
         return {

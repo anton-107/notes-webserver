@@ -1,6 +1,7 @@
 import { EntityView } from "../../controller/entity-controller";
 import { HttpResponse, HttpStatus } from "../../http/http";
 import { Note } from "../../model/note-model";
+import { NoteTypeHandler } from "../../registries/note-types-registry";
 import { HtmlViewProperties } from "../interfaces";
 
 export interface NoteHtmlViewProperties extends HtmlViewProperties {
@@ -72,12 +73,22 @@ export class NoteHtmlView implements EntityView<Note> {
         .join("")}
     `;
   }
-  public renderMacroLinksToAddNotes(notebookID: string): string {
+  public renderMacroLinksToAddNotes(
+    notebookID: string,
+    noteTypes: NoteTypeHandler[]
+  ): string {
     return `
       <h2>Add a new note</h2>
       <ul>
-        <li><a href='${this.properties.baseUrl}/notebook/${notebookID}/new-note' data-testid='create-new-note-link'>Add a plain note</a></li>
-        <li><a href='${this.properties.baseUrl}/notebook/${notebookID}/new-note/date-range' data-testid='create-new-date-range-link'>Add a date range entry</a></li>
+        ${noteTypes
+          .map(
+            (noteType) => `<div>
+            <li><a href='${
+              this.properties.baseUrl
+            }/notebook/${notebookID}/new-${noteType.typeName()}' data-testid='create-new-${noteType.typeName()}-link'>Add a ${noteType.typeDisplayName()}</a></li>
+          </div>`
+          )
+          .join("")}
       </ul>
     `;
   }

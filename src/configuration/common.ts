@@ -13,6 +13,9 @@ import {
 } from "./configuration";
 import { InMemoryPersonStore } from "../stores/person/person-store";
 import { InMemoryNoteStore } from "../stores/note/note-store";
+import { NoteTypesRegistry } from "../registries/note-types-registry";
+import { PlaintextNoteHandler } from "../registries/note-types/plaintext-handler";
+import { DateRangeNoteHandler } from "../registries/note-types/date-range-handler";
 
 const passwordHashingFunction = new ScryptHashingFunction();
 const userStore = new InMemoryUserStore();
@@ -23,6 +26,10 @@ const jwtSerializerSecretProvider = new SimpleStringProvider(
 const notebookStore = new InMemoryNotebookStore();
 const personStore = new InMemoryPersonStore();
 const noteStore = new InMemoryNoteStore();
+const noteTypesRegistry = new NoteTypesRegistry();
+
+noteTypesRegistry.addNoteTypeHandler(new PlaintextNoteHandler());
+noteTypesRegistry.addNoteTypeHandler(new DateRangeNoteHandler());
 
 export const commonConfiguration = (
   overrides: ServiceConfigurationOverrides
@@ -44,6 +51,7 @@ export const commonConfiguration = (
     personStore,
     noteStore,
     baseUrl: "",
+    noteTypesRegistry,
     ...overrides,
   };
 };

@@ -1,10 +1,10 @@
-import { PlaintextHandler } from "../../src/registries/note-types/plaintext-handler";
+import { PlaintextNoteHandler } from "../../src/registries/note-types/plaintext-handler";
 
 describe("Plaintext handler", () => {
-  const h = new PlaintextHandler();
+  const h = new PlaintextNoteHandler();
   it("should describe itself", () => {
-    expect(h.typeName()).toBe("plaintext");
-    expect(h.typeDisplayName()).toBe("Plain text");
+    expect(h.typeName()).toBe("note");
+    expect(h.typeDisplayName()).toBe("plain note");
   });
   it("should render plain text without changes", () => {
     const note = {

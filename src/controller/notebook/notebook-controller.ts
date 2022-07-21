@@ -2,6 +2,7 @@ import { generate } from "short-uuid";
 import { FormBody } from "../../http/body-parser";
 import { HttpResponse, HttpStatus } from "../../http/http";
 import { Notebook } from "../../model/notebook-model";
+import { NoteTypesRegistry } from "../../registries/note-types-registry";
 import { NoteStore } from "../../stores/note/note-store";
 import { NoteHtmlView } from "../../views/note/note-html-view";
 import {
@@ -13,6 +14,7 @@ export interface NotebookControllerProperties
   extends EntityControllerProperties<Notebook> {
   noteHtmlView: NoteHtmlView;
   noteStore: NoteStore;
+  noteTypesRegistry: NoteTypesRegistry;
 }
 
 export class NotebookController extends EntityController<Notebook> {
@@ -87,8 +89,11 @@ export class NotebookController extends EntityController<Notebook> {
     );
   }
   private showLinksToAddNotes(notebookID: string) {
+    const noteTypes =
+      this.notebookControllerProperties.noteTypesRegistry.listNoteTypeHandlers();
     return this.notebookControllerProperties.noteHtmlView.renderMacroLinksToAddNotes(
-      notebookID
+      notebookID,
+      noteTypes
     );
   }
 }

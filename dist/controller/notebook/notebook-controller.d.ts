@@ -1,12 +1,14 @@
 import { FormBody } from "../../http/body-parser";
 import { HttpResponse } from "../../http/http";
 import { Notebook } from "../../model/notebook-model";
+import { NoteTypesRegistry } from "../../registries/note-types-registry";
 import { NoteStore } from "../../stores/note/note-store";
 import { NoteHtmlView } from "../../views/note/note-html-view";
 import { EntityController, EntityControllerProperties } from "../entity-controller";
 export interface NotebookControllerProperties extends EntityControllerProperties<Notebook> {
     noteHtmlView: NoteHtmlView;
     noteStore: NoteStore;
+    noteTypesRegistry: NoteTypesRegistry;
 }
 export declare class NotebookController extends EntityController<Notebook> {
     private notebookControllerProperties;

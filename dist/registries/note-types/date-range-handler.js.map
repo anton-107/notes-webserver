@@ -1,0 +1,1 @@
+{"version":3,"file":"date-range-handler.js","sourceRoot":"","sources":["../../../src/registries/note-types/date-range-handler.ts"],"names":[],"mappings":";;;AAGA,MAAa,oBAAoB;IACxB,QAAQ;QACb,OAAO,YAAY,CAAC;IACtB,CAAC;IACM,eAAe;QACpB,OAAO,kBAAkB,CAAC;IAC5B,CAAC;IACM,MAAM,CAAC,IAAU;QACtB,OAAO;YACL,GAAG,IAAI;YACP,eAAe,EAAE,IAAI,CAAC,OAAO;SAC9B,CAAC;IACJ,CAAC;CACF;AAbD,oDAaC"}

@@ -1,12 +1,12 @@
 import { Note, RenderedNote } from "../../model/note-model";
 import { NoteTypeHandler } from "../note-types-registry";
 
-export class MarkdownHandler implements NoteTypeHandler {
+export class DateRangeNoteHandler implements NoteTypeHandler {
   public typeName(): string {
-    return "markdown";
+    return "date-range";
   }
   public typeDisplayName(): string {
-    return "markdown formatted note";
+    return "date range entry";
   }
   public render(note: Note): RenderedNote {
     return {

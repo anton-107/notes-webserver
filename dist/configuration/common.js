@@ -8,6 +8,9 @@ const authenticator_1 = require("authentication-module/dist/authenticator");
 const notebook_store_1 = require("../stores/notebook/notebook-store");
 const person_store_1 = require("../stores/person/person-store");
 const note_store_1 = require("../stores/note/note-store");
+const note_types_registry_1 = require("../registries/note-types-registry");
+const plaintext_handler_1 = require("../registries/note-types/plaintext-handler");
+const date_range_handler_1 = require("../registries/note-types/date-range-handler");
 const passwordHashingFunction = new scrypt_hashing_1.ScryptHashingFunction();
 const userStore = new user_store_inmemory_1.InMemoryUserStore();
 const jwtSerializerSecretKey = String(Math.random());
@@ -15,6 +18,9 @@ const jwtSerializerSecretProvider = new jwt_serializer_1.SimpleStringProvider(jw
 const notebookStore = new notebook_store_1.InMemoryNotebookStore();
 const personStore = new person_store_1.InMemoryPersonStore();
 const noteStore = new note_store_1.InMemoryNoteStore();
+const noteTypesRegistry = new note_types_registry_1.NoteTypesRegistry();
+noteTypesRegistry.addNoteTypeHandler(new plaintext_handler_1.PlaintextNoteHandler());
+noteTypesRegistry.addNoteTypeHandler(new date_range_handler_1.DateRangeNoteHandler());
 const commonConfiguration = (overrides) => {
     return {
         userStore,
@@ -32,6 +38,7 @@ const commonConfiguration = (overrides) => {
         personStore,
         noteStore,
         baseUrl: "",
+        noteTypesRegistry,
         ...overrides,
     };
 };

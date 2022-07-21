@@ -67,12 +67,15 @@ class NoteHtmlView {
             .join("")}
     `;
     }
-    renderMacroLinksToAddNotes(notebookID) {
+    renderMacroLinksToAddNotes(notebookID, noteTypes) {
         return `
       <h2>Add a new note</h2>
       <ul>
-        <li><a href='${this.properties.baseUrl}/notebook/${notebookID}/new-note' data-testid='create-new-note-link'>Add a plain note</a></li>
-        <li><a href='${this.properties.baseUrl}/notebook/${notebookID}/new-note/date-range' data-testid='create-new-date-range-link'>Add a date range entry</a></li>
+        ${noteTypes
+            .map((noteType) => `<div>
+            <li><a href='${this.properties.baseUrl}/notebook/${notebookID}/new-${noteType.typeName()}' data-testid='create-new-${noteType.typeName()}-link'>Add a ${noteType.typeDisplayName()}</a></li>
+          </div>`)
+            .join("")}
       </ul>
     `;
     }

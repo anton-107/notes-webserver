@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PlaintextNoteHandler = void 0;
-class PlaintextNoteHandler {
+exports.DateRangeNoteHandler = void 0;
+class DateRangeNoteHandler {
     typeName() {
-        return "note";
+        return "date-range";
     }
     typeDisplayName() {
-        return "plain note";
+        return "date range entry";
     }
     render(note) {
         return {
@@ -15,5 +15,5 @@ class PlaintextNoteHandler {
         };
     }
 }
-exports.PlaintextNoteHandler = PlaintextNoteHandler;
-//# sourceMappingURL=plaintext-handler.js.map
+exports.DateRangeNoteHandler = DateRangeNoteHandler;
+//# sourceMappingURL=date-range-handler.js.map

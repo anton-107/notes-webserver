@@ -51,7 +51,8 @@ class NotebookController extends entity_controller_1.EntityController {
         return this.notebookControllerProperties.noteHtmlView.renderMacroListOfNotes(notes);
     }
     showLinksToAddNotes(notebookID) {
-        return this.notebookControllerProperties.noteHtmlView.renderMacroLinksToAddNotes(notebookID);
+        const noteTypes = this.notebookControllerProperties.noteTypesRegistry.listNoteTypeHandlers();
+        return this.notebookControllerProperties.noteHtmlView.renderMacroLinksToAddNotes(notebookID, noteTypes);
     }
 }
 exports.NotebookController = NotebookController;

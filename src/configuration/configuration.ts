@@ -4,6 +4,7 @@ import {
   UserStore,
 } from "authentication-module/dist/authenticator";
 import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
+import { NoteTypesRegistry } from "../registries/note-types-registry";
 import { NoteStore } from "../stores/note/note-store";
 import { NotebookStore } from "../stores/notebook/notebook-store";
 import { PersonStore } from "../stores/person/person-store";
@@ -24,6 +25,7 @@ export interface ServiceConfiguration {
   notebookStore: NotebookStore;
   personStore: PersonStore;
   noteStore: NoteStore;
+  noteTypesRegistry: NoteTypesRegistry;
   passwordHashingFunction: PasswordHashingFunction;
   userStore: UserStore;
   baseUrl: string;
@@ -55,6 +57,7 @@ export const dependenciesConfiguration = (
     );
   }
   contextConfiguration.baseUrl = process.env["BASE_URL"] || "";
+
   return commonConfiguration({
     ...contextConfiguration,
     ...overrides,

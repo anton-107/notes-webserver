@@ -4,7 +4,7 @@ describe("Markdown handler", () => {
   const h = new MarkdownHandler();
   it("should describe itself", () => {
     expect(h.typeName()).toBe("markdown");
-    expect(h.typeDisplayName()).toBe("Markdown formatting");
+    expect(h.typeDisplayName()).toBe("markdown formatted note");
   });
   it("should render plain text without changes", () => {
     const note = {
