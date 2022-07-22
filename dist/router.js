@@ -23,6 +23,7 @@ const post_new_note_1 = require("./routes/note/post-new-note");
 const get_edit_note_1 = require("./routes/note/get-edit-note");
 const post_edit_note_1 = require("./routes/note/post-edit-note");
 const post_delete_note_1 = require("./routes/note/post-delete-note");
+const get_new_date_range_1 = require("./routes/note/date-range/get-new-date-range");
 exports.routes = [
     {
         method: "GET",
@@ -149,6 +150,12 @@ exports.routes = [
         path: "/note/delete",
         import: (0, path_1.join)(__dirname, "./routes/note/post-delete-note"),
         action: post_delete_note_1.postDeleteNoteHandler.name,
+    },
+    {
+        method: "GET",
+        path: "/notebook/:notebookID/new-date-range",
+        import: (0, path_1.join)(__dirname, "./routes/note/date-range/get-new-date-range"),
+        action: get_new_date_range_1.getNewDateRangeHandler.name,
     },
 ];
 //# sourceMappingURL=router.js.map
