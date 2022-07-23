@@ -18,3 +18,5 @@ Feature: Notes with 'date range' type
     And I focus on it and type '2022-07-22'
     And I see 'date-range-end-input' element
     And I focus on it and type '2022-08-02'
+    And I press 'Enter' on keyboard
+    Then I am navigated to /notebook/{notebook-id} page

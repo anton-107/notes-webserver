@@ -15,7 +15,7 @@ class DateRangeHtmlView {
             },
             body: `
         <h1 data-testid='notebook-name'>Add new note</h1>
-        <form method='post' action='${this.properties.baseUrl}/note'>
+        <form method='post' action='${this.properties.baseUrl}/note/date-range'>
           <input type='hidden' name='notebook-id' value='${this.properties.notebookID}' />
           <label>Description
             <input name='note-content' data-testid='note-content-input' />

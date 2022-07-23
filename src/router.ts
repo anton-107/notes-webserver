@@ -21,6 +21,7 @@ import { getEditNoteHandler } from "./routes/note/get-edit-note";
 import { postEditNoteHandler } from "./routes/note/post-edit-note";
 import { postDeleteNoteHandler } from "./routes/note/post-delete-note";
 import { getNewDateRangeHandler } from "./routes/note/date-range/get-new-date-range";
+import { postDateRangeHandler } from "./routes/note/date-range/post-date-range";
 
 export interface Route {
   method: "GET" | "POST";
@@ -161,5 +162,11 @@ export const routes: Route[] = [
     path: "/notebook/:notebookID/new-date-range",
     import: join(__dirname, "./routes/note/date-range/get-new-date-range"),
     action: getNewDateRangeHandler.name,
+  },
+  {
+    method: "POST",
+    path: "/note/date-range",
+    import: join(__dirname, "./routes/note/date-range/post-date-range"),
+    action: postDateRangeHandler.name,
   },
 ];

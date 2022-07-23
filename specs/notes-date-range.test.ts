@@ -45,5 +45,9 @@ defineFeature(feature, (test) => {
     and(/^I focus on it and type '([0-9-]+)'$/, (value) =>
       testScenario.setInputValue(value)
     );
+    and(/^I press 'Enter' on keyboard$/, () => testScenario.submitForm());
+    then(/^I am navigated to \/([a-z-{}/]+) page$/, (url) =>
+      testScenario.checkCurrentPage(url)
+    );
   });
 });
