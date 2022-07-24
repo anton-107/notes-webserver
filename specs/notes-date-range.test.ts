@@ -50,4 +50,19 @@ defineFeature(feature, (test) => {
       testScenario.checkCurrentPage(url)
     );
   });
+  test("Read added date range entry", ({ when, then, and }) => {
+    when("page is loaded", () => testScenario.processNewPage());
+    then(/^I see '([a-z-]+)' element$/, (selector) =>
+      testScenario.checkElement(selector)
+    );
+    and(/^it has inner text of '(.+)'$/, (innerText) =>
+      testScenario.checkInnerText(innerText)
+    );
+    and(/^I see '([a-z-]+)' element$/, (selector) =>
+      testScenario.checkElement(selector)
+    );
+    and(/^it has inner text of '(.+)'$/, (innerText) =>
+      testScenario.checkInnerText(innerText)
+    );
+  });
 });

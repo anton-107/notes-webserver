@@ -15,4 +15,7 @@ export class NoteTypesRegistry {
   public listNoteTypeHandlers(): NoteTypeHandler[] {
     return this.handlers;
   }
+  public getNoteTypeHandler(noteTypeName: string): NoteTypeHandler | null {
+    return this.handlers.find((x) => x.typeName() === noteTypeName);
+  }
 }

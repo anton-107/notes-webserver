@@ -1,11 +1,15 @@
 import { EntityView } from "../../controller/entity-controller";
 import { HttpResponse, HttpStatus } from "../../http/http";
 import { Note } from "../../model/note-model";
-import { NoteTypeHandler } from "../../registries/note-types-registry";
+import {
+  NoteTypeHandler,
+  NoteTypesRegistry,
+} from "../../registries/note-types-registry";
 import { HtmlViewProperties } from "../interfaces";
 
 export interface NoteHtmlViewProperties extends HtmlViewProperties {
   notebookID?: string;
+  noteTypesRegistry: NoteTypesRegistry;
 }
 
 export class NoteHtmlView implements EntityView<Note> {
@@ -65,10 +69,12 @@ export class NoteHtmlView implements EntityView<Note> {
     return `
       ${notes
         .map(
-          (note) => `<div>
-          <div data-testid='note-content'>${note.content}</div>
-          <a href='${this.properties.baseUrl}/notebook/${note.notebook.id}/note/${note.id}/edit' data-testid='note-edit-link'>Edit</a>
-        </div>`
+          (note) => `<div class ='note'>
+            <div>${this.renderNote(note)}</div>
+            <div><a href='${this.properties.baseUrl}/notebook/${
+            note.notebook.id
+          }/note/${note.id}/edit' data-testid='note-edit-link'>Edit</a></div>
+          </div>`
         )
         .join("")}
     `;
@@ -91,5 +97,17 @@ export class NoteHtmlView implements EntityView<Note> {
           .join("")}
       </ul>
     `;
+  }
+  private renderNote(note: Note): string {
+    const handler = this.properties.noteTypesRegistry.getNoteTypeHandler(
+      note.type.type
+    );
+    if (!handler) {
+      return this.renderSimpleNote(note);
+    }
+    return handler.render(note).renderedContent;
+  }
+  private renderSimpleNote(note: Note): string {
+    return `<div data-testid='note-content'>${note.content}</div>`;
   }
 }

@@ -18,10 +18,10 @@ export class DateRangeHtmlView {
             <input name='note-content' data-testid='note-content-input' />
           </label>
           <label>Date start
-            <input name='note-content' data-testid='date-range-start-input' />
+            <input name='date-range-start' data-testid='date-range-start-input' />
           </label>
           <label>Date end
-            <input name='note-content' data-testid='date-range-end-input' />
+            <input name='date-range-end' data-testid='date-range-end-input' />
           </label>
           <div>
           * - enter dates in YYYY-MM-DD format

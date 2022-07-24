@@ -8,4 +8,5 @@ export declare class NoteTypesRegistry {
     private handlers;
     addNoteTypeHandler(handler: NoteTypeHandler): void;
     listNoteTypeHandlers(): NoteTypeHandler[];
+    getNoteTypeHandler(noteTypeName: string): NoteTypeHandler | null;
 }

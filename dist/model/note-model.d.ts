@@ -8,6 +8,9 @@ export interface Note {
     owner: string;
     type: NoteType;
     content: string;
+    extensionProperties?: {
+        [key: string]: string;
+    };
 }
 export interface RenderedNote extends Note {
     renderedContent: string;

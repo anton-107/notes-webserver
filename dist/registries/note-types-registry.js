@@ -11,6 +11,9 @@ class NoteTypesRegistry {
     listNoteTypeHandlers() {
         return this.handlers;
     }
+    getNoteTypeHandler(noteTypeName) {
+        return this.handlers.find((x) => x.typeName() === noteTypeName);
+    }
 }
 exports.NoteTypesRegistry = NoteTypesRegistry;
 //# sourceMappingURL=note-types-registry.js.map

@@ -2,15 +2,20 @@ import { DateRangeNoteHandler } from "../../src/registries/note-types/date-range
 
 describe("DateRangeNote handler", () => {
   const h = new DateRangeNoteHandler();
-  it("should (for now) render plain text without changes", () => {
+  it("should render start and end date of the range", () => {
     const note = {
       id: "",
       content: "text for test",
       notebook: { id: "", owner: "", name: "" },
       owner: "",
       type: { type: "" },
+      extensionProperties: {
+        dateRangeStart: "2022-07-24",
+        dateRangeEnd: "2022-08-24",
+      },
     };
     const renderedNote = h.render(note);
-    expect(renderedNote.renderedContent).toBe("text for test");
+    expect(renderedNote.renderedContent).toContain("2022-07-24");
+    expect(renderedNote.renderedContent).toContain("2022-08-24");
   });
 });
