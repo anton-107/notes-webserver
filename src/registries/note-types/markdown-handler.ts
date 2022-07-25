@@ -14,4 +14,7 @@ export class MarkdownHandler implements NoteTypeHandler {
       renderedContent: note.content,
     };
   }
+  public renderEditForm(note: Note): string {
+    return `<textarea name='note-content' data-testid='note-content-input'>${note.content}</textarea>`;
+  }
 }

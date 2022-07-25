@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NoteController = void 0;
-const entity_controller_1 = require("../entity-controller");
 const short_uuid_1 = require("short-uuid");
+const entity_controller_1 = require("../entity-controller");
 class NoteController extends entity_controller_1.EntityController {
     constructor(noteControllerProperties) {
         super(noteControllerProperties);

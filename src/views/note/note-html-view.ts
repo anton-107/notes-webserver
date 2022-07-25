@@ -33,6 +33,12 @@ export class NoteHtmlView implements EntityView<Note> {
     };
   }
   public renderEditingFormOneEntity(note: Note): HttpResponse {
+    const noteTypeHandler =
+      this.properties.noteTypesRegistry.getNoteTypeHandler(note.type.type);
+    let formContents = `<textarea name='note-content' data-testid='note-content-input'>${note.content}</textarea>`;
+    if (noteTypeHandler) {
+      formContents = noteTypeHandler.renderEditForm(note);
+    }
     return {
       isBase64Encoded: false,
       statusCode: HttpStatus.OK,
@@ -44,7 +50,7 @@ export class NoteHtmlView implements EntityView<Note> {
         <form method='post' action='${this.properties.baseUrl}/note/${note.id}/edit'>
           <input type='hidden' name='note-id' value='${note.id}' />
           <input type='hidden' name='notebook-id' value='${note.notebook.id}' />
-          <textarea name='note-content' data-testid='note-content-input'>${note.content}</textarea>
+          ${formContents}
           <button type='submit' data-testid='edit-note-button'>Update</button>
         </form>
         <form method='post' action='${this.properties.baseUrl}/note/delete'>

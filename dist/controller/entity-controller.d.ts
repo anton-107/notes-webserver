@@ -18,6 +18,7 @@ export interface EntityControllerProperties<T> {
 export declare abstract class EntityController<T> {
     private properties;
     protected authorizedUserName: string | null;
+    protected selectedEntity: T | null;
     constructor(properties: EntityControllerProperties<T>);
     protected abstract getEntityName(): string;
     protected abstract mapRequestToExistingEntity(username: string, requestForm: FormBody): T;

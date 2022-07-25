@@ -140,6 +140,9 @@ export class TestScenario {
   public checkInnerText(innerText: string) {
     expect(this.el.innerText).toBe(innerText);
   }
+  public checkValue(value: string) {
+    expect(this.el.getAttribute("value")).toBe(value);
+  }
 
   private async getRequest(url: string) {
     this.currentPage = url;

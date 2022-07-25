@@ -20,6 +20,7 @@ export interface EntityControllerProperties<T> {
 
 export abstract class EntityController<T> {
   protected authorizedUserName: string | null = null;
+  protected selectedEntity: T | null = null;
 
   constructor(private properties: EntityControllerProperties<T>) {}
   protected abstract getEntityName(): string;
@@ -71,6 +72,7 @@ export abstract class EntityController<T> {
       };
     }
 
+    this.selectedEntity = entity;
     return this.properties.entityView.renderEditingFormOneEntity(entity);
   }
   public async showCreateNewEntityPage(): Promise<HttpResponse> {

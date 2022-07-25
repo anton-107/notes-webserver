@@ -35,4 +35,19 @@ export class DateRangeNoteHandler implements NoteTypeHandler {
       <div>Date start: <span data-testid='date-range-end'>${note.extensionProperties.dateRangeEnd}</span></div>
     `;
   }
+  public renderEditForm(note: Note): string {
+    return `
+    <label>Description
+      <input name='note-content' data-testid='note-content-input' value='${note.content}' />
+    </label>
+    <label>Date start
+      <input name='date-range-start' data-testid='date-range-start-input' value='${note.extensionProperties.dateRangeStart}' />
+    </label>
+    <label>Date end
+      <input name='date-range-end' data-testid='date-range-end-input' value='${note.extensionProperties.dateRangeEnd}' />
+    </label>
+    <div>
+    * - enter dates in YYYY-MM-DD format
+    </div>`;
+  }
 }

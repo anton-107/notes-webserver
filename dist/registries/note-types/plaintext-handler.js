@@ -14,6 +14,9 @@ class PlaintextNoteHandler {
             renderedContent: note.content,
         };
     }
+    renderEditForm(note) {
+        return `<textarea name='note-content' data-testid='note-content-input'>${note.content}</textarea>`;
+    }
 }
 exports.PlaintextNoteHandler = PlaintextNoteHandler;
 //# sourceMappingURL=plaintext-handler.js.map

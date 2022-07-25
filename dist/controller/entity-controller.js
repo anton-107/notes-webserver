@@ -6,6 +6,7 @@ class EntityController {
     constructor(properties) {
         this.properties = properties;
         this.authorizedUserName = null;
+        this.selectedEntity = null;
     }
     async showEditSingleEntityPage(entityID) {
         const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);
@@ -28,6 +29,7 @@ class EntityController {
                 body: "Not found.",
             };
         }
+        this.selectedEntity = entity;
         return this.properties.entityView.renderEditingFormOneEntity(entity);
     }
     async showCreateNewEntityPage() {

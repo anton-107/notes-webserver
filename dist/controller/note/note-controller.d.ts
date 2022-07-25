@@ -1,7 +1,7 @@
-import { EntityController, EntityControllerProperties } from "../entity-controller";
-import { Note } from "../../model/note-model";
 import { FormBody } from "../../http/body-parser";
+import { Note } from "../../model/note-model";
 import { NotebookStore } from "../../stores/notebook/notebook-store";
+import { EntityController, EntityControllerProperties } from "../entity-controller";
 export interface NoteControllerProperties extends EntityControllerProperties<Note> {
     notebookStore: NotebookStore;
     notebookID: string | null;

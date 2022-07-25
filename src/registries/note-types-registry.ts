@@ -4,6 +4,7 @@ export interface NoteTypeHandler {
   typeName(): string;
   typeDisplayName(): string;
   render(note: Note): RenderedNote;
+  renderEditForm(note: Note): string;
 }
 
 export class NoteTypesRegistry {

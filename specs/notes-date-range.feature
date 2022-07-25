@@ -26,3 +26,19 @@ Feature: Notes with 'date range' type
     And it has inner text of '2022-07-22'
     And I see 'date-range-end' element
     And it has inner text of '2022-08-02'
+    And I see 'note-edit-link' element
+  Scenario: Edit note
+    When I click on it
+    Then I am navigated to /notebook/{notebook-id}/note/{note-id}/edit page
+    When page is loaded
+    Then I see 'note-content-input' element
+    And it has value of 'Holiday'
+    And I focus on it and type 'Holiday updated'
+    And I see 'date-range-start-input' element
+    And it has value of '2022-07-22'
+    And I focus on it and type '2022-07-25'
+    And I see 'date-range-end-input' element
+    And it has value of '2022-08-02'
+    And I focus on it and type '2022-08-05'
+    And I press 'Enter' on keyboard
+    Then I am navigated to /notebook/{notebook-id} page

@@ -14,6 +14,9 @@ class MarkdownHandler {
             renderedContent: note.content,
         };
     }
+    renderEditForm(note) {
+        return `<textarea name='note-content' data-testid='note-content-input'>${note.content}</textarea>`;
+    }
 }
 exports.MarkdownHandler = MarkdownHandler;
 //# sourceMappingURL=markdown-handler.js.map

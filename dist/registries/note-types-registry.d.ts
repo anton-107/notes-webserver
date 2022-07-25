@@ -3,6 +3,7 @@ export interface NoteTypeHandler {
     typeName(): string;
     typeDisplayName(): string;
     render(note: Note): RenderedNote;
+    renderEditForm(note: Note): string;
 }
 export declare class NoteTypesRegistry {
     private handlers;

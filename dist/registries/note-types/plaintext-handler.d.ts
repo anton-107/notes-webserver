@@ -4,4 +4,5 @@ export declare class PlaintextNoteHandler implements NoteTypeHandler {
     typeName(): string;
     typeDisplayName(): string;
     render(note: Note): RenderedNote;
+    renderEditForm(note: Note): string;
 }
