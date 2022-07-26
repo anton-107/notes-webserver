@@ -22,6 +22,16 @@ class DateRangeNoteHandler {
             },
         };
     }
+    mapRequestToExistingEntity(username, existingNote, form) {
+        return {
+            ...existingNote,
+            content: form["note-content"],
+            extensionProperties: {
+                dateRangeStart: form["date-range-start"],
+                dateRangeEnd: form["date-range-end"],
+            },
+        };
+    }
     render(note) {
         return {
             ...note,
@@ -30,6 +40,7 @@ class DateRangeNoteHandler {
     }
     htmlView(note) {
         return `
+      <div>D<span data-testid='note-content'>${note.content}</span></div>
       <div>Date start: <span data-testid='date-range-start'>${note.extensionProperties.dateRangeStart}</span></div>
       <div>Date start: <span data-testid='date-range-end'>${note.extensionProperties.dateRangeEnd}</span></div>
     `;

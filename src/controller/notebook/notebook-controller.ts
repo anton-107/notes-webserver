@@ -26,8 +26,12 @@ export class NotebookController extends EntityController<Notebook> {
   protected getEntityName(): string {
     return "notebook";
   }
+  protected mapRequestToEntityID(requestForm: FormBody): string {
+    return requestForm["notebook-id"];
+  }
   protected mapRequestToExistingEntity(
     username: string,
+    notebook: Notebook,
     form: FormBody
   ): Notebook {
     return {

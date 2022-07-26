@@ -29,27 +29,4 @@ describe("Note controller", () => {
     const resp = await c.performCreateSingleEntityAction({});
     expect(resp.statusCode).toBe(HttpStatus.FORBIDDEN);
   });
-  // todo: delete this test once update note functionality is covered in specs
-  it("should mapRequestToExistingEntity", async () => {
-    const authenticatorMock = mock<Authenticator>();
-    const notebookStoreMock = mock<NotebookStore>();
-    const viewMock = mock<NoteHtmlView>();
-
-    when(authenticatorMock.authenticate(anything())).thenResolve({
-      isAuthenticated: true,
-      username: "testuser",
-    });
-
-    const c = new NoteController({
-      ...noteControllerConfiguration({}),
-      authenticator: instance(authenticatorMock),
-      authenticationToken: "",
-      notebookStore: instance(notebookStoreMock),
-      entityView: instance(viewMock),
-      notebookID: null,
-    });
-
-    const resp = await c.performUpdateSingleEntityAction({});
-    expect(resp.statusCode).toBe(HttpStatus.INTERNAL_SERVER_ERROR);
-  });
 });

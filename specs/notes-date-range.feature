@@ -42,3 +42,10 @@ Feature: Notes with 'date range' type
     And I focus on it and type '2022-08-05'
     And I press 'Enter' on keyboard
     Then I am navigated to /notebook/{notebook-id} page
+    When page is loaded
+    Then I see 'note-content' element
+    And it has inner text of 'Holiday updated'
+    And I see 'date-range-start' element
+    And it has inner text of '2022-07-25'
+    And I see 'date-range-end' element
+    And it has inner text of '2022-08-05'

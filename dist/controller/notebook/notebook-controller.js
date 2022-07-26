@@ -12,7 +12,10 @@ class NotebookController extends entity_controller_1.EntityController {
     getEntityName() {
         return "notebook";
     }
-    mapRequestToExistingEntity(username, form) {
+    mapRequestToEntityID(requestForm) {
+        return requestForm["notebook-id"];
+    }
+    mapRequestToExistingEntity(username, notebook, form) {
         return {
             id: form["notebook-id"],
             name: form["notebook-name"],

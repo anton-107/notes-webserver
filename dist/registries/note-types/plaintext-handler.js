@@ -17,6 +17,11 @@ class PlaintextNoteHandler {
     renderEditForm(note) {
         return `<textarea name='note-content' data-testid='note-content-input'>${note.content}</textarea>`;
     }
+    mapRequestToExistingEntity(username, existingNote, form) {
+        const r = { ...existingNote };
+        r.content = form["note-content"];
+        return r;
+    }
 }
 exports.PlaintextNoteHandler = PlaintextNoteHandler;
 //# sourceMappingURL=plaintext-handler.js.map

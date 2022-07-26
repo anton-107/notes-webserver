@@ -23,6 +23,20 @@ export class DateRangeNoteHandler implements NoteTypeHandler {
       },
     };
   }
+  public mapRequestToExistingEntity(
+    username: string,
+    existingNote: Note,
+    form: FormBody
+  ): Note {
+    return {
+      ...existingNote,
+      content: form["note-content"],
+      extensionProperties: {
+        dateRangeStart: form["date-range-start"],
+        dateRangeEnd: form["date-range-end"],
+      },
+    };
+  }
   public render(note: Note): RenderedNote {
     return {
       ...note,
@@ -31,6 +45,7 @@ export class DateRangeNoteHandler implements NoteTypeHandler {
   }
   private htmlView(note: Note): string {
     return `
+      <div>D<span data-testid='note-content'>${note.content}</span></div>
       <div>Date start: <span data-testid='date-range-start'>${note.extensionProperties.dateRangeStart}</span></div>
       <div>Date start: <span data-testid='date-range-end'>${note.extensionProperties.dateRangeEnd}</span></div>
     `;

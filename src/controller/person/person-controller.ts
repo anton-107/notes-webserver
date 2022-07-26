@@ -7,8 +7,12 @@ export class PersonController extends EntityController<Person> {
   protected getEntityName(): string {
     return "person";
   }
+  protected mapRequestToEntityID(requestForm: FormBody): string {
+    return requestForm["person-id"];
+  }
   protected mapRequestToExistingEntity(
     username: string,
+    person: Person,
     form: FormBody
   ): Person {
     return {

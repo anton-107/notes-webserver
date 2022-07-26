@@ -21,8 +21,9 @@ export declare abstract class EntityController<T> {
     protected selectedEntity: T | null;
     constructor(properties: EntityControllerProperties<T>);
     protected abstract getEntityName(): string;
-    protected abstract mapRequestToExistingEntity(username: string, requestForm: FormBody): T;
+    protected abstract mapRequestToExistingEntity(username: string, existingEntity: T, requestForm: FormBody): T;
     protected abstract mapRequestToNewEntity(username: string, requestForm: FormBody): T;
+    protected abstract mapRequestToEntityID(requestForm: FormBody): string;
     protected abstract isAuthorizedToCreate(user: string, entity: T): Promise<boolean>;
     protected abstract getEntityURL(entity: T): string;
     showEditSingleEntityPage(entityID: string): Promise<HttpResponse>;

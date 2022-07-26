@@ -1,3 +1,4 @@
+import { FormBody } from "../http/body-parser";
 import { Note, RenderedNote } from "../model/note-model";
 
 export interface NoteTypeHandler {
@@ -5,6 +6,11 @@ export interface NoteTypeHandler {
   typeDisplayName(): string;
   render(note: Note): RenderedNote;
   renderEditForm(note: Note): string;
+  mapRequestToExistingEntity(
+    username: string,
+    existingNote: Note,
+    form: FormBody
+  ): Note;
 }
 
 export class NoteTypesRegistry {

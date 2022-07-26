@@ -26,12 +26,14 @@ export abstract class EntityController<T> {
   protected abstract getEntityName(): string;
   protected abstract mapRequestToExistingEntity(
     username: string,
+    existingEntity: T,
     requestForm: FormBody
   ): T;
   protected abstract mapRequestToNewEntity(
     username: string,
     requestForm: FormBody
   ): T;
+  protected abstract mapRequestToEntityID(requestForm: FormBody): string;
   protected abstract isAuthorizedToCreate(
     user: string,
     entity: T
@@ -194,7 +196,31 @@ export abstract class EntityController<T> {
         body: "Forbidden.",
       };
     }
-    const entity = this.mapRequestToExistingEntity(user.username, form);
+
+    const entityID = this.mapRequestToEntityID(form);
+    const existingEntity = await this.properties.entityStore.getOne(
+      user.username,
+      entityID
+    );
+    if (!existingEntity) {
+      console.error(
+        `Entity ${this.getEntityName()} is not found for update`,
+        user,
+        entityID
+      );
+      return {
+        isBase64Encoded: false,
+        statusCode: HttpStatus.FORBIDDEN,
+        headers: {},
+        body: "Forbidden.",
+      };
+    }
+
+    const entity = this.mapRequestToExistingEntity(
+      user.username,
+      existingEntity,
+      form
+    );
     try {
       await this.properties.entityStore.editOne(entity);
     } catch (err) {

@@ -14,7 +14,8 @@ export declare class NotebookController extends EntityController<Notebook> {
     private notebookControllerProperties;
     constructor(notebookControllerProperties: NotebookControllerProperties);
     protected getEntityName(): string;
-    protected mapRequestToExistingEntity(username: string, form: FormBody): Notebook;
+    protected mapRequestToEntityID(requestForm: FormBody): string;
+    protected mapRequestToExistingEntity(username: string, notebook: Notebook, form: FormBody): Notebook;
     protected mapRequestToNewEntity(username: string, form: FormBody): Notebook;
     protected isAuthorizedToCreate(user: string, entity: Notebook): Promise<boolean>;
     protected getEntityURL(entity: Notebook): string;

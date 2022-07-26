@@ -117,7 +117,18 @@ class EntityController {
                 body: "Forbidden.",
             };
         }
-        const entity = this.mapRequestToExistingEntity(user.username, form);
+        const entityID = this.mapRequestToEntityID(form);
+        const existingEntity = await this.properties.entityStore.getOne(user.username, entityID);
+        if (!existingEntity) {
+            console.error(`Entity ${this.getEntityName()} is not found for update`, user, entityID);
+            return {
+                isBase64Encoded: false,
+                statusCode: http_1.HttpStatus.FORBIDDEN,
+                headers: {},
+                body: "Forbidden.",
+            };
+        }
+        const entity = this.mapRequestToExistingEntity(user.username, existingEntity, form);
         try {
             await this.properties.entityStore.editOne(entity);
         }

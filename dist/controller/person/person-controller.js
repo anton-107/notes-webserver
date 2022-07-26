@@ -7,7 +7,10 @@ class PersonController extends entity_controller_1.EntityController {
     getEntityName() {
         return "person";
     }
-    mapRequestToExistingEntity(username, form) {
+    mapRequestToEntityID(requestForm) {
+        return requestForm["person-id"];
+    }
+    mapRequestToExistingEntity(username, person, form) {
         return {
             id: form["person-id"],
             name: form["person-name"],

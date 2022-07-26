@@ -11,14 +11,17 @@ class NoteController extends entity_controller_1.EntityController {
     getEntityName() {
         return "note";
     }
-    mapRequestToExistingEntity(username, form) {
-        return {
-            id: form["note-id"],
-            notebook: { id: form["notebook-id"], name: "", owner: "" },
-            owner: username,
-            type: { type: "" },
-            content: form["note-content"],
-        };
+    mapRequestToEntityID(requestForm) {
+        return requestForm["note-id"];
+    }
+    mapRequestToExistingEntity(username, existingNote, form) {
+        const noteTypeHandler = this.noteControllerProperties.noteTypesRegistry.getNoteTypeHandler(existingNote.type.type);
+        if (noteTypeHandler) {
+            return noteTypeHandler.mapRequestToExistingEntity(username, existingNote, form);
+        }
+        const r = { ...existingNote };
+        r.content = form["note-content"];
+        return r;
     }
     mapRequestToNewEntity(username, form) {
         return {
