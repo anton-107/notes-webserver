@@ -49,3 +49,13 @@ Feature: Notes with 'date range' type
     And it has inner text of '2022-07-25'
     And I see 'date-range-end' element
     And it has inner text of '2022-08-05'
+  Scenario: Delete note
+    And I see 'note-edit-link' element
+    When I click on it
+    Then I am navigated to /notebook/{notebook-id}/note/{note-id}/edit page
+    When page is loaded
+    Then I see 'note-delete-button' element
+    When I click on it
+    Then I am navigated to /notebook/{notebook-id} page
+    When page is loaded
+    Then I do not see 'note-content' element

@@ -125,4 +125,26 @@ defineFeature(feature, (test) => {
       testScenario.checkInnerText(innerText)
     );
   });
+
+  test("Delete note", ({ when, then, and }) => {
+    and(/^I see '([a-z-]+)' element$/, (selector) =>
+      testScenario.checkElement(selector)
+    );
+    when("I click on it", () => testScenario.handleClick());
+    then(/^I am navigated to \/([a-z-{}/]+) page$/, (url) =>
+      testScenario.checkCurrentPage(url)
+    );
+    when("page is loaded", () => testScenario.processNewPage());
+    then(/^I see '([a-z-]+)' element$/, (selector) =>
+      testScenario.checkElement(selector)
+    );
+    when("I click on it", () => testScenario.handleClick());
+    then(/^I am navigated to \/([a-z-{}/]+) page$/, (url) =>
+      testScenario.checkCurrentPage(url)
+    );
+    when("page is loaded", () => testScenario.processNewPage());
+    then(/^I do not see '([a-z-]+)' element$/, (selector) =>
+      testScenario.checkElementIsNotPresent(selector)
+    );
+  });
 });
