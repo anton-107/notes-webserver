@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PlaintextNoteHandler = void 0;
+const short_uuid_1 = require("short-uuid");
 class PlaintextNoteHandler {
     typeName() {
         return "note";
@@ -11,7 +12,7 @@ class PlaintextNoteHandler {
     render(note) {
         return {
             ...note,
-            renderedContent: note.content,
+            renderedContent: `<div data-testid='note-content'>${note.content}</div>`,
         };
     }
     renderEditForm(note) {
@@ -21,6 +22,18 @@ class PlaintextNoteHandler {
         const r = { ...existingNote };
         r.content = form["note-content"];
         return r;
+    }
+    renderCreateForm() {
+        return `<textarea name='note-content' data-testid='note-content-input'></textarea>`;
+    }
+    mapRequestToNewEntity(username, form) {
+        return {
+            id: (0, short_uuid_1.generate)(),
+            notebook: { id: form["notebook-id"], name: "", owner: "" },
+            owner: username,
+            type: { type: this.typeName() },
+            content: form["note-content"],
+        };
     }
 }
 exports.PlaintextNoteHandler = PlaintextNoteHandler;

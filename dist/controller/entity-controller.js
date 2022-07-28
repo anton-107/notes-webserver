@@ -33,7 +33,7 @@ class EntityController {
         return this.properties.entityView.renderEditingFormOneEntity(entity);
     }
     async showCreateNewEntityPage() {
-        return this.properties.entityView.renderCreationFormOneEntity();
+        return this.properties.entityView.renderCreationFormOneEntity({});
     }
     async showSingleEntityDetailsPage(entityID) {
         const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);

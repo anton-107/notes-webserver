@@ -6,7 +6,7 @@ import { HttpRedirectView } from "../views/http-redirect-view";
 
 export interface EntityView<T> {
   renderEditingFormOneEntity(entity: T): HttpResponse;
-  renderCreationFormOneEntity(): HttpResponse;
+  renderCreationFormOneEntity(partialEntity: Partial<T>): HttpResponse;
   renderDetailsPageOneEntity(entity: T): HttpResponse;
 }
 
@@ -78,7 +78,7 @@ export abstract class EntityController<T> {
     return this.properties.entityView.renderEditingFormOneEntity(entity);
   }
   public async showCreateNewEntityPage(): Promise<HttpResponse> {
-    return this.properties.entityView.renderCreationFormOneEntity();
+    return this.properties.entityView.renderCreationFormOneEntity({});
   }
   public async showSingleEntityDetailsPage(
     entityID: string

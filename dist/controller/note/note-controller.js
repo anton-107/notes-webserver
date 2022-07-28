@@ -8,6 +8,9 @@ class NoteController extends entity_controller_1.EntityController {
         super(noteControllerProperties);
         this.noteControllerProperties = noteControllerProperties;
     }
+    async showCreateNewEntityPage() {
+        return this.noteControllerProperties.entityView.renderCreationFormOneEntity({ type: { type: this.noteControllerProperties.noteType } });
+    }
     getEntityName() {
         return "note";
     }
@@ -16,14 +19,14 @@ class NoteController extends entity_controller_1.EntityController {
     }
     mapRequestToExistingEntity(username, existingNote, form) {
         const noteTypeHandler = this.noteControllerProperties.noteTypesRegistry.getNoteTypeHandler(existingNote.type.type);
-        if (noteTypeHandler) {
-            return noteTypeHandler.mapRequestToExistingEntity(username, existingNote, form);
-        }
-        const r = { ...existingNote };
-        r.content = form["note-content"];
-        return r;
+        return noteTypeHandler.mapRequestToExistingEntity(username, existingNote, form);
     }
     mapRequestToNewEntity(username, form) {
+        const noteType = form["note-type"];
+        const noteTypeHandler = this.noteControllerProperties.noteTypesRegistry.getNoteTypeHandler(noteType);
+        if (noteTypeHandler) {
+            return noteTypeHandler.mapRequestToNewEntity(username, form);
+        }
         return {
             id: (0, short_uuid_1.generate)(),
             notebook: { id: form["notebook-id"], name: "", owner: "" },

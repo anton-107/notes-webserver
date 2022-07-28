@@ -8,5 +8,6 @@ export declare class DateRangeNoteHandler implements NoteTypeHandler {
     mapRequestToExistingEntity(username: string, existingNote: Note, form: FormBody): Note;
     render(note: Note): RenderedNote;
     private htmlView;
+    renderCreateForm(): string;
     renderEditForm(note: Note): string;
 }

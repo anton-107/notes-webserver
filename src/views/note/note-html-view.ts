@@ -14,7 +14,18 @@ export interface NoteHtmlViewProperties extends HtmlViewProperties {
 
 export class NoteHtmlView implements EntityView<Note> {
   constructor(private properties: NoteHtmlViewProperties) {}
-  public renderCreationFormOneEntity(): HttpResponse {
+  public renderCreationFormOneEntity(partialNote: Partial<Note>): HttpResponse {
+    const noteType = partialNote.type ? partialNote.type.type : null;
+    const noteTypeHandler =
+      this.properties.noteTypesRegistry.getNoteTypeHandler(noteType);
+
+    let formContents = `<textarea name='note-content' data-testid='note-content-input'></textarea>`;
+    let noteTypeHiddenField = "";
+    if (noteTypeHandler) {
+      noteTypeHiddenField = `<input type='hidden' name='note-type' value='${noteType}' />`;
+      formContents = noteTypeHandler.renderCreateForm();
+    }
+
     return {
       isBase64Encoded: false,
       statusCode: HttpStatus.OK,
@@ -25,7 +36,8 @@ export class NoteHtmlView implements EntityView<Note> {
         <h1 data-testid='notebook-name'>Add new note</h1>
         <form method='post' action='${this.properties.baseUrl}/note'>
           <input type='hidden' name='notebook-id' value='${this.properties.notebookID}' />
-          <textarea name='note-content' data-testid='note-content-input'></textarea>
+          ${noteTypeHiddenField}
+          ${formContents}
           <button type='submit' data-testid='edit-notebook-button'>Add</button>
         </form>
         <a href='${this.properties.baseUrl}/notebook/${this.properties.notebookID}'>Cancel</a>
@@ -97,7 +109,7 @@ export class NoteHtmlView implements EntityView<Note> {
             (noteType) => `<div>
             <li><a href='${
               this.properties.baseUrl
-            }/notebook/${notebookID}/new-${noteType.typeName()}' data-testid='create-new-${noteType.typeName()}-link'>Add a ${noteType.typeDisplayName()}</a></li>
+            }/notebook/${notebookID}/new-note/${noteType.typeName()}' data-testid='create-new-${noteType.typeName()}-link'>Add a ${noteType.typeDisplayName()}</a></li>
           </div>`
           )
           .join("")}
@@ -108,12 +120,6 @@ export class NoteHtmlView implements EntityView<Note> {
     const handler = this.properties.noteTypesRegistry.getNoteTypeHandler(
       note.type.type
     );
-    if (!handler) {
-      return this.renderSimpleNote(note);
-    }
     return handler.render(note).renderedContent;
-  }
-  private renderSimpleNote(note: Note): string {
-    return `<div data-testid='note-content'>${note.content}</div>`;
   }
 }

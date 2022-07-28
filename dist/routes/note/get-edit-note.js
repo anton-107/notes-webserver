@@ -14,6 +14,7 @@ const getEditNoteHandler = async (request) => {
             notebookID: request.pathParameters.notebookID,
         }),
         notebookID: request.pathParameters.notebookID,
+        noteType: null,
         authenticationToken: (0, cookie_parser_1.parseCookie)(request.headers, "Authentication"),
     }).showEditSingleEntityPage(request.pathParameters.noteID);
 };

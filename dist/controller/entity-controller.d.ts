@@ -5,7 +5,7 @@ import { EntityStore } from "../stores/entity-store";
 import { HttpRedirectView } from "../views/http-redirect-view";
 export interface EntityView<T> {
     renderEditingFormOneEntity(entity: T): HttpResponse;
-    renderCreationFormOneEntity(): HttpResponse;
+    renderCreationFormOneEntity(partialEntity: Partial<T>): HttpResponse;
     renderDetailsPageOneEntity(entity: T): HttpResponse;
 }
 export interface EntityControllerProperties<T> {

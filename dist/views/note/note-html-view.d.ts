@@ -10,11 +10,10 @@ export interface NoteHtmlViewProperties extends HtmlViewProperties {
 export declare class NoteHtmlView implements EntityView<Note> {
     private properties;
     constructor(properties: NoteHtmlViewProperties);
-    renderCreationFormOneEntity(): HttpResponse;
+    renderCreationFormOneEntity(partialNote: Partial<Note>): HttpResponse;
     renderEditingFormOneEntity(note: Note): HttpResponse;
     renderDetailsPageOneEntity(entity: Note): HttpResponse;
     renderMacroListOfNotes(notes: Note[]): string;
     renderMacroLinksToAddNotes(notebookID: string, noteTypes: NoteTypeHandler[]): string;
     private renderNote;
-    private renderSimpleNote;
 }

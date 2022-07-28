@@ -25,6 +25,7 @@ describe("Note controller", () => {
       notebookStore: instance(notebookStoreMock),
       entityView: instance(viewMock),
       notebookID: null,
+      noteType: null,
     });
     const resp = await c.performCreateSingleEntityAction({});
     expect(resp.statusCode).toBe(HttpStatus.FORBIDDEN);

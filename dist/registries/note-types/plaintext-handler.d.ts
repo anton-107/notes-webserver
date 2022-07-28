@@ -7,4 +7,6 @@ export declare class PlaintextNoteHandler implements NoteTypeHandler {
     render(note: Note): RenderedNote;
     renderEditForm(note: Note): string;
     mapRequestToExistingEntity(username: string, existingNote: Note, form: FormBody): Note;
+    renderCreateForm(): string;
+    mapRequestToNewEntity(username: string, form: FormBody): Note;
 }

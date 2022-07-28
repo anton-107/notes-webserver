@@ -6,7 +6,15 @@ class NoteHtmlView {
     constructor(properties) {
         this.properties = properties;
     }
-    renderCreationFormOneEntity() {
+    renderCreationFormOneEntity(partialNote) {
+        const noteType = partialNote.type ? partialNote.type.type : null;
+        const noteTypeHandler = this.properties.noteTypesRegistry.getNoteTypeHandler(noteType);
+        let formContents = `<textarea name='note-content' data-testid='note-content-input'></textarea>`;
+        let noteTypeHiddenField = "";
+        if (noteTypeHandler) {
+            noteTypeHiddenField = `<input type='hidden' name='note-type' value='${noteType}' />`;
+            formContents = noteTypeHandler.renderCreateForm();
+        }
         return {
             isBase64Encoded: false,
             statusCode: http_1.HttpStatus.OK,
@@ -17,7 +25,8 @@ class NoteHtmlView {
         <h1 data-testid='notebook-name'>Add new note</h1>
         <form method='post' action='${this.properties.baseUrl}/note'>
           <input type='hidden' name='notebook-id' value='${this.properties.notebookID}' />
-          <textarea name='note-content' data-testid='note-content-input'></textarea>
+          ${noteTypeHiddenField}
+          ${formContents}
           <button type='submit' data-testid='edit-notebook-button'>Add</button>
         </form>
         <a href='${this.properties.baseUrl}/notebook/${this.properties.notebookID}'>Cancel</a>
@@ -78,7 +87,7 @@ class NoteHtmlView {
       <ul>
         ${noteTypes
             .map((noteType) => `<div>
-            <li><a href='${this.properties.baseUrl}/notebook/${notebookID}/new-${noteType.typeName()}' data-testid='create-new-${noteType.typeName()}-link'>Add a ${noteType.typeDisplayName()}</a></li>
+            <li><a href='${this.properties.baseUrl}/notebook/${notebookID}/new-note/${noteType.typeName()}' data-testid='create-new-${noteType.typeName()}-link'>Add a ${noteType.typeDisplayName()}</a></li>
           </div>`)
             .join("")}
       </ul>
@@ -86,13 +95,7 @@ class NoteHtmlView {
     }
     renderNote(note) {
         const handler = this.properties.noteTypesRegistry.getNoteTypeHandler(note.type.type);
-        if (!handler) {
-            return this.renderSimpleNote(note);
-        }
         return handler.render(note).renderedContent;
-    }
-    renderSimpleNote(note) {
-        return `<div data-testid='note-content'>${note.content}</div>`;
     }
 }
 exports.NoteHtmlView = NoteHtmlView;

@@ -5,7 +5,9 @@ export interface NoteTypeHandler {
   typeName(): string;
   typeDisplayName(): string;
   render(note: Note): RenderedNote;
+  renderCreateForm(): string;
   renderEditForm(note: Note): string;
+  mapRequestToNewEntity(username: string, form: FormBody): Note;
   mapRequestToExistingEntity(
     username: string,
     existingNote: Note,

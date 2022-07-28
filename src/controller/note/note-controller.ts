@@ -1,5 +1,6 @@
 import { generate } from "short-uuid";
 import { FormBody } from "../../http/body-parser";
+import { HttpResponse } from "../../http/http";
 import { Note } from "../../model/note-model";
 import { NoteTypesRegistry } from "../../registries/note-types-registry";
 import { NotebookStore } from "../../stores/notebook/notebook-store";
@@ -13,11 +14,17 @@ export interface NoteControllerProperties
   notebookStore: NotebookStore;
   notebookID: string | null;
   noteTypesRegistry: NoteTypesRegistry;
+  noteType: string;
 }
 
 export class NoteController extends EntityController<Note> {
   constructor(private noteControllerProperties: NoteControllerProperties) {
     super(noteControllerProperties);
+  }
+  public async showCreateNewEntityPage(): Promise<HttpResponse> {
+    return this.noteControllerProperties.entityView.renderCreationFormOneEntity(
+      { type: { type: this.noteControllerProperties.noteType } }
+    );
   }
   protected getEntityName(): string {
     return "note";
@@ -34,19 +41,21 @@ export class NoteController extends EntityController<Note> {
       this.noteControllerProperties.noteTypesRegistry.getNoteTypeHandler(
         existingNote.type.type
       );
-    if (noteTypeHandler) {
-      return noteTypeHandler.mapRequestToExistingEntity(
-        username,
-        existingNote,
-        form
-      );
-    }
-
-    const r = { ...existingNote };
-    r.content = form["note-content"];
-    return r;
+    return noteTypeHandler.mapRequestToExistingEntity(
+      username,
+      existingNote,
+      form
+    );
   }
   protected mapRequestToNewEntity(username: string, form: FormBody): Note {
+    const noteType = form["note-type"];
+    const noteTypeHandler =
+      this.noteControllerProperties.noteTypesRegistry.getNoteTypeHandler(
+        noteType
+      );
+    if (noteTypeHandler) {
+      return noteTypeHandler.mapRequestToNewEntity(username, form);
+    }
     return {
       id: generate(),
       notebook: { id: form["notebook-id"], name: "", owner: "" },

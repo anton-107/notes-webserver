@@ -14,6 +14,7 @@ const postNewNoteHandler = async (request) => {
         entityView: new note_html_view_1.NoteHtmlView({ ...configuration }),
         authenticationToken: (0, cookie_parser_1.parseCookie)(request.headers, "Authentication"),
         notebookID: null,
+        noteType: null,
     }).performCreateSingleEntityAction(requestBody);
 };
 exports.postNewNoteHandler = postNewNoteHandler;

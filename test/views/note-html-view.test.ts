@@ -25,4 +25,15 @@ describe("Note HTML view", () => {
     const resp = v.renderDetailsPageOneEntity(instance(noteMock));
     expect(resp.body).toContain("some-id");
   });
+  it("should renderCreationFormOneEntity", () => {
+    const noteMock = mock<Note>();
+    const noteTypesRegistryMock = mock<NoteTypesRegistry>();
+    when(noteMock.id).thenReturn("some-id");
+    const v = new NoteHtmlView({
+      baseUrl: "",
+      noteTypesRegistry: instance(noteTypesRegistryMock),
+    });
+    const resp = v.renderCreationFormOneEntity({});
+    expect(resp.body).toContain("<textarea name='note-content'");
+  });
 });

@@ -15,7 +15,7 @@ describe("Plaintext handler", () => {
       type: { type: "" },
     };
     const renderedNote = h.render(note);
-    expect(renderedNote.renderedContent).toBe("text for test");
+    expect(renderedNote.renderedContent).toContain("text for test");
   });
   it("should show note content textare in the edit form", () => {
     const note = {

@@ -15,6 +15,7 @@ export const getNewNoteHandler: HttpRequestHandler = async (
       notebookID: request.pathParameters.notebookID,
     }),
     notebookID: request.pathParameters.notebookID,
+    noteType: request.pathParameters.noteType,
     authenticationToken: parseCookie(request.headers, "Authentication"),
   }).showCreateNewEntityPage();
 };
