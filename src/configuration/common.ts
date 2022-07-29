@@ -16,6 +16,7 @@ import { InMemoryNoteStore } from "../stores/note/note-store";
 import { NoteTypesRegistry } from "../registries/note-types-registry";
 import { PlaintextNoteHandler } from "../registries/note-types/plaintext-handler";
 import { DateRangeNoteHandler } from "../registries/note-types/date-range-handler";
+import { PersonalDateRangeNoteHandler } from "../registries/note-types/personal-date-range-handler";
 
 const passwordHashingFunction = new ScryptHashingFunction();
 const userStore = new InMemoryUserStore();
@@ -30,6 +31,7 @@ const noteTypesRegistry = new NoteTypesRegistry();
 
 noteTypesRegistry.addNoteTypeHandler(new PlaintextNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new DateRangeNoteHandler());
+noteTypesRegistry.addNoteTypeHandler(new PersonalDateRangeNoteHandler());
 
 export const commonConfiguration = (
   overrides: ServiceConfigurationOverrides

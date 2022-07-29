@@ -11,6 +11,7 @@ const note_store_1 = require("../stores/note/note-store");
 const note_types_registry_1 = require("../registries/note-types-registry");
 const plaintext_handler_1 = require("../registries/note-types/plaintext-handler");
 const date_range_handler_1 = require("../registries/note-types/date-range-handler");
+const personal_date_range_handler_1 = require("../registries/note-types/personal-date-range-handler");
 const passwordHashingFunction = new scrypt_hashing_1.ScryptHashingFunction();
 const userStore = new user_store_inmemory_1.InMemoryUserStore();
 const jwtSerializerSecretKey = String(Math.random());
@@ -21,6 +22,7 @@ const noteStore = new note_store_1.InMemoryNoteStore();
 const noteTypesRegistry = new note_types_registry_1.NoteTypesRegistry();
 noteTypesRegistry.addNoteTypeHandler(new plaintext_handler_1.PlaintextNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new date_range_handler_1.DateRangeNoteHandler());
+noteTypesRegistry.addNoteTypeHandler(new personal_date_range_handler_1.PersonalDateRangeNoteHandler());
 const commonConfiguration = (overrides) => {
     return {
         userStore,

@@ -112,6 +112,19 @@ export class TestScenario {
     regex = regex.replace("{note-id}", "[A-z0-9]{1,32}");
     expect(this.currentPage).toMatch(new RegExp(`^/${regex}$`));
   }
+  public setSelectedOption = (optionName: string) => {
+    const inputName = this.el.getAttribute("name");
+    expect(inputName).toBeTruthy();
+
+    const options = this.el.querySelectorAll("option");
+    const option = options.find((x) => x.innerText === optionName);
+    expect(option).toBeTruthy();
+
+    const value = option.getAttribute("value");
+
+    this.form[inputName] = value;
+    this.el.setAttribute("value", value);
+  };
   public setInputValue = (value: string) => {
     const inputName = this.el.getAttribute("name");
     expect(inputName).toBeTruthy();
@@ -142,6 +155,10 @@ export class TestScenario {
   }
   public checkValue(value: string) {
     expect(this.el.getAttribute("value")).toBe(value);
+  }
+  public checkSelectedOption(value: string) {
+    const selectedOption = this.el.querySelector("option[selected]");
+    expect(selectedOption.innerText).toBe(value);
   }
 
   private async getRequest(url: string) {
