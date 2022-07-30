@@ -50,10 +50,7 @@ class PersonalDateRangeNoteHandler {
     renderCreateForm() {
         return `
       <label>Person
-        <select name='person-id' data-testid='person-selector'>
-          <option value='justin-case'>Justin Case</option>
-          <option value='john-rope'>John Rope</option>
-        </select>
+        {{MACRO_PERSON_SELECTOR}}
       </label>
       <label>Date start
         <input name='date-range-start' data-testid='date-range-start-input' />
@@ -69,10 +66,7 @@ class PersonalDateRangeNoteHandler {
     renderEditForm(note) {
         return `
     <label>Person
-    <select name='person-id' data-testid='person-selector'>
-      <option ${note.extensionProperties.personID === "justin-case" ? "selected" : ""} value='justin-case'>Justin Case</option>
-      <option ${note.extensionProperties.personID === "john-rope" ? "selected" : ""} value='john-rope'>John Rope</option>
-    </select>
+      {{MACRO_PERSON_SELECTOR:${note.extensionProperties.personID}}}
     </label>
     <label>Date start
       <input name='date-range-start' data-testid='date-range-start-input' value='${note.extensionProperties.dateRangeStart}' />

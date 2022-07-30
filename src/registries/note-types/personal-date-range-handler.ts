@@ -55,10 +55,7 @@ export class PersonalDateRangeNoteHandler implements NoteTypeHandler {
   public renderCreateForm(): string {
     return `
       <label>Person
-        <select name='person-id' data-testid='person-selector'>
-          <option value='justin-case'>Justin Case</option>
-          <option value='john-rope'>John Rope</option>
-        </select>
+        {{MACRO_PERSON_SELECTOR}}
       </label>
       <label>Date start
         <input name='date-range-start' data-testid='date-range-start-input' />
@@ -74,24 +71,13 @@ export class PersonalDateRangeNoteHandler implements NoteTypeHandler {
   public renderEditForm(note: Note): string {
     return `
     <label>Person
-    <select name='person-id' data-testid='person-selector'>
-      <option ${
-        note.extensionProperties.personID === "justin-case" ? "selected" : ""
-      } value='justin-case'>Justin Case</option>
-      <option ${
-        note.extensionProperties.personID === "john-rope" ? "selected" : ""
-      } value='john-rope'>John Rope</option>
-    </select>
+      {{MACRO_PERSON_SELECTOR:${note.extensionProperties.personID}}}
     </label>
     <label>Date start
-      <input name='date-range-start' data-testid='date-range-start-input' value='${
-        note.extensionProperties.dateRangeStart
-      }' />
+      <input name='date-range-start' data-testid='date-range-start-input' value='${note.extensionProperties.dateRangeStart}' />
     </label>
     <label>Date end
-      <input name='date-range-end' data-testid='date-range-end-input' value='${
-        note.extensionProperties.dateRangeEnd
-      }' />
+      <input name='date-range-end' data-testid='date-range-end-input' value='${note.extensionProperties.dateRangeEnd}' />
     </label>
     <div>
     * - enter dates in YYYY-MM-DD format

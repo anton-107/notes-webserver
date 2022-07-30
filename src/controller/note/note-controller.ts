@@ -22,9 +22,11 @@ export class NoteController extends EntityController<Note> {
     super(noteControllerProperties);
   }
   public async showCreateNewEntityPage(): Promise<HttpResponse> {
-    return this.noteControllerProperties.entityView.renderCreationFormOneEntity(
-      { type: { type: this.noteControllerProperties.noteType } }
-    );
+    const createNewEntityResponse =
+      this.noteControllerProperties.entityView.renderCreationFormOneEntity({
+        type: { type: this.noteControllerProperties.noteType },
+      });
+    return await this.postProcessor.processResponse(createNewEntityResponse);
   }
   protected getEntityName(): string {
     return "note";

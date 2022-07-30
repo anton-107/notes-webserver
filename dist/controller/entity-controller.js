@@ -2,11 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EntityController = void 0;
 const http_1 = require("../http/http");
+const post_processor_1 = require("./post-processor");
 class EntityController {
     constructor(properties) {
         this.properties = properties;
         this.authorizedUserName = null;
         this.selectedEntity = null;
+        this.postProcessor = new post_processor_1.PostProcessor();
     }
     async showEditSingleEntityPage(entityID) {
         const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);
@@ -30,10 +32,12 @@ class EntityController {
             };
         }
         this.selectedEntity = entity;
-        return this.properties.entityView.renderEditingFormOneEntity(entity);
+        const editNewEntityResponse = this.properties.entityView.renderEditingFormOneEntity(entity);
+        return await this.postProcessor.processResponse(editNewEntityResponse);
     }
     async showCreateNewEntityPage() {
-        return this.properties.entityView.renderCreationFormOneEntity({});
+        const createNewEntityResponse = this.properties.entityView.renderCreationFormOneEntity({});
+        return await this.postProcessor.processResponse(createNewEntityResponse);
     }
     async showSingleEntityDetailsPage(entityID) {
         const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);
