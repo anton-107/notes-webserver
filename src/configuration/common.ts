@@ -17,6 +17,8 @@ import { NoteTypesRegistry } from "../registries/note-types-registry";
 import { PlaintextNoteHandler } from "../registries/note-types/plaintext-handler";
 import { DateRangeNoteHandler } from "../registries/note-types/date-range-handler";
 import { PersonalDateRangeNoteHandler } from "../registries/note-types/personal-date-range-handler";
+import { PostProcessorRegistry } from "../controller/post-processor";
+import { PersonSelectorController } from "../controller/person/person-selector-controller";
 
 const passwordHashingFunction = new ScryptHashingFunction();
 const userStore = new InMemoryUserStore();
@@ -32,6 +34,9 @@ const noteTypesRegistry = new NoteTypesRegistry();
 noteTypesRegistry.addNoteTypeHandler(new PlaintextNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new DateRangeNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new PersonalDateRangeNoteHandler());
+
+const postProcessorRegistry = new PostProcessorRegistry();
+postProcessorRegistry.addPostProcessor(new PersonSelectorController());
 
 export const commonConfiguration = (
   overrides: ServiceConfigurationOverrides
@@ -54,6 +59,7 @@ export const commonConfiguration = (
     noteStore,
     baseUrl: "",
     noteTypesRegistry,
+    postProcessorRegistry,
     ...overrides,
   };
 };

@@ -4,6 +4,7 @@ import {
   UserStore,
 } from "authentication-module/dist/authenticator";
 import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
+import { PostProcessorRegistry } from "../controller/post-processor";
 import { NoteTypesRegistry } from "../registries/note-types-registry";
 import { NoteStore } from "../stores/note/note-store";
 import { NotebookStore } from "../stores/notebook/notebook-store";
@@ -26,6 +27,7 @@ export interface ServiceConfiguration {
   personStore: PersonStore;
   noteStore: NoteStore;
   noteTypesRegistry: NoteTypesRegistry;
+  postProcessorRegistry: PostProcessorRegistry;
   passwordHashingFunction: PasswordHashingFunction;
   userStore: UserStore;
   baseUrl: string;

@@ -1,26 +1,26 @@
 import { HttpResponse } from "../http/http";
-import { PersonSelectorHtmlMacro } from "../views/person/person-selector-html-macro";
 
-export class PostProcessor {
-  public async processResponse(response: HttpResponse): Promise<HttpResponse> {
-    response.body = await this.showPersonSelector(response.body);
-    return response;
+export interface PostProcessor {
+  getRegularExpressionForMacro(): RegExp;
+  renderMacro(match: RegExpMatchArray): Promise<string>;
+}
+
+export class PostProcessorRegistry {
+  private postProcessors: PostProcessor[] = [];
+
+  public addPostProcessor(postProcessor: PostProcessor): void {
+    this.postProcessors.push(postProcessor);
   }
-  private async showPersonSelector(body: string): Promise<string> {
-    const regexp = /{{MACRO_PERSON_SELECTOR:?([A-z0-9-]+)?}}/;
-    const match = body.match(regexp);
-    if (match) {
-      const view = new PersonSelectorHtmlMacro();
-      const selectedValue = match[1] || "";
-      const people = [
-        { id: "justin-case", name: "Justin Case", email: "", manager: "" },
-        { id: "john-rope", name: "John Rope", email: "", manager: "" },
-      ];
-      return body.replace(
-        regexp,
-        view.renderPersonSelectorMacro(people, selectedValue)
-      );
+  public async processResponse(response: HttpResponse): Promise<HttpResponse> {
+    let body = response.body;
+    for (const postProcessor of this.postProcessors) {
+      const regexp = postProcessor.getRegularExpressionForMacro();
+      const match = body.match(regexp);
+      if (match) {
+        const renderedMacro = await postProcessor.renderMacro(match);
+        body = body.replace(regexp, renderedMacro);
+      }
     }
-    return body;
+    return { ...response, body };
   }
 }

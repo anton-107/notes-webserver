@@ -3,7 +3,7 @@ import { FormBody } from "../http/body-parser";
 import { HttpResponse, HttpStatus } from "../http/http";
 import { EntityStore } from "../stores/entity-store";
 import { HttpRedirectView } from "../views/http-redirect-view";
-import { PostProcessor } from "./post-processor";
+import { PostProcessorRegistry } from "./post-processor";
 
 export interface EntityView<T> {
   renderEditingFormOneEntity(entity: T): HttpResponse;
@@ -17,12 +17,12 @@ export interface EntityControllerProperties<T> {
   entityStore: EntityStore<T>;
   entityView: EntityView<T>;
   httpRedirectView: HttpRedirectView;
+  postProcessorRegistry: PostProcessorRegistry;
 }
 
 export abstract class EntityController<T> {
   protected authorizedUserName: string | null = null;
   protected selectedEntity: T | null = null;
-  protected postProcessor = new PostProcessor();
 
   constructor(private properties: EntityControllerProperties<T>) {}
   protected abstract getEntityName(): string;
@@ -79,12 +79,16 @@ export abstract class EntityController<T> {
     this.selectedEntity = entity;
     const editNewEntityResponse =
       this.properties.entityView.renderEditingFormOneEntity(entity);
-    return await this.postProcessor.processResponse(editNewEntityResponse);
+    return await this.properties.postProcessorRegistry.processResponse(
+      editNewEntityResponse
+    );
   }
   public async showCreateNewEntityPage(): Promise<HttpResponse> {
     const createNewEntityResponse =
       this.properties.entityView.renderCreationFormOneEntity({});
-    return await this.postProcessor.processResponse(createNewEntityResponse);
+    return await this.properties.postProcessorRegistry.processResponse(
+      createNewEntityResponse
+    );
   }
   public async showSingleEntityDetailsPage(
     entityID: string

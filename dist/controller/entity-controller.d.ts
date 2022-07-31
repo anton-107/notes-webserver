@@ -3,7 +3,7 @@ import { FormBody } from "../http/body-parser";
 import { HttpResponse } from "../http/http";
 import { EntityStore } from "../stores/entity-store";
 import { HttpRedirectView } from "../views/http-redirect-view";
-import { PostProcessor } from "./post-processor";
+import { PostProcessorRegistry } from "./post-processor";
 export interface EntityView<T> {
     renderEditingFormOneEntity(entity: T): HttpResponse;
     renderCreationFormOneEntity(partialEntity: Partial<T>): HttpResponse;
@@ -15,12 +15,12 @@ export interface EntityControllerProperties<T> {
     entityStore: EntityStore<T>;
     entityView: EntityView<T>;
     httpRedirectView: HttpRedirectView;
+    postProcessorRegistry: PostProcessorRegistry;
 }
 export declare abstract class EntityController<T> {
     private properties;
     protected authorizedUserName: string | null;
     protected selectedEntity: T | null;
-    protected postProcessor: PostProcessor;
     constructor(properties: EntityControllerProperties<T>);
     protected abstract getEntityName(): string;
     protected abstract mapRequestToExistingEntity(username: string, existingEntity: T, requestForm: FormBody): T;

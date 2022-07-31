@@ -12,7 +12,7 @@ class NoteController extends entity_controller_1.EntityController {
         const createNewEntityResponse = this.noteControllerProperties.entityView.renderCreationFormOneEntity({
             type: { type: this.noteControllerProperties.noteType },
         });
-        return await this.postProcessor.processResponse(createNewEntityResponse);
+        return await this.noteControllerProperties.postProcessorRegistry.processResponse(createNewEntityResponse);
     }
     getEntityName() {
         return "note";
