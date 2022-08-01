@@ -80,13 +80,18 @@ export abstract class EntityController<T> {
     const editNewEntityResponse =
       this.properties.entityView.renderEditingFormOneEntity(entity);
     return await this.properties.postProcessorRegistry.processResponse(
+      user.username,
       editNewEntityResponse
     );
   }
   public async showCreateNewEntityPage(): Promise<HttpResponse> {
+    const user = await this.properties.authenticator.authenticate(
+      this.properties.authenticationToken
+    );
     const createNewEntityResponse =
       this.properties.entityView.renderCreationFormOneEntity({});
     return await this.properties.postProcessorRegistry.processResponse(
+      user.username,
       createNewEntityResponse
     );
   }

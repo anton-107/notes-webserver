@@ -15,6 +15,18 @@ defineFeature(feature, (test) => {
     given(/^I own a notebook named '([A-z0-9 ]+)'$/, async (notebookName) => {
       await testScenario.createNotebook(notebookName);
     });
+    given(
+      /^I have an employee whose name is '([A-z0-9 ]+)'$/,
+      async (employeeName) => {
+        await testScenario.createPerson(employeeName);
+      }
+    );
+    given(
+      /^I have an employee whose name is '([A-z0-9 ]+)'$/,
+      async (employeeName) => {
+        await testScenario.createPerson(employeeName);
+      }
+    );
     when("I navigate to this notebook page", async () => {
       await testScenario.navigateToNotebookPage();
     });

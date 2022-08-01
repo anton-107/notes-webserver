@@ -19,6 +19,7 @@ import { DateRangeNoteHandler } from "../registries/note-types/date-range-handle
 import { PersonalDateRangeNoteHandler } from "../registries/note-types/personal-date-range-handler";
 import { PostProcessorRegistry } from "../controller/post-processor";
 import { PersonSelectorController } from "../controller/person/person-selector-controller";
+import { PersonShortRepresentationController } from "../controller/person/person-short-representation-controller";
 
 const passwordHashingFunction = new ScryptHashingFunction();
 const userStore = new InMemoryUserStore();
@@ -36,12 +37,15 @@ noteTypesRegistry.addNoteTypeHandler(new DateRangeNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new PersonalDateRangeNoteHandler());
 
 const postProcessorRegistry = new PostProcessorRegistry();
-postProcessorRegistry.addPostProcessor(new PersonSelectorController());
+let configurationCache: ServiceConfiguration | undefined = undefined;
 
 export const commonConfiguration = (
   overrides: ServiceConfigurationOverrides
 ): ServiceConfiguration => {
-  return {
+  if (configurationCache) {
+    return configurationCache;
+  }
+  const commonConfiguration = {
     userStore,
     jwtSerializerSecretProvider,
     authenticator: new Authenticator({
@@ -62,4 +66,14 @@ export const commonConfiguration = (
     postProcessorRegistry,
     ...overrides,
   };
+
+  postProcessorRegistry.addPostProcessor(
+    new PersonSelectorController(commonConfiguration)
+  );
+  postProcessorRegistry.addPostProcessor(
+    new PersonShortRepresentationController(commonConfiguration)
+  );
+
+  configurationCache = commonConfiguration;
+  return commonConfiguration;
 };

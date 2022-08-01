@@ -14,6 +14,7 @@ const date_range_handler_1 = require("../registries/note-types/date-range-handle
 const personal_date_range_handler_1 = require("../registries/note-types/personal-date-range-handler");
 const post_processor_1 = require("../controller/post-processor");
 const person_selector_controller_1 = require("../controller/person/person-selector-controller");
+const person_short_representation_controller_1 = require("../controller/person/person-short-representation-controller");
 const passwordHashingFunction = new scrypt_hashing_1.ScryptHashingFunction();
 const userStore = new user_store_inmemory_1.InMemoryUserStore();
 const jwtSerializerSecretKey = String(Math.random());
@@ -26,9 +27,12 @@ noteTypesRegistry.addNoteTypeHandler(new plaintext_handler_1.PlaintextNoteHandle
 noteTypesRegistry.addNoteTypeHandler(new date_range_handler_1.DateRangeNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new personal_date_range_handler_1.PersonalDateRangeNoteHandler());
 const postProcessorRegistry = new post_processor_1.PostProcessorRegistry();
-postProcessorRegistry.addPostProcessor(new person_selector_controller_1.PersonSelectorController());
+let configurationCache = undefined;
 const commonConfiguration = (overrides) => {
-    return {
+    if (configurationCache) {
+        return configurationCache;
+    }
+    const commonConfiguration = {
         userStore,
         jwtSerializerSecretProvider,
         authenticator: new authenticator_1.Authenticator({
@@ -48,6 +52,10 @@ const commonConfiguration = (overrides) => {
         postProcessorRegistry,
         ...overrides,
     };
+    postProcessorRegistry.addPostProcessor(new person_selector_controller_1.PersonSelectorController(commonConfiguration));
+    postProcessorRegistry.addPostProcessor(new person_short_representation_controller_1.PersonShortRepresentationController(commonConfiguration));
+    configurationCache = commonConfiguration;
+    return commonConfiguration;
 };
 exports.commonConfiguration = commonConfiguration;
 //# sourceMappingURL=common.js.map

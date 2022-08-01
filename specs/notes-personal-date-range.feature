@@ -7,6 +7,8 @@ Feature: Notes with 'personal date range' type
     Given web server is running
     Given I am logged in as 'user1'/'1234'
     Given I own a notebook named 'Team Holidays'
+    Given I have an employee whose name is 'Justin Case'
+    Given I have an employee whose name is 'John Rope'
     When I navigate to this notebook page
     When page is loaded
     Then I see 'create-new-personal-date-range-link' element
@@ -24,7 +26,7 @@ Feature: Notes with 'personal date range' type
   Scenario: Read added personal date range entry
     When page is loaded
     Then I see 'person-name' element
-    And it has inner text of 'justin-case'
+    And it has inner text of 'Justin Case'
     And I see 'date-range-start' element
     And it has inner text of '2022-07-29'
     And I see 'date-range-end' element
@@ -47,7 +49,7 @@ Feature: Notes with 'personal date range' type
     Then I am navigated to /notebook/{notebook-id} page
     When page is loaded
     Then I see 'person-name' element
-    And it has inner text of 'john-rope'
+    And it has inner text of 'John Rope'
     And I see 'date-range-start' element
     And it has inner text of '2022-07-30'
     And I see 'date-range-end' element

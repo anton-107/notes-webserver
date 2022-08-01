@@ -22,11 +22,15 @@ export class NoteController extends EntityController<Note> {
     super(noteControllerProperties);
   }
   public async showCreateNewEntityPage(): Promise<HttpResponse> {
+    const user = await this.noteControllerProperties.authenticator.authenticate(
+      this.noteControllerProperties.authenticationToken
+    );
     const createNewEntityResponse =
       this.noteControllerProperties.entityView.renderCreationFormOneEntity({
         type: { type: this.noteControllerProperties.noteType },
       });
     return await this.noteControllerProperties.postProcessorRegistry.processResponse(
+      user.username,
       createNewEntityResponse
     );
   }

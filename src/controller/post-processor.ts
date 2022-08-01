@@ -2,7 +2,7 @@ import { HttpResponse } from "../http/http";
 
 export interface PostProcessor {
   getRegularExpressionForMacro(): RegExp;
-  renderMacro(match: RegExpMatchArray): Promise<string>;
+  renderMacro(username: string, match: RegExpMatchArray): Promise<string>;
 }
 
 export class PostProcessorRegistry {
@@ -11,13 +11,17 @@ export class PostProcessorRegistry {
   public addPostProcessor(postProcessor: PostProcessor): void {
     this.postProcessors.push(postProcessor);
   }
-  public async processResponse(response: HttpResponse): Promise<HttpResponse> {
+  public async processResponse(
+    username: string,
+    response: HttpResponse
+  ): Promise<HttpResponse> {
     let body = response.body;
     for (const postProcessor of this.postProcessors) {
       const regexp = postProcessor.getRegularExpressionForMacro();
       const match = body.match(regexp);
       if (match) {
-        const renderedMacro = await postProcessor.renderMacro(match);
+        console.log("MATCH: ", regexp);
+        const renderedMacro = await postProcessor.renderMacro(username, match);
         body = body.replace(regexp, renderedMacro);
       }
     }

@@ -66,7 +66,7 @@ export class NotebookController extends EntityController<Notebook> {
     if (response.statusCode !== HttpStatus.OK) {
       return response;
     }
-    return {
+    const httpResponse = {
       ...response,
       body: response.body
         .replace(
@@ -78,6 +78,14 @@ export class NotebookController extends EntityController<Notebook> {
           await this.showLinksToAddNotes(entityID)
         ),
     };
+    console.log(
+      "notebook controller showSingleEntityDetailsPage",
+      this.notebookControllerProperties.postProcessorRegistry
+    );
+    return await this.notebookControllerProperties.postProcessorRegistry.processResponse(
+      this.authorizedUserName,
+      httpResponse
+    );
   }
   private async showNotesInNotebook(
     owner: string,

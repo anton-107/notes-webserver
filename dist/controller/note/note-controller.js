@@ -9,10 +9,11 @@ class NoteController extends entity_controller_1.EntityController {
         this.noteControllerProperties = noteControllerProperties;
     }
     async showCreateNewEntityPage() {
+        const user = await this.noteControllerProperties.authenticator.authenticate(this.noteControllerProperties.authenticationToken);
         const createNewEntityResponse = this.noteControllerProperties.entityView.renderCreationFormOneEntity({
             type: { type: this.noteControllerProperties.noteType },
         });
-        return await this.noteControllerProperties.postProcessorRegistry.processResponse(createNewEntityResponse);
+        return await this.noteControllerProperties.postProcessorRegistry.processResponse(user.username, createNewEntityResponse);
     }
     getEntityName() {
         return "note";

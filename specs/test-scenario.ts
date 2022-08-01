@@ -71,6 +71,16 @@ export class TestScenario {
     this.checkInnerText(notebookName);
     this.captureNotebookHref();
   }
+  public async createPerson(employeeName: string) {
+    await this.loadPage("home");
+    await this.processNewPage();
+    this.checkElement("create-new-person-link");
+    await this.handleClick();
+    await this.processNewPage();
+    this.checkElement("person-name-input");
+    this.setInputValue(employeeName);
+    await this.submitForm();
+  }
   public async navigateToNotebookPage() {
     await this.getRequest(this.notebookHref);
   }

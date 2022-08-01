@@ -47,7 +47,7 @@ export class PersonalDateRangeNoteHandler implements NoteTypeHandler {
   }
   private htmlView(note: Note): string {
     return `
-      <div><span data-testid='person-name'>${note.extensionProperties.personID}</span></div>
+      <div>{{MACRO_PERSON_SHORT_REPRESENTATION:${note.extensionProperties.personID}}}</div>
       <div>Date start: <span data-testid='date-range-start'>${note.extensionProperties.dateRangeStart}</span></div>
       <div>Date start: <span data-testid='date-range-end'>${note.extensionProperties.dateRangeEnd}</span></div>
     `;

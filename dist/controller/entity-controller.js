@@ -31,11 +31,12 @@ class EntityController {
         }
         this.selectedEntity = entity;
         const editNewEntityResponse = this.properties.entityView.renderEditingFormOneEntity(entity);
-        return await this.properties.postProcessorRegistry.processResponse(editNewEntityResponse);
+        return await this.properties.postProcessorRegistry.processResponse(user.username, editNewEntityResponse);
     }
     async showCreateNewEntityPage() {
+        const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);
         const createNewEntityResponse = this.properties.entityView.renderCreationFormOneEntity({});
-        return await this.properties.postProcessorRegistry.processResponse(createNewEntityResponse);
+        return await this.properties.postProcessorRegistry.processResponse(user.username, createNewEntityResponse);
     }
     async showSingleEntityDetailsPage(entityID) {
         const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);

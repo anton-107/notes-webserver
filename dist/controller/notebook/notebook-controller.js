@@ -42,12 +42,14 @@ class NotebookController extends entity_controller_1.EntityController {
         if (response.statusCode !== http_1.HttpStatus.OK) {
             return response;
         }
-        return {
+        const httpResponse = {
             ...response,
             body: response.body
                 .replace("{{MACRO_LIST_NOTES}}", await this.showNotesInNotebook(this.authorizedUserName, entityID))
                 .replace("{{MACRO_LIST_LINKS_TO_ADD_NOTES}}", await this.showLinksToAddNotes(entityID)),
         };
+        console.log("notebook controller showSingleEntityDetailsPage", this.notebookControllerProperties.postProcessorRegistry);
+        return await this.notebookControllerProperties.postProcessorRegistry.processResponse(this.authorizedUserName, httpResponse);
     }
     async showNotesInNotebook(owner, notebookID) {
         const notes = await this.notebookControllerProperties.noteStore.listAllInNotebook(owner, notebookID);

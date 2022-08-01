@@ -8,13 +8,14 @@ class PostProcessorRegistry {
     addPostProcessor(postProcessor) {
         this.postProcessors.push(postProcessor);
     }
-    async processResponse(response) {
+    async processResponse(username, response) {
         let body = response.body;
         for (const postProcessor of this.postProcessors) {
             const regexp = postProcessor.getRegularExpressionForMacro();
             const match = body.match(regexp);
             if (match) {
-                const renderedMacro = await postProcessor.renderMacro(match);
+                console.log("MATCH: ", regexp);
+                const renderedMacro = await postProcessor.renderMacro(username, match);
                 body = body.replace(regexp, renderedMacro);
             }
         }
