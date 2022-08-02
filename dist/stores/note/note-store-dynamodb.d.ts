@@ -9,6 +9,9 @@ export declare class NoteEntity implements Note {
     notebook: Notebook;
     type: NoteType;
     content: string;
+    extensionProperties?: {
+        [key: string]: string;
+    };
 }
 interface NoteStoreDynamodbProps {
     dataMapper: DataMapper;

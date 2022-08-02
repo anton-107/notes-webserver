@@ -24,6 +24,9 @@ describe("NoteStoreDynamodb: development test", () => {
       owner: "user1",
       type: { type: "plaintext" },
       content: `This is a test note ${String(Math.random()).slice(2, 6)}`,
+      extensionProperties: {
+        personID: "test-person",
+      },
     });
   });
   it("should list all notes", async () => {
@@ -40,6 +43,7 @@ describe("NoteStoreDynamodb: development test", () => {
   it("should read one note", async () => {
     const note = await store.getOne("user1", capturedNote.id);
     expect(note.content).toBe(capturedNote.content);
+    expect(note.extensionProperties.personID).toBe("test-person");
   });
   it("should update one note", async () => {
     let note = {

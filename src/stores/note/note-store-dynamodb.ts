@@ -31,6 +31,9 @@ export class NoteEntity implements Note {
 
   @attribute()
   content: string;
+
+  @attribute()
+  extensionProperties?: { [key: string]: string };
 }
 
 interface NoteStoreDynamodbProps {
