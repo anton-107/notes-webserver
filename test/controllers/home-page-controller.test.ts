@@ -1,9 +1,9 @@
 import { dependenciesConfiguration } from "../../src/configuration/configuration";
-import { HomePage } from "../../src/routes/get-home";
+import { HomePageController } from "../../src/controller/home/home-page-controller";
 
-describe("Route GET /home", () => {
+describe("HomePageController", () => {
   it("should render link containing base url", async () => {
-    const h = new HomePage({
+    const h = new HomePageController({
       authenticationToken: "test-token",
       ...dependenciesConfiguration({
         baseUrl: "/test-base",

@@ -1,10 +1,13 @@
 # notes-webserver
+
 Notes WebServer is a web-based application for personal note taking.
 
 # Status
+
 This application is under heavy development, is not production ready yet.
 
 # Features
+
 - multi-tenant
 - allows to create multiple notebooks
 - allows to add notes to notebooks
@@ -13,11 +16,13 @@ This application is under heavy development, is not production ready yet.
 - can be run as an Express
 
 # Technicalities
+
 - written 100% in Typescript
 - 100% test coverage
 - can run as an Express application, or in AWS Lambda
 
 # Integration tests
+
 This package has integration tests that can be run during development. They are not part of CI automated tests,
 but are useful to develop integrations with real services (e.g. AWS DynamoDB). To run these tests, run:
 
