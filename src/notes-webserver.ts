@@ -9,6 +9,7 @@ import {
 } from "./http/http";
 import { Route } from "./router";
 import bodyParser from "body-parser";
+import cors from "cors";
 
 interface NotesWebserverProperties {
   routes: Route[];
@@ -20,6 +21,7 @@ export class NotesWebserver {
 
   constructor(properties: NotesWebserverProperties) {
     this.app = express();
+    this.app.use(cors());
     this.app.use(cookieParser());
 
     properties.routes.forEach((route) => {
