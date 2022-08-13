@@ -1,5 +1,6 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { FormBody } from "../../http/body-parser";
+import { corsHeaders } from "../../http/cors-headers";
 import { HttpResponse, HttpStatus } from "../../http/http";
 import { ResponseType } from "../../http/response-type-parser";
 
@@ -31,6 +32,7 @@ export class SigninController {
           : HttpStatus.FORBIDDEN,
         headers: {
           "Set-Cookie": `Authentication=${signinResult.accessToken}`,
+          ...corsHeaders(),
         },
         body: JSON.stringify({
           isAuthenticated: signinResult.isAuthenticated,

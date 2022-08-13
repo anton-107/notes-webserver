@@ -21,7 +21,7 @@ describe("SigninController", () => {
     expect(r.statusCode).toBe(HttpStatus.FORBIDDEN);
     expect(json.isAuthenticated).toBe(false);
   });
-  it("should return ok in json response if authentication succeeds", async () => {
+  it("should return ok and in json response and a cors header if authentication succeeds", async () => {
     const authenticatorMock = mock<Authenticator>();
     when(authenticatorMock.signIn(anything(), anything())).thenResolve({
       isAuthenticated: true,
@@ -35,6 +35,7 @@ describe("SigninController", () => {
     const r = await c.render({});
     const json = JSON.parse(r.body);
     expect(r.statusCode).toBe(HttpStatus.OK);
+    expect(r.headers["Access-Control-Allow-Origin"]).toBe("*");
     expect(json.isAuthenticated).toBe(true);
   });
 });

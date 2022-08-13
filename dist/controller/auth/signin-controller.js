@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SigninController = void 0;
+const cors_headers_1 = require("../../http/cors-headers");
 const http_1 = require("../../http/http");
 const response_type_parser_1 = require("../../http/response-type-parser");
 class SigninController {
@@ -19,6 +20,7 @@ class SigninController {
                     : http_1.HttpStatus.FORBIDDEN,
                 headers: {
                     "Set-Cookie": `Authentication=${signinResult.accessToken}`,
+                    ...(0, cors_headers_1.corsHeaders)(),
                 },
                 body: JSON.stringify({
                     isAuthenticated: signinResult.isAuthenticated,
