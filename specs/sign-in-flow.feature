@@ -19,7 +19,15 @@ Feature: User sign in flow
       When page is loaded
       Then I see 'user-greeting' element
       And it has inner text of 'hello user1!'
-      And I see 'sign-out-button' element
+
+    Scenario: Who-am-I endpoint for signed in user
+      When I visit /whoami page
+      When json response is loaded
+      Then 'username' field has value of 'user1'
+
+    Scenario: user sign out
+      When I visit /home page
+      Then I see 'sign-out-button' element
       When I click on it
       Then I am navigated to /signout page
       When page is loaded

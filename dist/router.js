@@ -23,6 +23,7 @@ const post_new_note_1 = require("./routes/note/post-new-note");
 const get_edit_note_1 = require("./routes/note/get-edit-note");
 const post_edit_note_1 = require("./routes/note/post-edit-note");
 const post_delete_note_1 = require("./routes/note/post-delete-note");
+const get_whoami_1 = require("./routes/auth/get-whoami");
 exports.routes = [
     {
         method: "GET",
@@ -35,6 +36,12 @@ exports.routes = [
         path: "/signin",
         import: (0, path_1.join)(__dirname, "./routes/auth/get-signin"),
         action: get_signin_1.getSigninHandler.name,
+    },
+    {
+        method: "GET",
+        path: "/whoami",
+        import: (0, path_1.join)(__dirname, "./routes/auth/get-whoami"),
+        action: get_whoami_1.getWhoamiHandler.name,
     },
     {
         method: "POST",

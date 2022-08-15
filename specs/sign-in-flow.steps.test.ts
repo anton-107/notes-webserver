@@ -4,10 +4,10 @@ import { TestScenario } from "./test-scenario";
 const feature = loadFeature("./specs/sign-in-flow.feature");
 
 defineFeature(feature, (test) => {
-  test("Sucessful sign in for user1", ({ given, when, then, and }) => {
-    const testScenario = new TestScenario(8135);
-    afterAll(() => testScenario.stopServer());
+  const testScenario = new TestScenario(8135);
+  afterAll(() => testScenario.stopServer());
 
+  test("Sucessful sign in for user1", ({ given, when, then, and }) => {
     given("web server is running", () => testScenario.startServer());
     when(/^I visit \/([a-z]+) page$/, (url) => testScenario.loadPage(url));
     when("page is loaded", () => testScenario.processNewPage());
@@ -42,6 +42,18 @@ defineFeature(feature, (test) => {
     and(/^it has inner text of '(.+)'$/, (innerText) =>
       testScenario.checkInnerText(innerText)
     );
+  });
+  test("Who-am-I endpoint for signed in user", ({ when, then }) => {
+    when(/^I visit \/([a-z]+) page$/, (url) => testScenario.loadPage(url));
+    when("json response is loaded", () => testScenario.processJSON());
+    then(
+      /^'([a-z-]+)' field has value of '([A-z0-9 ]+)'$/,
+      (fieldName, fieldValue) =>
+        testScenario.checkJSONField(fieldName, fieldValue)
+    );
+  });
+  test("user sign out", ({ when, then, and }) => {
+    when(/^I visit \/([a-z]+) page$/, (url) => testScenario.loadPage(url));
     then(/^I see '([a-z-]+)' element$/, (selector) =>
       testScenario.checkElement(selector)
     );

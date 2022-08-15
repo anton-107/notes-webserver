@@ -15,6 +15,7 @@ export class TestScenario {
   private form: { [key: string]: string } = {}; // form on the page (gets populated when test interacts with inputs)
   private pageRoot: HTMLElement; // root element of currently loaded page
   private el: HTMLElement; // currently selected element
+  private jsonResponse: { [key: string]: string };
 
   // testing single noteebook page:
   private notebookHref: string;
@@ -91,6 +92,20 @@ export class TestScenario {
     expect(this.response.getStatus()).toBeLessThan(300);
     this.pageRoot = parse(await this.response.getBody());
     this.form = {};
+  }
+  public async processJSON() {
+    expect(this.response.getStatus()).toBeLessThan(300);
+    this.form = {};
+    this.jsonResponse = JSON.parse(await this.response.getBody());
+  }
+  public checkJSONField(fieldName: string, fieldValue: string) {
+    const actualValue = this.jsonResponse[fieldName];
+    console.log(
+      `Checking if JSON: ${JSON.stringify(
+        this.jsonResponse
+      )} has field ${fieldName}=${fieldValue}`
+    );
+    expect(actualValue).toBe(fieldValue);
   }
   public checkElement(elementDataID: string) {
     this.el = this.pageRoot.querySelector(`*[data-testid=${elementDataID}]`);

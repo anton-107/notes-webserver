@@ -20,6 +20,7 @@ import { postNewNoteHandler } from "./routes/note/post-new-note";
 import { getEditNoteHandler } from "./routes/note/get-edit-note";
 import { postEditNoteHandler } from "./routes/note/post-edit-note";
 import { postDeleteNoteHandler } from "./routes/note/post-delete-note";
+import { getWhoamiHandler } from "./routes/auth/get-whoami";
 
 export interface Route {
   method: "GET" | "POST";
@@ -40,6 +41,12 @@ export const routes: Route[] = [
     path: "/signin",
     import: join(__dirname, "./routes/auth/get-signin"),
     action: getSigninHandler.name,
+  },
+  {
+    method: "GET",
+    path: "/whoami",
+    import: join(__dirname, "./routes/auth/get-whoami"),
+    action: getWhoamiHandler.name,
   },
   {
     method: "POST",
