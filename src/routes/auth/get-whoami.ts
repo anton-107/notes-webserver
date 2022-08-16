@@ -1,6 +1,7 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { dependenciesConfiguration } from "../../configuration/configuration";
 import { parseCookie } from "../../http/cookie-parser";
+import { corsHeaders } from "../../http/cors-headers";
 import {
   HttpResponse,
   HttpStatus,
@@ -26,6 +27,7 @@ export class IdentityPage {
       statusCode: HttpStatus.OK,
       headers: {
         "Content-Type": "application/json; charset=utf-8",
+        ...corsHeaders(),
       },
       body: JSON.stringify({
         isAuthenticated: authenticationResult.isAuthenticated,
