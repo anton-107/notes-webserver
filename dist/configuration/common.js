@@ -15,6 +15,7 @@ const personal_date_range_handler_1 = require("../registries/note-types/personal
 const post_processor_1 = require("../controller/post-processor");
 const person_selector_controller_1 = require("../controller/person/person-selector-controller");
 const person_short_representation_controller_1 = require("../controller/person/person-short-representation-controller");
+const cors_headers_1 = require("../http/cors-headers");
 const passwordHashingFunction = new scrypt_hashing_1.ScryptHashingFunction();
 const userStore = new user_store_inmemory_1.InMemoryUserStore();
 const jwtSerializerSecretKey = String(Math.random());
@@ -50,6 +51,7 @@ const commonConfiguration = (overrides) => {
         baseUrl: "",
         noteTypesRegistry,
         postProcessorRegistry,
+        corsHeaders: (0, cors_headers_1.corsHeaders)("*"),
         ...overrides,
     };
     postProcessorRegistry.addPostProcessor(new person_selector_controller_1.PersonSelectorController(commonConfiguration));

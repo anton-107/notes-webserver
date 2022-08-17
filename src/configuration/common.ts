@@ -20,6 +20,7 @@ import { PersonalDateRangeNoteHandler } from "../registries/note-types/personal-
 import { PostProcessorRegistry } from "../controller/post-processor";
 import { PersonSelectorController } from "../controller/person/person-selector-controller";
 import { PersonShortRepresentationController } from "../controller/person/person-short-representation-controller";
+import { corsHeaders } from "../http/cors-headers";
 
 const passwordHashingFunction = new ScryptHashingFunction();
 const userStore = new InMemoryUserStore();
@@ -64,6 +65,7 @@ export const commonConfiguration = (
     baseUrl: "",
     noteTypesRegistry,
     postProcessorRegistry,
+    corsHeaders: corsHeaders("*"),
     ...overrides,
   };
 

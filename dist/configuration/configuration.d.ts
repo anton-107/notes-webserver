@@ -1,6 +1,7 @@
 import { Authenticator, PasswordHashingFunction, UserStore } from "authentication-module/dist/authenticator";
 import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
 import { PostProcessorRegistry } from "../controller/post-processor";
+import { CORSHeaders } from "../http/cors-headers";
 import { NoteTypesRegistry } from "../registries/note-types-registry";
 import { NoteStore } from "../stores/note/note-store";
 import { NotebookStore } from "../stores/notebook/notebook-store";
@@ -19,6 +20,7 @@ export interface ServiceConfiguration {
     postProcessorRegistry: PostProcessorRegistry;
     passwordHashingFunction: PasswordHashingFunction;
     userStore: UserStore;
+    corsHeaders: CORSHeaders;
     baseUrl: string;
 }
 export declare type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
@@ -33,6 +35,7 @@ export declare const notebookControllerConfiguration: (overrides: ServiceConfigu
     postProcessorRegistry: PostProcessorRegistry;
     passwordHashingFunction: PasswordHashingFunction;
     userStore: UserStore;
+    corsHeaders: CORSHeaders;
     baseUrl: string;
     entityView: NotebookHtmlView;
     httpRedirectView: HttpRedirectView;
@@ -49,6 +52,7 @@ export declare const personControllerConfiguration: (overrides: ServiceConfigura
     postProcessorRegistry: PostProcessorRegistry;
     passwordHashingFunction: PasswordHashingFunction;
     userStore: UserStore;
+    corsHeaders: CORSHeaders;
     baseUrl: string;
     entityView: PersonHtmlView;
     httpRedirectView: HttpRedirectView;
@@ -64,6 +68,7 @@ export declare const noteControllerConfiguration: (overrides: ServiceConfigurati
     postProcessorRegistry: PostProcessorRegistry;
     passwordHashingFunction: PasswordHashingFunction;
     userStore: UserStore;
+    corsHeaders: CORSHeaders;
     baseUrl: string;
     httpRedirectView: HttpRedirectView;
     entityStore: NoteStore;

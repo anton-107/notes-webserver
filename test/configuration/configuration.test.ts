@@ -46,4 +46,15 @@ describe("Configuration", () => {
     const config = dependenciesConfiguration({});
     expect(config.jwtSerializerSecretProvider).not.toBe(null);
   });
+
+  it("should set up cors allowed origins", () => {
+    process.env = Object.assign({}, process.env, {
+      CORS_ALLOWED_ORIGINS: "http://localhost:1234",
+    });
+    const config = dependenciesConfiguration({});
+    expect(config.corsHeaders["Access-Control-Allow-Origin"]).toBe(
+      "http://localhost:1234"
+    );
+    expect(config.corsHeaders["Access-Control-Allow-Credentials"]).toBe("true");
+  });
 });

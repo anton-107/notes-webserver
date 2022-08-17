@@ -1,5 +1,6 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { FormBody } from "../../http/body-parser";
+import { CORSHeaders } from "../../http/cors-headers";
 import { HttpResponse } from "../../http/http";
 import { ResponseType } from "../../http/response-type-parser";
 interface SigninControllerProperties {
@@ -7,6 +8,7 @@ interface SigninControllerProperties {
     authenticator: Authenticator;
     baseUrl: string;
     responseType: ResponseType;
+    corsHeaders: CORSHeaders;
 }
 export declare class SigninController {
     private properties;

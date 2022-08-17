@@ -5,6 +5,7 @@ import {
 } from "authentication-module/dist/authenticator";
 import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
 import { PostProcessorRegistry } from "../controller/post-processor";
+import { corsHeaders, CORSHeaders } from "../http/cors-headers";
 import { NoteTypesRegistry } from "../registries/note-types-registry";
 import { NoteStore } from "../stores/note/note-store";
 import { NotebookStore } from "../stores/notebook/notebook-store";
@@ -30,6 +31,7 @@ export interface ServiceConfiguration {
   postProcessorRegistry: PostProcessorRegistry;
   passwordHashingFunction: PasswordHashingFunction;
   userStore: UserStore;
+  corsHeaders: CORSHeaders;
   baseUrl: string;
 }
 export type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
@@ -60,10 +62,16 @@ export const dependenciesConfiguration = (
   }
   contextConfiguration.baseUrl = process.env["BASE_URL"] || "";
 
-  return commonConfiguration({
+  const configuration = commonConfiguration({
     ...contextConfiguration,
     ...overrides,
   });
+  if (process.env["CORS_ALLOWED_ORIGINS"]) {
+    configuration.corsHeaders = corsHeaders(
+      process.env["CORS_ALLOWED_ORIGINS"]
+    );
+  }
+  return configuration;
 };
 export const notebookControllerConfiguration = (
   overrides: ServiceConfigurationOverrides

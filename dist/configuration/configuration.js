@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.noteControllerConfiguration = exports.personControllerConfiguration = exports.notebookControllerConfiguration = exports.dependenciesConfiguration = void 0;
+const cors_headers_1 = require("../http/cors-headers");
 const http_redirect_view_1 = require("../views/http-redirect-view");
 const note_html_view_1 = require("../views/note/note-html-view");
 const notebook_html_view_1 = require("../views/notebook/notebook-html-view");
@@ -29,10 +30,14 @@ const dependenciesConfiguration = (overrides) => {
         Object.assign(contextConfiguration, (0, jwt_serializer_secrets_manager_1.jwtSerializerSecretsManagerConfiguration)(process.env["JWT_SERIALIZER_SECRET_ID"]));
     }
     contextConfiguration.baseUrl = process.env["BASE_URL"] || "";
-    return (0, common_1.commonConfiguration)({
+    const configuration = (0, common_1.commonConfiguration)({
         ...contextConfiguration,
         ...overrides,
     });
+    if (process.env["CORS_ALLOWED_ORIGINS"]) {
+        configuration.corsHeaders = (0, cors_headers_1.corsHeaders)(process.env["CORS_ALLOWED_ORIGINS"]);
+    }
+    return configuration;
 };
 exports.dependenciesConfiguration = dependenciesConfiguration;
 const notebookControllerConfiguration = (overrides) => {

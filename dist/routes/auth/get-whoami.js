@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getWhoamiHandler = exports.IdentityPage = void 0;
 const configuration_1 = require("../../configuration/configuration");
 const cookie_parser_1 = require("../../http/cookie-parser");
-const cors_headers_1 = require("../../http/cors-headers");
 const http_1 = require("../../http/http");
 class IdentityPage {
     constructor(properties) {
@@ -16,7 +15,7 @@ class IdentityPage {
             statusCode: http_1.HttpStatus.OK,
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
-                ...(0, cors_headers_1.corsHeaders)(),
+                ...this.properties.corsHeaders,
             },
             body: JSON.stringify({
                 isAuthenticated: authenticationResult.isAuthenticated,

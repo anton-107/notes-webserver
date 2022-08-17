@@ -1,5 +1,6 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { anything, instance, mock, when } from "ts-mockito";
+import { corsHeaders } from "../../src/http/cors-headers";
 import { HttpStatus } from "../../src/http/http";
 import { ResponseType } from "../../src/http/response-type-parser";
 import { SigninController } from "./../../src/controller/auth/signin-controller";
@@ -15,6 +16,7 @@ describe("SigninController", () => {
       authenticator: instance(authenticatorMock),
       baseUrl: "",
       responseType: ResponseType.JSON,
+      corsHeaders: corsHeaders(""),
     });
     const r = await c.render({});
     const json = JSON.parse(r.body);
@@ -31,6 +33,7 @@ describe("SigninController", () => {
       authenticator: instance(authenticatorMock),
       baseUrl: "",
       responseType: ResponseType.JSON,
+      corsHeaders: corsHeaders("*"),
     });
     const r = await c.render({});
     const json = JSON.parse(r.body);
