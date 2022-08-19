@@ -56,7 +56,7 @@ describe("SigninController", () => {
     });
     const r = await c.render({});
     expect(r.headers["Set-Cookie"]).toBe(
-      "Authentication=mocked-access-token;SameSite=None"
+      "Authentication=mocked-access-token;SameSite=None;Secure"
     );
   });
 });

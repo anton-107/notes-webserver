@@ -32,7 +32,7 @@ export class SigninController {
           ? HttpStatus.OK
           : HttpStatus.FORBIDDEN,
         headers: {
-          "Set-Cookie": `Authentication=${signinResult.accessToken};SameSite=None`,
+          "Set-Cookie": `Authentication=${signinResult.accessToken};SameSite=None;Secure`,
           ...this.properties.corsHeaders,
         },
         body: JSON.stringify({
