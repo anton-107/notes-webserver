@@ -41,4 +41,22 @@ describe("SigninController", () => {
     expect(r.headers["Access-Control-Allow-Origin"]).toBe("*");
     expect(json.isAuthenticated).toBe(true);
   });
+  it("should set SameSite attribute to None for authentication cookie to allow cookies in cors requests", async () => {
+    const authenticatorMock = mock<Authenticator>();
+    when(authenticatorMock.signIn(anything(), anything())).thenResolve({
+      isAuthenticated: true,
+      accessToken: "mocked-access-token",
+    });
+    const c = new SigninController({
+      authenticationToken: "fake-token",
+      authenticator: instance(authenticatorMock),
+      baseUrl: "",
+      responseType: ResponseType.JSON,
+      corsHeaders: corsHeaders("*"),
+    });
+    const r = await c.render({});
+    expect(r.headers["Set-Cookie"]).toBe(
+      "Authentication=mocked-access-token;SameSite=None"
+    );
+  });
 });

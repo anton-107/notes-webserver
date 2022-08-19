@@ -18,7 +18,7 @@ class SigninController {
                     ? http_1.HttpStatus.OK
                     : http_1.HttpStatus.FORBIDDEN,
                 headers: {
-                    "Set-Cookie": `Authentication=${signinResult.accessToken}`,
+                    "Set-Cookie": `Authentication=${signinResult.accessToken};SameSite=None`,
                     ...this.properties.corsHeaders,
                 },
                 body: JSON.stringify({
