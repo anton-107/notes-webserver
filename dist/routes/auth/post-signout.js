@@ -13,7 +13,7 @@ class SignoutAction {
             statusCode: http_1.HttpStatus.OK,
             headers: {
                 "Content-Type": "text/html; charset=utf-8",
-                "Set-Cookie": `Authentication=;Expires=Thu, 01 Jan 1970 00:00:00 GMT`,
+                "Set-Cookie": `Authentication=;Expires=Thu, 01 Jan 1970 00:00:00 GMT;SameSite=None;Secure`,
                 ...this.properties.corsHeaders,
             },
             body: "<div data-testid='signout-complete'>You are signed out</div>",
