@@ -8,4 +8,5 @@ export declare class PersonHtmlView implements EntityView<Person> {
     renderEditingFormOneEntity(person: Person): HttpResponse;
     renderCreationFormOneEntity(): HttpResponse;
     renderDetailsPageOneEntity(person: Person): HttpResponse;
+    renderListPageAllEntities(entities: Person[]): HttpResponse;
 }

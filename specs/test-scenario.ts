@@ -15,7 +15,8 @@ export class TestScenario {
   private form: { [key: string]: string } = {}; // form on the page (gets populated when test interacts with inputs)
   private pageRoot: HTMLElement; // root element of currently loaded page
   private el: HTMLElement; // currently selected element
-  private jsonResponse: { [key: string]: string };
+  private jsonResponse: { [key: string]: string | { [key: string]: string }[] };
+  private jsonList: string | { [key: string]: string }[];
 
   // testing single noteebook page:
   private notebookHref: string;
@@ -105,6 +106,18 @@ export class TestScenario {
         this.jsonResponse
       )} has field ${fieldName}=${fieldValue}`
     );
+    expect(actualValue).toBe(fieldValue);
+  }
+  public captureJSONFieldList(fieldName: string) {
+    this.jsonList = this.jsonResponse[fieldName];
+    expect(Array.isArray(this.jsonList)).toBe(true);
+  }
+  public checkFirstListElement(fieldName: string, fieldValue: string) {
+    const firstElement = this.jsonList[0];
+    if (typeof firstElement === "string") {
+      throw "Expected an object in json list, but got string";
+    }
+    const actualValue = firstElement[fieldName];
     expect(actualValue).toBe(fieldValue);
   }
   public checkElement(elementDataID: string) {

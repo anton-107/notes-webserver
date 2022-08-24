@@ -3,7 +3,6 @@ import { EntityStore } from "../entity-store";
 
 export interface NotebookStore extends EntityStore<Notebook> {
   add(notebook: Notebook): Promise<void>;
-  listAll(owner: string): Promise<Notebook[]>;
   editOne(notebook: Notebook): Promise<void>;
   deleteOne(owner: string, id: string): Promise<void>;
 }

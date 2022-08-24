@@ -9,6 +9,7 @@ export interface EntityView<T> {
   renderEditingFormOneEntity(entity: T): HttpResponse;
   renderCreationFormOneEntity(partialEntity: Partial<T>): HttpResponse;
   renderDetailsPageOneEntity(entity: T): HttpResponse;
+  renderListPageAllEntities(entities: T[]): HttpResponse;
 }
 
 export interface EntityControllerProperties<T> {
@@ -132,6 +133,26 @@ export abstract class EntityController<T> {
     }
     return {
       ...this.properties.entityView.renderDetailsPageOneEntity(entity),
+    };
+  }
+  public async showListEntitiesPage(): Promise<HttpResponse> {
+    const user = await this.properties.authenticator.authenticate(
+      this.properties.authenticationToken
+    );
+
+    if (!user.isAuthenticated) {
+      console.error("User is not authenticated", user);
+      return {
+        isBase64Encoded: false,
+        statusCode: HttpStatus.FORBIDDEN,
+        headers: {},
+        body: "Forbidden.",
+      };
+    }
+
+    const entities = await this.properties.entityStore.listAll(user.username);
+    return {
+      ...this.properties.entityView.renderListPageAllEntities(entities),
     };
   }
   public async performDeleteSingleEntityAction(

@@ -2,7 +2,6 @@ import { Person } from "../../model/person-model";
 import { EntityStore } from "../entity-store";
 export interface PersonStore extends EntityStore<Person> {
     add(person: Person): Promise<void>;
-    listAll(owner: string): Promise<Person[]>;
     editOne(person: Person): Promise<void>;
     deleteOne(owner: string, id: string): Promise<void>;
 }

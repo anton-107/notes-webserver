@@ -2,7 +2,7 @@ Feature: Notebooks handling
 
     Create/Read/Update/Delete a notebook
 
-    Scenario: Notebook create-read-update-delete cycle
+    Scenario: Notebook creation
       Given web server is running
       Given I am logged in as 'user1'/'1234'
       When I visit /home page
@@ -15,6 +15,18 @@ Feature: Notebooks handling
       And I focus on it and type 'Health and fitness'
       And I press 'Enter' on keyboard
       Then I am navigated to /home page
+      When page is loaded
+      Then I see 'notebook-name' element
+      And it has inner text of 'Health and fitness'
+
+    Scenario: Notebook json list endpoint
+      When I visit /notebook page
+      When json response is loaded
+      Then 'notebooks' field is a list
+      And its first element has field 'name' with value 'Health and fitness'
+
+    Scenario: Notebook edit and deletion
+      When I visit /home page
       When page is loaded
       Then I see 'notebook-name' element
       And it has inner text of 'Health and fitness'

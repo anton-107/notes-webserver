@@ -21,6 +21,7 @@ import { getEditNoteHandler } from "./routes/note/get-edit-note";
 import { postEditNoteHandler } from "./routes/note/post-edit-note";
 import { postDeleteNoteHandler } from "./routes/note/post-delete-note";
 import { getWhoamiHandler } from "./routes/auth/get-whoami";
+import { getAllNotebooksHandler } from "./routes/notebook/get-all-notebooks";
 
 export interface Route {
   method: "GET" | "POST";
@@ -71,6 +72,12 @@ export const routes: Route[] = [
     path: "/notebook",
     import: join(__dirname, "./routes/notebook/post-notebook"),
     action: postNotebookHandler.name,
+  },
+  {
+    method: "GET",
+    path: "/notebook",
+    import: join(__dirname, "./routes/notebook/get-all-notebooks"),
+    action: getAllNotebooksHandler.name,
   },
   {
     method: "GET",

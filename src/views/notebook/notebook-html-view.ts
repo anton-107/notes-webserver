@@ -1,10 +1,15 @@
 import { EntityView } from "../../controller/entity-controller";
+import { CORSHeaders } from "../../http/cors-headers";
 import { HttpResponse, HttpStatus } from "../../http/http";
 import { Notebook } from "../../model/notebook-model";
 import { HtmlViewProperties } from "../interfaces";
 
+interface NotebookHtmlViewProperties extends HtmlViewProperties {
+  corsHeaders: CORSHeaders;
+}
+
 export class NotebookHtmlView implements EntityView<Notebook> {
-  constructor(private properties: HtmlViewProperties) {}
+  constructor(private properties: NotebookHtmlViewProperties) {}
   public renderEditingFormOneEntity(notebook: Notebook): HttpResponse {
     return {
       isBase64Encoded: false,
@@ -57,6 +62,19 @@ export class NotebookHtmlView implements EntityView<Notebook> {
         {{MACRO_LIST_LINKS_TO_ADD_NOTES}}
         </div>
       `,
+    };
+  }
+  public renderListPageAllEntities(entities: Notebook[]): HttpResponse {
+    return {
+      isBase64Encoded: false,
+      statusCode: HttpStatus.OK,
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        ...this.properties.corsHeaders, // TODO: move this to a json view
+      },
+      body: JSON.stringify({
+        notebooks: entities,
+      }),
     };
   }
 }

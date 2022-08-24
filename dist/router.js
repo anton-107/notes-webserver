@@ -24,6 +24,7 @@ const get_edit_note_1 = require("./routes/note/get-edit-note");
 const post_edit_note_1 = require("./routes/note/post-edit-note");
 const post_delete_note_1 = require("./routes/note/post-delete-note");
 const get_whoami_1 = require("./routes/auth/get-whoami");
+const get_all_notebooks_1 = require("./routes/notebook/get-all-notebooks");
 exports.routes = [
     {
         method: "GET",
@@ -66,6 +67,12 @@ exports.routes = [
         path: "/notebook",
         import: (0, path_1.join)(__dirname, "./routes/notebook/post-notebook"),
         action: post_notebook_1.postNotebookHandler.name,
+    },
+    {
+        method: "GET",
+        path: "/notebook",
+        import: (0, path_1.join)(__dirname, "./routes/notebook/get-all-notebooks"),
+        action: get_all_notebooks_1.getAllNotebooksHandler.name,
     },
     {
         method: "GET",

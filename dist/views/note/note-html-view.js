@@ -93,6 +93,18 @@ class NoteHtmlView {
       </ul>
     `;
     }
+    renderListPageAllEntities(entities) {
+        return {
+            isBase64Encoded: false,
+            statusCode: http_1.HttpStatus.OK,
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            body: JSON.stringify({
+                notes: entities,
+            }),
+        };
+    }
     renderNote(note) {
         const handler = this.properties.noteTypesRegistry.getNoteTypeHandler(note.type.type);
         return handler.render(note).renderedContent;

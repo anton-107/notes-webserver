@@ -64,6 +64,22 @@ class EntityController {
             ...this.properties.entityView.renderDetailsPageOneEntity(entity),
         };
     }
+    async showListEntitiesPage() {
+        const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);
+        if (!user.isAuthenticated) {
+            console.error("User is not authenticated", user);
+            return {
+                isBase64Encoded: false,
+                statusCode: http_1.HttpStatus.FORBIDDEN,
+                headers: {},
+                body: "Forbidden.",
+            };
+        }
+        const entities = await this.properties.entityStore.listAll(user.username);
+        return {
+            ...this.properties.entityView.renderListPageAllEntities(entities),
+        };
+    }
     async performDeleteSingleEntityAction(entityID) {
         const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);
         if (!user.isAuthenticated) {

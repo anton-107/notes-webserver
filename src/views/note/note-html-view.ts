@@ -116,6 +116,18 @@ export class NoteHtmlView implements EntityView<Note> {
       </ul>
     `;
   }
+  public renderListPageAllEntities(entities: Note[]): HttpResponse {
+    return {
+      isBase64Encoded: false,
+      statusCode: HttpStatus.OK,
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify({
+        notes: entities,
+      }),
+    };
+  }
   private renderNote(note: Note): string {
     const handler = this.properties.noteTypesRegistry.getNoteTypeHandler(
       note.type.type

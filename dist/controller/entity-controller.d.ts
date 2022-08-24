@@ -8,6 +8,7 @@ export interface EntityView<T> {
     renderEditingFormOneEntity(entity: T): HttpResponse;
     renderCreationFormOneEntity(partialEntity: Partial<T>): HttpResponse;
     renderDetailsPageOneEntity(entity: T): HttpResponse;
+    renderListPageAllEntities(entities: T[]): HttpResponse;
 }
 export interface EntityControllerProperties<T> {
     authenticationToken: string;
@@ -31,6 +32,7 @@ export declare abstract class EntityController<T> {
     showEditSingleEntityPage(entityID: string): Promise<HttpResponse>;
     showCreateNewEntityPage(): Promise<HttpResponse>;
     showSingleEntityDetailsPage(entityID: string): Promise<HttpResponse>;
+    showListEntitiesPage(): Promise<HttpResponse>;
     performDeleteSingleEntityAction(entityID: string): Promise<HttpResponse>;
     performUpdateSingleEntityAction(form: FormBody): Promise<HttpResponse>;
     performCreateSingleEntityAction(form: FormBody): Promise<HttpResponse>;

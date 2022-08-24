@@ -60,6 +60,19 @@ class NotebookHtmlView {
       `,
         };
     }
+    renderListPageAllEntities(entities) {
+        return {
+            isBase64Encoded: false,
+            statusCode: http_1.HttpStatus.OK,
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                ...this.properties.corsHeaders, // TODO: move this to a json view
+            },
+            body: JSON.stringify({
+                notebooks: entities,
+            }),
+        };
+    }
 }
 exports.NotebookHtmlView = NotebookHtmlView;
 //# sourceMappingURL=notebook-html-view.js.map

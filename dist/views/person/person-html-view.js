@@ -64,6 +64,18 @@ class PersonHtmlView {
       `,
         };
     }
+    renderListPageAllEntities(entities) {
+        return {
+            isBase64Encoded: false,
+            statusCode: http_1.HttpStatus.OK,
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            body: JSON.stringify({
+                people: entities,
+            }),
+        };
+    }
 }
 exports.PersonHtmlView = PersonHtmlView;
 //# sourceMappingURL=person-html-view.js.map

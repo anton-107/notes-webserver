@@ -36,4 +36,14 @@ describe("Note HTML view", () => {
     const resp = v.renderCreationFormOneEntity({});
     expect(resp.body).toContain("<textarea name='note-content'");
   });
+  it("should renderListPageAllEntities", () => {
+    const noteTypesRegistryMock = mock<NoteTypesRegistry>();
+    const v = new NoteHtmlView({
+      baseUrl: "",
+      noteTypesRegistry: instance(noteTypesRegistryMock),
+    });
+    const resp = v.renderListPageAllEntities([]);
+    const json = JSON.parse(resp.body);
+    expect(Array.isArray(json.notes)).toBe(true);
+  });
 });

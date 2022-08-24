@@ -25,9 +25,29 @@ describe("Note controller", () => {
       notebookStore: instance(notebookStoreMock),
       entityView: instance(viewMock),
       notebookID: null,
-      noteType: null,
+      noteType: "",
     });
     const resp = await c.performCreateSingleEntityAction({});
+    expect(resp.statusCode).toBe(HttpStatus.FORBIDDEN);
+  });
+  it("should return forbidden on showListEntitiesPage if user is not authenticated", async () => {
+    const authenticatorMock = mock<Authenticator>();
+    const notebookStoreMock = mock<NotebookStore>();
+    const viewMock = mock<NoteHtmlView>();
+
+    when(authenticatorMock.authenticate(anything())).thenResolve({
+      isAuthenticated: false,
+    });
+    const c = new NoteController({
+      ...noteControllerConfiguration({}),
+      authenticator: instance(authenticatorMock),
+      authenticationToken: "",
+      notebookStore: instance(notebookStoreMock),
+      entityView: instance(viewMock),
+      notebookID: null,
+      noteType: "",
+    });
+    const resp = await c.showListEntitiesPage();
     expect(resp.statusCode).toBe(HttpStatus.FORBIDDEN);
   });
 });

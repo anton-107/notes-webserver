@@ -63,4 +63,16 @@ export class PersonHtmlView implements EntityView<Person> {
       `,
     };
   }
+  public renderListPageAllEntities(entities: Person[]): HttpResponse {
+    return {
+      isBase64Encoded: false,
+      statusCode: HttpStatus.OK,
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify({
+        people: entities,
+      }),
+    };
+  }
 }
