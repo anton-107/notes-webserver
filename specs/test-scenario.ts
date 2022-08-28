@@ -17,6 +17,7 @@ export class TestScenario {
   private el: HTMLElement; // currently selected element
   private jsonResponse: { [key: string]: string | { [key: string]: string }[] };
   private jsonList: string | { [key: string]: string }[];
+  private jsonURL: string | undefined = undefined;
 
   // testing single noteebook page:
   private notebookHref: string;
@@ -89,6 +90,12 @@ export class TestScenario {
   public async loadPage(page: string) {
     await this.getRequest(`/${page}`);
   }
+  public async loadJSONURL() {
+    if (!this.jsonURL) {
+      throw Error("can not load undefined url");
+    }
+    await this.getJSONRequest(this.jsonURL);
+  }
   public async processNewPage() {
     expect(this.response.getStatus()).toBeLessThan(300);
     this.pageRoot = parse(await this.response.getBody());
@@ -119,6 +126,14 @@ export class TestScenario {
     }
     const actualValue = firstElement[fieldName];
     expect(actualValue).toBe(fieldValue);
+  }
+  public captureURLFromFirstListElement(fieldName: string) {
+    const firstElement = this.jsonList[0];
+    if (typeof firstElement === "string") {
+      throw "Expected an object in json list, but got string";
+    }
+    const actualValue = firstElement[fieldName];
+    this.jsonURL = actualValue;
   }
   public checkElement(elementDataID: string) {
     this.el = this.pageRoot.querySelector(`*[data-testid=${elementDataID}]`);
@@ -203,6 +218,13 @@ export class TestScenario {
     this.currentPage = url;
     const address = `http://localhost:${this.testPort}${url}`;
     this.response = await this.testClient.get(address);
+  }
+  private async getJSONRequest(url: string) {
+    this.currentPage = url;
+    const address = `http://localhost:${this.testPort}${url}`;
+    this.response = await this.testClient.get(address, {
+      "content-type": "application/json",
+    });
   }
   private async handleLinkClick() {
     const href = this.el.getAttribute("href");

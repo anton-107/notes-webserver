@@ -40,9 +40,15 @@ defineFeature(feature, (test) => {
       testScenario.checkInnerText(innerText)
     );
   });
-  test("Notebook json list endpoint", ({ when, then, and }) => {
-    when(/^I visit \/([a-z]+) page$/, (url) => testScenario.loadPage(url));
-    when("json response is loaded", () => testScenario.processJSON());
+  test("Notebook json endpoints", ({ when, then, and }) => {
+    when(
+      /^I visit \/([a-z]+) page$/,
+      async (url) => await testScenario.loadPage(url)
+    );
+    when(
+      "json response is loaded",
+      async () => await testScenario.processJSON()
+    );
     then(/^'([a-z-]+)' field is a list$/, (fieldName) =>
       testScenario.captureJSONFieldList(fieldName)
     );
@@ -51,6 +57,16 @@ defineFeature(feature, (test) => {
       (fieldName, fieldValue) =>
         testScenario.checkFirstListElement(fieldName, fieldValue)
     );
+    and(/^its first element has field '([A-z-]+)' with a url$/, (fieldName) =>
+      testScenario.captureURLFromFirstListElement(fieldName)
+    );
+    when("I load JSON from that url", async () => {
+      await testScenario.loadJSONURL();
+    });
+    when("json response is loaded", () => testScenario.processJSON());
+    then(/^'([a-z-]+)' field has value of '([A-z0-9 ]+)'$/, (field, value) => {
+      testScenario.checkJSONField(field, value);
+    });
   });
 
   test("Notebook edit and deletion", ({ when, then, and }) => {

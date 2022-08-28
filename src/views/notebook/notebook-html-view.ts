@@ -4,12 +4,12 @@ import { HttpResponse, HttpStatus } from "../../http/http";
 import { Notebook } from "../../model/notebook-model";
 import { HtmlViewProperties } from "../interfaces";
 
-interface NotebookHtmlViewProperties extends HtmlViewProperties {
+export interface NotebookViewProperties extends HtmlViewProperties {
   corsHeaders: CORSHeaders;
 }
 
 export class NotebookHtmlView implements EntityView<Notebook> {
-  constructor(private properties: NotebookHtmlViewProperties) {}
+  constructor(protected properties: NotebookViewProperties) {}
   public renderEditingFormOneEntity(notebook: Notebook): HttpResponse {
     return {
       isBase64Encoded: false,
@@ -73,7 +73,12 @@ export class NotebookHtmlView implements EntityView<Notebook> {
         ...this.properties.corsHeaders, // TODO: move this to a json view
       },
       body: JSON.stringify({
-        notebooks: entities,
+        notebooks: entities.map((e) => {
+          return {
+            ...e,
+            detailsURL: `${this.properties.baseUrl}/notebook/${e.id}`,
+          };
+        }),
       }),
     };
   }

@@ -19,11 +19,15 @@ Feature: Notebooks handling
       Then I see 'notebook-name' element
       And it has inner text of 'Health and fitness'
 
-    Scenario: Notebook json list endpoint
+    Scenario: Notebook json endpoints
       When I visit /notebook page
       When json response is loaded
       Then 'notebooks' field is a list
       And its first element has field 'name' with value 'Health and fitness'
+      And its first element has field 'detailsURL' with a url
+      When I load JSON from that url
+      When json response is loaded
+      Then 'name' field has value of 'Health and fitness'
 
     Scenario: Notebook edit and deletion
       When I visit /home page

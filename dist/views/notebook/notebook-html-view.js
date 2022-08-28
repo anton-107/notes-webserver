@@ -69,7 +69,12 @@ class NotebookHtmlView {
                 ...this.properties.corsHeaders, // TODO: move this to a json view
             },
             body: JSON.stringify({
-                notebooks: entities,
+                notebooks: entities.map((e) => {
+                    return {
+                        ...e,
+                        detailsURL: `${this.properties.baseUrl}/notebook/${e.id}`,
+                    };
+                }),
             }),
         };
     }

@@ -34,9 +34,13 @@ export class HttpClient {
       return !c.startsWith(`${cookieName}=`);
     });
   }
-  public async get(url: string): Promise<FetchResponse> {
+  public async get(
+    url: string,
+    additionalHeaders = {}
+  ): Promise<FetchResponse> {
     const headers = new Headers({
       Cookie: this.cookies.join("; "),
+      ...additionalHeaders,
     });
 
     const resp = await fetch(url, {
