@@ -52,7 +52,34 @@ defineFeature(feature, (test) => {
     );
   });
 
+  test("Notes json endpoints", ({ when, then, and }) => {
+    when(
+      /^I visit \/([a-z{}\-/]+) page$/,
+      async (url) => await testScenario.loadPage(url)
+    );
+    when(
+      "json response is loaded",
+      async () => await testScenario.processJSON()
+    );
+    then(/^'([a-z-]+)' field is a list$/, (fieldName) =>
+      testScenario.captureJSONFieldList(fieldName)
+    );
+    and(
+      /^its first element has field '([a-z-]+)' with value '([A-z0-9 ]+)'$/,
+      (fieldName, fieldValue) =>
+        testScenario.checkFirstListElement(fieldName, fieldValue)
+    );
+  });
+
   test("Edit note", ({ when, then, and }) => {
+    when(
+      /I visit \/(notebook\/{notebook-id})/,
+      async (url) => await testScenario.loadPage(url)
+    );
+    when("page is loaded", () => testScenario.processNewPage());
+    then(/^I see '([a-z-]+)' element$/, (selector) =>
+      testScenario.checkElement(selector)
+    );
     when("I click on it", () => testScenario.handleClick());
     then(/^I am navigated to \/([a-z-{}/]+) page$/, (url) =>
       testScenario.checkCurrentPage(url)

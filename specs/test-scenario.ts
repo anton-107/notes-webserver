@@ -88,7 +88,8 @@ export class TestScenario {
     await this.getRequest(this.notebookHref);
   }
   public async loadPage(page: string) {
-    await this.getRequest(`/${page}`);
+    const url = page.replace("{notebook-id}", this.notebookID);
+    await this.getRequest(`/${url}`);
   }
   public async loadJSONURL() {
     if (!this.jsonURL) {

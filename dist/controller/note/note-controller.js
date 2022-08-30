@@ -15,6 +15,11 @@ class NoteController extends entity_controller_1.EntityController {
         });
         return await this.noteControllerProperties.postProcessorRegistry.processResponse(user.username, createNewEntityResponse);
     }
+    async showNotesInNotebook(notebookID) {
+        const user = await this.noteControllerProperties.authenticator.authenticate(this.noteControllerProperties.authenticationToken);
+        const notes = await this.noteControllerProperties.noteStore.listAllInNotebook(user.username, notebookID);
+        return this.noteControllerProperties.entityView.renderListPageAllEntities(notes);
+    }
     getEntityName() {
         return "note";
     }

@@ -3,6 +3,7 @@ import { FormBody } from "../../http/body-parser";
 import { HttpResponse } from "../../http/http";
 import { Note } from "../../model/note-model";
 import { NoteTypesRegistry } from "../../registries/note-types-registry";
+import { NoteStore } from "../../stores/note/note-store";
 import { NotebookStore } from "../../stores/notebook/notebook-store";
 import {
   EntityController,
@@ -11,6 +12,7 @@ import {
 
 export interface NoteControllerProperties
   extends EntityControllerProperties<Note> {
+  noteStore: NoteStore;
   notebookStore: NotebookStore;
   notebookID: string | null;
   noteTypesRegistry: NoteTypesRegistry;
@@ -32,6 +34,19 @@ export class NoteController extends EntityController<Note> {
     return await this.noteControllerProperties.postProcessorRegistry.processResponse(
       user.username,
       createNewEntityResponse
+    );
+  }
+  public async showNotesInNotebook(notebookID: string): Promise<HttpResponse> {
+    const user = await this.noteControllerProperties.authenticator.authenticate(
+      this.noteControllerProperties.authenticationToken
+    );
+    const notes =
+      await this.noteControllerProperties.noteStore.listAllInNotebook(
+        user.username,
+        notebookID
+      );
+    return this.noteControllerProperties.entityView.renderListPageAllEntities(
+      notes
     );
   }
   protected getEntityName(): string {
