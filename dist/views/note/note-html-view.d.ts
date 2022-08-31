@@ -1,4 +1,5 @@
 import { EntityView } from "../../controller/entity-controller";
+import { CORSHeaders } from "../../http/cors-headers";
 import { HttpResponse } from "../../http/http";
 import { Note } from "../../model/note-model";
 import { NoteTypeHandler, NoteTypesRegistry } from "../../registries/note-types-registry";
@@ -6,6 +7,7 @@ import { HtmlViewProperties } from "../interfaces";
 export interface NoteHtmlViewProperties extends HtmlViewProperties {
     notebookID?: string;
     noteTypesRegistry: NoteTypesRegistry;
+    corsHeaders: CORSHeaders;
 }
 export declare class NoteHtmlView implements EntityView<Note> {
     private properties;

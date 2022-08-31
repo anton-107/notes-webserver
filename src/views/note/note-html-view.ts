@@ -1,4 +1,5 @@
 import { EntityView } from "../../controller/entity-controller";
+import { CORSHeaders } from "../../http/cors-headers";
 import { HttpResponse, HttpStatus } from "../../http/http";
 import { Note } from "../../model/note-model";
 import {
@@ -10,6 +11,7 @@ import { HtmlViewProperties } from "../interfaces";
 export interface NoteHtmlViewProperties extends HtmlViewProperties {
   notebookID?: string;
   noteTypesRegistry: NoteTypesRegistry;
+  corsHeaders: CORSHeaders;
 }
 
 export class NoteHtmlView implements EntityView<Note> {
@@ -122,6 +124,7 @@ export class NoteHtmlView implements EntityView<Note> {
       statusCode: HttpStatus.OK,
       headers: {
         "Content-Type": "application/json; charset=utf-8",
+        ...this.properties.corsHeaders, // TODO: move this to a json view
       },
       body: JSON.stringify({
         notes: entities,

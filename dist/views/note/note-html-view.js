@@ -99,6 +99,7 @@ class NoteHtmlView {
             statusCode: http_1.HttpStatus.OK,
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
+                ...this.properties.corsHeaders, // TODO: move this to a json view
             },
             body: JSON.stringify({
                 notes: entities,

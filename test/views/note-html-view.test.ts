@@ -10,6 +10,10 @@ describe("Note HTML view", () => {
     const v = new NoteHtmlView({
       baseUrl: "",
       noteTypesRegistry: instance(noteTypesRegistryMock),
+      corsHeaders: {
+        "Access-Control-Allow-Origin": "",
+        "Access-Control-Allow-Credentials": "false",
+      },
     });
     const resp = v.renderEditingFormOneEntity(instance(noteMock));
     expect(resp.body).toContain("<h1>Edit note</h1>");
@@ -21,6 +25,10 @@ describe("Note HTML view", () => {
     const v = new NoteHtmlView({
       baseUrl: "",
       noteTypesRegistry: instance(noteTypesRegistryMock),
+      corsHeaders: {
+        "Access-Control-Allow-Origin": "",
+        "Access-Control-Allow-Credentials": "false",
+      },
     });
     const resp = v.renderDetailsPageOneEntity(instance(noteMock));
     expect(resp.body).toContain("some-id");
@@ -32,6 +40,10 @@ describe("Note HTML view", () => {
     const v = new NoteHtmlView({
       baseUrl: "",
       noteTypesRegistry: instance(noteTypesRegistryMock),
+      corsHeaders: {
+        "Access-Control-Allow-Origin": "",
+        "Access-Control-Allow-Credentials": "false",
+      },
     });
     const resp = v.renderCreationFormOneEntity({});
     expect(resp.body).toContain("<textarea name='note-content'");
@@ -41,6 +53,10 @@ describe("Note HTML view", () => {
     const v = new NoteHtmlView({
       baseUrl: "",
       noteTypesRegistry: instance(noteTypesRegistryMock),
+      corsHeaders: {
+        "Access-Control-Allow-Origin": "",
+        "Access-Control-Allow-Credentials": "false",
+      },
     });
     const resp = v.renderListPageAllEntities([]);
     const json = JSON.parse(resp.body);
