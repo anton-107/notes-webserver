@@ -2,6 +2,7 @@ import { noteControllerConfiguration } from "../../configuration/configuration";
 import { NoteController } from "../../controller/note/note-controller";
 import { parseCookie } from "../../http/cookie-parser";
 import { HttpRequest, HttpRequestHandler, HttpResponse } from "../../http/http";
+import { parseResponseType } from "../../http/response-type-parser";
 import { NoteJsonView } from "../../views/note/note-json-view";
 
 export const getAllNotesInNotebookHandler: HttpRequestHandler = async (
@@ -14,5 +15,6 @@ export const getAllNotesInNotebookHandler: HttpRequestHandler = async (
     noteType: null,
     authenticationToken: parseCookie(request.headers, "Authentication"),
     entityView: new NoteJsonView({ ...configuration }),
+    responseType: parseResponseType(request.headers),
   }).showNotesInNotebook(request.pathParameters.notebookID);
 };

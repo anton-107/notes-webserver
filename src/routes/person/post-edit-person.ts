@@ -7,6 +7,7 @@ import {
   PostFormHttpHandler,
   PostFormRequest,
 } from "../../http/http";
+import { parseResponseType } from "../../http/response-type-parser";
 
 export const postEditPersonHandler: PostFormHttpHandler = async (
   request: PostFormRequest
@@ -16,5 +17,6 @@ export const postEditPersonHandler: PostFormHttpHandler = async (
   return await new PersonController({
     ...personControllerConfiguration({}),
     authenticationToken: parseCookie(request.headers, "Authentication"),
+    responseType: parseResponseType(request.headers),
   }).performUpdateSingleEntityAction(requestBody);
 };

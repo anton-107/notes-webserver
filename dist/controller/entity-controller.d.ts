@@ -1,6 +1,7 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { FormBody } from "../http/body-parser";
 import { HttpResponse } from "../http/http";
+import { ResponseType } from "../http/response-type-parser";
 import { EntityStore } from "../stores/entity-store";
 import { HttpRedirectView } from "../views/http-redirect-view";
 import { PostProcessorRegistry } from "./post-processor";
@@ -17,6 +18,7 @@ export interface EntityControllerProperties<T> {
     entityView: EntityView<T>;
     httpRedirectView: HttpRedirectView;
     postProcessorRegistry: PostProcessorRegistry;
+    responseType: ResponseType;
 }
 export declare abstract class EntityController<T> {
     private properties;

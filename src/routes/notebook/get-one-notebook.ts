@@ -15,6 +15,7 @@ export const getOneNotebookHandler: HttpRequestHandler = async (
   const configuration = {
     ...notebookControllerConfiguration({}),
     authenticationToken: parseCookie(request.headers, "Authentication"),
+    responseType: parseResponseType(request.headers),
   };
   if (responseType === ResponseType.JSON) {
     configuration.entityView = new NotebookJsonView(configuration);

@@ -2,7 +2,7 @@ import { ScryptHashingFunction } from "authentication-module/dist/scrypt-hashing
 import parse, { HTMLElement } from "node-html-parser";
 import { dependenciesConfiguration } from "../src/configuration/configuration";
 import { NotesWebserver } from "../src/notes-webserver";
-import { HttpClient, HttpResponse } from "../test/http-client";
+import { HttpClient, HttpResponse, JSONData } from "../test/http-client";
 import { routes } from "./../src/router";
 
 type FormData = { [key: string]: string };
@@ -15,9 +15,10 @@ export class TestScenario {
   private form: { [key: string]: string } = {}; // form on the page (gets populated when test interacts with inputs)
   private pageRoot: HTMLElement; // root element of currently loaded page
   private el: HTMLElement; // currently selected element
-  private jsonResponse: { [key: string]: string | { [key: string]: string }[] };
+  private jsonResponse: JSONData;
   private jsonList: string | { [key: string]: string }[];
   private jsonURL: string | undefined = undefined;
+  private jsonRequestBody: JSONData | undefined = undefined;
 
   // testing single noteebook page:
   private notebookHref: string;
@@ -105,20 +106,25 @@ export class TestScenario {
   public async processJSON() {
     expect(this.response.getStatus()).toBeLessThan(300);
     this.form = {};
-    this.jsonResponse = JSON.parse(await this.response.getBody());
+    const body = await this.response.getBody();
+    this.jsonResponse = JSON.parse(body);
   }
   public checkJSONField(fieldName: string, fieldValue: string) {
     const actualValue = this.jsonResponse[fieldName];
-    console.log(
-      `Checking if JSON: ${JSON.stringify(
-        this.jsonResponse
-      )} has field ${fieldName}=${fieldValue}`
-    );
     expect(actualValue).toBe(fieldValue);
+  }
+  public checkJSONFieldIsNonEmptyString(fieldName: string) {
+    const actualValue = this.jsonResponse[fieldName];
+    expect(typeof actualValue).toBe("string");
+    expect(actualValue.length).toBeGreaterThan(0);
   }
   public captureJSONFieldList(fieldName: string) {
     this.jsonList = this.jsonResponse[fieldName];
     expect(Array.isArray(this.jsonList)).toBe(true);
+  }
+  public setJSONRequestBody(inputString: string) {
+    const json = inputString.replace("{notebook-id}", this.notebookID);
+    this.jsonRequestBody = JSON.parse(json);
   }
   public checkFirstListElement(fieldName: string, fieldValue: string) {
     const firstElement = this.jsonList[0];
@@ -248,8 +254,18 @@ export class TestScenario {
   private async postFormRequest(url: string, formData: FormData) {
     const address = `http://localhost:${this.testPort}${url}`;
     this.response = await this.testClient.postForm(address, formData);
-    // convention: every post request ends up with a redirect:
+    // convention: every post form request ends up with a redirect:
     this.currentPage = this.response.getResponsePath();
+  }
+  public async postJSON(url: string) {
+    if (!this.jsonRequestBody) {
+      throw Error("Can not post undefined JSON body");
+    }
+    const address = `http://localhost:${this.testPort}${url}`;
+    this.response = await this.testClient.postJSON(
+      address,
+      this.jsonRequestBody
+    );
   }
   private captureNotebookHref() {
     this.notebookHref = this.el.getAttribute("href");

@@ -2,6 +2,7 @@ import { notebookControllerConfiguration } from "../../configuration/configurati
 import { NotebookController } from "../../controller/notebook/notebook-controller";
 import { parseCookie } from "../../http/cookie-parser";
 import { HttpRequest, HttpRequestHandler, HttpResponse } from "../../http/http";
+import { parseResponseType } from "../../http/response-type-parser";
 
 export const getEditNotebookHandler: HttpRequestHandler = async (
   request: HttpRequest
@@ -9,5 +10,6 @@ export const getEditNotebookHandler: HttpRequestHandler = async (
   return await new NotebookController({
     ...notebookControllerConfiguration({}),
     authenticationToken: parseCookie(request.headers, "Authentication"),
+    responseType: parseResponseType(request.headers),
   }).showEditSingleEntityPage(request.pathParameters.notebookID);
 };

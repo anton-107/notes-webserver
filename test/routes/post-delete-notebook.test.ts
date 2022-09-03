@@ -3,6 +3,7 @@ import { anything, instance, mock, when } from "ts-mockito";
 import { notebookControllerConfiguration } from "../../src/configuration/configuration";
 import { NotebookController } from "../../src/controller/notebook/notebook-controller";
 import { HttpStatus } from "../../src/http/http";
+import { ResponseType } from "../../src/http/response-type-parser";
 import { Notebook } from "../../src/model/notebook-model";
 import {
   InMemoryNotebookStore,
@@ -23,6 +24,7 @@ describe("Route POST /delete-notebook", () => {
       authenticationToken: "",
       authenticator: instance(authenticatorMock),
       entityStore: instance(notebookStoreMock),
+      responseType: ResponseType.HTML,
     });
     const resp = await h.performDeleteSingleEntityAction("");
     expect(resp.statusCode).toBe(HttpStatus.FORBIDDEN);
@@ -38,6 +40,7 @@ describe("Route POST /delete-notebook", () => {
       authenticationToken: "",
       authenticator: instance(authenticatorMock),
       entityStore: instance(notebookStoreMock),
+      responseType: ResponseType.HTML,
     });
     const resp = await h.performDeleteSingleEntityAction("");
     expect(resp.statusCode).toBe(HttpStatus.BAD_REQUEST);
@@ -53,6 +56,7 @@ describe("Route POST /delete-notebook", () => {
       authenticationToken: "",
       authenticator: instance(authenticatorMock),
       entityStore: new InMemoryNotebookStore(),
+      responseType: ResponseType.HTML,
     });
     const resp = await h.performDeleteSingleEntityAction("test-id");
     expect(resp.statusCode).toBe(HttpStatus.FORBIDDEN);
@@ -74,6 +78,7 @@ describe("Route POST /delete-notebook", () => {
       authenticationToken: "",
       authenticator: instance(authenticatorMock),
       entityStore: instance(notebookStoreMock),
+      responseType: ResponseType.HTML,
     });
     const resp = await h.performDeleteSingleEntityAction("test-id");
     expect(resp.statusCode).toBe(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -7,6 +7,7 @@ import {
   HttpResponse,
   PostFormRequest,
 } from "../../http/http";
+import { parseResponseType } from "../../http/response-type-parser";
 import { NoteHtmlView } from "../../views/note/note-html-view";
 
 export const postEditNoteHandler: HttpRequestHandler = async (
@@ -20,5 +21,6 @@ export const postEditNoteHandler: HttpRequestHandler = async (
     authenticationToken: parseCookie(request.headers, "Authentication"),
     notebookID: null,
     noteType: null,
+    responseType: parseResponseType(request.headers),
   }).performUpdateSingleEntityAction(requestBody);
 };

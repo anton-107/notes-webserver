@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EntityController = void 0;
 const http_1 = require("../http/http");
+const response_type_parser_1 = require("../http/response-type-parser");
 class EntityController {
     constructor(properties) {
         this.properties = properties;
@@ -184,6 +185,9 @@ class EntityController {
             };
         }
         await this.properties.entityStore.add(entity);
+        if (this.properties.responseType === response_type_parser_1.ResponseType.JSON) {
+            return this.properties.entityView.renderDetailsPageOneEntity(entity);
+        }
         return this.properties.httpRedirectView.showRedirect(this.getEntityURL(entity));
     }
 }

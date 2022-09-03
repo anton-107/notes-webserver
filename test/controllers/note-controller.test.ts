@@ -3,6 +3,7 @@ import { anything, instance, mock, when } from "ts-mockito";
 import { noteControllerConfiguration } from "../../src/configuration/configuration";
 import { NoteController } from "../../src/controller/note/note-controller";
 import { HttpStatus } from "../../src/http/http";
+import { ResponseType } from "../../src/http/response-type-parser";
 import { NotebookStore } from "../../src/stores/notebook/notebook-store";
 import { NoteHtmlView } from "../../src/views/note/note-html-view";
 
@@ -26,6 +27,7 @@ describe("Note controller", () => {
       entityView: instance(viewMock),
       notebookID: null,
       noteType: "",
+      responseType: ResponseType.HTML,
     });
     const resp = await c.performCreateSingleEntityAction({});
     expect(resp.statusCode).toBe(HttpStatus.FORBIDDEN);
@@ -46,6 +48,7 @@ describe("Note controller", () => {
       entityView: instance(viewMock),
       notebookID: null,
       noteType: "",
+      responseType: ResponseType.HTML,
     });
     const resp = await c.showListEntitiesPage();
     expect(resp.statusCode).toBe(HttpStatus.FORBIDDEN);

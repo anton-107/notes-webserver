@@ -2,6 +2,7 @@ import { personControllerConfiguration } from "../../configuration/configuration
 import { PersonController } from "../../controller/person/person-controller";
 import { parseCookie } from "../../http/cookie-parser";
 import { HttpRequest, HttpRequestHandler, HttpResponse } from "../../http/http";
+import { parseResponseType } from "../../http/response-type-parser";
 
 export const getOnePersonHandler: HttpRequestHandler = async (
   request: HttpRequest
@@ -9,5 +10,6 @@ export const getOnePersonHandler: HttpRequestHandler = async (
   return await new PersonController({
     ...personControllerConfiguration({}),
     authenticationToken: parseCookie(request.headers, "Authentication"),
+    responseType: parseResponseType(request.headers),
   }).showSingleEntityDetailsPage(request.pathParameters.personID);
 };

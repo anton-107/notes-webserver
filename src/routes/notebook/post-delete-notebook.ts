@@ -7,6 +7,7 @@ import {
   PostFormHttpHandler,
   PostFormRequest,
 } from "../../http/http";
+import { parseResponseType } from "../../http/response-type-parser";
 
 export const deleteOneNotebookHandler: PostFormHttpHandler = async (
   request: PostFormRequest
@@ -15,5 +16,6 @@ export const deleteOneNotebookHandler: PostFormHttpHandler = async (
   return await new NotebookController({
     ...notebookControllerConfiguration({}),
     authenticationToken: parseCookie(request.headers, "Authentication"),
+    responseType: parseResponseType(request.headers),
   }).performDeleteSingleEntityAction(requestBody["notebookID"]);
 };

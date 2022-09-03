@@ -1,5 +1,7 @@
 import fetch, { Headers, Response } from "node-fetch";
 
+export type JSONData = { [key: string]: string | { [key: string]: string }[] };
+
 export interface HttpResponse {
   getHeader(headerName: string): string;
   getBody(): Promise<string>;
@@ -76,6 +78,20 @@ export class HttpClient {
       this.processCookies(resp.headers.raw()["set-cookie"]);
     }
 
+    return new FetchResponse(resp);
+  }
+  public async postJSON(url: string, json: JSONData): Promise<HttpResponse> {
+    const headers = new Headers({
+      Cookie: this.cookies.join("; "),
+      "content-type": "application/json",
+    });
+
+    const resp = await fetch(url, {
+      method: "post",
+      headers,
+      body: JSON.stringify(json),
+      redirect: "error",
+    });
     return new FetchResponse(resp);
   }
 
