@@ -14,7 +14,7 @@ const getAllNotesInNotebookHandler = async (request) => {
         noteType: null,
         authenticationToken: (0, cookie_parser_1.parseCookie)(request.headers, "Authentication"),
         entityView: new note_json_view_1.NoteJsonView({ ...configuration }),
-        responseType: (0, response_type_parser_1.parseResponseType)(request.headers)
+        responseType: (0, response_type_parser_1.parseResponseType)(request.headers),
     }).showNotesInNotebook(request.pathParameters.notebookID);
 };
 exports.getAllNotesInNotebookHandler = getAllNotesInNotebookHandler;

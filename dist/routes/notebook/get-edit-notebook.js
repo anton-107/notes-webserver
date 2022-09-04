@@ -9,7 +9,7 @@ const getEditNotebookHandler = async (request) => {
     return await new notebook_controller_1.NotebookController({
         ...(0, configuration_1.notebookControllerConfiguration)({}),
         authenticationToken: (0, cookie_parser_1.parseCookie)(request.headers, "Authentication"),
-        responseType: (0, response_type_parser_1.parseResponseType)(request.headers)
+        responseType: (0, response_type_parser_1.parseResponseType)(request.headers),
     }).showEditSingleEntityPage(request.pathParameters.notebookID);
 };
 exports.getEditNotebookHandler = getEditNotebookHandler;

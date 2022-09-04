@@ -15,7 +15,7 @@ export interface NoteHtmlViewProperties extends HtmlViewProperties {
 }
 
 export class NoteHtmlView implements EntityView<Note> {
-  constructor(private properties: NoteHtmlViewProperties) {}
+  constructor(protected properties: NoteHtmlViewProperties) {}
   public renderCreationFormOneEntity(partialNote: Partial<Note>): HttpResponse {
     const noteType = partialNote.type ? partialNote.type.type : null;
     const noteTypeHandler =

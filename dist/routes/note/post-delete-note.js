@@ -16,7 +16,7 @@ const postDeleteNoteHandler = async (request) => {
         authenticationToken: (0, cookie_parser_1.parseCookie)(request.headers, "Authentication"),
         notebookID: null,
         noteType: null,
-        responseType: (0, response_type_parser_1.parseResponseType)(request.headers)
+        responseType: (0, response_type_parser_1.parseResponseType)(request.headers),
     }).performDeleteSingleEntityAction(requestBody["note-id"]);
 };
 exports.postDeleteNoteHandler = postDeleteNoteHandler;

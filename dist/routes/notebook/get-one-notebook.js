@@ -11,7 +11,7 @@ const getOneNotebookHandler = async (request) => {
     const configuration = {
         ...(0, configuration_1.notebookControllerConfiguration)({}),
         authenticationToken: (0, cookie_parser_1.parseCookie)(request.headers, "Authentication"),
-        responseType: (0, response_type_parser_1.parseResponseType)(request.headers)
+        responseType: (0, response_type_parser_1.parseResponseType)(request.headers),
     };
     if (responseType === response_type_parser_1.ResponseType.JSON) {
         configuration.entityView = new notebook_json_view_1.NotebookJsonView(configuration);

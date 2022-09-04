@@ -10,6 +10,7 @@ export class NoteJsonView extends NoteHtmlView implements EntityView<Note> {
       statusCode: HttpStatus.OK,
       headers: {
         "Content-Type": "text/html; charset=utf-8",
+        ...this.properties.corsHeaders,
       },
       body: JSON.stringify(entity),
     };

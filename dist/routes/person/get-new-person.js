@@ -9,7 +9,7 @@ const getNewPersonHandler = async (request) => {
     return await new person_controller_1.PersonController({
         ...(0, configuration_1.personControllerConfiguration)({}),
         authenticationToken: (0, cookie_parser_1.parseCookie)(request.headers, "Authentication"),
-        responseType: (0, response_type_parser_1.parseResponseType)(request.headers)
+        responseType: (0, response_type_parser_1.parseResponseType)(request.headers),
     }).showCreateNewEntityPage();
 };
 exports.getNewPersonHandler = getNewPersonHandler;

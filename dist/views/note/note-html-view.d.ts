@@ -10,7 +10,7 @@ export interface NoteHtmlViewProperties extends HtmlViewProperties {
     corsHeaders: CORSHeaders;
 }
 export declare class NoteHtmlView implements EntityView<Note> {
-    private properties;
+    protected properties: NoteHtmlViewProperties;
     constructor(properties: NoteHtmlViewProperties);
     renderCreationFormOneEntity(partialNote: Partial<Note>): HttpResponse;
     renderEditingFormOneEntity(note: Note): HttpResponse;
