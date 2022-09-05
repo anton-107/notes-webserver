@@ -23,12 +23,6 @@ Feature: Notes handling
     And it has inner text of 'This is my test note'
     And I see 'note-edit-link' element
 
-  Scenario: Notes json endpoints
-    When I visit /notebook/{notebook-id}/note page
-    When json response is loaded
-    Then 'notes' field is a list
-    And its first element has field 'content' with value 'This is my test note'
-
   Scenario: Edit note
     When I visit /notebook/{notebook-id}
     When page is loaded

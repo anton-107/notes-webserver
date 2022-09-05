@@ -11,3 +11,9 @@ Feature: Notes handling (JSON API)
     When json response is loaded
     Then 'content' field has value of 'my first note'
     Then 'id' field is a non-empty string
+
+  Scenario: Reading added note via JSON API
+    When I visit /notebook/{notebook-id}/note page
+    When json response is loaded
+    Then 'notes' field is a list
+    And its first element has field 'content' with value 'my first note'
