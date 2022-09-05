@@ -52,4 +52,19 @@ defineFeature(feature, (test) => {
         testScenario.checkFirstListElement(fieldName, fieldValue)
     );
   });
+  test("Edit note via JSON API", ({ when, then, and }) => {
+    when(/^I create a JSON object: '([^']+)'$/, (json) => {
+      testScenario.setJSONRequestBody(json);
+    });
+    and(/^I POST it to '([^']+)'$/, async (url) => {
+      await testScenario.postJSON(url);
+    });
+    when(
+      "json response is loaded",
+      async () => await testScenario.processJSON()
+    );
+    then(/^'([a-z-]+)' field has value of '([A-z0-9 ]+)'$/, (field, value) => {
+      testScenario.checkJSONField(field, value);
+    });
+  });
 });

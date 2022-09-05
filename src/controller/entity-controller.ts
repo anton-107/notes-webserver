@@ -270,6 +270,10 @@ export abstract class EntityController<T> {
       };
     }
 
+    if (this.properties.responseType === ResponseType.JSON) {
+      return this.properties.entityView.renderDetailsPageOneEntity(entity);
+    }
+
     return this.properties.httpRedirectView.showRedirect(
       this.getEntityURL(entity)
     );

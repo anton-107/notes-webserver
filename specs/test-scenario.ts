@@ -23,6 +23,7 @@ export class TestScenario {
   // testing single noteebook page:
   private notebookHref: string;
   private notebookID: string;
+  private lastKnownID: string; // captured when the processed JSON response has an id field
 
   constructor(private testPort: number) {}
 
@@ -108,6 +109,9 @@ export class TestScenario {
     this.form = {};
     const body = await this.response.getBody();
     this.jsonResponse = JSON.parse(body);
+    if (this.jsonResponse["id"]) {
+      this.lastKnownID = String(this.jsonResponse["id"]);
+    }
   }
   public checkJSONField(fieldName: string, fieldValue: string) {
     const actualValue = this.jsonResponse[fieldName];
@@ -123,7 +127,9 @@ export class TestScenario {
     expect(Array.isArray(this.jsonList)).toBe(true);
   }
   public setJSONRequestBody(inputString: string) {
-    const json = inputString.replace("{notebook-id}", this.notebookID);
+    const json = inputString
+      .replace("{notebook-id}", this.notebookID)
+      .replace("{last-known-id}", this.lastKnownID);
     this.jsonRequestBody = JSON.parse(json);
   }
   public checkFirstListElement(fieldName: string, fieldValue: string) {
@@ -261,7 +267,10 @@ export class TestScenario {
     if (!this.jsonRequestBody) {
       throw Error("Can not post undefined JSON body");
     }
-    const address = `http://localhost:${this.testPort}${url}`;
+    const address = `http://localhost:${this.testPort}${url}`
+      .replace("{notebook-id}", this.notebookID)
+      .replace("{last-known-id}", this.lastKnownID);
+    console.log("post JSON", address, this.jsonRequestBody);
     this.response = await this.testClient.postJSON(
       address,
       this.jsonRequestBody

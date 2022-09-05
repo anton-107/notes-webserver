@@ -17,3 +17,9 @@ Feature: Notes handling (JSON API)
     When json response is loaded
     Then 'notes' field is a list
     And its first element has field 'content' with value 'my first note'
+
+  Scenario: Edit note via JSON API
+    When I create a JSON object: '{"note-type": "note", "notebook-id": "{notebook-id}", "note-content": "my first edited note", "note-id": "{last-known-id}"}'
+    And I POST it to '/note/{last-known-id}/edit'
+    When json response is loaded
+    Then 'content' field has value of 'my first edited note'
