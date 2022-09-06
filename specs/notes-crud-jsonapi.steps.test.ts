@@ -67,4 +67,27 @@ defineFeature(feature, (test) => {
       testScenario.checkJSONField(field, value);
     });
   });
+  test("Delete note via JSON API", ({ when, then, and }) => {
+    when(/^I create a JSON object: '([^']+)'$/, (json) => {
+      testScenario.setJSONRequestBody(json);
+    });
+    and(/^I POST it to '([^']+)'$/, async (url) => {
+      await testScenario.postJSON(url);
+    });
+    when(
+      "json response is loaded",
+      async () => await testScenario.processJSON()
+    );
+    then(
+      /^I visit \/([a-z{}\-/]+) page$/,
+      async (url) => await testScenario.loadPage(url)
+    );
+    when(
+      "json response is loaded",
+      async () => await testScenario.processJSON()
+    );
+    then(/^'([a-z-]+)' field is an empty list$/, (fieldName) =>
+      testScenario.checkJSONFieldListIsEmpty(fieldName)
+    );
+  });
 });

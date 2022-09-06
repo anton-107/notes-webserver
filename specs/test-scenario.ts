@@ -126,6 +126,11 @@ export class TestScenario {
     this.jsonList = this.jsonResponse[fieldName];
     expect(Array.isArray(this.jsonList)).toBe(true);
   }
+  public checkJSONFieldListIsEmpty(fieldName: string) {
+    const jsonList = this.jsonResponse[fieldName];
+    expect(Array.isArray(jsonList)).toBe(true);
+    expect(jsonList.length).toBe(0);
+  }
   public setJSONRequestBody(inputString: string) {
     const json = inputString
       .replace("{notebook-id}", this.notebookID)

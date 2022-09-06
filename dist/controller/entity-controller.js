@@ -124,6 +124,9 @@ class EntityController {
             };
         }
         console.log(`${this.getEntityName()} deleted`, user.username, entityID);
+        if (this.properties.responseType === response_type_parser_1.ResponseType.JSON) {
+            return this.properties.entityView.renderDetailsPageOneEntity(entity);
+        }
         return this.properties.httpRedirectView.showRedirect(this.getEntityURL(entity));
     }
     async performUpdateSingleEntityAction(form) {

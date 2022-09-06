@@ -23,3 +23,11 @@ Feature: Notes handling (JSON API)
     And I POST it to '/note/{last-known-id}/edit'
     When json response is loaded
     Then 'content' field has value of 'my first edited note'
+
+  Scenario: Delete note via JSON API
+    When I create a JSON object: '{"note-id": "{last-known-id}"}'
+    And I POST it to '/note/delete'
+    When json response is loaded
+    Then I visit /notebook/{notebook-id}/note page
+    When json response is loaded
+    Then 'notes' field is an empty list
