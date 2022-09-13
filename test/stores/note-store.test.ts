@@ -1,5 +1,3 @@
-import { instance, mock } from "ts-mockito";
-import { Notebook } from "../../src/model/notebook-model";
 import { InMemoryNoteStore } from "../../src/stores/note/note-store";
 
 describe("Notes store", () => {
@@ -10,14 +8,14 @@ describe("Notes store", () => {
       owner: "testuser",
       content: "old content",
       type: { type: "" },
-      notebook: { owner: "", name: "", id: "notebook-1" },
+      notebookID: "notebook-1",
     });
     await s.editOne({
       id: "note-id",
       content: "new content",
       owner: "testuser",
       type: { type: "" },
-      notebook: { owner: "", name: "", id: "notebook-1" },
+      notebookID: "notebook-1",
     });
     const notes = await s.listAll("testuser");
     expect(notes.length).toBe(1);
@@ -28,7 +26,6 @@ describe("Notes store", () => {
     expect(note).toBe(undefined);
   });
   it("should throw an error when trying to edit non-existing note", async () => {
-    const notebookMock = mock<Notebook>();
     const s = new InMemoryNoteStore();
 
     await expect(
@@ -38,7 +35,7 @@ describe("Notes store", () => {
           content: "",
           owner: "",
           type: { type: "" },
-          notebook: instance(notebookMock),
+          notebookID: "",
         })
     ).rejects.toThrow("Note is not found");
   });

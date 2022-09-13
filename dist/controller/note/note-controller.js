@@ -38,14 +38,14 @@ class NoteController extends entity_controller_1.EntityController {
         }
         return {
             id: (0, short_uuid_1.generate)(),
-            notebook: { id: form["notebook-id"], name: "", owner: "" },
+            notebookID: form["notebook-id"],
             owner: username,
             type: { type: "" },
             content: form["note-content"],
         };
     }
     async isAuthorizedToCreate(user, entity) {
-        const notebook = await this.noteControllerProperties.notebookStore.getOne(user, entity.notebook.id);
+        const notebook = await this.noteControllerProperties.notebookStore.getOne(user, entity.notebookID);
         if (!notebook) {
             console.log("[isAuthorizedToCreate] notebook not found. Access denied", notebook);
             return false;
@@ -55,7 +55,7 @@ class NoteController extends entity_controller_1.EntityController {
         return true;
     }
     getEntityURL(note) {
-        return `/notebook/${note.notebook.id}`;
+        return `/notebook/${note.notebookID}`;
     }
 }
 exports.NoteController = NoteController;

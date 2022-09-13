@@ -10,7 +10,7 @@ describe("Markdown handler", () => {
     const note = {
       id: "",
       content: "text for test",
-      notebook: { id: "", owner: "", name: "" },
+      notebookID: "",
       owner: "",
       type: { type: "" },
     };
@@ -21,7 +21,7 @@ describe("Markdown handler", () => {
     const note = {
       id: "",
       content: "text for test",
-      notebook: { id: "", owner: "", name: "" },
+      notebookID: "",
       owner: "",
       type: { type: "" },
     };

@@ -34,7 +34,7 @@ export class PlaintextNoteHandler implements NoteTypeHandler {
   public mapRequestToNewEntity(username: string, form: FormBody): Note {
     return {
       id: generate(),
-      notebook: { id: form["notebook-id"], name: "", owner: "" },
+      notebookID: form["notebook-id"],
       owner: username,
       type: { type: this.typeName() },
       content: form["note-content"],

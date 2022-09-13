@@ -81,7 +81,7 @@ export class NoteController extends EntityController<Note> {
     }
     return {
       id: generate(),
-      notebook: { id: form["notebook-id"], name: "", owner: "" },
+      notebookID: form["notebook-id"],
       owner: username,
       type: { type: "" },
       content: form["note-content"],
@@ -93,7 +93,7 @@ export class NoteController extends EntityController<Note> {
   ): Promise<boolean> {
     const notebook = await this.noteControllerProperties.notebookStore.getOne(
       user,
-      entity.notebook.id
+      entity.notebookID
     );
     if (!notebook) {
       console.log(
@@ -110,6 +110,6 @@ export class NoteController extends EntityController<Note> {
     return true;
   }
   protected getEntityURL(note: Note): string {
-    return `/notebook/${note.notebook.id}`;
+    return `/notebook/${note.notebookID}`;
   }
 }

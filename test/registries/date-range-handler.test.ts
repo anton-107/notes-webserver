@@ -6,7 +6,7 @@ describe("DateRangeNote handler", () => {
     const note = {
       id: "",
       content: "text for test",
-      notebook: { id: "", owner: "", name: "" },
+      notebookID: "",
       owner: "",
       type: { type: "" },
       extensionProperties: {

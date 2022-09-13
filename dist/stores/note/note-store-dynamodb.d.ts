@@ -1,12 +1,11 @@
-import { NoteStore } from "./note-store";
 import { DataMapper } from "@aws/dynamodb-data-mapper";
-import { Notebook } from "../../model/notebook-model";
 import { Note, NoteType } from "../../model/note-model";
+import { NoteStore } from "./note-store";
 export declare class NoteEntity implements Note {
     owner: string;
     sortKey: string;
     id: string;
-    notebook: Notebook;
+    notebookID: string;
     type: NoteType;
     content: string;
     extensionProperties?: {

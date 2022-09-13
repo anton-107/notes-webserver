@@ -23,7 +23,7 @@ export class InMemoryNoteStore implements NoteStore {
     notebookID: string
   ): Promise<Note[]> {
     return this.items.filter(
-      (x) => x.owner === owner && x.notebook.id === notebookID
+      (x) => x.owner === owner && x.notebookID === notebookID
     );
   }
   public async getOne(owner: string, id: string): Promise<Note> {

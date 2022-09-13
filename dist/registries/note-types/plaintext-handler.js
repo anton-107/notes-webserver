@@ -29,7 +29,7 @@ class PlaintextNoteHandler {
     mapRequestToNewEntity(username, form) {
         return {
             id: (0, short_uuid_1.generate)(),
-            notebook: { id: form["notebook-id"], name: "", owner: "" },
+            notebookID: form["notebook-id"],
             owner: username,
             type: { type: this.typeName() },
             content: form["note-content"],

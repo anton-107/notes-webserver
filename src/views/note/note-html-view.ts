@@ -63,7 +63,7 @@ export class NoteHtmlView implements EntityView<Note> {
         <h1>Edit note</h1>
         <form method='post' action='${this.properties.baseUrl}/note/${note.id}/edit'>
           <input type='hidden' name='note-id' value='${note.id}' />
-          <input type='hidden' name='notebook-id' value='${note.notebook.id}' />
+          <input type='hidden' name='notebook-id' value='${note.notebookID}' />
           ${formContents}
           <button type='submit' data-testid='edit-note-button'>Update</button>
         </form>
@@ -71,7 +71,7 @@ export class NoteHtmlView implements EntityView<Note> {
           <input type='hidden' name='note-id' value='${note.id}' />
           <button type='submit' data-testid='note-delete-button'>Delete this note</button>
         </form>
-        <a href='${this.properties.baseUrl}/notebook/${note.notebook.id}'>Cancel edit</a>
+        <a href='${this.properties.baseUrl}/notebook/${note.notebookID}'>Cancel edit</a>
       `,
     };
   }
@@ -92,7 +92,7 @@ export class NoteHtmlView implements EntityView<Note> {
           (note) => `<div class ='note'>
             <div>${this.renderNote(note)}</div>
             <div><a href='${this.properties.baseUrl}/notebook/${
-            note.notebook.id
+            note.notebookID
           }/note/${note.id}/edit' data-testid='note-edit-link'>Edit</a></div>
           </div>`
         )

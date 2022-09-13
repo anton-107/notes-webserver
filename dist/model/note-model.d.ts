@@ -1,10 +1,9 @@
-import { Notebook } from "./notebook-model";
 export interface NoteType {
     type: string;
 }
 export interface Note {
     id: string;
-    notebook: Notebook;
+    notebookID: string;
     owner: string;
     type: NoteType;
     content: string;

@@ -29,8 +29,8 @@ __decorate([
 ], NoteEntity.prototype, "id", void 0);
 __decorate([
     (0, dynamodb_data_mapper_annotations_1.attribute)(),
-    __metadata("design:type", Object)
-], NoteEntity.prototype, "notebook", void 0);
+    __metadata("design:type", String)
+], NoteEntity.prototype, "notebookID", void 0);
 __decorate([
     (0, dynamodb_data_mapper_annotations_1.attribute)(),
     __metadata("design:type", Object)
@@ -54,7 +54,7 @@ class NoteStoreDynamodb {
     async add(note) {
         try {
             // prepend notebook id to note id:
-            note.id = `${note.notebook.id}-${note.id}`;
+            note.id = `${note.notebookID}-${note.id}`;
             const entity = Object.assign(new NoteEntity(), note, {
                 sortKey: `NOTE_${note.id}`,
             });

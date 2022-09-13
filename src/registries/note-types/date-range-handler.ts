@@ -13,7 +13,7 @@ export class DateRangeNoteHandler implements NoteTypeHandler {
   public mapRequestToNewEntity(username: string, form: FormBody): Note {
     return {
       id: generate(),
-      notebook: { id: form["notebook-id"], name: "", owner: "" },
+      notebookID: form["notebook-id"],
       owner: username,
       type: { type: this.typeName() },
       content: form["note-content"],
@@ -47,7 +47,7 @@ export class DateRangeNoteHandler implements NoteTypeHandler {
     return `
       <div><span data-testid='note-content'>${note.content}</span></div>
       <div>Date start: <span data-testid='date-range-start'>${note.extensionProperties.dateRangeStart}</span></div>
-      <div>Date start: <span data-testid='date-range-end'>${note.extensionProperties.dateRangeEnd}</span></div>
+      <div>Date end: <span data-testid='date-range-end'>${note.extensionProperties.dateRangeEnd}</span></div>
     `;
   }
   public renderCreateForm(): string {

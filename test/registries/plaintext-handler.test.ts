@@ -10,7 +10,7 @@ describe("Plaintext handler", () => {
     const note = {
       id: "",
       content: "text for test",
-      notebook: { id: "", owner: "", name: "" },
+      notebookID: "",
       owner: "",
       type: { type: "" },
     };
@@ -21,7 +21,7 @@ describe("Plaintext handler", () => {
     const note = {
       id: "",
       content: "text for test",
-      notebook: { id: "", owner: "", name: "" },
+      notebookID: "",
       owner: "",
       type: { type: "" },
     };
@@ -35,7 +35,7 @@ describe("Plaintext handler", () => {
       {
         id: "",
         content: "text for test",
-        notebook: { id: "", owner: "", name: "" },
+        notebookID: "",
         owner: "",
         type: { type: "" },
       },

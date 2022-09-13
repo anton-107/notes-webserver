@@ -1,14 +1,13 @@
+import { DataMapper } from "@aws/dynamodb-data-mapper";
 import {
   attribute,
   hashKey,
   rangeKey,
   table,
 } from "@aws/dynamodb-data-mapper-annotations";
-import { NoteStore } from "./note-store";
-import { DataMapper } from "@aws/dynamodb-data-mapper";
-import { FunctionExpression, AttributePath } from "@aws/dynamodb-expressions";
-import { Notebook } from "../../model/notebook-model";
+import { AttributePath, FunctionExpression } from "@aws/dynamodb-expressions";
 import { Note, NoteType } from "../../model/note-model";
+import { NoteStore } from "./note-store";
 
 const NOTES_TABLE_NAME = "notes-webserver-notebook";
 
@@ -24,7 +23,7 @@ export class NoteEntity implements Note {
   id: string;
 
   @attribute()
-  notebook: Notebook;
+  notebookID: string;
 
   @attribute()
   type: NoteType;
@@ -45,7 +44,7 @@ export class NoteStoreDynamodb implements NoteStore {
   public async add(note: Note): Promise<void> {
     try {
       // prepend notebook id to note id:
-      note.id = `${note.notebook.id}-${note.id}`;
+      note.id = `${note.notebookID}-${note.id}`;
       const entity = Object.assign(new NoteEntity(), note, {
         sortKey: `NOTE_${note.id}`,
       });
