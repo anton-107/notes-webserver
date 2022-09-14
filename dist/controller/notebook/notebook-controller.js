@@ -20,6 +20,7 @@ class NotebookController extends entity_controller_1.EntityController {
             id: form["notebook-id"],
             name: form["notebook-name"],
             owner: username,
+            sections: [],
         };
     }
     mapRequestToNewEntity(username, form) {
@@ -27,6 +28,7 @@ class NotebookController extends entity_controller_1.EntityController {
             id: (0, short_uuid_1.generate)(),
             name: form["notebook-name"],
             owner: username,
+            sections: [],
         };
     }
     async isAuthorizedToCreate(user, entity) {

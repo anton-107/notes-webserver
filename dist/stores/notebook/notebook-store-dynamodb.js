@@ -31,6 +31,10 @@ __decorate([
     (0, dynamodb_data_mapper_annotations_1.attribute)(),
     __metadata("design:type", String)
 ], NotebookEntity.prototype, "id", void 0);
+__decorate([
+    (0, dynamodb_data_mapper_annotations_1.attribute)(),
+    __metadata("design:type", Array)
+], NotebookEntity.prototype, "sections", void 0);
 NotebookEntity = __decorate([
     (0, dynamodb_data_mapper_annotations_1.table)(NOTEBOOK_TABLE_NAME)
 ], NotebookEntity);
@@ -67,6 +71,7 @@ class NotebookStoreDynamodb {
                     name: entity.name,
                     owner: entity.owner,
                     id: entity.id,
+                    sections: entity.sections,
                 });
             }
             return r;
@@ -86,6 +91,7 @@ class NotebookStoreDynamodb {
                 owner: entity.owner,
                 id: entity.id,
                 name: entity.name,
+                sections: entity.sections,
             };
         }
         catch (err) {

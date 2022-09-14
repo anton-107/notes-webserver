@@ -38,6 +38,7 @@ export class NotebookController extends EntityController<Notebook> {
       id: form["notebook-id"],
       name: form["notebook-name"],
       owner: username,
+      sections: [],
     };
   }
   protected mapRequestToNewEntity(username: string, form: FormBody): Notebook {
@@ -45,6 +46,7 @@ export class NotebookController extends EntityController<Notebook> {
       id: generate(),
       name: form["notebook-name"],
       owner: username,
+      sections: [],
     };
   }
   protected async isAuthorizedToCreate(

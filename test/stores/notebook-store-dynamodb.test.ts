@@ -15,6 +15,7 @@ describe("NotebookStoreDynamodb", () => {
       id: "SomeShortID",
       owner: "testuser1",
       name: "Notebook 1",
+      sections: [],
     });
     verify(dataMapperMock.put(anything())).called();
   });
@@ -31,6 +32,7 @@ describe("NotebookStoreDynamodb", () => {
         id: "SomeShortID",
         owner: "testuser1",
         name: "notebook 1",
+        sections: [],
       });
     }).rejects.toThrow();
   });
@@ -95,6 +97,9 @@ describe("NotebookStoreDynamodb", () => {
       dataMapper: instance(dataMapperMock),
     });
     const notebook = await store.getOne("user1", "test-notebook");
+    if (notebook === null) {
+      throw Error("unexpectedly got a null notebook from store");
+    }
     expect(notebook.name).toBe("My notebook");
   });
   it("should should throw an error if dynamodb mapper throws an error on deleting an item", async () => {
@@ -122,6 +127,7 @@ describe("NotebookStoreDynamodb", () => {
         owner: "user1",
         name: "test-notebook",
         id: "test-notebook-id",
+        sections: [],
       });
     }).rejects.toThrow("this is a test error on edit");
   });
