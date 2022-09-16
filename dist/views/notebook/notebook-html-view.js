@@ -48,7 +48,7 @@ class NotebookHtmlView {
         <h1 data-testid='notebook-name'>${notebook.name}</h1>
         <a href='${this.properties.baseUrl}/notebook/${notebook.id}/edit' data-testid='edit-notebook-link'>Edit this notebook</a>
         <form method='post' action='${this.properties.baseUrl}/delete-notebook'>
-          <input type='hidden' name='notebookID' value='${notebook.id}' />
+          <input type='hidden' name='notebook-id' value='${notebook.id}' />
           <button type='submit' data-testid='delete-notebook-button'>Delete this notebook</button>
         </form>
         <div>

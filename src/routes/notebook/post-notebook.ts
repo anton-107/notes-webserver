@@ -7,14 +7,25 @@ import {
   PostFormHttpHandler,
   PostFormRequest,
 } from "../../http/http";
-import { parseResponseType } from "../../http/response-type-parser";
+import {
+  parseResponseType,
+  ResponseType,
+} from "../../http/response-type-parser";
+import { NotebookHtmlView } from "../../views/notebook/notebook-html-view";
+import { NotebookJsonView } from "../../views/notebook/notebook-json-view";
 
 export const postNotebookHandler: PostFormHttpHandler = async (
   request: PostFormRequest
 ): Promise<HttpResponse> => {
+  const configuration = notebookControllerConfiguration({});
   const requestBody = parseBody(request);
+  const responseType = parseResponseType(request.headers);
   return await new NotebookController({
-    ...notebookControllerConfiguration({}),
+    ...configuration,
+    entityView:
+      responseType === ResponseType.JSON
+        ? new NotebookJsonView({ ...configuration })
+        : new NotebookHtmlView({ ...configuration }),
     authenticationToken: parseCookie(request.headers, "Authentication"),
     responseType: parseResponseType(request.headers),
   }).performCreateSingleEntityAction(requestBody);
