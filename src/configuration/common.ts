@@ -21,6 +21,7 @@ import { PostProcessorRegistry } from "../controller/post-processor";
 import { PersonSelectorController } from "../controller/person/person-selector-controller";
 import { PersonShortRepresentationController } from "../controller/person/person-short-representation-controller";
 import { corsHeaders } from "../http/cors-headers";
+import { InMemoryNotebookSectionStore } from "../stores/notebook-section/notebook-section-store";
 
 const passwordHashingFunction = new ScryptHashingFunction();
 const userStore = new InMemoryUserStore();
@@ -31,6 +32,7 @@ const jwtSerializerSecretProvider = new SimpleStringProvider(
 const notebookStore = new InMemoryNotebookStore();
 const personStore = new InMemoryPersonStore();
 const noteStore = new InMemoryNoteStore();
+const notebookSectionStore = new InMemoryNotebookSectionStore();
 const noteTypesRegistry = new NoteTypesRegistry();
 
 noteTypesRegistry.addNoteTypeHandler(new PlaintextNoteHandler());
@@ -62,6 +64,7 @@ export const commonConfiguration = (
     notebookStore,
     personStore,
     noteStore,
+    notebookSectionStore,
     baseUrl: "",
     noteTypesRegistry,
     postProcessorRegistry,

@@ -4,6 +4,7 @@ import { dependenciesConfiguration } from "../src/configuration/configuration";
 import { NotesWebserver } from "../src/notes-webserver";
 import { HttpClient, HttpResponse, JSONData } from "../test/http-client";
 import { routes } from "./../src/router";
+import jsonQuery from "json-query";
 
 type FormData = { [key: string]: string };
 
@@ -130,6 +131,11 @@ export class TestScenario {
     const jsonList = this.jsonResponse[fieldName];
     expect(Array.isArray(jsonList)).toBe(true);
     expect(jsonList.length).toBe(0);
+  }
+  public checkJSONQuery(query: string, expectedValue: string) {
+    console.log("jsonResponse", this.jsonResponse);
+    const actualValue = jsonQuery(query, { data: this.jsonResponse }).value;
+    expect(actualValue).toBe(expectedValue);
   }
   public setJSONRequestBody(inputString: string) {
     const json = inputString

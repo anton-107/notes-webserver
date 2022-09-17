@@ -8,10 +8,12 @@ import { PostProcessorRegistry } from "../controller/post-processor";
 import { corsHeaders, CORSHeaders } from "../http/cors-headers";
 import { NoteTypesRegistry } from "../registries/note-types-registry";
 import { NoteStore } from "../stores/note/note-store";
+import { NotebookSectionStore } from "../stores/notebook-section/notebook-section-store";
 import { NotebookStore } from "../stores/notebook/notebook-store";
 import { PersonStore } from "../stores/person/person-store";
 import { HttpRedirectView } from "../views/http-redirect-view";
 import { NoteHtmlView } from "../views/note/note-html-view";
+import { NotebookSectionJsonView } from "../views/notebook-section/notebook-section-json-view";
 import { NotebookHtmlView } from "../views/notebook/notebook-html-view";
 import { PersonHtmlView } from "../views/person/person-html-view";
 import { commonConfiguration } from "./common";
@@ -27,6 +29,7 @@ export interface ServiceConfiguration {
   notebookStore: NotebookStore;
   personStore: PersonStore;
   noteStore: NoteStore;
+  notebookSectionStore: NotebookSectionStore;
   noteTypesRegistry: NoteTypesRegistry;
   postProcessorRegistry: PostProcessorRegistry;
   passwordHashingFunction: PasswordHashingFunction;
@@ -107,6 +110,19 @@ export const noteControllerConfiguration = (
     ...configuration,
     httpRedirectView: new HttpRedirectView({ ...configuration }),
     entityStore: configuration.noteStore,
+    ...overrides,
+  };
+};
+export const notebookSectionControllerConfiguration = (
+  overrides: ServiceConfigurationOverrides
+) => {
+  const configuration = dependenciesConfiguration({});
+  return {
+    ...configuration,
+    entityView: new NotebookSectionJsonView({ ...configuration }),
+    httpRedirectView: new HttpRedirectView({ ...configuration }),
+    entityStore: configuration.notebookSectionStore,
+    notebookSectionsStore: configuration.notebookSectionStore,
     ...overrides,
   };
 };

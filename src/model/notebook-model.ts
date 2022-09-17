@@ -1,6 +1,8 @@
 export interface NotebookSection {
   id: string;
   name: string;
+  notebookID: string;
+  owner: string;
 }
 
 export interface Notebook {

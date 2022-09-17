@@ -23,6 +23,8 @@ import { postDeleteNoteHandler } from "./routes/note/post-delete-note";
 import { getWhoamiHandler } from "./routes/auth/get-whoami";
 import { getAllNotebooksHandler } from "./routes/notebook/get-all-notebooks";
 import { getAllNotesInNotebookHandler } from "./routes/note/get-all-notes-in-notebook";
+import { postNewSectionHandler } from "./routes/notebook-section/post-new-section";
+import { getAllSectionInNotebookHandler } from "./routes/notebook-section/get-all-sections-in-notebook";
 
 export interface Route {
   method: "GET" | "POST";
@@ -175,5 +177,20 @@ export const routes: Route[] = [
     path: "/note/delete",
     import: join(__dirname, "./routes/note/post-delete-note"),
     action: postDeleteNoteHandler.name,
+  },
+  {
+    method: "POST",
+    path: "/notebook/:notebookID/section",
+    import: join(__dirname, "./routes/notebook-section/post-new-section"),
+    action: postNewSectionHandler.name,
+  },
+  {
+    method: "GET",
+    path: "/notebook/:notebookID/section",
+    import: join(
+      __dirname,
+      "./routes/notebook-section/get-all-sections-in-notebook"
+    ),
+    action: getAllSectionInNotebookHandler.name,
   },
 ];
