@@ -21,6 +21,7 @@ import { PostProcessorRegistry } from "../controller/post-processor";
 import { PersonSelectorController } from "../controller/person/person-selector-controller";
 import { PersonShortRepresentationController } from "../controller/person/person-short-representation-controller";
 import { corsHeaders } from "../http/cors-headers";
+import { NotesContainerHandler } from "../registries/note-types/notes-container-handler";
 
 const passwordHashingFunction = new ScryptHashingFunction();
 const userStore = new InMemoryUserStore();
@@ -36,6 +37,7 @@ const noteTypesRegistry = new NoteTypesRegistry();
 noteTypesRegistry.addNoteTypeHandler(new PlaintextNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new DateRangeNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new PersonalDateRangeNoteHandler());
+noteTypesRegistry.addNoteTypeHandler(new NotesContainerHandler());
 
 const postProcessorRegistry = new PostProcessorRegistry();
 let configurationCache: ServiceConfiguration | undefined = undefined;

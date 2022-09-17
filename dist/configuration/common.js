@@ -16,6 +16,7 @@ const post_processor_1 = require("../controller/post-processor");
 const person_selector_controller_1 = require("../controller/person/person-selector-controller");
 const person_short_representation_controller_1 = require("../controller/person/person-short-representation-controller");
 const cors_headers_1 = require("../http/cors-headers");
+const notes_container_handler_1 = require("../registries/note-types/notes-container-handler");
 const passwordHashingFunction = new scrypt_hashing_1.ScryptHashingFunction();
 const userStore = new user_store_inmemory_1.InMemoryUserStore();
 const jwtSerializerSecretKey = String(Math.random());
@@ -27,6 +28,7 @@ const noteTypesRegistry = new note_types_registry_1.NoteTypesRegistry();
 noteTypesRegistry.addNoteTypeHandler(new plaintext_handler_1.PlaintextNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new date_range_handler_1.DateRangeNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new personal_date_range_handler_1.PersonalDateRangeNoteHandler());
+noteTypesRegistry.addNoteTypeHandler(new notes_container_handler_1.NotesContainerHandler());
 const postProcessorRegistry = new post_processor_1.PostProcessorRegistry();
 let configurationCache = undefined;
 const commonConfiguration = (overrides) => {
