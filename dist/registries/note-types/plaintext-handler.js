@@ -33,6 +33,7 @@ class PlaintextNoteHandler {
             owner: username,
             type: { type: this.typeName() },
             content: form["note-content"],
+            extensionProperties: { section: form["note-section"] },
         };
     }
 }

@@ -51,6 +51,9 @@ defineFeature(feature, (test) => {
       (fieldName, fieldValue) =>
         testScenario.checkFirstListElement(fieldName, fieldValue)
     );
+    and(/^json query '([^']+)' returns value '([^']+)'$/, (query, fieldValue) =>
+      testScenario.checkJSONQuery(query, fieldValue)
+    );
   });
   test("Edit note via JSON API", ({ when, then, and }) => {
     when(/^I create a JSON object: '([^']+)'$/, (json) => {

@@ -1,4 +1,5 @@
 import { ScryptHashingFunction } from "authentication-module/dist/scrypt-hashing";
+import jsonQuery from "json-query";
 import parse, { HTMLElement } from "node-html-parser";
 import { dependenciesConfiguration } from "../src/configuration/configuration";
 import { NotesWebserver } from "../src/notes-webserver";
@@ -144,6 +145,10 @@ export class TestScenario {
     }
     const actualValue = firstElement[fieldName];
     expect(actualValue).toBe(fieldValue);
+  }
+  public checkJSONQuery(query: string, expectedValue: string) {
+    const actualValue = jsonQuery(query, { data: this.jsonResponse }).value;
+    expect(actualValue).toBe(expectedValue);
   }
   public captureURLFromFirstListElement(fieldName: string) {
     const firstElement = this.jsonList[0];
