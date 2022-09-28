@@ -25,6 +25,13 @@ Feature: Notes handling (JSON API)
     When json response is loaded
     Then 'content' field has value of 'my first edited note'
 
+  Scenario: Move note to a section via JSON API
+    When I create a JSON object: '{"note-id": "{last-known-id}", "note-section": "done-section" }'
+    And I POST it to '/note/{last-known-id}/edit'
+    When json response is loaded
+    Then 'content' field has value of 'my first edited note'
+    And json query 'extensionProperties.section' returns value 'done-section'
+
   Scenario: Delete note via JSON API
     When I create a JSON object: '{"note-id": "{last-known-id}"}'
     And I POST it to '/note/delete'

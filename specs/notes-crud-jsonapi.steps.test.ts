@@ -70,6 +70,24 @@ defineFeature(feature, (test) => {
       testScenario.checkJSONField(field, value);
     });
   });
+  test("Move note to a section via JSON API", ({ when, then, and }) => {
+    when(/^I create a JSON object: '([^']+)'$/, (json) => {
+      testScenario.setJSONRequestBody(json);
+    });
+    and(/^I POST it to '([^']+)'$/, async (url) => {
+      await testScenario.postJSON(url);
+    });
+    when(
+      "json response is loaded",
+      async () => await testScenario.processJSON()
+    );
+    then(/^'([a-z-]+)' field has value of '([A-z0-9 ]+)'$/, (field, value) => {
+      testScenario.checkJSONField(field, value);
+    });
+    and(/^json query '([^']+)' returns value '([^']+)'$/, (query, fieldValue) =>
+      testScenario.checkJSONQuery(query, fieldValue)
+    );
+  });
   test("Delete note via JSON API", ({ when, then, and }) => {
     when(/^I create a JSON object: '([^']+)'$/, (json) => {
       testScenario.setJSONRequestBody(json);

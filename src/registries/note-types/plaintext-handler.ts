@@ -25,7 +25,12 @@ export class PlaintextNoteHandler implements NoteTypeHandler {
     form: FormBody
   ): Note {
     const r = { ...existingNote };
-    r.content = form["note-content"];
+    if ("note-content" in form) {
+      r.content = form["note-content"];
+    }
+    if ("note-section" in form) {
+      r.extensionProperties.section = form["note-section"];
+    }
     return r;
   }
   public renderCreateForm(): string {
