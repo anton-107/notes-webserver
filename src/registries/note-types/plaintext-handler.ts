@@ -31,6 +31,9 @@ export class PlaintextNoteHandler implements NoteTypeHandler {
     if ("note-section" in form) {
       r.extensionProperties.section = form["note-section"];
     }
+    if ("note-manual-order" in form) {
+      r.extensionProperties.manualOrder = form["note-manual-order"];
+    }
     return r;
   }
   public renderCreateForm(): string {
@@ -43,7 +46,10 @@ export class PlaintextNoteHandler implements NoteTypeHandler {
       owner: username,
       type: { type: this.typeName() },
       content: form["note-content"],
-      extensionProperties: { section: form["note-section"] },
+      extensionProperties: {
+        section: form["note-section"],
+        manualOrder: form["note-manual-order"],
+      },
     };
   }
 }

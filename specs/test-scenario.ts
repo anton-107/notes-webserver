@@ -146,7 +146,7 @@ export class TestScenario {
     const actualValue = firstElement[fieldName];
     expect(actualValue).toBe(fieldValue);
   }
-  public checkJSONQuery(query: string, expectedValue: string) {
+  public checkJSONQuery(query: string, expectedValue: string | number) {
     const actualValue = jsonQuery(query, { data: this.jsonResponse }).value;
     expect(actualValue).toBe(expectedValue);
   }
