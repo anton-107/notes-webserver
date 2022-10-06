@@ -10,9 +10,11 @@ import {
 import { Route } from "./router";
 import bodyParser from "body-parser";
 import cors from "cors";
+import { CORSHeaders } from "./http/cors-headers";
 
 interface NotesWebserverProperties {
   routes: Route[];
+  corsHeaders: CORSHeaders;
 }
 
 export class NotesWebserver {
@@ -21,7 +23,12 @@ export class NotesWebserver {
 
   constructor(properties: NotesWebserverProperties) {
     this.app = express();
-    this.app.use(cors());
+    this.app.use(
+      cors({
+        origin: properties.corsHeaders["Access-Control-Allow-Origin"],
+        credentials: true,
+      })
+    );
     this.app.use(cookieParser());
 
     properties.routes.forEach((route) => {
