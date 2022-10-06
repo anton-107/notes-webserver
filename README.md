@@ -43,6 +43,7 @@ $ AWS_PROFILE=profile-name AWS_SDK_LOAD_CONFIG=true npm run test:dev -- secrets
 # Run for local development
 
 To allow local web application call the server, run it with the following envoronment variables:
+
 ```
 $ CORS_ALLOWED_ORIGINS="http://localhost:8080" npm start
 ```
