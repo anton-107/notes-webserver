@@ -34,7 +34,10 @@ const cors_1 = __importDefault(require("cors"));
 class NotesWebserver {
     constructor(properties) {
         this.app = (0, express_1.default)();
-        this.app.use((0, cors_1.default)());
+        this.app.use((0, cors_1.default)({
+            origin: properties.corsHeaders["Access-Control-Allow-Origin"],
+            credentials: true,
+        }));
         this.app.use((0, cookie_parser_1.default)());
         properties.routes.forEach((route) => {
             switch (route.method) {

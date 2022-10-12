@@ -3,7 +3,7 @@ import { HttpResponse } from "../../http/http";
 import { Person } from "../../model/person-model";
 import { HtmlViewProperties } from "../interfaces";
 export declare class PersonHtmlView implements EntityView<Person> {
-    private properties;
+    protected properties: HtmlViewProperties;
     constructor(properties: HtmlViewProperties);
     renderEditingFormOneEntity(person: Person): HttpResponse;
     renderCreationFormOneEntity(): HttpResponse;

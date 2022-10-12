@@ -58,7 +58,7 @@ class PersonHtmlView {
         <h1 data-testid='person-name'>${person.name}</h1>
         <a href='${this.properties.baseUrl}/person/${person.id}/edit' data-testid='edit-person-link'>Edit this person details</a>
         <form method='post' action='${this.properties.baseUrl}/delete-person'>
-          <input type='hidden' name='personID' value='${person.id}' />
+          <input type='hidden' name='person-id' value='${person.id}' />
           <button type='submit' data-testid='delete-person-button'>Delete this person entry</button>
         </form>
       `,

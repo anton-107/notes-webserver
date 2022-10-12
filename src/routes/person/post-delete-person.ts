@@ -7,15 +7,26 @@ import {
   PostFormHttpHandler,
   PostFormRequest,
 } from "../../http/http";
-import { parseResponseType } from "../../http/response-type-parser";
+import {
+  parseResponseType,
+  ResponseType,
+} from "../../http/response-type-parser";
+import { PersonHtmlView } from "../../views/person/person-html-view";
+import { PersonJsonView } from "../../views/person/person-json-view";
 
 export const deleteOnePersonHandler: PostFormHttpHandler = async (
   request: PostFormRequest
 ): Promise<HttpResponse> => {
+  const configuration = personControllerConfiguration({});
   const requestBody = parseBody(request);
+  const responseType = parseResponseType(request.headers);
   return await new PersonController({
-    ...personControllerConfiguration({}),
+    ...configuration,
     authenticationToken: parseCookie(request.headers, "Authentication"),
+    entityView:
+      responseType === ResponseType.JSON
+        ? new PersonJsonView({ ...configuration })
+        : new PersonHtmlView({ ...configuration }),
     responseType: parseResponseType(request.headers),
-  }).performDeleteSingleEntityAction(requestBody["personID"]);
+  }).performDeleteSingleEntityAction(requestBody["person-id"]);
 };
