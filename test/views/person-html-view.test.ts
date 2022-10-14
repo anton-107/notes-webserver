@@ -6,8 +6,8 @@ describe("Person HTML view", () => {
       baseUrl: "",
       corsHeaders: {
         "Access-Control-Allow-Credentials": "false",
-        "Access-Control-Allow-Origin": "*"
-      }
+        "Access-Control-Allow-Origin": "*",
+      },
     });
     const resp = v.renderListPageAllEntities([]);
     const json = JSON.parse(resp.body);
