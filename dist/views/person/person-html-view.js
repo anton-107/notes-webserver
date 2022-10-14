@@ -70,6 +70,7 @@ class PersonHtmlView {
             statusCode: http_1.HttpStatus.OK,
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
+                ...this.properties.corsHeaders,
             },
             body: JSON.stringify({
                 people: entities,

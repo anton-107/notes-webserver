@@ -1,10 +1,14 @@
 import { EntityView } from "../../controller/entity-controller";
+import { CORSHeaders } from "../../http/cors-headers";
 import { HttpResponse } from "../../http/http";
 import { Person } from "../../model/person-model";
 import { HtmlViewProperties } from "../interfaces";
+export interface PersonHtmlViewProperties extends HtmlViewProperties {
+    corsHeaders: CORSHeaders;
+}
 export declare class PersonHtmlView implements EntityView<Person> {
-    protected properties: HtmlViewProperties;
-    constructor(properties: HtmlViewProperties);
+    protected properties: PersonHtmlViewProperties;
+    constructor(properties: PersonHtmlViewProperties);
     renderEditingFormOneEntity(person: Person): HttpResponse;
     renderCreationFormOneEntity(): HttpResponse;
     renderDetailsPageOneEntity(person: Person): HttpResponse;

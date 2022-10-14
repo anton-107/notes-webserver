@@ -1,10 +1,15 @@
 import { EntityView } from "../../controller/entity-controller";
+import { CORSHeaders } from "../../http/cors-headers";
 import { HttpResponse, HttpStatus } from "../../http/http";
 import { Person } from "../../model/person-model";
 import { HtmlViewProperties } from "../interfaces";
 
+export interface PersonHtmlViewProperties extends HtmlViewProperties {
+  corsHeaders: CORSHeaders;
+}
+
 export class PersonHtmlView implements EntityView<Person> {
-  constructor(protected properties: HtmlViewProperties) {}
+  constructor(protected properties: PersonHtmlViewProperties) {}
   public renderEditingFormOneEntity(person: Person): HttpResponse {
     return {
       isBase64Encoded: false,
@@ -69,6 +74,7 @@ export class PersonHtmlView implements EntityView<Person> {
       statusCode: HttpStatus.OK,
       headers: {
         "Content-Type": "application/json; charset=utf-8",
+        ...this.properties.corsHeaders,
       },
       body: JSON.stringify({
         people: entities,
