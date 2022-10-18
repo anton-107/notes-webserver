@@ -29,9 +29,15 @@ export class PlaintextNoteHandler implements NoteTypeHandler {
       r.content = form["note-content"];
     }
     if ("note-section" in form) {
+      if (!r.extensionProperties) {
+        r.extensionProperties = {};
+      }
       r.extensionProperties.section = form["note-section"];
     }
     if ("note-manual-order" in form) {
+      if (!r.extensionProperties) {
+        r.extensionProperties = {};
+      }
       r.extensionProperties.manualOrder = form["note-manual-order"];
     }
     return r;

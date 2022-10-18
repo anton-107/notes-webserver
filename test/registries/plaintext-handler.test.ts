@@ -17,7 +17,7 @@ describe("Plaintext handler", () => {
     const renderedNote = h.render(note);
     expect(renderedNote.renderedContent).toContain("text for test");
   });
-  it("should show note content textare in the edit form", () => {
+  it("should show note content textarea in the edit form", () => {
     const note = {
       id: "",
       content: "text for test",
@@ -44,5 +44,43 @@ describe("Plaintext handler", () => {
       }
     );
     expect(note.content).toBe("this is updated content");
+  });
+  it("should set section of a note", () => {
+    const note = h.mapRequestToExistingEntity(
+      "user1",
+      {
+        id: "",
+        content: "text for test",
+        notebookID: "",
+        owner: "",
+        type: { type: "" },
+      },
+      {
+        "note-section": "to do",
+      }
+    );
+    if (!note.extensionProperties) {
+      throw Error("Expected extensionProperties to be defined");
+    }
+    expect(note.extensionProperties.section).toBe("to do");
+  });
+  it("should set manual order of a note", () => {
+    const note = h.mapRequestToExistingEntity(
+      "user1",
+      {
+        id: "",
+        content: "text for test",
+        notebookID: "",
+        owner: "",
+        type: { type: "" },
+      },
+      {
+        "note-manual-order": "42",
+      }
+    );
+    if (!note.extensionProperties) {
+      throw Error("Expected extensionProperties to be defined");
+    }
+    expect(note.extensionProperties.manualOrder).toBe("42");
   });
 });
