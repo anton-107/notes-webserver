@@ -31,15 +31,24 @@ export class NotebookController extends EntityController<Notebook> {
   }
   protected mapRequestToExistingEntity(
     username: string,
-    notebook: Notebook,
+    existingNotebook: Notebook,
     form: FormBody
   ): Notebook {
-    return {
-      id: form["notebook-id"],
-      name: form["notebook-name"],
-      owner: username,
-      sections: [],
-    };
+    const r = { ...existingNotebook };
+    if (form["notebook-name"]) {
+      r.name = form["notebook-name"];
+    }
+    if (form["table-columns"]) {
+      r.tableColumns = (form["table-columns"] as unknown as FormBody[]).map(
+        (x: FormBody) => {
+          return {
+            name: x.name,
+            columnType: x["column-type"],
+          };
+        }
+      );
+    }
+    return r;
   }
   protected mapRequestToNewEntity(username: string, form: FormBody): Notebook {
     return {
@@ -47,6 +56,7 @@ export class NotebookController extends EntityController<Notebook> {
       name: form["notebook-name"],
       owner: username,
       sections: [],
+      tableColumns: [],
     };
   }
   protected async isAuthorizedToCreate(

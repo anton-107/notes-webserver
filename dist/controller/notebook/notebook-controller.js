@@ -15,13 +15,20 @@ class NotebookController extends entity_controller_1.EntityController {
     mapRequestToEntityID(requestForm) {
         return requestForm["notebook-id"];
     }
-    mapRequestToExistingEntity(username, notebook, form) {
-        return {
-            id: form["notebook-id"],
-            name: form["notebook-name"],
-            owner: username,
-            sections: [],
-        };
+    mapRequestToExistingEntity(username, existingNotebook, form) {
+        const r = { ...existingNotebook };
+        if (form["notebook-name"]) {
+            r.name = form["notebook-name"];
+        }
+        if (form["table-columns"]) {
+            r.tableColumns = form["table-columns"].map((x) => {
+                return {
+                    name: x.name,
+                    columnType: x["column-type"],
+                };
+            });
+        }
+        return r;
     }
     mapRequestToNewEntity(username, form) {
         return {
@@ -29,6 +36,7 @@ class NotebookController extends entity_controller_1.EntityController {
             name: form["notebook-name"],
             owner: username,
             sections: [],
+            tableColumns: [],
         };
     }
     async isAuthorizedToCreate(user, entity) {

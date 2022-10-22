@@ -6,7 +6,11 @@ import {
 } from "@aws/dynamodb-data-mapper-annotations";
 import { NotebookStore } from "./notebook-store";
 import { DataMapper } from "@aws/dynamodb-data-mapper";
-import { Notebook, NotebookSection } from "../../model/notebook-model";
+import {
+  Notebook,
+  NotebookSection,
+  NotebookTableColumn,
+} from "../../model/notebook-model";
 import { FunctionExpression, AttributePath } from "@aws/dynamodb-expressions";
 
 const NOTEBOOK_TABLE_NAME = "notes-webserver-notebook";
@@ -27,6 +31,9 @@ export class NotebookEntity implements Notebook {
 
   @attribute()
   sections: NotebookSection[];
+
+  @attribute()
+  tableColumns: NotebookTableColumn[];
 }
 
 interface NotebookStoreDynamodbProps {
@@ -72,6 +79,7 @@ export class NotebookStoreDynamodb implements NotebookStore {
           owner: entity.owner,
           id: entity.id,
           sections: entity.sections,
+          tableColumns: entity.tableColumns,
         });
       }
       return r;
@@ -93,6 +101,7 @@ export class NotebookStoreDynamodb implements NotebookStore {
         id: entity.id,
         name: entity.name,
         sections: entity.sections,
+        tableColumns: entity.tableColumns,
       };
     } catch (err) {
       console.error(`Could not find notebook for ${owner}/${id}`, err);

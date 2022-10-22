@@ -68,6 +68,24 @@ defineFeature(feature, (test) => {
       }
     );
   });
+  test("Add table column via JSON API", ({ when, then, and }) => {
+    when(/^I create a JSON object: '([^']+)'$/, (json) => {
+      testScenario.setJSONRequestBody(json);
+    });
+    and(/^I POST it to '([^']+)'$/, async (url) => {
+      await testScenario.postJSON(url);
+    });
+    when(
+      "json response is loaded",
+      async () => await testScenario.processJSON()
+    );
+    then(/^json query '([^']+)' returns value '([^']+)'$/, (query, value) => {
+      testScenario.checkJSONQuery(query, value);
+    });
+    and(/^json query '([^']+)' returns value '([^']+)'$/, (query, value) => {
+      testScenario.checkJSONQuery(query, value);
+    });
+  });
   test("Delete notebook via JSON API", ({ when, then, and }) => {
     when(/^I create a JSON object: '([^']+)'$/, (json) => {
       testScenario.setJSONRequestBody(json);

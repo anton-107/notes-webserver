@@ -136,7 +136,11 @@ export class TestScenario {
     const json = inputString
       .replace("{notebook-id}", this.notebookID)
       .replace("{last-known-id}", this.lastKnownID);
-    this.jsonRequestBody = JSON.parse(json);
+    try {
+      this.jsonRequestBody = JSON.parse(json);
+    } catch (err) {
+      throw `Could not parse json request: ${json}. Error: ${err}`;
+    }
   }
   public checkFirstListElement(fieldName: string, fieldValue: string) {
     const firstElement = this.jsonList[0];

@@ -16,6 +16,7 @@ describe("NotebookStoreDynamodb", () => {
       owner: "testuser1",
       name: "Notebook 1",
       sections: [],
+      tableColumns: [],
     });
     verify(dataMapperMock.put(anything())).called();
   });
@@ -33,6 +34,7 @@ describe("NotebookStoreDynamodb", () => {
         owner: "testuser1",
         name: "notebook 1",
         sections: [],
+        tableColumns: [],
       });
     }).rejects.toThrow();
   });
@@ -128,6 +130,7 @@ describe("NotebookStoreDynamodb", () => {
         name: "test-notebook",
         id: "test-notebook-id",
         sections: [],
+        tableColumns: [],
       });
     }).rejects.toThrow("this is a test error on edit");
   });

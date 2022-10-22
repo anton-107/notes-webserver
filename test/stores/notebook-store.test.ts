@@ -18,6 +18,7 @@ describe("Notebook store", () => {
           name: "",
           owner: "",
           sections: [],
+          tableColumns: [],
         })
     ).rejects.toThrow("Notebook is not found");
   });
