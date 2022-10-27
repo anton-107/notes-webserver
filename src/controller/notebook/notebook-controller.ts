@@ -3,6 +3,7 @@ import { FormBody } from "../../http/body-parser";
 import { HttpResponse, HttpStatus } from "../../http/http";
 import { Notebook } from "../../model/notebook-model";
 import { NoteTypesRegistry } from "../../registries/note-types-registry";
+import { NotebookTableColumnsRegistry } from "../../registries/notebook-table-columns-registry";
 import { NoteStore } from "../../stores/note/note-store";
 import { NoteHtmlView } from "../../views/note/note-html-view";
 import {
@@ -15,6 +16,7 @@ export interface NotebookControllerProperties
   noteHtmlView: NoteHtmlView;
   noteStore: NoteStore;
   noteTypesRegistry: NoteTypesRegistry;
+  notebookTableColumnsRegistry: NotebookTableColumnsRegistry;
 }
 
 export class NotebookController extends EntityController<Notebook> {
@@ -39,12 +41,18 @@ export class NotebookController extends EntityController<Notebook> {
       r.name = form["notebook-name"];
     }
     if (form["table-columns"]) {
-      r.tableColumns = (form["table-columns"] as unknown as FormBody[]).map(
+      const supportedColumns =
+        this.notebookControllerProperties.notebookTableColumnsRegistry.listColumns();
+      r.tableColumns = [];
+
+      (form["table-columns"] as unknown as FormBody[]).forEach(
         (x: FormBody) => {
-          return {
-            name: x.name,
-            columnType: x["column-type"],
-          };
+          const column = supportedColumns.find(
+            (c) => x["column-type"] === c.columnType
+          );
+          if (column) {
+            r.tableColumns.push(column);
+          }
         }
       );
     }

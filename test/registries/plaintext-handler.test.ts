@@ -1,7 +1,10 @@
 import { PlaintextNoteHandler } from "../../src/registries/note-types/plaintext-handler";
+import { NotebookTableColumnsRegistry } from "../../src/registries/notebook-table-columns-registry";
 
 describe("Plaintext handler", () => {
-  const h = new PlaintextNoteHandler();
+  const h = new PlaintextNoteHandler({
+    notebookTableColumnsRegistry: new NotebookTableColumnsRegistry(),
+  });
   it("should describe itself", () => {
     expect(h.typeName()).toBe("note");
     expect(h.typeDisplayName()).toBe("plain note");

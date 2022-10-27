@@ -1,7 +1,10 @@
 import { MarkdownHandler } from "../../src/registries/note-types/markdown-handler";
+import { NotebookTableColumnsRegistry } from "../../src/registries/notebook-table-columns-registry";
 
 describe("Markdown handler", () => {
-  const h = new MarkdownHandler();
+  const h = new MarkdownHandler({
+    notebookTableColumnsRegistry: new NotebookTableColumnsRegistry(),
+  });
   it("should describe itself", () => {
     expect(h.typeName()).toBe("markdown");
     expect(h.typeDisplayName()).toBe("markdown formatted note");

@@ -1,7 +1,13 @@
 import { FormBody } from "../../http/body-parser";
 import { Note, RenderedNote } from "../../model/note-model";
 import { NoteTypeHandler } from "../note-types-registry";
+import { NotebookTableColumnsRegistry } from "../notebook-table-columns-registry";
+interface PlaintextNoteHandlerProperties {
+    notebookTableColumnsRegistry: NotebookTableColumnsRegistry;
+}
 export declare class PlaintextNoteHandler implements NoteTypeHandler {
+    private properties;
+    constructor(properties: PlaintextNoteHandlerProperties);
     typeName(): string;
     typeDisplayName(): string;
     render(note: Note): RenderedNote;
@@ -10,3 +16,4 @@ export declare class PlaintextNoteHandler implements NoteTypeHandler {
     renderCreateForm(): string;
     mapRequestToNewEntity(username: string, form: FormBody): Note;
 }
+export {};

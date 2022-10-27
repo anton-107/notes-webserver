@@ -1,0 +1,1 @@
+{"version":3,"file":"notebook-table-columns-registry.js","sourceRoot":"","sources":["../../src/registries/notebook-table-columns-registry.ts"],"names":[],"mappings":";;;AAEA,MAAa,4BAA4B;IAAzC;QACU,YAAO,GAA0B,EAAE,CAAC;IAQ9C,CAAC;IANQ,SAAS,CAAC,OAA4B;QAC3C,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,OAAO,CAAC,CAAC;IAC7B,CAAC;IACM,WAAW;QAChB,OAAO,IAAI,CAAC,OAAO,CAAC;IACtB,CAAC;CACF;AATD,oEASC"}

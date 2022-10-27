@@ -1,9 +1,16 @@
 import { generate } from "short-uuid";
 import { FormBody } from "../../http/body-parser";
 import { Note, RenderedNote } from "../../model/note-model";
+import { NotebookColumnValueType } from "../../model/notebook-model";
 import { NoteTypeHandler } from "../note-types-registry";
+import { NotebookTableColumnsRegistry } from "../notebook-table-columns-registry";
+
+interface PlaintextNoteHandlerProperties {
+  notebookTableColumnsRegistry: NotebookTableColumnsRegistry;
+}
 
 export class PlaintextNoteHandler implements NoteTypeHandler {
+  constructor(private properties: PlaintextNoteHandlerProperties) {}
   public typeName(): string {
     return "note";
   }
@@ -39,6 +46,24 @@ export class PlaintextNoteHandler implements NoteTypeHandler {
         r.extensionProperties = {};
       }
       r.extensionProperties.manualOrder = form["note-manual-order"];
+    }
+    if ("table-columns" in form) {
+      if (!r.columnValues) {
+        r.columnValues = {};
+      }
+      const supportedColumns =
+        this.properties.notebookTableColumnsRegistry.listColumns();
+      const requestedColumns: { [key: string]: string } = form[
+        "table-columns"
+      ] as unknown as { [key: string]: string };
+      console.log("requestedColumns", requestedColumns);
+      supportedColumns.forEach((c) => {
+        if (requestedColumns[c.columnType]) {
+          r.columnValues[c.columnType] = requestedColumns[
+            c.columnType
+          ] as NotebookColumnValueType;
+        }
+      });
     }
     return r;
   }

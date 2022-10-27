@@ -22,6 +22,7 @@ import { PersonSelectorController } from "../controller/person/person-selector-c
 import { PersonShortRepresentationController } from "../controller/person/person-short-representation-controller";
 import { corsHeaders } from "../http/cors-headers";
 import { NotesContainerHandler } from "../registries/note-types/notes-container-handler";
+import { NotebookTableColumnsRegistry } from "../registries/notebook-table-columns-registry";
 
 const passwordHashingFunction = new ScryptHashingFunction();
 const userStore = new InMemoryUserStore();
@@ -32,9 +33,38 @@ const jwtSerializerSecretProvider = new SimpleStringProvider(
 const notebookStore = new InMemoryNotebookStore();
 const personStore = new InMemoryPersonStore();
 const noteStore = new InMemoryNoteStore();
-const noteTypesRegistry = new NoteTypesRegistry();
 
-noteTypesRegistry.addNoteTypeHandler(new PlaintextNoteHandler());
+const notebookTableColumnsRegistry = new NotebookTableColumnsRegistry();
+notebookTableColumnsRegistry.addColumn({
+  name: "Due date",
+  columnType: "due-date",
+  valueType: "date",
+});
+notebookTableColumnsRegistry.addColumn({
+  name: "Start date",
+  columnType: "start-date",
+  valueType: "date",
+});
+notebookTableColumnsRegistry.addColumn({
+  name: "End date",
+  columnType: "end-date",
+  valueType: "date",
+});
+notebookTableColumnsRegistry.addColumn({
+  name: "Assignee",
+  columnType: "task-assignee",
+  valueType: "person-id",
+});
+notebookTableColumnsRegistry.addColumn({
+  name: "Completed",
+  columnType: "task-completed",
+  valueType: "boolean",
+});
+
+const noteTypesRegistry = new NoteTypesRegistry();
+noteTypesRegistry.addNoteTypeHandler(
+  new PlaintextNoteHandler({ notebookTableColumnsRegistry })
+);
 noteTypesRegistry.addNoteTypeHandler(new DateRangeNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new PersonalDateRangeNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new NotesContainerHandler());
@@ -67,6 +97,7 @@ export const commonConfiguration = (
     baseUrl: "",
     noteTypesRegistry,
     postProcessorRegistry,
+    notebookTableColumnsRegistry,
     corsHeaders: corsHeaders("*"),
     ...overrides,
   };

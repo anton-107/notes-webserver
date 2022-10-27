@@ -39,6 +39,13 @@ Feature: Notes handling (JSON API)
     Then 'content' field has value of 'my first edited note'
     And json query 'extensionProperties.manualOrder' returns value 1
 
+  Scenario: Set due date via JSON API
+    When I create a JSON object: '{"note-id": "{last-known-id}", "table-columns": {"due-date": "2022-10-27"} }'
+    And I POST it to '/note/{last-known-id}/edit'
+    When json response is loaded
+    Then 'content' field has value of 'my first edited note'
+    And json query 'columnValues.due-date' returns value '2022-10-27'
+
   Scenario: Delete note via JSON API
     When I create a JSON object: '{"note-id": "{last-known-id}"}'
     And I POST it to '/note/delete'

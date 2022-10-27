@@ -3,6 +3,7 @@ import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
 import { PostProcessorRegistry } from "../controller/post-processor";
 import { CORSHeaders } from "../http/cors-headers";
 import { NoteTypesRegistry } from "../registries/note-types-registry";
+import { NotebookTableColumnsRegistry } from "../registries/notebook-table-columns-registry";
 import { NoteStore } from "../stores/note/note-store";
 import { NotebookStore } from "../stores/notebook/notebook-store";
 import { PersonStore } from "../stores/person/person-store";
@@ -18,6 +19,7 @@ export interface ServiceConfiguration {
     noteStore: NoteStore;
     noteTypesRegistry: NoteTypesRegistry;
     postProcessorRegistry: PostProcessorRegistry;
+    notebookTableColumnsRegistry: NotebookTableColumnsRegistry;
     passwordHashingFunction: PasswordHashingFunction;
     userStore: UserStore;
     corsHeaders: CORSHeaders;
@@ -33,6 +35,7 @@ export declare const notebookControllerConfiguration: (overrides: ServiceConfigu
     noteStore: NoteStore;
     noteTypesRegistry: NoteTypesRegistry;
     postProcessorRegistry: PostProcessorRegistry;
+    notebookTableColumnsRegistry: NotebookTableColumnsRegistry;
     passwordHashingFunction: PasswordHashingFunction;
     userStore: UserStore;
     corsHeaders: CORSHeaders;
@@ -50,6 +53,7 @@ export declare const personControllerConfiguration: (overrides: ServiceConfigura
     noteStore: NoteStore;
     noteTypesRegistry: NoteTypesRegistry;
     postProcessorRegistry: PostProcessorRegistry;
+    notebookTableColumnsRegistry: NotebookTableColumnsRegistry;
     passwordHashingFunction: PasswordHashingFunction;
     userStore: UserStore;
     corsHeaders: CORSHeaders;
@@ -66,6 +70,7 @@ export declare const noteControllerConfiguration: (overrides: ServiceConfigurati
     noteStore: NoteStore;
     noteTypesRegistry: NoteTypesRegistry;
     postProcessorRegistry: PostProcessorRegistry;
+    notebookTableColumnsRegistry: NotebookTableColumnsRegistry;
     passwordHashingFunction: PasswordHashingFunction;
     userStore: UserStore;
     corsHeaders: CORSHeaders;

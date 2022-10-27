@@ -152,6 +152,9 @@ export class TestScenario {
   }
   public checkJSONQuery(query: string, expectedValue: string | number) {
     const actualValue = jsonQuery(query, { data: this.jsonResponse }).value;
+    if (actualValue !== expectedValue) {
+      console.log("Was checking checkJSONQuery", query, this.jsonResponse);
+    }
     expect(actualValue).toBe(expectedValue);
   }
   public captureURLFromFirstListElement(fieldName: string) {

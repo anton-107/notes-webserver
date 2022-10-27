@@ -3,6 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PlaintextNoteHandler = void 0;
 const short_uuid_1 = require("short-uuid");
 class PlaintextNoteHandler {
+    constructor(properties) {
+        this.properties = properties;
+    }
     typeName() {
         return "note";
     }
@@ -34,6 +37,19 @@ class PlaintextNoteHandler {
                 r.extensionProperties = {};
             }
             r.extensionProperties.manualOrder = form["note-manual-order"];
+        }
+        if ("table-columns" in form) {
+            if (!r.columnValues) {
+                r.columnValues = {};
+            }
+            const supportedColumns = this.properties.notebookTableColumnsRegistry.listColumns();
+            const requestedColumns = form["table-columns"];
+            console.log("requestedColumns", requestedColumns);
+            supportedColumns.forEach((c) => {
+                if (requestedColumns[c.columnType]) {
+                    r.columnValues[c.columnType] = requestedColumns[c.columnType];
+                }
+            });
         }
         return r;
     }

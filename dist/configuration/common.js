@@ -17,6 +17,7 @@ const person_selector_controller_1 = require("../controller/person/person-select
 const person_short_representation_controller_1 = require("../controller/person/person-short-representation-controller");
 const cors_headers_1 = require("../http/cors-headers");
 const notes_container_handler_1 = require("../registries/note-types/notes-container-handler");
+const notebook_table_columns_registry_1 = require("../registries/notebook-table-columns-registry");
 const passwordHashingFunction = new scrypt_hashing_1.ScryptHashingFunction();
 const userStore = new user_store_inmemory_1.InMemoryUserStore();
 const jwtSerializerSecretKey = String(Math.random());
@@ -24,8 +25,34 @@ const jwtSerializerSecretProvider = new jwt_serializer_1.SimpleStringProvider(jw
 const notebookStore = new notebook_store_1.InMemoryNotebookStore();
 const personStore = new person_store_1.InMemoryPersonStore();
 const noteStore = new note_store_1.InMemoryNoteStore();
+const notebookTableColumnsRegistry = new notebook_table_columns_registry_1.NotebookTableColumnsRegistry();
+notebookTableColumnsRegistry.addColumn({
+    name: "Due date",
+    columnType: "due-date",
+    valueType: "date",
+});
+notebookTableColumnsRegistry.addColumn({
+    name: "Start date",
+    columnType: "start-date",
+    valueType: "date",
+});
+notebookTableColumnsRegistry.addColumn({
+    name: "End date",
+    columnType: "end-date",
+    valueType: "date",
+});
+notebookTableColumnsRegistry.addColumn({
+    name: "Assignee",
+    columnType: "task-assignee",
+    valueType: "person-id",
+});
+notebookTableColumnsRegistry.addColumn({
+    name: "Completed",
+    columnType: "task-completed",
+    valueType: "boolean",
+});
 const noteTypesRegistry = new note_types_registry_1.NoteTypesRegistry();
-noteTypesRegistry.addNoteTypeHandler(new plaintext_handler_1.PlaintextNoteHandler());
+noteTypesRegistry.addNoteTypeHandler(new plaintext_handler_1.PlaintextNoteHandler({ notebookTableColumnsRegistry }));
 noteTypesRegistry.addNoteTypeHandler(new date_range_handler_1.DateRangeNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new personal_date_range_handler_1.PersonalDateRangeNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new notes_container_handler_1.NotesContainerHandler());
@@ -53,6 +80,7 @@ const commonConfiguration = (overrides) => {
         baseUrl: "",
         noteTypesRegistry,
         postProcessorRegistry,
+        notebookTableColumnsRegistry,
         corsHeaders: (0, cors_headers_1.corsHeaders)("*"),
         ...overrides,
     };

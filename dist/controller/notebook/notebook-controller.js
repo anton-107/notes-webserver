@@ -21,11 +21,13 @@ class NotebookController extends entity_controller_1.EntityController {
             r.name = form["notebook-name"];
         }
         if (form["table-columns"]) {
-            r.tableColumns = form["table-columns"].map((x) => {
-                return {
-                    name: x.name,
-                    columnType: x["column-type"],
-                };
+            const supportedColumns = this.notebookControllerProperties.notebookTableColumnsRegistry.listColumns();
+            r.tableColumns = [];
+            form["table-columns"].forEach((x) => {
+                const column = supportedColumns.find((c) => x["column-type"] === c.columnType);
+                if (column) {
+                    r.tableColumns.push(column);
+                }
             });
         }
         return r;

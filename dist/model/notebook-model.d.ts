@@ -2,9 +2,11 @@ export interface NotebookSection {
     id: string;
     name: string;
 }
+export declare type NotebookColumnValueType = "string" | "date" | "datetime" | "boolean" | "person-id" | "note-id" | "notebook-id";
 export interface NotebookTableColumn {
     name: string;
     columnType: string;
+    valueType: NotebookColumnValueType;
 }
 export interface Notebook {
     id: string;
