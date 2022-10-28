@@ -10,6 +10,7 @@ import { PersonStore } from "../stores/person/person-store";
 import { HttpRedirectView } from "../views/http-redirect-view";
 import { NoteHtmlView } from "../views/note/note-html-view";
 import { NotebookHtmlView } from "../views/notebook/notebook-html-view";
+import { NotebookJsonView } from "../views/notebook/notebook-json-view";
 import { PersonHtmlView } from "../views/person/person-html-view";
 export interface ServiceConfiguration {
     authenticator: Authenticator;
@@ -44,6 +45,7 @@ export declare const notebookControllerConfiguration: (overrides: ServiceConfigu
     httpRedirectView: HttpRedirectView;
     entityStore: NotebookStore;
     noteHtmlView: NoteHtmlView;
+    notebookJsonView: NotebookJsonView;
 };
 export declare const personControllerConfiguration: (overrides: ServiceConfigurationOverrides) => {
     authenticator: Authenticator;

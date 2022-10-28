@@ -5,6 +5,7 @@ const cors_headers_1 = require("../http/cors-headers");
 const http_redirect_view_1 = require("../views/http-redirect-view");
 const note_html_view_1 = require("../views/note/note-html-view");
 const notebook_html_view_1 = require("../views/notebook/notebook-html-view");
+const notebook_json_view_1 = require("../views/notebook/notebook-json-view");
 const person_html_view_1 = require("../views/person/person-html-view");
 const common_1 = require("./common");
 const jwt_serializer_secrets_manager_1 = require("./jwt-serializer-secrets-manager");
@@ -49,6 +50,7 @@ const notebookControllerConfiguration = (overrides) => {
         entityStore: configuration.notebookStore,
         noteStore: configuration.noteStore,
         noteHtmlView: new note_html_view_1.NoteHtmlView({ ...configuration }),
+        notebookJsonView: new notebook_json_view_1.NotebookJsonView({ ...configuration }),
         ...overrides,
     };
 };

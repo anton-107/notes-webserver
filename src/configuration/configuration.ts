@@ -14,6 +14,7 @@ import { PersonStore } from "../stores/person/person-store";
 import { HttpRedirectView } from "../views/http-redirect-view";
 import { NoteHtmlView } from "../views/note/note-html-view";
 import { NotebookHtmlView } from "../views/notebook/notebook-html-view";
+import { NotebookJsonView } from "../views/notebook/notebook-json-view";
 import { PersonHtmlView } from "../views/person/person-html-view";
 import { commonConfiguration } from "./common";
 import { jwtSerializerSecretsManagerConfiguration } from "./jwt-serializer-secrets-manager";
@@ -86,6 +87,7 @@ export const notebookControllerConfiguration = (
     entityStore: configuration.notebookStore,
     noteStore: configuration.noteStore,
     noteHtmlView: new NoteHtmlView({ ...configuration }),
+    notebookJsonView: new NotebookJsonView({ ...configuration }),
     ...overrides,
   };
 };

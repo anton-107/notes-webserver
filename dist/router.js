@@ -27,6 +27,7 @@ const get_whoami_1 = require("./routes/auth/get-whoami");
 const get_all_notebooks_1 = require("./routes/notebook/get-all-notebooks");
 const get_all_notes_in_notebook_1 = require("./routes/note/get-all-notes-in-notebook");
 const get_all_people_1 = require("./routes/person/get-all-people");
+const get_supported_columns_1 = require("./routes/notebook/get-supported-columns");
 exports.routes = [
     {
         method: "GET",
@@ -177,6 +178,12 @@ exports.routes = [
         path: "/note/delete",
         import: (0, path_1.join)(__dirname, "./routes/note/post-delete-note"),
         action: post_delete_note_1.postDeleteNoteHandler.name,
+    },
+    {
+        method: "GET",
+        path: "/notebook-supported-columns",
+        import: (0, path_1.join)(__dirname, "./routes/notebook/get-supported-columns"),
+        action: get_supported_columns_1.getNotebookSupportedColumnsHandler.name,
     },
 ];
 //# sourceMappingURL=router.js.map

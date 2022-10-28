@@ -5,8 +5,10 @@ import { NoteTypesRegistry } from "../../registries/note-types-registry";
 import { NotebookTableColumnsRegistry } from "../../registries/notebook-table-columns-registry";
 import { NoteStore } from "../../stores/note/note-store";
 import { NoteHtmlView } from "../../views/note/note-html-view";
+import { NotebookJsonView } from "../../views/notebook/notebook-json-view";
 import { EntityController, EntityControllerProperties } from "../entity-controller";
 export interface NotebookControllerProperties extends EntityControllerProperties<Notebook> {
+    notebookJsonView: NotebookJsonView;
     noteHtmlView: NoteHtmlView;
     noteStore: NoteStore;
     noteTypesRegistry: NoteTypesRegistry;
@@ -15,6 +17,7 @@ export interface NotebookControllerProperties extends EntityControllerProperties
 export declare class NotebookController extends EntityController<Notebook> {
     private notebookControllerProperties;
     constructor(notebookControllerProperties: NotebookControllerProperties);
+    listSupportedColumns(): Promise<HttpResponse>;
     protected getEntityName(): string;
     protected mapRequestToEntityID(requestForm: FormBody): string;
     protected mapRequestToExistingEntity(username: string, existingNotebook: Notebook, form: FormBody): Notebook;

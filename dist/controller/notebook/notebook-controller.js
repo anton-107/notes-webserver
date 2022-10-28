@@ -9,6 +9,10 @@ class NotebookController extends entity_controller_1.EntityController {
         super(notebookControllerProperties);
         this.notebookControllerProperties = notebookControllerProperties;
     }
+    async listSupportedColumns() {
+        const columns = this.notebookControllerProperties.notebookTableColumnsRegistry.listColumns();
+        return this.notebookControllerProperties.notebookJsonView.renderSupportedTableColumns(columns);
+    }
     getEntityName() {
         return "notebook";
     }

@@ -23,6 +23,12 @@ Feature: Notebooks handling (JSON API)
     When json response is loaded
     Then 'name' field has value of 'My notes (edited)'
 
+  Scenario: Read a list of available columns for the table view
+    When I visit /notebook-supported-columns page
+    When json response is loaded
+    Then 'columns' field is a list
+    And its first element has field 'name' with value 'Due date'
+
   Scenario: Add table column via JSON API
     When I create a JSON object: '{"notebook-id": "{last-known-id}", "table-columns": [{"name": "Due date", "column-type": "due-date"}]}'
     And I POST it to '/notebook/{last-known-id}/edit'

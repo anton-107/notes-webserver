@@ -68,6 +68,30 @@ defineFeature(feature, (test) => {
       }
     );
   });
+
+  test("Read a list of available columns for the table view", ({
+    when,
+    then,
+    and,
+  }) => {
+    when(
+      /^I visit \/([a-z{}\-/]+) page$/,
+      async (url) => await testScenario.loadPage(url)
+    );
+    when(
+      "json response is loaded",
+      async () => await testScenario.processJSON()
+    );
+    then(/^'([a-z-]+)' field is a list$/, (fieldName) =>
+      testScenario.captureJSONFieldList(fieldName)
+    );
+    and(
+      /^its first element has field '([a-z-]+)' with value '([A-z0-9 ]+)'$/,
+      (fieldName, fieldValue) =>
+        testScenario.checkFirstListElement(fieldName, fieldValue)
+    );
+  });
+
   test("Add table column via JSON API", ({ when, then, and }) => {
     when(/^I create a JSON object: '([^']+)'$/, (json) => {
       testScenario.setJSONRequestBody(json);

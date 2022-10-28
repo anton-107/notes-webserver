@@ -6,6 +6,7 @@ import { NoteTypesRegistry } from "../../registries/note-types-registry";
 import { NotebookTableColumnsRegistry } from "../../registries/notebook-table-columns-registry";
 import { NoteStore } from "../../stores/note/note-store";
 import { NoteHtmlView } from "../../views/note/note-html-view";
+import { NotebookJsonView } from "../../views/notebook/notebook-json-view";
 import {
   EntityController,
   EntityControllerProperties,
@@ -13,6 +14,7 @@ import {
 
 export interface NotebookControllerProperties
   extends EntityControllerProperties<Notebook> {
+  notebookJsonView: NotebookJsonView;
   noteHtmlView: NoteHtmlView;
   noteStore: NoteStore;
   noteTypesRegistry: NoteTypesRegistry;
@@ -24,6 +26,13 @@ export class NotebookController extends EntityController<Notebook> {
     private notebookControllerProperties: NotebookControllerProperties
   ) {
     super(notebookControllerProperties);
+  }
+  public async listSupportedColumns(): Promise<HttpResponse> {
+    const columns =
+      this.notebookControllerProperties.notebookTableColumnsRegistry.listColumns();
+    return this.notebookControllerProperties.notebookJsonView.renderSupportedTableColumns(
+      columns
+    );
   }
   protected getEntityName(): string {
     return "notebook";

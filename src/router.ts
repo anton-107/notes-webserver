@@ -24,6 +24,7 @@ import { getWhoamiHandler } from "./routes/auth/get-whoami";
 import { getAllNotebooksHandler } from "./routes/notebook/get-all-notebooks";
 import { getAllNotesInNotebookHandler } from "./routes/note/get-all-notes-in-notebook";
 import { getAllPeopleHandler } from "./routes/person/get-all-people";
+import { getNotebookSupportedColumnsHandler } from "./routes/notebook/get-supported-columns";
 
 export interface Route {
   method: "GET" | "POST";
@@ -182,5 +183,11 @@ export const routes: Route[] = [
     path: "/note/delete",
     import: join(__dirname, "./routes/note/post-delete-note"),
     action: postDeleteNoteHandler.name,
+  },
+  {
+    method: "GET",
+    path: "/notebook-supported-columns",
+    import: join(__dirname, "./routes/notebook/get-supported-columns"),
+    action: getNotebookSupportedColumnsHandler.name,
   },
 ];
