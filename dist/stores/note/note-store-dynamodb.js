@@ -43,6 +43,10 @@ __decorate([
     (0, dynamodb_data_mapper_annotations_1.attribute)(),
     __metadata("design:type", Object)
 ], NoteEntity.prototype, "extensionProperties", void 0);
+__decorate([
+    (0, dynamodb_data_mapper_annotations_1.attribute)(),
+    __metadata("design:type", Object)
+], NoteEntity.prototype, "columnValues", void 0);
 NoteEntity = __decorate([
     (0, dynamodb_data_mapper_annotations_1.table)(NOTES_TABLE_NAME)
 ], NoteEntity);

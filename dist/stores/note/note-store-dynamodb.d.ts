@@ -1,5 +1,6 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
 import { Note, NoteType } from "../../model/note-model";
+import { NotebookColumnValueType } from "../../model/notebook-model";
 import { NoteStore } from "./note-store";
 export declare class NoteEntity implements Note {
     owner: string;
@@ -10,6 +11,9 @@ export declare class NoteEntity implements Note {
     content: string;
     extensionProperties?: {
         [key: string]: string;
+    };
+    columnValues?: {
+        [key: string]: NotebookColumnValueType;
     };
 }
 interface NoteStoreDynamodbProps {
