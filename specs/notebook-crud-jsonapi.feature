@@ -16,6 +16,8 @@ Feature: Notebooks handling (JSON API)
     When json response is loaded
     Then 'notebooks' field is a list
     And its first element has field 'name' with value 'My notes'
+    And its first element has field 'createdAt' with a date value
+    And its first element has field 'updatedAt' with a date value
 
   Scenario: Edit notebook via JSON API
     When I create a JSON object: '{"notebook-id": "{last-known-id}", "notebook-name": "My notes (edited)"}'

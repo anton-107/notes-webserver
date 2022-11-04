@@ -19,6 +19,8 @@ describe("Notebook store", () => {
           owner: "",
           sections: [],
           tableColumns: [],
+          createdAt: "",
+          updatedAt: "",
         })
     ).rejects.toThrow("Notebook is not found");
   });

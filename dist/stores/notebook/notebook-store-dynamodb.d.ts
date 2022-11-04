@@ -8,6 +8,8 @@ export declare class NotebookEntity implements Notebook {
     id: string;
     sections: NotebookSection[];
     tableColumns: NotebookTableColumn[];
+    createdAt: string;
+    updatedAt: string;
 }
 interface NotebookStoreDynamodbProps {
     dataMapper: DataMapper;

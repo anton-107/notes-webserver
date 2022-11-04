@@ -34,6 +34,12 @@ export class NotebookEntity implements Notebook {
 
   @attribute()
   tableColumns: NotebookTableColumn[];
+
+  @attribute()
+  createdAt: string;
+
+  @attribute()
+  updatedAt: string;
 }
 
 interface NotebookStoreDynamodbProps {
@@ -80,6 +86,8 @@ export class NotebookStoreDynamodb implements NotebookStore {
           id: entity.id,
           sections: entity.sections,
           tableColumns: entity.tableColumns,
+          createdAt: entity.createdAt,
+          updatedAt: entity.updatedAt,
         });
       }
       return r;
@@ -102,6 +110,8 @@ export class NotebookStoreDynamodb implements NotebookStore {
         name: entity.name,
         sections: entity.sections,
         tableColumns: entity.tableColumns,
+        createdAt: entity.createdAt,
+        updatedAt: entity.updatedAt,
       };
     } catch (err) {
       console.error(`Could not find notebook for ${owner}/${id}`, err);

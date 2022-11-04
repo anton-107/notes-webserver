@@ -59,6 +59,8 @@ describe("Route POST /notebook/:notebookID/edit", () => {
       owner: "",
       sections: [],
       tableColumns: [],
+      createdAt: "",
+      updatedAt: "",
     });
     when(notebookStoreMock.editOne(anything())).thenReject(
       Error("this is a test error")

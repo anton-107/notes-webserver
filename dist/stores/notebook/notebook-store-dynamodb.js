@@ -39,6 +39,14 @@ __decorate([
     (0, dynamodb_data_mapper_annotations_1.attribute)(),
     __metadata("design:type", Array)
 ], NotebookEntity.prototype, "tableColumns", void 0);
+__decorate([
+    (0, dynamodb_data_mapper_annotations_1.attribute)(),
+    __metadata("design:type", String)
+], NotebookEntity.prototype, "createdAt", void 0);
+__decorate([
+    (0, dynamodb_data_mapper_annotations_1.attribute)(),
+    __metadata("design:type", String)
+], NotebookEntity.prototype, "updatedAt", void 0);
 NotebookEntity = __decorate([
     (0, dynamodb_data_mapper_annotations_1.table)(NOTEBOOK_TABLE_NAME)
 ], NotebookEntity);
@@ -77,6 +85,8 @@ class NotebookStoreDynamodb {
                     id: entity.id,
                     sections: entity.sections,
                     tableColumns: entity.tableColumns,
+                    createdAt: entity.createdAt,
+                    updatedAt: entity.updatedAt,
                 });
             }
             return r;
@@ -98,6 +108,8 @@ class NotebookStoreDynamodb {
                 name: entity.name,
                 sections: entity.sections,
                 tableColumns: entity.tableColumns,
+                createdAt: entity.createdAt,
+                updatedAt: entity.updatedAt,
             };
         }
         catch (err) {

@@ -48,6 +48,22 @@ defineFeature(feature, (test) => {
       (fieldName, fieldValue) =>
         testScenario.checkFirstListElement(fieldName, fieldValue)
     );
+    and(
+      /^its first element has field '([A-z-]+)' with a date value$/,
+      (fieldName) =>
+        testScenario.checkFirstListElementForPattern(
+          fieldName,
+          /\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d.\d\d\dZ/
+        )
+    );
+    and(
+      /^its first element has field '([A-z-]+)' with a date value$/,
+      (fieldName) =>
+        testScenario.checkFirstListElementForPattern(
+          fieldName,
+          /\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d.\d\d\dZ/
+        )
+    );
   });
 
   test("Edit notebook via JSON API", ({ when, then, and }) => {

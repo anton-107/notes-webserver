@@ -17,6 +17,8 @@ describe("NotebookStoreDynamodb", () => {
       name: "Notebook 1",
       sections: [],
       tableColumns: [],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     });
     verify(dataMapperMock.put(anything())).called();
   });
@@ -35,6 +37,8 @@ describe("NotebookStoreDynamodb", () => {
         name: "notebook 1",
         sections: [],
         tableColumns: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       });
     }).rejects.toThrow();
   });
@@ -131,6 +135,8 @@ describe("NotebookStoreDynamodb", () => {
         id: "test-notebook-id",
         sections: [],
         tableColumns: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       });
     }).rejects.toThrow("this is a test error on edit");
   });

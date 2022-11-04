@@ -14,4 +14,6 @@ export interface Notebook {
     owner: string;
     sections: NotebookSection[];
     tableColumns: NotebookTableColumn[];
+    createdAt: string;
+    updatedAt: string;
 }

@@ -45,9 +45,11 @@ export class NotebookController extends EntityController<Notebook> {
     existingNotebook: Notebook,
     form: FormBody
   ): Notebook {
+    let isUpdated = false;
     const r = { ...existingNotebook };
     if (form["notebook-name"]) {
       r.name = form["notebook-name"];
+      isUpdated = true;
     }
     if (form["table-columns"]) {
       const supportedColumns =
@@ -61,19 +63,26 @@ export class NotebookController extends EntityController<Notebook> {
           );
           if (column) {
             r.tableColumns.push(column);
+            isUpdated = true;
           }
         }
       );
     }
+    if (isUpdated) {
+      r.updatedAt = new Date().toISOString();
+    }
     return r;
   }
   protected mapRequestToNewEntity(username: string, form: FormBody): Notebook {
+    const now = new Date().toISOString();
     return {
       id: generate(),
       name: form["notebook-name"],
       owner: username,
       sections: [],
       tableColumns: [],
+      createdAt: now,
+      updatedAt: now,
     };
   }
   protected async isAuthorizedToCreate(

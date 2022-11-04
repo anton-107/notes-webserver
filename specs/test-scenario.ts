@@ -150,6 +150,14 @@ export class TestScenario {
     const actualValue = firstElement[fieldName];
     expect(actualValue).toBe(fieldValue);
   }
+  public checkFirstListElementForPattern(fieldName: string, pattern: RegExp) {
+    const firstElement = this.jsonList[0];
+    if (typeof firstElement === "string") {
+      throw "Expected an object in json list, but got string";
+    }
+    const actualValue = firstElement[fieldName];
+    expect(actualValue).toMatch(pattern);
+  }
   public checkJSONQuery(query: string, expectedValue: string | number) {
     const actualValue = jsonQuery(query, { data: this.jsonResponse }).value;
     if (actualValue !== expectedValue) {

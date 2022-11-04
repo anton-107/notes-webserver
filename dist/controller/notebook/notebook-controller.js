@@ -20,9 +20,11 @@ class NotebookController extends entity_controller_1.EntityController {
         return requestForm["notebook-id"];
     }
     mapRequestToExistingEntity(username, existingNotebook, form) {
+        let isUpdated = false;
         const r = { ...existingNotebook };
         if (form["notebook-name"]) {
             r.name = form["notebook-name"];
+            isUpdated = true;
         }
         if (form["table-columns"]) {
             const supportedColumns = this.notebookControllerProperties.notebookTableColumnsRegistry.listColumns();
@@ -31,18 +33,25 @@ class NotebookController extends entity_controller_1.EntityController {
                 const column = supportedColumns.find((c) => x["column-type"] === c.columnType);
                 if (column) {
                     r.tableColumns.push(column);
+                    isUpdated = true;
                 }
             });
+        }
+        if (isUpdated) {
+            r.updatedAt = new Date().toISOString();
         }
         return r;
     }
     mapRequestToNewEntity(username, form) {
+        const now = new Date().toISOString();
         return {
             id: (0, short_uuid_1.generate)(),
             name: form["notebook-name"],
             owner: username,
             sections: [],
             tableColumns: [],
+            createdAt: now,
+            updatedAt: now,
         };
     }
     async isAuthorizedToCreate(user, entity) {
