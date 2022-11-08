@@ -14,6 +14,13 @@ class NoteTypesRegistry {
     getNoteTypeHandler(noteTypeName) {
         return this.handlers.find((x) => x.typeName() === noteTypeName);
     }
+    getAutoType(content) {
+        const handler = this.handlers.find((x) => x.isMatchForAutoType(content));
+        if (!handler) {
+            return null;
+        }
+        return handler.typeName();
+    }
 }
 exports.NoteTypesRegistry = NoteTypesRegistry;
 //# sourceMappingURL=note-types-registry.js.map

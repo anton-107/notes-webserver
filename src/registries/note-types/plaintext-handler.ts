@@ -17,6 +17,10 @@ export class PlaintextNoteHandler implements NoteTypeHandler {
   public typeDisplayName(): string {
     return "plain note";
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public isMatchForAutoType(content: string): boolean {
+    return false;
+  }
   public render(note: Note): RenderedNote {
     return {
       ...note,

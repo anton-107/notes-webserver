@@ -3,6 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PersonalDateRangeNoteHandler = void 0;
 const short_uuid_1 = require("short-uuid");
 class PersonalDateRangeNoteHandler {
+    isMatchForAutoType() {
+        return false;
+    }
     typeName() {
         return "personal-date-range";
     }

@@ -23,6 +23,7 @@ import { PersonShortRepresentationController } from "../controller/person/person
 import { corsHeaders } from "../http/cors-headers";
 import { NotesContainerHandler } from "../registries/note-types/notes-container-handler";
 import { NotebookTableColumnsRegistry } from "../registries/notebook-table-columns-registry";
+import { YoutubeVideoHandler } from "../registries/note-types/youtube-video-handler";
 
 const passwordHashingFunction = new ScryptHashingFunction();
 const userStore = new InMemoryUserStore();
@@ -68,6 +69,9 @@ noteTypesRegistry.addNoteTypeHandler(
 noteTypesRegistry.addNoteTypeHandler(new DateRangeNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new PersonalDateRangeNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new NotesContainerHandler());
+noteTypesRegistry.addNoteTypeHandler(
+  new YoutubeVideoHandler({ notebookTableColumnsRegistry })
+);
 
 const postProcessorRegistry = new PostProcessorRegistry();
 let configurationCache: ServiceConfiguration | undefined = undefined;

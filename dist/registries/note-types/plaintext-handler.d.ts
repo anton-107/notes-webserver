@@ -10,6 +10,7 @@ export declare class PlaintextNoteHandler implements NoteTypeHandler {
     constructor(properties: PlaintextNoteHandlerProperties);
     typeName(): string;
     typeDisplayName(): string;
+    isMatchForAutoType(content: string): boolean;
     render(note: Note): RenderedNote;
     renderEditForm(note: Note): string;
     mapRequestToExistingEntity(username: string, existingNote: Note, form: FormBody): Note;

@@ -31,7 +31,13 @@ class NoteController extends entity_controller_1.EntityController {
         return noteTypeHandler.mapRequestToExistingEntity(username, existingNote, form);
     }
     mapRequestToNewEntity(username, form) {
-        const noteType = form["note-type"];
+        let noteType = form["note-type"];
+        if (noteType === "note") {
+            const autoType = this.noteControllerProperties.noteTypesRegistry.getAutoType(form["note-content"]);
+            if (autoType) {
+                noteType = autoType;
+            }
+        }
         const noteTypeHandler = this.noteControllerProperties.noteTypesRegistry.getNoteTypeHandler(noteType);
         if (noteTypeHandler) {
             return noteTypeHandler.mapRequestToNewEntity(username, form);
@@ -40,7 +46,7 @@ class NoteController extends entity_controller_1.EntityController {
             id: (0, short_uuid_1.generate)(),
             notebookID: form["notebook-id"],
             owner: username,
-            type: { type: "" },
+            type: { type: "note" },
             content: form["note-content"],
         };
     }

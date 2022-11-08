@@ -18,6 +18,7 @@ const person_short_representation_controller_1 = require("../controller/person/p
 const cors_headers_1 = require("../http/cors-headers");
 const notes_container_handler_1 = require("../registries/note-types/notes-container-handler");
 const notebook_table_columns_registry_1 = require("../registries/notebook-table-columns-registry");
+const youtube_video_handler_1 = require("../registries/note-types/youtube-video-handler");
 const passwordHashingFunction = new scrypt_hashing_1.ScryptHashingFunction();
 const userStore = new user_store_inmemory_1.InMemoryUserStore();
 const jwtSerializerSecretKey = String(Math.random());
@@ -56,6 +57,7 @@ noteTypesRegistry.addNoteTypeHandler(new plaintext_handler_1.PlaintextNoteHandle
 noteTypesRegistry.addNoteTypeHandler(new date_range_handler_1.DateRangeNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new personal_date_range_handler_1.PersonalDateRangeNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new notes_container_handler_1.NotesContainerHandler());
+noteTypesRegistry.addNoteTypeHandler(new youtube_video_handler_1.YoutubeVideoHandler({ notebookTableColumnsRegistry }));
 const postProcessorRegistry = new post_processor_1.PostProcessorRegistry();
 let configurationCache = undefined;
 const commonConfiguration = (overrides) => {

@@ -13,6 +13,7 @@ export interface NoteTypeHandler {
     existingNote: Note,
     form: FormBody
   ): Note;
+  isMatchForAutoType(content: string): boolean;
 }
 
 export class NoteTypesRegistry {
@@ -26,5 +27,12 @@ export class NoteTypesRegistry {
   }
   public getNoteTypeHandler(noteTypeName: string): NoteTypeHandler | null {
     return this.handlers.find((x) => x.typeName() === noteTypeName);
+  }
+  public getAutoType(content: string): string | null {
+    const handler = this.handlers.find((x) => x.isMatchForAutoType(content));
+    if (!handler) {
+      return null;
+    }
+    return handler.typeName();
   }
 }

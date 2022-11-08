@@ -71,7 +71,16 @@ export class NoteController extends EntityController<Note> {
     );
   }
   protected mapRequestToNewEntity(username: string, form: FormBody): Note {
-    const noteType = form["note-type"];
+    let noteType = form["note-type"];
+    if (noteType === "note") {
+      const autoType =
+        this.noteControllerProperties.noteTypesRegistry.getAutoType(
+          form["note-content"]
+        );
+      if (autoType) {
+        noteType = autoType;
+      }
+    }
     const noteTypeHandler =
       this.noteControllerProperties.noteTypesRegistry.getNoteTypeHandler(
         noteType
@@ -83,7 +92,7 @@ export class NoteController extends EntityController<Note> {
       id: generate(),
       notebookID: form["notebook-id"],
       owner: username,
-      type: { type: "" },
+      type: { type: "note" },
       content: form["note-content"],
     };
   }

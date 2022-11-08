@@ -12,6 +12,10 @@ class PlaintextNoteHandler {
     typeDisplayName() {
         return "plain note";
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    isMatchForAutoType(content) {
+        return false;
+    }
     render(note) {
         return {
             ...note,

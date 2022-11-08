@@ -3,6 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.NotesContainerHandler = void 0;
 const short_uuid_1 = require("short-uuid");
 class NotesContainerHandler {
+    isMatchForAutoType() {
+        return false;
+    }
     typeName() {
         return "notes-container";
     }

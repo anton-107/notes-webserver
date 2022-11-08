@@ -4,6 +4,9 @@ import { Note, RenderedNote } from "../../model/note-model";
 import { NoteTypeHandler } from "../note-types-registry";
 
 export class NotesContainerHandler implements NoteTypeHandler {
+  public isMatchForAutoType(): boolean {
+    return false;
+  }
   typeName(): string {
     return "notes-container";
   }

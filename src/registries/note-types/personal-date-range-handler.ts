@@ -4,6 +4,9 @@ import { Note, RenderedNote } from "../../model/note-model";
 import { NoteTypeHandler } from "../note-types-registry";
 
 export class PersonalDateRangeNoteHandler implements NoteTypeHandler {
+  public isMatchForAutoType(): boolean {
+    return false;
+  }
   public typeName(): string {
     return "personal-date-range";
   }
