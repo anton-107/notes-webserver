@@ -44,6 +44,7 @@
     "@aws/dynamodb-data-mapper": "^0.7.3",
     "@aws/dynamodb-data-mapper-annotations": "^0.7.3",
     "authentication-module": "anton-107/authenticator",
+    "youtube-module": "anton-107/youtube-module",
     "aws-sdk": "^2.1152.0",
     "cookie": "^0.5.0",
     "cookie-parser": "^1.4.6",
