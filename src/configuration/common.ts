@@ -24,6 +24,7 @@ import { corsHeaders } from "../http/cors-headers";
 import { NotesContainerHandler } from "../registries/note-types/notes-container-handler";
 import { NotebookTableColumnsRegistry } from "../registries/notebook-table-columns-registry";
 import { YoutubeVideoHandler } from "../registries/note-types/youtube-video-handler";
+import { NoOpYoutubeParser } from "./no-op/no-op-youtube-parser";
 
 const passwordHashingFunction = new ScryptHashingFunction();
 const userStore = new InMemoryUserStore();
@@ -103,6 +104,7 @@ export const commonConfiguration = (
     postProcessorRegistry,
     notebookTableColumnsRegistry,
     corsHeaders: corsHeaders("*"),
+    youtubeParser: new NoOpYoutubeParser(),
     ...overrides,
   };
 

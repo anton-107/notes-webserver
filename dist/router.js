@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.routes = void 0;
+exports.actions = exports.routes = void 0;
 const path_1 = require("path");
 const get_home_1 = require("./routes/get-home");
 const get_signin_1 = require("./routes/auth/get-signin");
@@ -28,6 +28,7 @@ const get_all_notebooks_1 = require("./routes/notebook/get-all-notebooks");
 const get_all_notes_in_notebook_1 = require("./routes/note/get-all-notes-in-notebook");
 const get_all_people_1 = require("./routes/person/get-all-people");
 const get_supported_columns_1 = require("./routes/notebook/get-supported-columns");
+const fetch_video_information_1 = require("./actions/fetch-video-information");
 exports.routes = [
     {
         method: "GET",
@@ -184,6 +185,14 @@ exports.routes = [
         path: "/notebook-supported-columns",
         import: (0, path_1.join)(__dirname, "./routes/notebook/get-supported-columns"),
         action: get_supported_columns_1.getNotebookSupportedColumnsHandler.name,
+    },
+];
+exports.actions = [
+    {
+        actionName: "fetch-video-information",
+        import: (0, path_1.join)(__dirname, "./actions/fetch-video-information"),
+        action: fetch_video_information_1.runFetchVideoInformation.name,
+        eventSource: "note-entries",
     },
 ];
 //# sourceMappingURL=router.js.map

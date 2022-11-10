@@ -12,6 +12,7 @@ import { NoteHtmlView } from "../views/note/note-html-view";
 import { NotebookHtmlView } from "../views/notebook/notebook-html-view";
 import { NotebookJsonView } from "../views/notebook/notebook-json-view";
 import { PersonHtmlView } from "../views/person/person-html-view";
+import { YoutubeParser } from "../actions/fetch-video-information";
 export interface ServiceConfiguration {
     authenticator: Authenticator;
     jwtSerializerSecretProvider: SecretKeyProvider;
@@ -25,6 +26,7 @@ export interface ServiceConfiguration {
     userStore: UserStore;
     corsHeaders: CORSHeaders;
     baseUrl: string;
+    youtubeParser: YoutubeParser;
 }
 export declare type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
 export declare const dependenciesConfiguration: (overrides: ServiceConfigurationOverrides) => ServiceConfiguration;
@@ -41,6 +43,7 @@ export declare const notebookControllerConfiguration: (overrides: ServiceConfigu
     userStore: UserStore;
     corsHeaders: CORSHeaders;
     baseUrl: string;
+    youtubeParser: YoutubeParser;
     entityView: NotebookHtmlView;
     httpRedirectView: HttpRedirectView;
     entityStore: NotebookStore;
@@ -60,6 +63,7 @@ export declare const personControllerConfiguration: (overrides: ServiceConfigura
     userStore: UserStore;
     corsHeaders: CORSHeaders;
     baseUrl: string;
+    youtubeParser: YoutubeParser;
     entityView: PersonHtmlView;
     httpRedirectView: HttpRedirectView;
     entityStore: PersonStore;
@@ -77,6 +81,7 @@ export declare const noteControllerConfiguration: (overrides: ServiceConfigurati
     userStore: UserStore;
     corsHeaders: CORSHeaders;
     baseUrl: string;
+    youtubeParser: YoutubeParser;
     httpRedirectView: HttpRedirectView;
     entityStore: NoteStore;
 };

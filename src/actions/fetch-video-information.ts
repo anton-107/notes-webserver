@@ -1,4 +1,9 @@
-import { YoutubeParser } from "youtube-module/dist/youtube-parser";
+import { dependenciesConfiguration } from "../configuration/configuration";
+import { StreamEvent, unmarshallRecordToNote } from "./dynamodb-stream-source";
+
+export interface YoutubeParser {
+  parseCaptionsURL(videoID: string): Promise<string[]>;
+}
 
 interface FetchVideoInformationProperties {
   parser: YoutubeParser;
@@ -31,5 +36,45 @@ export class FetchVideoInformation {
     }
     const captionsURL = await this.properties.parser.parseCaptionsURL(videoID);
     return { actionMessage: "success", captionsURL };
+  }
+}
+
+export async function runFetchVideoInformation(
+  event: StreamEvent
+): Promise<undefined | FetchVideoInformationActionResult> {
+  const configuration = dependenciesConfiguration({});
+  const action = new FetchVideoInformation({
+    parser: configuration.youtubeParser,
+  });
+  for (const record of event.Records) {
+    if (record.eventName !== "INSERT") {
+      console.log("Ignoring non-INSERT event", record.eventName);
+      return;
+    }
+    const note = unmarshallRecordToNote(record.dynamodb.NewImage);
+    if (!note.extensionProperties) {
+      console.log("Ignoring a note without extensionProperties", note);
+      return;
+    }
+    if (!note.type) {
+      console.log("Ignoring a note without a type", note);
+      return;
+    }
+    if (note.type.type !== "youtube-video") {
+      console.log("Ignoring a non youtube-video note", note);
+      return;
+    }
+    if (!note.extensionProperties.youtubeURL) {
+      console.log(
+        "Ignoring a note without extensionProperties.youtubeURL set",
+        note
+      );
+      return;
+    }
+    const result = await action.run({
+      videoURL: note.extensionProperties.youtubeURL,
+    });
+    console.log("action result", result);
+    return result;
   }
 }

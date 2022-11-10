@@ -22,6 +22,7 @@ import { noteStoreDynamoConfiguration } from "./note-store-dynamo";
 import { notebookStoreDynamoConfiguration } from "./notebook-store-dynamo";
 import { personStoreDynamoConfiguration } from "./person-store-dynamo";
 import { userStoreDynamoConfiguration } from "./user-store-dynamo";
+import { YoutubeParser } from "../actions/fetch-video-information";
 
 export interface ServiceConfiguration {
   authenticator: Authenticator;
@@ -36,6 +37,7 @@ export interface ServiceConfiguration {
   userStore: UserStore;
   corsHeaders: CORSHeaders;
   baseUrl: string;
+  youtubeParser: YoutubeParser;
 }
 export type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
 

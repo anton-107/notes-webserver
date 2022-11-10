@@ -1,43 +1,138 @@
-import { FetchVideoInformation } from "./../../src/actions/fetch-video-information";
-import { YoutubeParser } from "youtube-module/dist/youtube-parser";
+import {
+  FetchVideoInformation,
+  runFetchVideoInformation,
+  YoutubeParser,
+} from "./../../src/actions/fetch-video-information";
 import { mock, instance, when } from "ts-mockito";
+import { marshallItem } from "@aws/dynamodb-data-marshaller";
+import { getSchema } from "@aws/dynamodb-data-mapper";
+import { NoteEntity } from "../../src/stores/note/note-store-dynamodb";
 
-describe("FetchVideoInformation action", () => {
-  it("should return captions url of a video", async () => {
-    const parserMock = mock<YoutubeParser>();
-    when(parserMock.parseCaptionsURL("some-video-id")).thenResolve([
-      "some-caption-url",
-    ]);
-    const action = new FetchVideoInformation({
-      parser: instance(parserMock),
+describe("FetchVideoInformation", () => {
+  describe("FetchVideoInformation action class", () => {
+    it("should return captions url of a video", async () => {
+      const parserMock = mock<YoutubeParser>();
+      when(parserMock.parseCaptionsURL("some-video-id")).thenResolve([
+        "some-caption-url",
+      ]);
+      const action = new FetchVideoInformation({
+        parser: instance(parserMock),
+      });
+      const result = await action.run({
+        videoURL: "https://www.youtube.com/watch?v=some-video-id&param=test",
+      });
+      if (!result.captionsURL) {
+        throw Error("Expected result.captionsURL to be defined");
+      }
+      expect(result.captionsURL.length).toBe(1);
+      expect(result.captionsURL[0]).toBe("some-caption-url");
     });
-    const result = await action.run({
-      videoURL: "https://www.youtube.com/watch?v=some-video-id&param=test",
+    it("should return a message if a video url is not recognized", async () => {
+      const parserMock = mock<YoutubeParser>();
+      const action = new FetchVideoInformation({
+        parser: instance(parserMock),
+      });
+      const result = await action.run({
+        videoURL: "https://www.vimeo.com/watch?v=some-video-id&param=test",
+      });
+      expect(result.actionMessage).toBe("videoURL is not supported");
     });
-    if (!result.captionsURL) {
-      throw Error("Expected result.captionsURL to be defined");
-    }
-    expect(result.captionsURL.length).toBe(1);
-    expect(result.captionsURL[0]).toBe("some-caption-url");
+    it("should return a message if a video id is not found in the url", async () => {
+      const parserMock = mock<YoutubeParser>();
+      const action = new FetchVideoInformation({
+        parser: instance(parserMock),
+      });
+      const result = await action.run({
+        videoURL:
+          "https://www.youtube.com/watch?video=some-video-id&param=test",
+      });
+      expect(result.actionMessage).toBe("could not find video id");
+    });
   });
-  it("should return a message if a video url is not recognized", async () => {
-    const parserMock = mock<YoutubeParser>();
-    const action = new FetchVideoInformation({
-      parser: instance(parserMock),
+  describe("runFetchVideoInformation method", () => {
+    it("should return undefined on a non-insert event", async () => {
+      const result = await runFetchVideoInformation({
+        Records: [{ eventName: "MODIFY", dynamodb: {} }],
+      });
+      expect(result).toBeUndefined();
     });
-    const result = await action.run({
-      videoURL: "https://www.vimeo.com/watch?v=some-video-id&param=test",
+    it("should return undefined on a note that does not have extensionProperties", async () => {
+      const result = await runFetchVideoInformation({
+        Records: [
+          {
+            eventName: "INSERT",
+            dynamodb: {
+              NewImage: {},
+            },
+          },
+        ],
+      });
+      expect(result).toBeUndefined();
     });
-    expect(result.actionMessage).toBe("videoURL is not supported");
-  });
-  it("should return a message if a video id is not found in the url", async () => {
-    const parserMock = mock<YoutubeParser>();
-    const action = new FetchVideoInformation({
-      parser: instance(parserMock),
+    it("should return undefined on a note that does not have a type", async () => {
+      const result = await runFetchVideoInformation({
+        Records: [
+          {
+            eventName: "INSERT",
+            dynamodb: {
+              NewImage: {
+                extensionProperties: {},
+              },
+            },
+          },
+        ],
+      });
+      expect(result).toBeUndefined();
     });
-    const result = await action.run({
-      videoURL: "https://www.youtube.com/watch?video=some-video-id&param=test",
+    it("should return undefined on a note that has a type different than youtube-video", async () => {
+      const result = await runFetchVideoInformation({
+        Records: [
+          {
+            eventName: "INSERT",
+            dynamodb: {
+              NewImage: marshallItem(getSchema(NoteEntity.prototype), {
+                extensionProperties: {},
+                type: { type: "plaintext" },
+              }),
+            },
+          },
+        ],
+      });
+      expect(result).toBeUndefined();
     });
-    expect(result.actionMessage).toBe("could not find video id");
+    it("should return undefined on a youtube-video note that does not have youtubeURL", async () => {
+      const result = await runFetchVideoInformation({
+        Records: [
+          {
+            eventName: "INSERT",
+            dynamodb: {
+              NewImage: marshallItem(getSchema(NoteEntity.prototype), {
+                extensionProperties: {},
+                type: { type: "youtube-video" },
+              }),
+            },
+          },
+        ],
+      });
+      expect(result).toBeUndefined();
+    });
+    it("should return an empty list (from no-op youtube parser) on a youtube-video", async () => {
+      const result = await runFetchVideoInformation({
+        Records: [
+          {
+            eventName: "INSERT",
+            dynamodb: {
+              NewImage: marshallItem(getSchema(NoteEntity.prototype), {
+                extensionProperties: {
+                  youtubeURL: "https://www.youtube.com/watch?v=xxx",
+                },
+                type: { type: "youtube-video" },
+              }),
+            },
+          },
+        ],
+      });
+      expect(result).toBeDefined();
+    });
   });
 });
