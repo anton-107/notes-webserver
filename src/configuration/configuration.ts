@@ -23,6 +23,8 @@ import { notebookStoreDynamoConfiguration } from "./notebook-store-dynamo";
 import { personStoreDynamoConfiguration } from "./person-store-dynamo";
 import { userStoreDynamoConfiguration } from "./user-store-dynamo";
 import { YoutubeParser } from "../actions/fetch-video-information";
+import { YoutubeParser as YoutubeModuleParser } from "youtube-module/dist/youtube-parser";
+import { get } from "https";
 
 export interface ServiceConfiguration {
   authenticator: Authenticator;
@@ -64,6 +66,11 @@ export const dependenciesConfiguration = (
         process.env["JWT_SERIALIZER_SECRET_ID"]
       )
     );
+  }
+  if (process.env["YOUTUBE_PARSER_ENABLED"] === "true") {
+    contextConfiguration.youtubeParser = new YoutubeModuleParser({
+      httpClient: { get },
+    });
   }
   contextConfiguration.baseUrl = process.env["BASE_URL"] || "";
 

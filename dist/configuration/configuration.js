@@ -13,6 +13,8 @@ const note_store_dynamo_1 = require("./note-store-dynamo");
 const notebook_store_dynamo_1 = require("./notebook-store-dynamo");
 const person_store_dynamo_1 = require("./person-store-dynamo");
 const user_store_dynamo_1 = require("./user-store-dynamo");
+const youtube_parser_1 = require("youtube-module/dist/youtube-parser");
+const https_1 = require("https");
 const dependenciesConfiguration = (overrides) => {
     const contextConfiguration = {};
     if (process.env["USER_STORE_TYPE"] === "dynamodb") {
@@ -29,6 +31,11 @@ const dependenciesConfiguration = (overrides) => {
     }
     if (process.env["JWT_SERIALIZER_SECRET_ID"]) {
         Object.assign(contextConfiguration, (0, jwt_serializer_secrets_manager_1.jwtSerializerSecretsManagerConfiguration)(process.env["JWT_SERIALIZER_SECRET_ID"]));
+    }
+    if (process.env["YOUTUBE_PARSER_ENABLED"] === "true") {
+        contextConfiguration.youtubeParser = new youtube_parser_1.YoutubeParser({
+            httpClient: { get: https_1.get },
+        });
     }
     contextConfiguration.baseUrl = process.env["BASE_URL"] || "";
     const configuration = (0, common_1.commonConfiguration)({

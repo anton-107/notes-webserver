@@ -1,10 +1,13 @@
 import { dependenciesConfiguration } from "../../src/configuration/configuration";
+import { YoutubeParser } from "youtube-module/dist/youtube-parser";
+import { resetConfigurationCache } from "../../src/configuration/common";
 
 describe("Configuration", () => {
   const env = Object.assign({}, process.env);
 
   afterEach(() => {
     process.env = env;
+    resetConfigurationCache();
   });
 
   it("should set up user store in dynamodb", () => {
@@ -56,5 +59,14 @@ describe("Configuration", () => {
       "http://localhost:1234"
     );
     expect(config.corsHeaders["Access-Control-Allow-Credentials"]).toBe("true");
+  });
+
+  it("should set up youtube parser", () => {
+    process.env = Object.assign({}, process.env, {
+      YOUTUBE_PARSER_ENABLED: "true",
+    });
+    console.log("process.env", process.env["YOUTUBE_PARSER_ENABLED"]);
+    const config = dependenciesConfiguration({});
+    expect(config.youtubeParser).toBeInstanceOf(YoutubeParser);
   });
 });

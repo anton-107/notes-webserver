@@ -77,6 +77,10 @@ noteTypesRegistry.addNoteTypeHandler(
 const postProcessorRegistry = new PostProcessorRegistry();
 let configurationCache: ServiceConfiguration | undefined = undefined;
 
+export function resetConfigurationCache() {
+  configurationCache = undefined;
+}
+
 export const commonConfiguration = (
   overrides: ServiceConfigurationOverrides
 ): ServiceConfiguration => {

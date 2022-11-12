@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.commonConfiguration = void 0;
+exports.commonConfiguration = exports.resetConfigurationCache = void 0;
 const user_store_inmemory_1 = require("../stores/user/user-store-inmemory");
 const jwt_serializer_1 = require("authentication-module/dist/jwt-serializer");
 const scrypt_hashing_1 = require("authentication-module/dist/scrypt-hashing");
@@ -61,6 +61,10 @@ noteTypesRegistry.addNoteTypeHandler(new notes_container_handler_1.NotesContaine
 noteTypesRegistry.addNoteTypeHandler(new youtube_video_handler_1.YoutubeVideoHandler({ notebookTableColumnsRegistry }));
 const postProcessorRegistry = new post_processor_1.PostProcessorRegistry();
 let configurationCache = undefined;
+function resetConfigurationCache() {
+    configurationCache = undefined;
+}
+exports.resetConfigurationCache = resetConfigurationCache;
 const commonConfiguration = (overrides) => {
     if (configurationCache) {
         return configurationCache;
