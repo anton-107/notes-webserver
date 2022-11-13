@@ -5,6 +5,9 @@ class NoOpYoutubeParser {
     async parseCaptionsURL() {
         return [];
     }
+    async downloadCaptions() {
+        return "";
+    }
 }
 exports.NoOpYoutubeParser = NoOpYoutubeParser;
 //# sourceMappingURL=no-op-youtube-parser.js.map

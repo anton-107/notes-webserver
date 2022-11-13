@@ -25,6 +25,7 @@ import { NotesContainerHandler } from "../registries/note-types/notes-container-
 import { NotebookTableColumnsRegistry } from "../registries/notebook-table-columns-registry";
 import { YoutubeVideoHandler } from "../registries/note-types/youtube-video-handler";
 import { NoOpYoutubeParser } from "./no-op/no-op-youtube-parser";
+import { InMemoryAttachmentsStore } from "../stores/attachments/attachments-store";
 
 const passwordHashingFunction = new ScryptHashingFunction();
 const userStore = new InMemoryUserStore();
@@ -109,6 +110,7 @@ export const commonConfiguration = (
     notebookTableColumnsRegistry,
     corsHeaders: corsHeaders("*"),
     youtubeParser: new NoOpYoutubeParser(),
+    attachmentsStore: new InMemoryAttachmentsStore(),
     ...overrides,
   };
 

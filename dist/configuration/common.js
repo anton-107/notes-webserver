@@ -20,6 +20,7 @@ const notes_container_handler_1 = require("../registries/note-types/notes-contai
 const notebook_table_columns_registry_1 = require("../registries/notebook-table-columns-registry");
 const youtube_video_handler_1 = require("../registries/note-types/youtube-video-handler");
 const no_op_youtube_parser_1 = require("./no-op/no-op-youtube-parser");
+const attachments_store_1 = require("../stores/attachments/attachments-store");
 const passwordHashingFunction = new scrypt_hashing_1.ScryptHashingFunction();
 const userStore = new user_store_inmemory_1.InMemoryUserStore();
 const jwtSerializerSecretKey = String(Math.random());
@@ -90,6 +91,7 @@ const commonConfiguration = (overrides) => {
         notebookTableColumnsRegistry,
         corsHeaders: (0, cors_headers_1.corsHeaders)("*"),
         youtubeParser: new no_op_youtube_parser_1.NoOpYoutubeParser(),
+        attachmentsStore: new attachments_store_1.InMemoryAttachmentsStore(),
         ...overrides,
     };
     postProcessorRegistry.addPostProcessor(new person_selector_controller_1.PersonSelectorController(commonConfiguration));

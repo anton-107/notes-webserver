@@ -1,12 +1,15 @@
 import { dependenciesConfiguration } from "../configuration/configuration";
+import { AttachmentsStore } from "../stores/attachments/attachments-store";
 import { StreamEvent, unmarshallRecordToNote } from "./dynamodb-stream-source";
 
 export interface YoutubeParser {
   parseCaptionsURL(videoID: string): Promise<string[]>;
+  downloadCaptions(captionURL: string): Promise<string>;
 }
 
 interface FetchVideoInformationProperties {
   parser: YoutubeParser;
+  attachmentsStore: AttachmentsStore;
 }
 
 interface FetchVideoInformationAction {
@@ -35,6 +38,14 @@ export class FetchVideoInformation {
       return { actionMessage: "could not find video id" };
     }
     const captionsURL = await this.properties.parser.parseCaptionsURL(videoID);
+    for (const url of captionsURL) {
+      const captionsContent = await this.properties.parser.downloadCaptions(
+        url
+      );
+      const attachmentID =
+        this.properties.attachmentsStore.persist(captionsContent);
+      console.log("Persisted attachment with id ", attachmentID);
+    }
     return { actionMessage: "success", captionsURL };
   }
 }
@@ -45,6 +56,7 @@ export async function runFetchVideoInformation(
   const configuration = dependenciesConfiguration({});
   const action = new FetchVideoInformation({
     parser: configuration.youtubeParser,
+    attachmentsStore: configuration.attachmentsStore,
   });
   for (const record of event.Records) {
     if (record.eventName !== "INSERT") {

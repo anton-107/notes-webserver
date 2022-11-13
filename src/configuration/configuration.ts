@@ -25,6 +25,7 @@ import { userStoreDynamoConfiguration } from "./user-store-dynamo";
 import { YoutubeParser } from "../actions/fetch-video-information";
 import { YoutubeParser as YoutubeModuleParser } from "youtube-module/dist/youtube-parser";
 import { get } from "https";
+import { AttachmentsStore } from "../stores/attachments/attachments-store";
 
 export interface ServiceConfiguration {
   authenticator: Authenticator;
@@ -40,6 +41,7 @@ export interface ServiceConfiguration {
   corsHeaders: CORSHeaders;
   baseUrl: string;
   youtubeParser: YoutubeParser;
+  attachmentsStore: AttachmentsStore;
 }
 export type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
 

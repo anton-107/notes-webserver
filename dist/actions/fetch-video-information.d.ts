@@ -1,9 +1,12 @@
+import { AttachmentsStore } from "../stores/attachments/attachments-store";
 import { StreamEvent } from "./dynamodb-stream-source";
 export interface YoutubeParser {
     parseCaptionsURL(videoID: string): Promise<string[]>;
+    downloadCaptions(captionURL: string): Promise<string>;
 }
 interface FetchVideoInformationProperties {
     parser: YoutubeParser;
+    attachmentsStore: AttachmentsStore;
 }
 interface FetchVideoInformationAction {
     videoURL: string;
