@@ -15,6 +15,8 @@ const person_store_dynamo_1 = require("./person-store-dynamo");
 const user_store_dynamo_1 = require("./user-store-dynamo");
 const youtube_parser_1 = require("youtube-module/dist/youtube-parser");
 const https_1 = require("https");
+const attachments_store_s3_1 = require("../stores/attachments/attachments-store-s3");
+const aws_sdk_1 = require("aws-sdk");
 const dependenciesConfiguration = (overrides) => {
     const contextConfiguration = {};
     if (process.env["USER_STORE_TYPE"] === "dynamodb") {
@@ -35,6 +37,13 @@ const dependenciesConfiguration = (overrides) => {
     if (process.env["YOUTUBE_PARSER_ENABLED"] === "true") {
         contextConfiguration.youtubeParser = new youtube_parser_1.YoutubeParser({
             httpClient: { get: https_1.get },
+        });
+    }
+    if (process.env["S3_ATTACHMENTS_BUCKET"]) {
+        contextConfiguration.attachmentsStore = new attachments_store_s3_1.AttachmentsStoreS3({
+            s3: new aws_sdk_1.S3(),
+            bucketName: process.env["S3_ATTACHMENTS_BUCKET"],
+            folderName: process.env["S3_ATTACHMENTS_FOLDER"],
         });
     }
     contextConfiguration.baseUrl = process.env["BASE_URL"] || "";

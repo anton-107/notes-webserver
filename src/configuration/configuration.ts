@@ -26,6 +26,8 @@ import { YoutubeParser } from "../actions/fetch-video-information";
 import { YoutubeParser as YoutubeModuleParser } from "youtube-module/dist/youtube-parser";
 import { get } from "https";
 import { AttachmentsStore } from "../stores/attachments/attachments-store";
+import { AttachmentsStoreS3 } from "../stores/attachments/attachments-store-s3";
+import { S3 } from "aws-sdk";
 
 export interface ServiceConfiguration {
   authenticator: Authenticator;
@@ -72,6 +74,13 @@ export const dependenciesConfiguration = (
   if (process.env["YOUTUBE_PARSER_ENABLED"] === "true") {
     contextConfiguration.youtubeParser = new YoutubeModuleParser({
       httpClient: { get },
+    });
+  }
+  if (process.env["S3_ATTACHMENTS_BUCKET"]) {
+    contextConfiguration.attachmentsStore = new AttachmentsStoreS3({
+      s3: new S3(),
+      bucketName: process.env["S3_ATTACHMENTS_BUCKET"],
+      folderName: process.env["S3_ATTACHMENTS_FOLDER"],
     });
   }
   contextConfiguration.baseUrl = process.env["BASE_URL"] || "";

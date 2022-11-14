@@ -19,7 +19,7 @@ class FetchVideoInformation {
         const captionsURL = await this.properties.parser.parseCaptionsURL(videoID);
         for (const url of captionsURL) {
             const captionsContent = await this.properties.parser.downloadCaptions(url);
-            const attachmentID = this.properties.attachmentsStore.persist(captionsContent);
+            const attachmentID = await this.properties.attachmentsStore.persist(captionsContent);
             console.log("Persisted attachment with id ", attachmentID);
         }
         return { actionMessage: "success", captionsURL };

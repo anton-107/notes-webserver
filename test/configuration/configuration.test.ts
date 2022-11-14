@@ -1,6 +1,7 @@
 import { dependenciesConfiguration } from "../../src/configuration/configuration";
 import { YoutubeParser } from "youtube-module/dist/youtube-parser";
 import { resetConfigurationCache } from "../../src/configuration/common";
+import { AttachmentsStoreS3 } from "../../src/stores/attachments/attachments-store-s3";
 
 describe("Configuration", () => {
   const env = Object.assign({}, process.env);
@@ -65,8 +66,16 @@ describe("Configuration", () => {
     process.env = Object.assign({}, process.env, {
       YOUTUBE_PARSER_ENABLED: "true",
     });
-    console.log("process.env", process.env["YOUTUBE_PARSER_ENABLED"]);
     const config = dependenciesConfiguration({});
     expect(config.youtubeParser).toBeInstanceOf(YoutubeParser);
+  });
+
+  it("attachments store to s3", () => {
+    process.env = Object.assign({}, process.env, {
+      S3_ATTACHMENTS_BUCKET: "my-bucket",
+      S3_ATTACHMENTS_FOLDER: "my-folder",
+    });
+    const config = dependenciesConfiguration({});
+    expect(config.attachmentsStore).toBeInstanceOf(AttachmentsStoreS3);
   });
 });
