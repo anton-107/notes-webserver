@@ -14,11 +14,19 @@ export class AttachmentsStoreS3 implements AttachmentsStore {
   public async persist(attachmentContent: string): Promise<string> {
     const fileKey = v4();
     const key = `${this.properties.folderName}/${fileKey}`;
-    await this.properties.s3.putObject({
-      Bucket: this.properties.bucketName,
-      Key: key,
-      Body: attachmentContent,
-    });
+    console.log(
+      "[AttachmentsStoreS3] calling putObject",
+      this.properties.bucketName,
+      key
+    );
+    const resp = await this.properties.s3
+      .putObject({
+        Bucket: this.properties.bucketName,
+        Key: key,
+        Body: attachmentContent,
+      })
+      .promise();
+    console.log("[AttachmentsStoreS3] finished calling putObject", resp);
     return fileKey;
   }
 }
