@@ -4,6 +4,15 @@ export interface NoteType {
   type: string;
 }
 
+export interface NoteAttachment {
+  id: string;
+  noteID: string;
+  name: string;
+  objectKey: string;
+  createdAt: string;
+  owner: string;
+}
+
 export interface Note {
   id: string;
   notebookID: string;

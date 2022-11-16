@@ -1,4 +1,4 @@
-import { InMemoryNoteStore } from "../../src/stores/note/note-store";
+import { InMemoryNoteStore } from "../../../src/stores/note/note-store";
 
 describe("Notes store", () => {
   it("should edit and delete a note", async () => {

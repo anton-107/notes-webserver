@@ -3,7 +3,7 @@ import { anything, instance, mock, verify, when } from "ts-mockito";
 import {
   NoteEntity,
   NoteStoreDynamodb,
-} from "../../src/stores/note/note-store-dynamodb";
+} from "../../../src/stores/note/note-store-dynamodb";
 
 describe("NoteStoreDynamodb", () => {
   it("should add a note", async () => {
