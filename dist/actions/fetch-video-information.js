@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.runFetchVideoInformation = exports.FetchVideoInformation = void 0;
+const short_uuid_1 = require("short-uuid");
 const configuration_1 = require("../configuration/configuration");
 const dynamodb_stream_source_1 = require("./dynamodb-stream-source");
 class FetchVideoInformation {
@@ -21,6 +22,17 @@ class FetchVideoInformation {
             const captionsContent = await this.properties.parser.downloadCaptions(url);
             const attachmentID = await this.properties.attachmentsStore.persist(captionsContent);
             console.log("Persisted attachment with id ", attachmentID);
+            const now = new Date().toISOString();
+            const noteAttachment = {
+                id: (0, short_uuid_1.generate)(),
+                noteID: actionTrigger.noteID,
+                objectKey: attachmentID,
+                owner: actionTrigger.noteOwner,
+                createdAt: now,
+                name: `Video captions (${captionsURL})`,
+            };
+            await this.properties.noteAttachmentsStore.add(noteAttachment);
+            console.log("Persisted note attachment with id ", noteAttachment.id);
         }
         return { actionMessage: "success", captionsURL };
     }
@@ -31,6 +43,7 @@ async function runFetchVideoInformation(event) {
     const action = new FetchVideoInformation({
         parser: configuration.youtubeParser,
         attachmentsStore: configuration.attachmentsStore,
+        noteAttachmentsStore: configuration.noteAttachmentsStore,
     });
     for (const record of event.Records) {
         if (record.eventName !== "INSERT") {
@@ -55,6 +68,8 @@ async function runFetchVideoInformation(event) {
             return;
         }
         const result = await action.run({
+            noteID: note.id,
+            noteOwner: note.owner,
             videoURL: note.extensionProperties.youtubeURL,
         });
         console.log("action result", result);

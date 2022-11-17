@@ -18,7 +18,10 @@ import { NotebookJsonView } from "../views/notebook/notebook-json-view";
 import { PersonHtmlView } from "../views/person/person-html-view";
 import { commonConfiguration } from "./common";
 import { jwtSerializerSecretsManagerConfiguration } from "./jwt-serializer-secrets-manager";
-import { noteStoreDynamoConfiguration } from "./note-store-dynamo";
+import {
+  noteAttachmentsStoreDynamoConfiguration,
+  noteStoreDynamoConfiguration,
+} from "./note-store-dynamo";
 import { notebookStoreDynamoConfiguration } from "./notebook-store-dynamo";
 import { personStoreDynamoConfiguration } from "./person-store-dynamo";
 import { userStoreDynamoConfiguration } from "./user-store-dynamo";
@@ -28,6 +31,7 @@ import { get } from "https";
 import { AttachmentsStore } from "../stores/attachments/attachments-store";
 import { AttachmentsStoreS3 } from "../stores/attachments/attachments-store-s3";
 import { S3 } from "aws-sdk";
+import { NoteAttachmentsStore } from "../stores/note/note-attachments-store";
 
 export interface ServiceConfiguration {
   authenticator: Authenticator;
@@ -44,6 +48,7 @@ export interface ServiceConfiguration {
   baseUrl: string;
   youtubeParser: YoutubeParser;
   attachmentsStore: AttachmentsStore;
+  noteAttachmentsStore: NoteAttachmentsStore;
 }
 export type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
 
@@ -59,6 +64,12 @@ export const dependenciesConfiguration = (
   }
   if (process.env["NOTE_STORE_TYPE"] === "dynamodb") {
     Object.assign(contextConfiguration, noteStoreDynamoConfiguration());
+  }
+  if (process.env["NOTE_ATTACHMENTS_STORE_TYPE"] === "dynamodb") {
+    Object.assign(
+      contextConfiguration,
+      noteAttachmentsStoreDynamoConfiguration()
+    );
   }
   if (process.env["PERSON_STORE_TYPE"] === "dynamodb") {
     Object.assign(contextConfiguration, personStoreDynamoConfiguration());

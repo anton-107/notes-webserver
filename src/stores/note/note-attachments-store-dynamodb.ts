@@ -7,6 +7,7 @@ import {
 } from "@aws/dynamodb-data-mapper-annotations";
 import { NoteAttachment } from "../../model/note-model";
 import { AttributePath, FunctionExpression } from "@aws/dynamodb-expressions";
+import { NoteAttachmentsStore } from "./note-attachments-store";
 
 const NOTE_ATTACHMENTS__TABLE_NAME = "notes-webserver-notebook";
 
@@ -38,7 +39,7 @@ interface NoteAttachmentsStoreDynamodbProps {
   dataMapper: DataMapper;
 }
 
-export class NoteAttachmentsStoreDynamodb {
+export class NoteAttachmentsStoreDynamodb implements NoteAttachmentsStore {
   constructor(private properties: NoteAttachmentsStoreDynamodbProps) {}
   public async add(attachment: NoteAttachment): Promise<void> {
     try {

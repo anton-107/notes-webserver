@@ -1,21 +1,22 @@
+import { getSchema } from "@aws/dynamodb-data-mapper";
+import { marshallItem } from "@aws/dynamodb-data-marshaller";
+import { instance, mock, when } from "ts-mockito";
+import { NoOpYoutubeParser } from "../../src/configuration/no-op/no-op-youtube-parser";
+import {
+  AttachmentsStore,
+  InMemoryAttachmentsStore,
+} from "../../src/stores/attachments/attachments-store";
+import { InMemoryNoteAttachmentsStore } from "../../src/stores/note/note-attachments-store";
+import { NoteEntity } from "../../src/stores/note/note-store-dynamodb";
 import {
   FetchVideoInformation,
   runFetchVideoInformation,
   YoutubeParser,
 } from "./../../src/actions/fetch-video-information";
-import { mock, instance, when } from "ts-mockito";
-import { marshallItem } from "@aws/dynamodb-data-marshaller";
-import { getSchema } from "@aws/dynamodb-data-mapper";
-import { NoteEntity } from "../../src/stores/note/note-store-dynamodb";
-import {
-  AttachmentsStore,
-  InMemoryAttachmentsStore,
-} from "../../src/stores/attachments/attachments-store";
-import { NoOpYoutubeParser } from "../../src/configuration/no-op/no-op-youtube-parser";
 
 describe("FetchVideoInformation", () => {
   describe("FetchVideoInformation action class", () => {
-    it("should get captions url of a video and download those captions content", async () => {
+    it("should get captions url of a video, download those captions content and persist that as note attachment", async () => {
       const parserMock = mock<YoutubeParser>();
       const attachmentsStore = new InMemoryAttachmentsStore();
       when(parserMock.parseCaptionsURL("some-video-id")).thenResolve([
@@ -25,18 +26,28 @@ describe("FetchVideoInformation", () => {
       when(parserMock.downloadCaptions("some-caption-url")).thenResolve(
         await noopParser.downloadCaptions()
       );
+      const noteAttachmentsStore = new InMemoryNoteAttachmentsStore();
       const action = new FetchVideoInformation({
         parser: instance(parserMock),
         attachmentsStore: attachmentsStore,
+        noteAttachmentsStore,
       });
       const result = await action.run({
         videoURL: "https://www.youtube.com/watch?v=some-video-id&param=test",
+        noteOwner: "user-1",
+        noteID: "note-1",
       });
       if (!result.captionsURL) {
         throw Error("Expected result.captionsURL to be defined");
       }
       expect(result.captionsURL.length).toBe(1);
       expect(result.captionsURL[0]).toBe("some-caption-url");
+
+      const noteAttachments = await noteAttachmentsStore.listAllForNote(
+        "user-1",
+        "note-1"
+      );
+      expect(noteAttachments.length).toBe(1);
     });
     it("should return a message if a video url is not recognized", async () => {
       const parserMock = mock<YoutubeParser>();
@@ -44,9 +55,12 @@ describe("FetchVideoInformation", () => {
       const action = new FetchVideoInformation({
         parser: instance(parserMock),
         attachmentsStore: instance(attachmentsStoreMock),
+        noteAttachmentsStore: new InMemoryNoteAttachmentsStore(),
       });
       const result = await action.run({
         videoURL: "https://www.vimeo.com/watch?v=some-video-id&param=test",
+        noteOwner: "user-1",
+        noteID: "note-1",
       });
       expect(result.actionMessage).toBe("videoURL is not supported");
     });
@@ -56,10 +70,13 @@ describe("FetchVideoInformation", () => {
       const action = new FetchVideoInformation({
         parser: instance(parserMock),
         attachmentsStore: instance(attachmentsStoreMock),
+        noteAttachmentsStore: new InMemoryNoteAttachmentsStore(),
       });
       const result = await action.run({
         videoURL:
           "https://www.youtube.com/watch?video=some-video-id&param=test",
+        noteOwner: "user-1",
+        noteID: "note-1",
       });
       expect(result.actionMessage).toBe("could not find video id");
     });

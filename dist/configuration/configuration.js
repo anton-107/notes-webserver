@@ -28,6 +28,9 @@ const dependenciesConfiguration = (overrides) => {
     if (process.env["NOTE_STORE_TYPE"] === "dynamodb") {
         Object.assign(contextConfiguration, (0, note_store_dynamo_1.noteStoreDynamoConfiguration)());
     }
+    if (process.env["NOTE_ATTACHMENTS_STORE_TYPE"] === "dynamodb") {
+        Object.assign(contextConfiguration, (0, note_store_dynamo_1.noteAttachmentsStoreDynamoConfiguration)());
+    }
     if (process.env["PERSON_STORE_TYPE"] === "dynamodb") {
         Object.assign(contextConfiguration, (0, person_store_dynamo_1.personStoreDynamoConfiguration)());
     }

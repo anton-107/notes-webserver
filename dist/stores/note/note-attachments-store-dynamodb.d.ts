@@ -1,5 +1,6 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
 import { NoteAttachment } from "../../model/note-model";
+import { NoteAttachmentsStore } from "./note-attachments-store";
 export declare class NoteAttachmentEntity implements NoteAttachment {
     owner: string;
     sortKey: string;
@@ -12,7 +13,7 @@ export declare class NoteAttachmentEntity implements NoteAttachment {
 interface NoteAttachmentsStoreDynamodbProps {
     dataMapper: DataMapper;
 }
-export declare class NoteAttachmentsStoreDynamodb {
+export declare class NoteAttachmentsStoreDynamodb implements NoteAttachmentsStore {
     private properties;
     constructor(properties: NoteAttachmentsStoreDynamodbProps);
     add(attachment: NoteAttachment): Promise<void>;

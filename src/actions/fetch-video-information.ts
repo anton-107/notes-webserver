@@ -1,5 +1,8 @@
+import { generate } from "short-uuid";
 import { dependenciesConfiguration } from "../configuration/configuration";
+import { NoteAttachment } from "../model/note-model";
 import { AttachmentsStore } from "../stores/attachments/attachments-store";
+import { NoteAttachmentsStore } from "../stores/note/note-attachments-store";
 import { StreamEvent, unmarshallRecordToNote } from "./dynamodb-stream-source";
 
 export interface YoutubeParser {
@@ -10,9 +13,12 @@ export interface YoutubeParser {
 interface FetchVideoInformationProperties {
   parser: YoutubeParser;
   attachmentsStore: AttachmentsStore;
+  noteAttachmentsStore: NoteAttachmentsStore;
 }
 
 interface FetchVideoInformationAction {
+  noteOwner: string;
+  noteID: string;
   videoURL: string;
 }
 
@@ -46,6 +52,18 @@ export class FetchVideoInformation {
         captionsContent
       );
       console.log("Persisted attachment with id ", attachmentID);
+
+      const now = new Date().toISOString();
+      const noteAttachment: NoteAttachment = {
+        id: generate(),
+        noteID: actionTrigger.noteID,
+        objectKey: attachmentID,
+        owner: actionTrigger.noteOwner,
+        createdAt: now,
+        name: `Video captions (${captionsURL})`,
+      };
+      await this.properties.noteAttachmentsStore.add(noteAttachment);
+      console.log("Persisted note attachment with id ", noteAttachment.id);
     }
     return { actionMessage: "success", captionsURL };
   }
@@ -58,6 +76,7 @@ export async function runFetchVideoInformation(
   const action = new FetchVideoInformation({
     parser: configuration.youtubeParser,
     attachmentsStore: configuration.attachmentsStore,
+    noteAttachmentsStore: configuration.noteAttachmentsStore,
   });
   for (const record of event.Records) {
     if (record.eventName !== "INSERT") {
@@ -85,6 +104,8 @@ export async function runFetchVideoInformation(
       return;
     }
     const result = await action.run({
+      noteID: note.id,
+      noteOwner: note.owner,
       videoURL: note.extensionProperties.youtubeURL,
     });
     console.log("action result", result);

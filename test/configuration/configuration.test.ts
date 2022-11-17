@@ -2,6 +2,7 @@ import { dependenciesConfiguration } from "../../src/configuration/configuration
 import { YoutubeParser } from "youtube-module/dist/youtube-parser";
 import { resetConfigurationCache } from "../../src/configuration/common";
 import { AttachmentsStoreS3 } from "../../src/stores/attachments/attachments-store-s3";
+import { NoteAttachmentsStoreDynamodb } from "../../src/stores/note/note-attachments-store-dynamodb";
 
 describe("Configuration", () => {
   const env = Object.assign({}, process.env);
@@ -33,6 +34,16 @@ describe("Configuration", () => {
     });
     const config = dependenciesConfiguration({});
     expect(config.notebookStore).not.toBe(null);
+  });
+
+  it("should set up note attachments store in dynamodb", () => {
+    process.env = Object.assign({}, process.env, {
+      NOTE_ATTACHMENTS_STORE_TYPE: "dynamodb",
+    });
+    const config = dependenciesConfiguration({});
+    expect(config.noteAttachmentsStore).toBeInstanceOf(
+      NoteAttachmentsStoreDynamodb
+    );
   });
 
   it("should set up person store in dynamodb", () => {
