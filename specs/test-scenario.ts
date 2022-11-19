@@ -1,7 +1,10 @@
 import { ScryptHashingFunction } from "authentication-module/dist/scrypt-hashing";
 import jsonQuery from "json-query";
 import parse, { HTMLElement } from "node-html-parser";
-import { dependenciesConfiguration } from "../src/configuration/configuration";
+import {
+  dependenciesConfiguration,
+  ServiceConfiguration,
+} from "../src/configuration/configuration";
 import { NotesWebserver } from "../src/notes-webserver";
 import { HttpClient, HttpResponse, JSONData } from "../test/http-client";
 import { routes } from "./../src/router";
@@ -10,20 +13,25 @@ type FormData = { [key: string]: string };
 
 export class TestScenario {
   private server: NotesWebserver;
+  private serviceConfiguration: ServiceConfiguration;
   private currentPage: string; // last url the client loaded
   private response: HttpResponse; // response of the last testClient call
   private testClient = new HttpClient();
   private form: { [key: string]: string } = {}; // form on the page (gets populated when test interacts with inputs)
   private pageRoot: HTMLElement; // root element of currently loaded page
   private el: HTMLElement; // currently selected element
+  private binaryResponse: string;
   private jsonResponse: JSONData;
   private jsonList: string | { [key: string]: string }[];
   private jsonURL: string | undefined = undefined;
   private jsonRequestBody: JSONData | undefined = undefined;
+  private loggedInUser: string;
 
   // testing single noteebook page:
   private notebookHref: string;
   private notebookID: string;
+  private noteID: string;
+  private noteAttachmentID: string;
   private lastKnownID: string; // captured when the processed JSON response has an id field
 
   constructor(private testPort: number) {}
@@ -31,6 +39,7 @@ export class TestScenario {
   public async startServer() {
     const hashingFunction = new ScryptHashingFunction();
     const config = dependenciesConfiguration({});
+    this.serviceConfiguration = config;
     config.userStore.addUser({
       username: "user1",
       passwordHash: await hashingFunction.generateHash("1234"),
@@ -61,6 +70,7 @@ export class TestScenario {
     this.setInputValue(password);
     await this.submitForm();
     this.checkCurrentPage("home");
+    this.loggedInUser = user;
   }
   public async createNotebook(notebookName: string) {
     await this.loadPage("home");
@@ -77,6 +87,32 @@ export class TestScenario {
     this.checkInnerText(notebookName);
     this.captureNotebookHref();
   }
+  public async createNote(noteContent: string) {
+    this.setJSONRequestBody(
+      JSON.stringify({
+        "note-type": "note",
+        "notebook-id": "{notebook-id}",
+        "note-content": noteContent,
+      })
+    );
+    await this.postJSON("/note");
+    await this.processJSON();
+    this.noteID = this.lastKnownID;
+  }
+  public async createAttachment(attachmentContent: string) {
+    const objectKey = await this.serviceConfiguration.attachmentsStore.persist(
+      attachmentContent
+    );
+    this.noteAttachmentID = "test-scenario-id";
+    await this.serviceConfiguration.noteAttachmentsStore.add({
+      id: this.noteAttachmentID,
+      noteID: this.noteID,
+      name: "Test scenario attachment",
+      objectKey,
+      createdAt: new Date().toISOString(),
+      owner: this.loggedInUser,
+    });
+  }
   public async createPerson(employeeName: string) {
     await this.loadPage("home");
     await this.processNewPage();
@@ -91,7 +127,10 @@ export class TestScenario {
     await this.getRequest(this.notebookHref);
   }
   public async loadPage(page: string) {
-    const url = page.replace("{notebook-id}", this.notebookID);
+    const url = page
+      .replace("{notebook-id}", this.notebookID)
+      .replace("{note-id}", this.noteID)
+      .replace("{attachment-id}", this.noteAttachmentID);
     await this.getRequest(`/${url}`);
   }
   public async loadJSONURL() {
@@ -114,6 +153,10 @@ export class TestScenario {
       this.lastKnownID = String(this.jsonResponse["id"]);
     }
   }
+  public async processBinaryResponse() {
+    const body = await this.response.getBody();
+    this.binaryResponse = body;
+  }
   public checkJSONField(fieldName: string, fieldValue: string) {
     const actualValue = this.jsonResponse[fieldName];
     expect(actualValue).toBe(fieldValue);
@@ -131,6 +174,9 @@ export class TestScenario {
     const jsonList = this.jsonResponse[fieldName];
     expect(Array.isArray(jsonList)).toBe(true);
     expect(jsonList.length).toBe(0);
+  }
+  public checkBinaryResponse(expectedResponse: string) {
+    expect(this.binaryResponse).toBe(expectedResponse);
   }
   public setJSONRequestBody(inputString: string) {
     const json = inputString

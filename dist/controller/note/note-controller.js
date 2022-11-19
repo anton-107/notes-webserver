@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NoteController = void 0;
 const short_uuid_1 = require("short-uuid");
+const http_1 = require("../../http/http");
 const entity_controller_1 = require("../entity-controller");
 class NoteController extends entity_controller_1.EntityController {
     constructor(noteControllerProperties) {
@@ -19,6 +20,31 @@ class NoteController extends entity_controller_1.EntityController {
         const user = await this.noteControllerProperties.authenticator.authenticate(this.noteControllerProperties.authenticationToken);
         const notes = await this.noteControllerProperties.noteStore.listAllInNotebook(user.username, notebookID);
         return this.noteControllerProperties.entityView.renderListPageAllEntities(notes);
+    }
+    async downloadAttachment(noteID, attachmentID) {
+        console.log("Checking user");
+        const user = await this.noteControllerProperties.authenticator.authenticate(this.noteControllerProperties.authenticationToken);
+        console.log("Found user", user);
+        console.log("Checking note");
+        const note = await this.noteControllerProperties.noteStore.getOne(user.username, noteID);
+        console.log("Found note", note);
+        console.log("Checking attachments");
+        const noteAttachments = await this.noteControllerProperties.noteAttachmentsStore.listAllForNote(user.username, note.id);
+        console.log("Found attachments", noteAttachments);
+        console.log("Checking noteAttachment");
+        const noteAttachment = noteAttachments.find((a) => a.id === attachmentID);
+        console.log("Found noteAttachment", noteAttachment);
+        console.log("Reading objectBody", noteAttachment.objectKey);
+        const objectBody = await this.noteControllerProperties.attachmentsStore.read(noteAttachment.objectKey);
+        console.log("Got object body of length", objectBody.length);
+        return {
+            isBase64Encoded: true,
+            headers: {
+                "Content-Type": "application/octet-stream",
+            },
+            body: objectBody,
+            statusCode: http_1.HttpStatus.OK,
+        };
     }
     getEntityName() {
         return "note";

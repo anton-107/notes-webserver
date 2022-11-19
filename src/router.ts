@@ -26,6 +26,7 @@ import { getAllNotesInNotebookHandler } from "./routes/note/get-all-notes-in-not
 import { getAllPeopleHandler } from "./routes/person/get-all-people";
 import { getNotebookSupportedColumnsHandler } from "./routes/notebook/get-supported-columns";
 import { runFetchVideoInformation } from "./actions/fetch-video-information";
+import { downloadAttachmentHandler } from "./routes/note/attachment/download-attachment";
 
 export interface Route {
   method: "GET" | "POST";
@@ -190,6 +191,12 @@ export const routes: Route[] = [
     path: "/notebook-supported-columns",
     import: join(__dirname, "./routes/notebook/get-supported-columns"),
     action: getNotebookSupportedColumnsHandler.name,
+  },
+  {
+    method: "GET",
+    path: "/note/:noteID/attachment/:attachmentID",
+    import: join(__dirname, "./routes/note/attachment/download-attachment"),
+    action: downloadAttachmentHandler.name,
   },
 ];
 

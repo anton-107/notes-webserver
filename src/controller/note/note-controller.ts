@@ -1,8 +1,10 @@
 import { generate } from "short-uuid";
 import { FormBody } from "../../http/body-parser";
-import { HttpResponse } from "../../http/http";
+import { HttpResponse, HttpStatus } from "../../http/http";
 import { Note } from "../../model/note-model";
 import { NoteTypesRegistry } from "../../registries/note-types-registry";
+import { AttachmentsStore } from "../../stores/attachments/attachments-store";
+import { NoteAttachmentsStore } from "../../stores/note/note-attachments-store";
 import { NoteStore } from "../../stores/note/note-store";
 import { NotebookStore } from "../../stores/notebook/notebook-store";
 import {
@@ -13,7 +15,9 @@ import {
 export interface NoteControllerProperties
   extends EntityControllerProperties<Note> {
   noteStore: NoteStore;
+  noteAttachmentsStore: NoteAttachmentsStore;
   notebookStore: NotebookStore;
+  attachmentsStore: AttachmentsStore;
   notebookID: string | null;
   noteTypesRegistry: NoteTypesRegistry;
   noteType: string;
@@ -48,6 +52,49 @@ export class NoteController extends EntityController<Note> {
     return this.noteControllerProperties.entityView.renderListPageAllEntities(
       notes
     );
+  }
+  public async downloadAttachment(
+    noteID: string,
+    attachmentID: string
+  ): Promise<HttpResponse> {
+    console.log("Checking user");
+    const user = await this.noteControllerProperties.authenticator.authenticate(
+      this.noteControllerProperties.authenticationToken
+    );
+    console.log("Found user", user);
+    console.log("Checking note");
+    const note = await this.noteControllerProperties.noteStore.getOne(
+      user.username,
+      noteID
+    );
+    console.log("Found note", note);
+
+    console.log("Checking attachments");
+    const noteAttachments =
+      await this.noteControllerProperties.noteAttachmentsStore.listAllForNote(
+        user.username,
+        note.id
+      );
+    console.log("Found attachments", noteAttachments);
+    console.log("Checking noteAttachment");
+    const noteAttachment = noteAttachments.find((a) => a.id === attachmentID);
+    console.log("Found noteAttachment", noteAttachment);
+
+    console.log("Reading objectBody", noteAttachment.objectKey);
+    const objectBody =
+      await this.noteControllerProperties.attachmentsStore.read(
+        noteAttachment.objectKey
+      );
+    console.log("Got object body of length", objectBody.length);
+
+    return {
+      isBase64Encoded: true,
+      headers: {
+        "Content-Type": "application/octet-stream",
+      },
+      body: objectBody,
+      statusCode: HttpStatus.OK,
+    };
   }
   protected getEntityName(): string {
     return "note";

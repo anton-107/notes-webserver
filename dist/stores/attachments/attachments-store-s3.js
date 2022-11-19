@@ -20,6 +20,17 @@ class AttachmentsStoreS3 {
         console.log("[AttachmentsStoreS3] finished calling putObject", resp);
         return fileKey;
     }
+    async read(fileKey) {
+        console.log("Reading object", this.properties.bucketName, this.properties.folderName, fileKey);
+        const resp = await this.properties.s3
+            .getObject({
+            Bucket: this.properties.bucketName,
+            Key: `${this.properties.folderName}/${fileKey}`,
+        })
+            .promise();
+        console.log("Got S3 response", resp);
+        return resp.Body.toString();
+    }
 }
 exports.AttachmentsStoreS3 = AttachmentsStoreS3;
 //# sourceMappingURL=attachments-store-s3.js.map

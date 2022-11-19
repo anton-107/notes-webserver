@@ -11,6 +11,9 @@ class InMemoryAttachmentsStore {
         console.log("InMemoryAttachmentsStore: saved attachment of size", attachmentContent.length);
         return String(index);
     }
+    async read(objectKey) {
+        return this.attachments[Number(objectKey)];
+    }
 }
 exports.InMemoryAttachmentsStore = InMemoryAttachmentsStore;
 //# sourceMappingURL=attachments-store.js.map

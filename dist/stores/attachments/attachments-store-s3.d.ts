@@ -9,5 +9,6 @@ export declare class AttachmentsStoreS3 implements AttachmentsStore {
     private properties;
     constructor(properties: AttachmentsStoreS3Properties);
     persist(attachmentContent: string): Promise<string>;
+    read(fileKey: string): Promise<string>;
 }
 export {};

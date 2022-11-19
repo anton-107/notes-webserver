@@ -10,7 +10,6 @@ interface AttachmentsStoreS3Properties {
 
 export class AttachmentsStoreS3 implements AttachmentsStore {
   constructor(private properties: AttachmentsStoreS3Properties) {}
-
   public async persist(attachmentContent: string): Promise<string> {
     const fileKey = v4();
     const key = `${this.properties.folderName}/${fileKey}`;
@@ -28,5 +27,21 @@ export class AttachmentsStoreS3 implements AttachmentsStore {
       .promise();
     console.log("[AttachmentsStoreS3] finished calling putObject", resp);
     return fileKey;
+  }
+  public async read(fileKey: string): Promise<string> {
+    console.log(
+      "Reading object",
+      this.properties.bucketName,
+      this.properties.folderName,
+      fileKey
+    );
+    const resp = await this.properties.s3
+      .getObject({
+        Bucket: this.properties.bucketName,
+        Key: `${this.properties.folderName}/${fileKey}`,
+      })
+      .promise();
+    console.log("Got S3 response", resp);
+    return resp.Body.toString();
   }
 }
