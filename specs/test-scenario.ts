@@ -99,7 +99,10 @@ export class TestScenario {
     await this.processJSON();
     this.noteID = this.lastKnownID;
   }
-  public async createAttachment(attachmentContent: string) {
+  public async createAttachment(
+    attachmentName: string,
+    attachmentContent: string
+  ) {
     const objectKey = await this.serviceConfiguration.attachmentsStore.persist(
       attachmentContent
     );
@@ -107,7 +110,7 @@ export class TestScenario {
     await this.serviceConfiguration.noteAttachmentsStore.add({
       id: this.noteAttachmentID,
       noteID: this.noteID,
-      name: "Test scenario attachment",
+      name: attachmentName,
       objectKey,
       createdAt: new Date().toISOString(),
       owner: this.loggedInUser,

@@ -21,6 +21,24 @@ class NoteController extends entity_controller_1.EntityController {
         const notes = await this.noteControllerProperties.noteStore.listAllInNotebook(user.username, notebookID);
         return this.noteControllerProperties.entityView.renderListPageAllEntities(notes);
     }
+    async listAttachments(noteID) {
+        console.log("Checking user");
+        const user = await this.noteControllerProperties.authenticator.authenticate(this.noteControllerProperties.authenticationToken);
+        console.log("Found user", user);
+        console.log("Checking note");
+        const note = await this.noteControllerProperties.noteStore.getOne(user.username, noteID);
+        console.log("Found note", note);
+        const attachments = await this.noteControllerProperties.noteAttachmentsStore.listAllForNote(user.username, note.id);
+        console.log("Found attachments", attachments);
+        return {
+            isBase64Encoded: false,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ attachments }),
+            statusCode: http_1.HttpStatus.OK,
+        };
+    }
     async downloadAttachment(noteID, attachmentID) {
         console.log("Checking user");
         const user = await this.noteControllerProperties.authenticator.authenticate(this.noteControllerProperties.authenticationToken);

@@ -21,6 +21,7 @@ export declare class NoteController extends EntityController<Note> {
     constructor(noteControllerProperties: NoteControllerProperties);
     showCreateNewEntityPage(): Promise<HttpResponse>;
     showNotesInNotebook(notebookID: string): Promise<HttpResponse>;
+    listAttachments(noteID: string): Promise<HttpResponse>;
     downloadAttachment(noteID: string, attachmentID: string): Promise<HttpResponse>;
     protected getEntityName(): string;
     protected mapRequestToEntityID(requestForm: FormBody): string;

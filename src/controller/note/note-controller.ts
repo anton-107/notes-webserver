@@ -53,6 +53,34 @@ export class NoteController extends EntityController<Note> {
       notes
     );
   }
+  public async listAttachments(noteID: string): Promise<HttpResponse> {
+    console.log("Checking user");
+    const user = await this.noteControllerProperties.authenticator.authenticate(
+      this.noteControllerProperties.authenticationToken
+    );
+    console.log("Found user", user);
+    console.log("Checking note");
+    const note = await this.noteControllerProperties.noteStore.getOne(
+      user.username,
+      noteID
+    );
+    console.log("Found note", note);
+    const attachments =
+      await this.noteControllerProperties.noteAttachmentsStore.listAllForNote(
+        user.username,
+        note.id
+      );
+    console.log("Found attachments", attachments);
+
+    return {
+      isBase64Encoded: false,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ attachments }),
+      statusCode: HttpStatus.OK,
+    };
+  }
   public async downloadAttachment(
     noteID: string,
     attachmentID: string

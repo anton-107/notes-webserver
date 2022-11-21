@@ -6,7 +6,7 @@ const feature = loadFeature("./specs/note-attachments-crud-jsonapi.feature");
 defineFeature(feature, (test) => {
   const testScenario = new TestScenario(8146);
   afterAll(() => testScenario.stopServer());
-  test("Reading a note attchment via API (binary response)", ({
+  test("Reading a note attachment via API (binary response)", ({
     given,
     when,
     then,
@@ -32,9 +32,9 @@ defineFeature(feature, (test) => {
     );
 
     given(
-      /^there is an attachment attached to that note with content '([A-z0-9 ]+)'$/,
-      async (attachmentContent: string) => {
-        await testScenario.createAttachment(attachmentContent);
+      /^there is an attachment attached to that note with content '([A-z0-9 ]+)' and name '([A-z0-9 ]+)'$/,
+      async (attachmentContent: string, attachmentName: string) => {
+        await testScenario.createAttachment(attachmentName, attachmentContent);
       }
     );
 
@@ -51,5 +51,21 @@ defineFeature(feature, (test) => {
     then(/^binary response is '([A-z0-9 ]+)'$/, (expectedResponse: string) => {
       testScenario.checkBinaryResponse(expectedResponse);
     });
+  });
+  test("Listing all attachments for a note", ({ when, then }) => {
+    when(
+      /^I visit \/([a-z{}\-/]+) page$/,
+      async (url) => await testScenario.loadPage(url)
+    );
+
+    when(
+      "json response is loaded",
+      async () => await testScenario.processJSON()
+    );
+
+    then(
+      /^json query '([^']+)' returns value '([^']+)'$/,
+      (query, fieldValue) => testScenario.checkJSONQuery(query, fieldValue)
+    );
   });
 });

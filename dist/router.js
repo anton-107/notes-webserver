@@ -30,6 +30,7 @@ const get_all_people_1 = require("./routes/person/get-all-people");
 const get_supported_columns_1 = require("./routes/notebook/get-supported-columns");
 const fetch_video_information_1 = require("./actions/fetch-video-information");
 const download_attachment_1 = require("./routes/note/attachment/download-attachment");
+const get_note_attachments_1 = require("./routes/note/attachment/get-note-attachments");
 exports.routes = [
     {
         method: "GET",
@@ -186,6 +187,12 @@ exports.routes = [
         path: "/notebook-supported-columns",
         import: (0, path_1.join)(__dirname, "./routes/notebook/get-supported-columns"),
         action: get_supported_columns_1.getNotebookSupportedColumnsHandler.name,
+    },
+    {
+        method: "GET",
+        path: "/note/:noteID/attachment",
+        import: (0, path_1.join)(__dirname, "./routes/note/attachment/get-note-attachments"),
+        action: get_note_attachments_1.getNoteAttachmentsHandler.name,
     },
     {
         method: "GET",
