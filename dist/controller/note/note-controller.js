@@ -34,6 +34,7 @@ class NoteController extends entity_controller_1.EntityController {
             isBase64Encoded: false,
             headers: {
                 "Content-Type": "application/json",
+                ...this.noteControllerProperties.corsHeaders,
             },
             body: JSON.stringify({ attachments }),
             statusCode: http_1.HttpStatus.OK,

@@ -1,5 +1,6 @@
 import { generate } from "short-uuid";
 import { FormBody } from "../../http/body-parser";
+import { CORSHeaders } from "../../http/cors-headers";
 import { HttpResponse, HttpStatus } from "../../http/http";
 import { Note } from "../../model/note-model";
 import { NoteTypesRegistry } from "../../registries/note-types-registry";
@@ -21,6 +22,7 @@ export interface NoteControllerProperties
   notebookID: string | null;
   noteTypesRegistry: NoteTypesRegistry;
   noteType: string;
+  corsHeaders: CORSHeaders;
 }
 
 export class NoteController extends EntityController<Note> {
@@ -76,6 +78,7 @@ export class NoteController extends EntityController<Note> {
       isBase64Encoded: false,
       headers: {
         "Content-Type": "application/json",
+        ...this.noteControllerProperties.corsHeaders,
       },
       body: JSON.stringify({ attachments }),
       statusCode: HttpStatus.OK,

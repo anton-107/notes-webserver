@@ -1,4 +1,5 @@
 import { FormBody } from "../../http/body-parser";
+import { CORSHeaders } from "../../http/cors-headers";
 import { HttpResponse } from "../../http/http";
 import { Note } from "../../model/note-model";
 import { NoteTypesRegistry } from "../../registries/note-types-registry";
@@ -15,6 +16,7 @@ export interface NoteControllerProperties extends EntityControllerProperties<Not
     notebookID: string | null;
     noteTypesRegistry: NoteTypesRegistry;
     noteType: string;
+    corsHeaders: CORSHeaders;
 }
 export declare class NoteController extends EntityController<Note> {
     private noteControllerProperties;
