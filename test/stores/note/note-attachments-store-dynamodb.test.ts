@@ -17,6 +17,7 @@ describe("NoteAttachmentsStoreDynamodb", () => {
       noteID: "note-1",
       name: "Video subtitles (lang=en)",
       objectKey: "attachments/attachment-1",
+      fileExtension: "xml",
       createdAt: "2022-11-16T21:29:00Z",
     });
     verify(dataMapperMock.put(anything())).called();
@@ -36,6 +37,7 @@ describe("NoteAttachmentsStoreDynamodb", () => {
         noteID: "note-1",
         name: "Video subtitles (lang=en)",
         objectKey: "attachments/attachment-1",
+        fileExtension: "xml",
         createdAt: "2022-11-16T21:29:00Z",
       });
     }).rejects.toThrow();

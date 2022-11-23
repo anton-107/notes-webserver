@@ -30,6 +30,7 @@ class FetchVideoInformation {
                 owner: actionTrigger.noteOwner,
                 createdAt: now,
                 name: `Video captions (${captionsURL})`,
+                fileExtension: 'xml'
             };
             await this.properties.noteAttachmentsStore.add(noteAttachment);
             console.log("Persisted note attachment with id ", noteAttachment.id);

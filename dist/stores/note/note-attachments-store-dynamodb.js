@@ -42,6 +42,10 @@ __decorate([
 __decorate([
     (0, dynamodb_data_mapper_annotations_1.attribute)(),
     __metadata("design:type", String)
+], NoteAttachmentEntity.prototype, "fileExtension", void 0);
+__decorate([
+    (0, dynamodb_data_mapper_annotations_1.attribute)(),
+    __metadata("design:type", String)
 ], NoteAttachmentEntity.prototype, "createdAt", void 0);
 NoteAttachmentEntity = __decorate([
     (0, dynamodb_data_mapper_annotations_1.table)(NOTE_ATTACHMENTS__TABLE_NAME)

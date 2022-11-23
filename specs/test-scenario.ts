@@ -112,6 +112,7 @@ export class TestScenario {
       noteID: this.noteID,
       name: attachmentName,
       objectKey,
+      fileExtension: "xml",
       createdAt: new Date().toISOString(),
       owner: this.loggedInUser,
     });

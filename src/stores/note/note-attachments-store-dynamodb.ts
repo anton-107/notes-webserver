@@ -32,6 +32,9 @@ export class NoteAttachmentEntity implements NoteAttachment {
   objectKey: string;
 
   @attribute()
+  fileExtension: string;
+
+  @attribute()
   createdAt: string;
 }
 

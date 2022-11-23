@@ -60,6 +60,7 @@ class NoteController extends entity_controller_1.EntityController {
             isBase64Encoded: true,
             headers: {
                 "Content-Type": "application/octet-stream",
+                "Content-Disposition": `attachment; filename="${noteAttachment.name}.${noteAttachment.fileExtension}"`
             },
             body: objectBody,
             statusCode: http_1.HttpStatus.OK,

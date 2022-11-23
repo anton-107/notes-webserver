@@ -8,6 +8,7 @@ export interface NoteAttachment {
   id: string;
   noteID: string;
   name: string;
+  fileExtension: string;
   objectKey: string;
   createdAt: string;
   owner: string;

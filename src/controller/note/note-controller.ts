@@ -122,6 +122,7 @@ export class NoteController extends EntityController<Note> {
       isBase64Encoded: true,
       headers: {
         "Content-Type": "application/octet-stream",
+        "Content-Disposition": `attachment; filename="${noteAttachment.name}.${noteAttachment.fileExtension}"`,
       },
       body: objectBody,
       statusCode: HttpStatus.OK,

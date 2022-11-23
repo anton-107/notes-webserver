@@ -8,6 +8,7 @@ export declare class NoteAttachmentEntity implements NoteAttachment {
     noteID: string;
     name: string;
     objectKey: string;
+    fileExtension: string;
     createdAt: string;
 }
 interface NoteAttachmentsStoreDynamodbProps {
