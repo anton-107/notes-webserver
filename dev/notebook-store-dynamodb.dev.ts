@@ -1,10 +1,11 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
 import { DynamoDB } from "aws-sdk";
+import { generate } from "short-uuid";
+
 import {
   NotebookEntity,
   NotebookStoreDynamodb,
 } from "./../src/stores/notebook/notebook-store-dynamodb";
-import { generate } from "short-uuid";
 
 const CREATE_TABLE_BEFORE_TESTS = false;
 const DELETE_TABLE_AFTER_TESTS = false;

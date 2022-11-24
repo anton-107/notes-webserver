@@ -1,4 +1,5 @@
 import { generate } from "short-uuid";
+
 import { dependenciesConfiguration } from "../configuration/configuration";
 import { NoteAttachment } from "../model/note-model";
 import { AttachmentsStore } from "../stores/attachments/attachments-store";

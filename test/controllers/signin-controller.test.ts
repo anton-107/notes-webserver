@@ -1,5 +1,6 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { anything, instance, mock, when } from "ts-mockito";
+
 import { corsHeaders } from "../../src/http/cors-headers";
 import { HttpStatus } from "../../src/http/http";
 import { ResponseType } from "../../src/http/response-type-parser";

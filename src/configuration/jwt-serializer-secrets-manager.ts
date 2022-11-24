@@ -1,4 +1,5 @@
 import { SecretsManager } from "aws-sdk";
+
 import { SecretsManagerProvider } from "../secrets/secrets-manager-provider";
 import { ServiceConfigurationOverrides } from "./configuration";
 

@@ -1,5 +1,6 @@
 import { DataMapper, QueryIterator } from "@aws/dynamodb-data-mapper";
 import { anything, instance, mock, verify, when } from "ts-mockito";
+
 import {
   NoteEntity,
   NoteStoreDynamodb,

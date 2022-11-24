@@ -1,6 +1,7 @@
-import { dependenciesConfiguration } from "../../src/configuration/configuration";
 import { YoutubeParser } from "youtube-module/dist/youtube-parser";
+
 import { resetConfigurationCache } from "../../src/configuration/common";
+import { dependenciesConfiguration } from "../../src/configuration/configuration";
 import { AttachmentsStoreS3 } from "../../src/stores/attachments/attachments-store-s3";
 import { NoteAttachmentsStoreDynamodb } from "../../src/stores/note/note-attachments-store-dynamodb";
 

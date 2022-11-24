@@ -1,6 +1,7 @@
 import { ScryptHashingFunction } from "authentication-module/dist/scrypt-hashing";
 import jsonQuery from "json-query";
 import parse, { HTMLElement } from "node-html-parser";
+
 import {
   dependenciesConfiguration,
   ServiceConfiguration,

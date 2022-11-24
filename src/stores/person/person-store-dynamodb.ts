@@ -1,12 +1,13 @@
+import { DataMapper } from "@aws/dynamodb-data-mapper";
 import {
   attribute,
   hashKey,
   rangeKey,
   table,
 } from "@aws/dynamodb-data-mapper-annotations";
-import { DataMapper } from "@aws/dynamodb-data-mapper";
-import { PersonStore } from "./person-store";
+
 import { Person } from "../../model/person-model";
+import { PersonStore } from "./person-store";
 
 const PERSON_TABLE_NAME = "notes-webserver-people";
 

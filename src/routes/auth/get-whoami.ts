@@ -1,12 +1,13 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
+
 import { dependenciesConfiguration } from "../../configuration/configuration";
 import { parseCookie } from "../../http/cookie-parser";
 import { CORSHeaders } from "../../http/cors-headers";
 import {
+  HttpRequest,
+  HttpRequestHandler,
   HttpResponse,
   HttpStatus,
-  HttpRequestHandler,
-  HttpRequest,
 } from "../../http/http";
 
 interface IdentityPageProperties {

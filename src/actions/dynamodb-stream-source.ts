@@ -1,7 +1,8 @@
-import { DynamoDBStreams } from "aws-sdk";
-import { Note } from "../model/note-model";
-import { unmarshallItem } from "@aws/dynamodb-data-marshaller";
 import { getSchema } from "@aws/dynamodb-data-mapper";
+import { unmarshallItem } from "@aws/dynamodb-data-marshaller";
+import { DynamoDBStreams } from "aws-sdk";
+
+import { Note } from "../model/note-model";
 import { NoteEntity } from "../stores/note/note-store-dynamodb";
 
 export type EventName = "INSERT" | "MODIFY" | "REMOVE";

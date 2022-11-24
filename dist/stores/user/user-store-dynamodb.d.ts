@@ -1,5 +1,5 @@
-import { User, UserStore } from "authentication-module/dist/authenticator";
 import { DataMapper } from "@aws/dynamodb-data-mapper";
+import { User, UserStore } from "authentication-module/dist/authenticator";
 export declare class UserEntity implements User {
     username: string;
     sortKey: string;

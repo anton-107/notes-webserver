@@ -1,4 +1,5 @@
 import { parse } from "node-html-parser";
+
 import { dependenciesConfiguration } from "../src/configuration/configuration";
 import { NotesWebserver } from "../src/notes-webserver";
 import { routes } from "../src/router";

@@ -1,6 +1,7 @@
 import { S3 } from "aws-sdk";
-import { AttachmentsStore } from "./attachments-store";
 import { v4 } from "uuid";
+
+import { AttachmentsStore } from "./attachments-store";
 
 interface AttachmentsStoreS3Properties {
   s3: S3;

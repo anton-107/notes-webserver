@@ -29,6 +29,7 @@
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "@typescript-eslint/parser": "^5.25.0",
     "eslint": "^8.16.0",
+    "eslint-plugin-simple-import-sort": "^8.0.0",
     "jest": "^28.1.0",
     "jest-cucumber": "^3.0.1",
     "json-query": "^2.2.2",
@@ -44,12 +45,12 @@
     "@aws/dynamodb-data-mapper": "^0.7.3",
     "@aws/dynamodb-data-mapper-annotations": "^0.7.3",
     "authentication-module": "anton-107/authenticator",
-    "youtube-module": "anton-107/youtube-module",
     "aws-sdk": "^2.1152.0",
     "cookie": "^0.5.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.18.1",
-    "short-uuid": "^4.2.0"
+    "short-uuid": "^4.2.0",
+    "youtube-module": "anton-107/youtube-module"
   }
 }

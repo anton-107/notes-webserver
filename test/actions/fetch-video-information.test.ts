@@ -1,6 +1,7 @@
 import { getSchema } from "@aws/dynamodb-data-mapper";
 import { marshallItem } from "@aws/dynamodb-data-marshaller";
 import { instance, mock, when } from "ts-mockito";
+
 import { NoOpYoutubeParser } from "../../src/configuration/no-op/no-op-youtube-parser";
 import {
   AttachmentsStore,

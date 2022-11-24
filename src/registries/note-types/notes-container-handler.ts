@@ -1,4 +1,5 @@
 import { generate } from "short-uuid";
+
 import { FormBody } from "../../http/body-parser";
 import { Note, RenderedNote } from "../../model/note-model";
 import { NoteTypeHandler } from "../note-types-registry";

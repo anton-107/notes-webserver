@@ -1,8 +1,9 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
 import { DynamoDB } from "aws-sdk";
+
 import {
-  UserStoreDynamodb,
   UserEntity,
+  UserStoreDynamodb,
 } from "../src/stores/user-store-dynamodb";
 
 const CREATE_TABLE_BEFORE_TESTS = false;

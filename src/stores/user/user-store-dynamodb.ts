@@ -1,11 +1,11 @@
-import { User, UserStore } from "authentication-module/dist/authenticator";
+import { DataMapper } from "@aws/dynamodb-data-mapper";
 import {
-  table,
+  attribute,
   hashKey,
   rangeKey,
-  attribute,
+  table,
 } from "@aws/dynamodb-data-mapper-annotations";
-import { DataMapper } from "@aws/dynamodb-data-mapper";
+import { User, UserStore } from "authentication-module/dist/authenticator";
 
 const USERS_TABLE_NAME = "notes-webserver-users";
 

@@ -1,6 +1,6 @@
+import { dependenciesConfiguration } from "./src/configuration/configuration";
 import { NotesWebserver } from "./src/notes-webserver";
 import { routes } from "./src/router";
-import { dependenciesConfiguration } from "./src/configuration/configuration";
 
 const config = dependenciesConfiguration({});
 const server = new NotesWebserver({

@@ -1,5 +1,5 @@
-import { Route } from "./router";
 import { CORSHeaders } from "./http/cors-headers";
+import { Route } from "./router";
 interface NotesWebserverProperties {
     routes: Route[];
     corsHeaders: CORSHeaders;

@@ -1,4 +1,5 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
+
 import { Note, NoteType } from "../../model/note-model";
 import { NotebookColumnValueType } from "../../model/notebook-model";
 import { NoteStore } from "./note-store";

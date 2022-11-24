@@ -4,10 +4,18 @@ import {
   UserStore,
 } from "authentication-module/dist/authenticator";
 import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
+import { S3 } from "aws-sdk";
+import { get } from "https";
+import { YoutubeParser as YoutubeModuleParser } from "youtube-module/dist/youtube-parser";
+
+import { YoutubeParser } from "../actions/fetch-video-information";
 import { PostProcessorRegistry } from "../controller/post-processor";
-import { corsHeaders, CORSHeaders } from "../http/cors-headers";
+import { CORSHeaders,corsHeaders } from "../http/cors-headers";
 import { NoteTypesRegistry } from "../registries/note-types-registry";
 import { NotebookTableColumnsRegistry } from "../registries/notebook-table-columns-registry";
+import { AttachmentsStore } from "../stores/attachments/attachments-store";
+import { AttachmentsStoreS3 } from "../stores/attachments/attachments-store-s3";
+import { NoteAttachmentsStore } from "../stores/note/note-attachments-store";
 import { NoteStore } from "../stores/note/note-store";
 import { NotebookStore } from "../stores/notebook/notebook-store";
 import { PersonStore } from "../stores/person/person-store";
@@ -25,13 +33,6 @@ import {
 import { notebookStoreDynamoConfiguration } from "./notebook-store-dynamo";
 import { personStoreDynamoConfiguration } from "./person-store-dynamo";
 import { userStoreDynamoConfiguration } from "./user-store-dynamo";
-import { YoutubeParser } from "../actions/fetch-video-information";
-import { YoutubeParser as YoutubeModuleParser } from "youtube-module/dist/youtube-parser";
-import { get } from "https";
-import { AttachmentsStore } from "../stores/attachments/attachments-store";
-import { AttachmentsStoreS3 } from "../stores/attachments/attachments-store-s3";
-import { S3 } from "aws-sdk";
-import { NoteAttachmentsStore } from "../stores/note/note-attachments-store";
 
 export interface ServiceConfiguration {
   authenticator: Authenticator;

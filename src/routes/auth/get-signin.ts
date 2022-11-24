@@ -1,5 +1,5 @@
 import { dependenciesConfiguration } from "../../configuration/configuration";
-import { HttpResponse, HttpStatus, HttpRequestHandler } from "../../http/http";
+import { HttpRequestHandler,HttpResponse, HttpStatus } from "../../http/http";
 
 interface SigninPageProperties {
   baseUrl: string;

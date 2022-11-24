@@ -1,4 +1,5 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
+
 import { HttpResponse, HttpStatus } from "../../http/http";
 import { NotebookStore } from "../../stores/notebook/notebook-store";
 import { PersonStore } from "../../stores/person/person-store";

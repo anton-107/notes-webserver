@@ -1,4 +1,5 @@
 import { SecretsManager } from "aws-sdk";
+
 import { SecretsManagerProvider } from "./../src/secrets/secrets-manager-provider";
 
 const TEST_SECRET_NAME = "dev-notes-webserver-jwt-secret";

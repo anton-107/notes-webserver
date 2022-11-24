@@ -6,6 +6,7 @@ import {
   table,
 } from "@aws/dynamodb-data-mapper-annotations";
 import { AttributePath, FunctionExpression } from "@aws/dynamodb-expressions";
+
 import { Note, NoteType } from "../../model/note-model";
 import { NotebookColumnValueType } from "../../model/notebook-model";
 import { NoteStore } from "./note-store";

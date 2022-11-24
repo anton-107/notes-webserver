@@ -1,6 +1,7 @@
 import { SecretsManager } from "aws-sdk";
-import { Request, AWSError } from "aws-sdk";
+import { AWSError,Request } from "aws-sdk";
 import { anything, instance, mock, when } from "ts-mockito";
+
 import { SecretsManagerProvider } from "./../../src/secrets/secrets-manager-provider";
 
 describe("SecretsManagerProvider", () => {

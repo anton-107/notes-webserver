@@ -1,5 +1,6 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { anything, instance, mock, when } from "ts-mockito";
+
 import { notebookControllerConfiguration } from "../../src/configuration/configuration";
 import { NotebookController } from "../../src/controller/notebook/notebook-controller";
 import { HttpStatus } from "../../src/http/http";

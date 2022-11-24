@@ -5,8 +5,9 @@ import {
   rangeKey,
   table,
 } from "@aws/dynamodb-data-mapper-annotations";
-import { NoteAttachment } from "../../model/note-model";
 import { AttributePath, FunctionExpression } from "@aws/dynamodb-expressions";
+
+import { NoteAttachment } from "../../model/note-model";
 import { NoteAttachmentsStore } from "./note-attachments-store";
 
 const NOTE_ATTACHMENTS__TABLE_NAME = "notes-webserver-notebook";

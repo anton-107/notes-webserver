@@ -1,5 +1,6 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
 import { DynamoDB } from "aws-sdk";
+
 import { UserStoreDynamodb } from "../stores/user/user-store-dynamodb";
 import { ServiceConfigurationOverrides } from "./configuration";
 

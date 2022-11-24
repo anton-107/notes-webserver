@@ -1,4 +1,5 @@
 import { DynamoDBStreams } from "aws-sdk";
+
 import { Note } from "../model/note-model";
 export declare type EventName = "INSERT" | "MODIFY" | "REMOVE";
 export interface StreamEvent {

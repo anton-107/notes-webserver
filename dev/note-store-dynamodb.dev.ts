@@ -1,6 +1,7 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
 import { DynamoDB } from "aws-sdk";
 import { generate } from "short-uuid";
+
 import { Note } from "../src/model/note-model";
 import { NoteStoreDynamodb } from "../src/stores/note/note-store-dynamodb";
 

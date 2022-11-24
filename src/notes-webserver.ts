@@ -1,16 +1,17 @@
-import * as http from "http";
-import express from "express";
+import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+import express from "express";
 import { Express } from "express";
+import * as http from "http";
+
+import { CORSHeaders } from "./http/cors-headers";
 import {
+  HttpRequestHandler,
   HttpResponse,
   PostFormHttpHandler,
-  HttpRequestHandler,
 } from "./http/http";
 import { Route } from "./router";
-import bodyParser from "body-parser";
-import cors from "cors";
-import { CORSHeaders } from "./http/cors-headers";
 
 interface NotesWebserverProperties {
   routes: Route[];

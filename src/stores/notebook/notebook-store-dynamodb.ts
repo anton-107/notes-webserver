@@ -1,17 +1,18 @@
+import { DataMapper } from "@aws/dynamodb-data-mapper";
 import {
   attribute,
   hashKey,
   rangeKey,
   table,
 } from "@aws/dynamodb-data-mapper-annotations";
-import { NotebookStore } from "./notebook-store";
-import { DataMapper } from "@aws/dynamodb-data-mapper";
+import { AttributePath,FunctionExpression } from "@aws/dynamodb-expressions";
+
 import {
   Notebook,
   NotebookSection,
   NotebookTableColumn,
 } from "../../model/notebook-model";
-import { FunctionExpression, AttributePath } from "@aws/dynamodb-expressions";
+import { NotebookStore } from "./notebook-store";
 
 const NOTEBOOK_TABLE_NAME = "notes-webserver-notebook";
 

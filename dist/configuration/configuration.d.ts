@@ -1,9 +1,13 @@
 import { Authenticator, PasswordHashingFunction, UserStore } from "authentication-module/dist/authenticator";
 import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
+
+import { YoutubeParser } from "../actions/fetch-video-information";
 import { PostProcessorRegistry } from "../controller/post-processor";
 import { CORSHeaders } from "../http/cors-headers";
 import { NoteTypesRegistry } from "../registries/note-types-registry";
 import { NotebookTableColumnsRegistry } from "../registries/notebook-table-columns-registry";
+import { AttachmentsStore } from "../stores/attachments/attachments-store";
+import { NoteAttachmentsStore } from "../stores/note/note-attachments-store";
 import { NoteStore } from "../stores/note/note-store";
 import { NotebookStore } from "../stores/notebook/notebook-store";
 import { PersonStore } from "../stores/person/person-store";
@@ -12,9 +16,6 @@ import { NoteHtmlView } from "../views/note/note-html-view";
 import { NotebookHtmlView } from "../views/notebook/notebook-html-view";
 import { NotebookJsonView } from "../views/notebook/notebook-json-view";
 import { PersonHtmlView } from "../views/person/person-html-view";
-import { YoutubeParser } from "../actions/fetch-video-information";
-import { AttachmentsStore } from "../stores/attachments/attachments-store";
-import { NoteAttachmentsStore } from "../stores/note/note-attachments-store";
 export interface ServiceConfiguration {
     authenticator: Authenticator;
     jwtSerializerSecretProvider: SecretKeyProvider;

@@ -1,7 +1,7 @@
-import { NoteTypesRegistry } from "../../src/registries/note-types-registry";
-import { PlaintextNoteHandler } from "../../src/registries/note-types/plaintext-handler";
-import { MarkdownHandler } from "../../src/registries/note-types/markdown-handler";
 import { DateRangeNoteHandler } from "../../src/registries/note-types/date-range-handler";
+import { MarkdownHandler } from "../../src/registries/note-types/markdown-handler";
+import { PlaintextNoteHandler } from "../../src/registries/note-types/plaintext-handler";
+import { NoteTypesRegistry } from "../../src/registries/note-types-registry";
 import { NotebookTableColumnsRegistry } from "../../src/registries/notebook-table-columns-registry";
 
 describe("Note types registry", () => {

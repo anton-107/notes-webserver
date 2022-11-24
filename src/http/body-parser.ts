@@ -1,5 +1,6 @@
-import { PostFormRequest } from "./http";
 import { parse } from "querystring";
+
+import { PostFormRequest } from "./http";
 
 export type FormBody = { [key: string]: string };
 

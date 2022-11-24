@@ -1,4 +1,5 @@
 import { AWSError, S3 } from "aws-sdk";
+import { Request } from "aws-sdk/lib/request";
 import {
   anything,
   instance,
@@ -7,8 +8,8 @@ import {
   verify,
   when,
 } from "ts-mockito";
+
 import { AttachmentsStoreS3 } from "./../../../src/stores/attachments/attachments-store-s3";
-import { Request } from "aws-sdk/lib/request";
 
 describe("AttachmentsStoreS3", () => {
   it("should persist provided content as an S3 object", async () => {

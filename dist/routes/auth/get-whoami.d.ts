@@ -1,6 +1,7 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
+
 import { CORSHeaders } from "../../http/cors-headers";
-import { HttpResponse, HttpRequestHandler } from "../../http/http";
+import { HttpRequestHandler,HttpResponse } from "../../http/http";
 interface IdentityPageProperties {
     authenticationToken: string;
     authenticator: Authenticator;

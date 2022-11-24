@@ -1,32 +1,33 @@
-import { InMemoryUserStore } from "../stores/user/user-store-inmemory";
+import { Authenticator } from "authentication-module/dist/authenticator";
 import {
   JWTSerializer,
   SimpleStringProvider,
   StandardJwtImplementation,
 } from "authentication-module/dist/jwt-serializer";
 import { ScryptHashingFunction } from "authentication-module/dist/scrypt-hashing";
-import { Authenticator } from "authentication-module/dist/authenticator";
+
+import { PersonSelectorController } from "../controller/person/person-selector-controller";
+import { PersonShortRepresentationController } from "../controller/person/person-short-representation-controller";
+import { PostProcessorRegistry } from "../controller/post-processor";
+import { corsHeaders } from "../http/cors-headers";
+import { DateRangeNoteHandler } from "../registries/note-types/date-range-handler";
+import { NotesContainerHandler } from "../registries/note-types/notes-container-handler";
+import { PersonalDateRangeNoteHandler } from "../registries/note-types/personal-date-range-handler";
+import { PlaintextNoteHandler } from "../registries/note-types/plaintext-handler";
+import { YoutubeVideoHandler } from "../registries/note-types/youtube-video-handler";
+import { NoteTypesRegistry } from "../registries/note-types-registry";
+import { NotebookTableColumnsRegistry } from "../registries/notebook-table-columns-registry";
+import { InMemoryAttachmentsStore } from "../stores/attachments/attachments-store";
+import { InMemoryNoteAttachmentsStore } from "../stores/note/note-attachments-store";
+import { InMemoryNoteStore } from "../stores/note/note-store";
 import { InMemoryNotebookStore } from "../stores/notebook/notebook-store";
+import { InMemoryPersonStore } from "../stores/person/person-store";
+import { InMemoryUserStore } from "../stores/user/user-store-inmemory";
 import {
   ServiceConfiguration,
   ServiceConfigurationOverrides,
 } from "./configuration";
-import { InMemoryPersonStore } from "../stores/person/person-store";
-import { InMemoryNoteStore } from "../stores/note/note-store";
-import { NoteTypesRegistry } from "../registries/note-types-registry";
-import { PlaintextNoteHandler } from "../registries/note-types/plaintext-handler";
-import { DateRangeNoteHandler } from "../registries/note-types/date-range-handler";
-import { PersonalDateRangeNoteHandler } from "../registries/note-types/personal-date-range-handler";
-import { PostProcessorRegistry } from "../controller/post-processor";
-import { PersonSelectorController } from "../controller/person/person-selector-controller";
-import { PersonShortRepresentationController } from "../controller/person/person-short-representation-controller";
-import { corsHeaders } from "../http/cors-headers";
-import { NotesContainerHandler } from "../registries/note-types/notes-container-handler";
-import { NotebookTableColumnsRegistry } from "../registries/notebook-table-columns-registry";
-import { YoutubeVideoHandler } from "../registries/note-types/youtube-video-handler";
 import { NoOpYoutubeParser } from "./no-op/no-op-youtube-parser";
-import { InMemoryAttachmentsStore } from "../stores/attachments/attachments-store";
-import { InMemoryNoteAttachmentsStore } from "../stores/note/note-attachments-store";
 
 const passwordHashingFunction = new ScryptHashingFunction();
 const userStore = new InMemoryUserStore();

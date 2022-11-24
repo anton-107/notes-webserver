@@ -1,4 +1,5 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
+
 import { NoteAttachment } from "../../model/note-model";
 import { NoteAttachmentsStore } from "./note-attachments-store";
 export declare class NoteAttachmentEntity implements NoteAttachment {

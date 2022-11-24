@@ -1,5 +1,6 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 import { anything, instance, mock, when } from "ts-mockito";
+
 import { noteControllerConfiguration } from "../../src/configuration/configuration";
 import { NoteController } from "../../src/controller/note/note-controller";
 import { HttpStatus } from "../../src/http/http";
