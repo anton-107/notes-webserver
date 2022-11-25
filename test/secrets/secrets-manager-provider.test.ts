@@ -1,8 +1,11 @@
 import { SecretsManager } from "aws-sdk";
-import { AWSError,Request } from "aws-sdk";
+import { AWSError, Request } from "aws-sdk";
 import { anything, instance, mock, when } from "ts-mockito";
 
+import { LoggerBunyan } from "../../src/logger/logger-bunyan";
 import { SecretsManagerProvider } from "./../../src/secrets/secrets-manager-provider";
+
+const logger = new LoggerBunyan();
 
 describe("SecretsManagerProvider", () => {
   it("should a read secret from AWS Secrets Manager", async () => {
@@ -13,6 +16,7 @@ describe("SecretsManagerProvider", () => {
       },
     } as unknown as Request<SecretsManager.Types.GetSecretValueResponse, AWSError>);
     const secretsManagerProvider = new SecretsManagerProvider({
+      logger,
       secretID: "test-secret-id",
       secretsManager: instance(secretsManager),
     });
@@ -27,6 +31,7 @@ describe("SecretsManagerProvider", () => {
       },
     } as unknown as Request<SecretsManager.Types.GetSecretValueResponse, AWSError>);
     const secretsManagerProvider = new SecretsManagerProvider({
+      logger,
       secretID: "test-secret-id",
       secretsManager: instance(secretsManager),
     });

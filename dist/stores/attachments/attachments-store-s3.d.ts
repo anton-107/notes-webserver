@@ -1,7 +1,8 @@
 import { S3 } from "aws-sdk";
-
+import { Logger } from "../../logger/logger";
 import { AttachmentsStore } from "./attachments-store";
 interface AttachmentsStoreS3Properties {
+    logger: Logger;
     s3: S3;
     bucketName: string;
     folderName: string;

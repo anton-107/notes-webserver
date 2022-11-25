@@ -6,13 +6,15 @@ class SecretsManagerProvider {
         this.properties = properties;
     }
     async getSecretKey() {
-        console.log("reading a secret");
+        this.properties.logger.info("reading a secret");
         const response = await this.properties.secretsManager
             .getSecretValue({ SecretId: this.properties.secretID })
             .promise();
-        console.log("reading a secret response", response);
+        this.properties.logger.info("reading a secret response", {
+            data: response,
+        });
         if (!response.SecretString) {
-            console.error("Could not read secret from SecretsManager", response);
+            this.properties.logger.error("Could not read secret from SecretsManager", { data: response });
             throw "SecretsManager read error";
         }
         return response.SecretString;

@@ -1,3 +1,4 @@
+import { Logger } from "../logger/logger";
 import { AttachmentsStore } from "../stores/attachments/attachments-store";
 import { NoteAttachmentsStore } from "../stores/note/note-attachments-store";
 import { StreamEvent } from "./dynamodb-stream-source";
@@ -6,6 +7,7 @@ export interface YoutubeParser {
     downloadCaptions(captionURL: string): Promise<string>;
 }
 interface FetchVideoInformationProperties {
+    logger: Logger;
     parser: YoutubeParser;
     attachmentsStore: AttachmentsStore;
     noteAttachmentsStore: NoteAttachmentsStore;

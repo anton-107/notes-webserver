@@ -9,7 +9,10 @@ import {
   when,
 } from "ts-mockito";
 
+import { LoggerBunyan } from "./../../../src/logger/logger-bunyan";
 import { AttachmentsStoreS3 } from "./../../../src/stores/attachments/attachments-store-s3";
+
+const logger = new LoggerBunyan();
 
 describe("AttachmentsStoreS3", () => {
   it("should persist provided content as an S3 object", async () => {
@@ -17,6 +20,7 @@ describe("AttachmentsStoreS3", () => {
     const s3PutObjectMock = mock<Request<S3.Types.PutObjectOutput, AWSError>>();
     when(s3Mock.putObject(anything())).thenReturn(instance(s3PutObjectMock));
     const store = new AttachmentsStoreS3({
+      logger,
       s3: instance(s3Mock),
       bucketName: "test-bucket",
       folderName: "test-folder",
@@ -41,6 +45,7 @@ describe("AttachmentsStoreS3", () => {
       )
     ).thenReturn(instance(s3GetObjectMock));
     const store = new AttachmentsStoreS3({
+      logger,
       s3: instance(s3Mock),
       bucketName: "test-bucket",
       folderName: "test-folder",

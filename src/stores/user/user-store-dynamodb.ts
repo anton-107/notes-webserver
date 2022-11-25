@@ -7,6 +7,8 @@ import {
 } from "@aws/dynamodb-data-mapper-annotations";
 import { User, UserStore } from "authentication-module/dist/authenticator";
 
+import { Logger } from "../../logger/logger";
+
 const USERS_TABLE_NAME = "notes-webserver-users";
 
 @table(USERS_TABLE_NAME)
@@ -22,6 +24,7 @@ export class UserEntity implements User {
 }
 
 interface UserStoreDynamodbProps {
+  logger: Logger;
   dataMapper: DataMapper;
 }
 
@@ -30,7 +33,9 @@ export class UserStoreDynamodb implements UserStore {
 
   public async getUserByName(username: string): Promise<User> {
     try {
-      console.log(`[UserStoreDynamodb] fetching up user ${username}`);
+      this.properties.logger.info(
+        `[UserStoreDynamodb] fetching up user ${username}`
+      );
       const entity = await this.properties.dataMapper.get(
         Object.assign(new UserEntity(), { username, sortKey: "USER" })
       );
@@ -39,7 +44,7 @@ export class UserStoreDynamodb implements UserStore {
         passwordHash: entity.passwordHash,
       };
     } catch (err) {
-      console.log("No user found", username, err);
+      this.properties.logger.info("No user found", { username, error: err });
       return null;
     }
   }
@@ -49,9 +54,9 @@ export class UserStoreDynamodb implements UserStore {
         sortKey: "USER",
       });
       const objectSaved = await this.properties.dataMapper.put(entity);
-      console.info("User saved", objectSaved);
+      this.properties.logger.info("User saved", { data: objectSaved });
     } catch (err) {
-      console.error("Error adding user: ", err);
+      this.properties.logger.error("Error adding user: ", { error: err });
       throw err;
     }
   }

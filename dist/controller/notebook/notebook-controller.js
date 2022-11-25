@@ -8,6 +8,7 @@ class NotebookController extends entity_controller_1.EntityController {
     constructor(notebookControllerProperties) {
         super(notebookControllerProperties);
         this.notebookControllerProperties = notebookControllerProperties;
+        this.logger = this.notebookControllerProperties.logger;
     }
     async listSupportedColumns() {
         const columns = this.notebookControllerProperties.notebookTableColumnsRegistry.listColumns();
@@ -55,11 +56,16 @@ class NotebookController extends entity_controller_1.EntityController {
         };
     }
     async isAuthorizedToCreate(user, entity) {
-        console.log("everyone is authorized to create a notebook", entity, user);
+        this.logger.info("everyone is authorized to create a notebook", {
+            username: user,
+            data: entity,
+        });
         return true;
     }
     getEntityURL(entity) {
-        console.log("notebook list is currently shown on home", entity);
+        this.logger.info("notebook list is currently shown on home", {
+            data: entity,
+        });
         return "/home";
     }
     async showSingleEntityDetailsPage(entityID) {
@@ -73,7 +79,6 @@ class NotebookController extends entity_controller_1.EntityController {
                 .replace("{{MACRO_LIST_NOTES}}", await this.showNotesInNotebook(this.authorizedUserName, entityID))
                 .replace("{{MACRO_LIST_LINKS_TO_ADD_NOTES}}", await this.showLinksToAddNotes(entityID)),
         };
-        console.log("notebook controller showSingleEntityDetailsPage", this.notebookControllerProperties.postProcessorRegistry);
         return await this.notebookControllerProperties.postProcessorRegistry.processResponse(this.authorizedUserName, httpResponse);
     }
     async showNotesInNotebook(owner, notebookID) {

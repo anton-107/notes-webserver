@@ -61,7 +61,6 @@ export class PlaintextNoteHandler implements NoteTypeHandler {
       const requestedColumns: { [key: string]: string } = form[
         "table-columns"
       ] as unknown as { [key: string]: string };
-      console.log("requestedColumns", requestedColumns);
       supportedColumns.forEach((c) => {
         if (requestedColumns[c.columnType]) {
           r.columnValues[c.columnType] = requestedColumns[

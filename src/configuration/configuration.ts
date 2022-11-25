@@ -10,7 +10,9 @@ import { YoutubeParser as YoutubeModuleParser } from "youtube-module/dist/youtub
 
 import { YoutubeParser } from "../actions/fetch-video-information";
 import { PostProcessorRegistry } from "../controller/post-processor";
-import { CORSHeaders,corsHeaders } from "../http/cors-headers";
+import { CORSHeaders, corsHeaders } from "../http/cors-headers";
+import { Logger } from "../logger/logger";
+import { LoggerBunyan } from "../logger/logger-bunyan";
 import { NoteTypesRegistry } from "../registries/note-types-registry";
 import { NotebookTableColumnsRegistry } from "../registries/notebook-table-columns-registry";
 import { AttachmentsStore } from "../stores/attachments/attachments-store";
@@ -35,6 +37,7 @@ import { personStoreDynamoConfiguration } from "./person-store-dynamo";
 import { userStoreDynamoConfiguration } from "./user-store-dynamo";
 
 export interface ServiceConfiguration {
+  logger: Logger;
   authenticator: Authenticator;
   jwtSerializerSecretProvider: SecretKeyProvider;
   notebookStore: NotebookStore;
@@ -56,29 +59,35 @@ export type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
 export const dependenciesConfiguration = (
   overrides: ServiceConfigurationOverrides
 ): ServiceConfiguration => {
+  const logger = new LoggerBunyan();
   const contextConfiguration: ServiceConfigurationOverrides = {};
+  contextConfiguration.logger = logger;
   if (process.env["USER_STORE_TYPE"] === "dynamodb") {
-    Object.assign(contextConfiguration, userStoreDynamoConfiguration());
+    Object.assign(contextConfiguration, userStoreDynamoConfiguration(logger));
   }
   if (process.env["NOTEBOOK_STORE_TYPE"] === "dynamodb") {
-    Object.assign(contextConfiguration, notebookStoreDynamoConfiguration());
+    Object.assign(
+      contextConfiguration,
+      notebookStoreDynamoConfiguration(logger)
+    );
   }
   if (process.env["NOTE_STORE_TYPE"] === "dynamodb") {
-    Object.assign(contextConfiguration, noteStoreDynamoConfiguration());
+    Object.assign(contextConfiguration, noteStoreDynamoConfiguration(logger));
   }
   if (process.env["NOTE_ATTACHMENTS_STORE_TYPE"] === "dynamodb") {
     Object.assign(
       contextConfiguration,
-      noteAttachmentsStoreDynamoConfiguration()
+      noteAttachmentsStoreDynamoConfiguration(logger)
     );
   }
   if (process.env["PERSON_STORE_TYPE"] === "dynamodb") {
-    Object.assign(contextConfiguration, personStoreDynamoConfiguration());
+    Object.assign(contextConfiguration, personStoreDynamoConfiguration(logger));
   }
   if (process.env["JWT_SERIALIZER_SECRET_ID"]) {
     Object.assign(
       contextConfiguration,
       jwtSerializerSecretsManagerConfiguration(
+        logger,
         process.env["JWT_SERIALIZER_SECRET_ID"]
       )
     );
@@ -90,6 +99,7 @@ export const dependenciesConfiguration = (
   }
   if (process.env["S3_ATTACHMENTS_BUCKET"]) {
     contextConfiguration.attachmentsStore = new AttachmentsStoreS3({
+      logger,
       s3: new S3(),
       bucketName: process.env["S3_ATTACHMENTS_BUCKET"],
       folderName: process.env["S3_ATTACHMENTS_FOLDER"],

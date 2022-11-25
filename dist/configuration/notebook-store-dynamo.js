@@ -4,9 +4,10 @@ exports.notebookStoreDynamoConfiguration = void 0;
 const dynamodb_data_mapper_1 = require("@aws/dynamodb-data-mapper");
 const aws_sdk_1 = require("aws-sdk");
 const notebook_store_dynamodb_1 = require("../stores/notebook/notebook-store-dynamodb");
-const notebookStoreDynamoConfiguration = () => {
+const notebookStoreDynamoConfiguration = (logger) => {
     const r = {};
     r.notebookStore = new notebook_store_dynamodb_1.NotebookStoreDynamodb({
+        logger,
         dataMapper: new dynamodb_data_mapper_1.DataMapper({ client: new aws_sdk_1.DynamoDB() }),
     });
     return r;

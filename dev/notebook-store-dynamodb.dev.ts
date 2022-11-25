@@ -2,6 +2,7 @@ import { DataMapper } from "@aws/dynamodb-data-mapper";
 import { DynamoDB } from "aws-sdk";
 import { generate } from "short-uuid";
 
+import { dependenciesConfiguration } from "../src/configuration/configuration";
 import {
   NotebookEntity,
   NotebookStoreDynamodb,
@@ -9,6 +10,9 @@ import {
 
 const CREATE_TABLE_BEFORE_TESTS = false;
 const DELETE_TABLE_AFTER_TESTS = false;
+
+const config = dependenciesConfiguration({});
+const logger = config.logger;
 
 describe("NotebookStoreDynamodb: development test", () => {
   const mapper = new DataMapper({
@@ -20,25 +24,25 @@ describe("NotebookStoreDynamodb: development test", () => {
 
   beforeAll(async function () {
     if (!CREATE_TABLE_BEFORE_TESTS) {
-      console.log("Skipping creating the test table");
+      logger.info("Skipping creating the test table");
       return;
     }
     try {
-      console.log("Creating a test notebooks table");
+      logger.info("Creating a test notebooks table");
       await mapper.createTable(NotebookEntity, {
         readCapacityUnits: 1,
         writeCapacityUnits: 1,
       });
     } catch (err) {
-      console.warn("Error creating a table: ", err);
+      logger.error("Error creating a table: ", { error: err });
     }
   }, 30000);
   afterAll(async () => {
     if (!DELETE_TABLE_AFTER_TESTS) {
-      console.log("Skipping deleting the test table");
+      logger.info("Skipping deleting the test table");
       return;
     }
-    console.log("Deleting a test notebooks table");
+    logger.info("Deleting a test notebooks table");
     await mapper.deleteTable(NotebookEntity);
   }, 30000);
 

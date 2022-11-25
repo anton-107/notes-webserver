@@ -6,6 +6,7 @@ import {
   dependenciesConfiguration,
   ServiceConfiguration,
 } from "../src/configuration/configuration";
+import { Logger } from "../src/logger/logger";
 import { NotesWebserver } from "../src/notes-webserver";
 import { HttpClient, HttpResponse, JSONData } from "../test/http-client";
 import { routes } from "./../src/router";
@@ -13,6 +14,7 @@ import { routes } from "./../src/router";
 type FormData = { [key: string]: string };
 
 export class TestScenario {
+  private logger: Logger;
   private server: NotesWebserver;
   private serviceConfiguration: ServiceConfiguration;
   private currentPage: string; // last url the client loaded
@@ -41,6 +43,7 @@ export class TestScenario {
     const hashingFunction = new ScryptHashingFunction();
     const config = dependenciesConfiguration({});
     this.serviceConfiguration = config;
+    this.logger = config.logger;
     config.userStore.addUser({
       username: "user1",
       passwordHash: await hashingFunction.generateHash("1234"),
@@ -212,7 +215,9 @@ export class TestScenario {
   public checkJSONQuery(query: string, expectedValue: string | number) {
     const actualValue = jsonQuery(query, { data: this.jsonResponse }).value;
     if (actualValue !== expectedValue) {
-      console.log("Was checking checkJSONQuery", query, this.jsonResponse);
+      this.logger.error("Was checking checkJSONQuery", {
+        data: { query, response: this.jsonResponse },
+      });
     }
     expect(actualValue).toBe(expectedValue);
   }
@@ -225,18 +230,26 @@ export class TestScenario {
     this.jsonURL = actualValue;
   }
   public checkElement(elementDataID: string) {
-    this.el = this.pageRoot.querySelector(`*[data-testid=${elementDataID}]`);
+    const el = this.pageRoot.querySelector(`*[data-testid=${elementDataID}]`);
+    if (el) {
+      this.el = el;
+    }
     try {
       expect(this.el).toBeTruthy();
     } catch (err) {
-      console.warn("Was checking if element exists in DOM:", elementDataID);
-      console.debug("DOM tree", this.pageRoot.innerHTML);
+      this.logger.error("Was checking if element exists in DOM:", {
+        data: elementDataID,
+      });
+      this.logger.info("DOM tree", { data: String(this.pageRoot.innerHTML) });
       throw err;
     }
   }
   public checkElementIsNotPresent = (elementDataID: string) => {
-    this.el = this.pageRoot.querySelector(`*[data-testid=${elementDataID}]`);
-    expect(this.el).toBe(null);
+    const el = this.pageRoot.querySelector(`*[data-testid=${elementDataID}]`);
+    if (el) {
+      this.el = el;
+    }
+    expect(el).toBe(null);
   };
   public async handleClick() {
     switch (this.el.tagName) {
@@ -346,14 +359,19 @@ export class TestScenario {
     const address = `http://localhost:${this.testPort}${url}`
       .replace("{notebook-id}", this.notebookID)
       .replace("{last-known-id}", this.lastKnownID);
-    console.log("post JSON", address, this.jsonRequestBody);
+    this.logger.info("post JSON", {
+      data: { address, body: this.jsonRequestBody },
+    });
     this.response = await this.testClient.postJSON(
       address,
       this.jsonRequestBody
     );
   }
   private captureNotebookHref() {
-    this.notebookHref = this.el.getAttribute("href");
+    const href = this.el.getAttribute("href");
+    if (href) {
+      this.notebookHref = href;
+    }
     expect(this.notebookHref.startsWith("/notebook/")).toBe(true);
     this.notebookID = this.notebookHref.replace("/notebook/", "");
     expect(this.notebookID.length > 1).toBe(true);

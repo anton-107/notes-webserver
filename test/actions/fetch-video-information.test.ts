@@ -3,6 +3,7 @@ import { marshallItem } from "@aws/dynamodb-data-marshaller";
 import { instance, mock, when } from "ts-mockito";
 
 import { NoOpYoutubeParser } from "../../src/configuration/no-op/no-op-youtube-parser";
+import { LoggerBunyan } from "../../src/logger/logger-bunyan";
 import {
   AttachmentsStore,
   InMemoryAttachmentsStore,
@@ -15,11 +16,13 @@ import {
   YoutubeParser,
 } from "./../../src/actions/fetch-video-information";
 
+const logger = new LoggerBunyan();
+
 describe("FetchVideoInformation", () => {
   describe("FetchVideoInformation action class", () => {
     it("should get captions url of a video, download those captions content and persist that as note attachment", async () => {
       const parserMock = mock<YoutubeParser>();
-      const attachmentsStore = new InMemoryAttachmentsStore();
+      const attachmentsStore = new InMemoryAttachmentsStore({ logger });
       when(parserMock.parseCaptionsURL("some-video-id")).thenResolve([
         "some-caption-url",
       ]);
@@ -29,6 +32,7 @@ describe("FetchVideoInformation", () => {
       );
       const noteAttachmentsStore = new InMemoryNoteAttachmentsStore();
       const action = new FetchVideoInformation({
+        logger,
         parser: instance(parserMock),
         attachmentsStore: attachmentsStore,
         noteAttachmentsStore,
@@ -54,6 +58,7 @@ describe("FetchVideoInformation", () => {
       const parserMock = mock<YoutubeParser>();
       const attachmentsStoreMock = mock<AttachmentsStore>();
       const action = new FetchVideoInformation({
+        logger,
         parser: instance(parserMock),
         attachmentsStore: instance(attachmentsStoreMock),
         noteAttachmentsStore: new InMemoryNoteAttachmentsStore(),
@@ -69,6 +74,7 @@ describe("FetchVideoInformation", () => {
       const parserMock = mock<YoutubeParser>();
       const attachmentsStoreMock = mock<AttachmentsStore>();
       const action = new FetchVideoInformation({
+        logger,
         parser: instance(parserMock),
         attachmentsStore: instance(attachmentsStoreMock),
         noteAttachmentsStore: new InMemoryNoteAttachmentsStore(),

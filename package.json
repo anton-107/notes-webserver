@@ -18,6 +18,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/bunyan": "^1.8.8",
     "@types/cookie": "^0.5.1",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.12",
@@ -46,6 +47,7 @@
     "@aws/dynamodb-data-mapper-annotations": "^0.7.3",
     "authentication-module": "anton-107/authenticator",
     "aws-sdk": "^2.1152.0",
+    "bunyan": "^1.8.15",
     "cookie": "^0.5.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

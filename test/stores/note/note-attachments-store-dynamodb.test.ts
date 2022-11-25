@@ -1,15 +1,19 @@
 import { DataMapper, QueryIterator } from "@aws/dynamodb-data-mapper";
 import { anything, instance, mock, verify, when } from "ts-mockito";
 
+import { LoggerBunyan } from "../../../src/logger/logger-bunyan";
 import {
   NoteAttachmentEntity,
   NoteAttachmentsStoreDynamodb,
 } from "../../../src/stores/note/note-attachments-store-dynamodb";
 
+const logger = new LoggerBunyan();
+
 describe("NoteAttachmentsStoreDynamodb", () => {
   it("should add an attachment", async () => {
     const dataMapperMock = mock<DataMapper>();
     const store = new NoteAttachmentsStoreDynamodb({
+      logger,
       dataMapper: instance(dataMapperMock),
     });
     await store.add({
@@ -29,6 +33,7 @@ describe("NoteAttachmentsStoreDynamodb", () => {
       throw Error("this is a test error");
     });
     const store = new NoteAttachmentsStoreDynamodb({
+      logger,
       dataMapper: instance(dataMapperMock),
     });
     expect(async () => {
@@ -47,7 +52,6 @@ describe("NoteAttachmentsStoreDynamodb", () => {
     const dataMapperMock = mock<DataMapper>();
     const iterator = mock<QueryIterator<NoteAttachmentEntity>>();
     when(iterator[Symbol.asyncIterator]).thenCall(() => {
-      console.log("Symbol is called");
       let callsCount = 0;
       return {
         next() {
@@ -66,6 +70,7 @@ describe("NoteAttachmentsStoreDynamodb", () => {
       instance(iterator)
     );
     const store = new NoteAttachmentsStoreDynamodb({
+      logger,
       dataMapper: instance(dataMapperMock),
     });
     const notes = await store.listAllForNote("testuser2", "note-id");
@@ -77,6 +82,7 @@ describe("NoteAttachmentsStoreDynamodb", () => {
       throw Error("this is a test error");
     });
     const store = new NoteAttachmentsStoreDynamodb({
+      logger,
       dataMapper: instance(dataMapperMock),
     });
     const attachments = await store.listAllForNote("testuser1", "notebook-id");

@@ -1,6 +1,7 @@
 import { DataMapper, QueryIterator } from "@aws/dynamodb-data-mapper";
 import { anything, instance, mock, verify, when } from "ts-mockito";
 
+import { LoggerBunyan } from "../../src/logger/logger-bunyan";
 import {
   PersonEntity,
   PersonStoreDynamodb,
@@ -10,6 +11,7 @@ describe("PersonStoreDynamodb", () => {
   it("should add a person", async () => {
     const dataMapperMock = mock<DataMapper>();
     const store = new PersonStoreDynamodb({
+      logger: new LoggerBunyan(),
       dataMapper: instance(dataMapperMock),
     });
     await store.add({
@@ -26,6 +28,7 @@ describe("PersonStoreDynamodb", () => {
       throw Error("this is a test error");
     });
     const store = new PersonStoreDynamodb({
+      logger: new LoggerBunyan(),
       dataMapper: instance(dataMapperMock),
     });
     expect(async () => {
@@ -41,7 +44,6 @@ describe("PersonStoreDynamodb", () => {
     const dataMapperMock = mock<DataMapper>();
     const iterator = mock<QueryIterator<PersonEntity>>();
     when(iterator[Symbol.asyncIterator]).thenCall(() => {
-      console.log("Symbol is called");
       let callsCount = 0;
       return {
         next() {
@@ -60,6 +62,7 @@ describe("PersonStoreDynamodb", () => {
       instance(iterator)
     );
     const store = new PersonStoreDynamodb({
+      logger: new LoggerBunyan(),
       dataMapper: instance(dataMapperMock),
     });
     const people = await store.listAll("testuser2");
@@ -71,6 +74,7 @@ describe("PersonStoreDynamodb", () => {
       throw Error("this is a test error");
     });
     const store = new PersonStoreDynamodb({
+      logger: new LoggerBunyan(),
       dataMapper: instance(dataMapperMock),
     });
     const people = await store.listAll("testuser1");
@@ -82,6 +86,7 @@ describe("PersonStoreDynamodb", () => {
       throw Error("this is a test error");
     });
     const store = new PersonStoreDynamodb({
+      logger: new LoggerBunyan(),
       dataMapper: instance(dataMapperMock),
     });
     const person = await store.getOne("testuser1", "sample-id");
@@ -96,6 +101,7 @@ describe("PersonStoreDynamodb", () => {
       email: "alice@mymail.com",
     });
     const store = new PersonStoreDynamodb({
+      logger: new LoggerBunyan(),
       dataMapper: instance(dataMapperMock),
     });
     const person = await store.getOne("user1", "test-person1");
@@ -107,6 +113,7 @@ describe("PersonStoreDynamodb", () => {
       throw Error("this is a test error on delete");
     });
     const store = new PersonStoreDynamodb({
+      logger: new LoggerBunyan(),
       dataMapper: instance(dataMapperMock),
     });
     expect(async () => {
@@ -119,6 +126,7 @@ describe("PersonStoreDynamodb", () => {
       throw Error("this is a test error on edit");
     });
     const store = new PersonStoreDynamodb({
+      logger: new LoggerBunyan(),
       dataMapper: instance(dataMapperMock),
     });
     expect(async () => {

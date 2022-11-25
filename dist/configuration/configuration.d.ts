@@ -1,9 +1,9 @@
 import { Authenticator, PasswordHashingFunction, UserStore } from "authentication-module/dist/authenticator";
 import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
-
 import { YoutubeParser } from "../actions/fetch-video-information";
 import { PostProcessorRegistry } from "../controller/post-processor";
 import { CORSHeaders } from "../http/cors-headers";
+import { Logger } from "../logger/logger";
 import { NoteTypesRegistry } from "../registries/note-types-registry";
 import { NotebookTableColumnsRegistry } from "../registries/notebook-table-columns-registry";
 import { AttachmentsStore } from "../stores/attachments/attachments-store";
@@ -17,6 +17,7 @@ import { NotebookHtmlView } from "../views/notebook/notebook-html-view";
 import { NotebookJsonView } from "../views/notebook/notebook-json-view";
 import { PersonHtmlView } from "../views/person/person-html-view";
 export interface ServiceConfiguration {
+    logger: Logger;
     authenticator: Authenticator;
     jwtSerializerSecretProvider: SecretKeyProvider;
     notebookStore: NotebookStore;
@@ -36,6 +37,7 @@ export interface ServiceConfiguration {
 export declare type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
 export declare const dependenciesConfiguration: (overrides: ServiceConfigurationOverrides) => ServiceConfiguration;
 export declare const notebookControllerConfiguration: (overrides: ServiceConfigurationOverrides) => {
+    logger: Logger;
     authenticator: Authenticator;
     jwtSerializerSecretProvider: SecretKeyProvider;
     notebookStore: NotebookStore;
@@ -58,6 +60,7 @@ export declare const notebookControllerConfiguration: (overrides: ServiceConfigu
     notebookJsonView: NotebookJsonView;
 };
 export declare const personControllerConfiguration: (overrides: ServiceConfigurationOverrides) => {
+    logger: Logger;
     authenticator: Authenticator;
     jwtSerializerSecretProvider: SecretKeyProvider;
     notebookStore: NotebookStore;
@@ -78,6 +81,7 @@ export declare const personControllerConfiguration: (overrides: ServiceConfigura
     entityStore: PersonStore;
 };
 export declare const noteControllerConfiguration: (overrides: ServiceConfigurationOverrides) => {
+    logger: Logger;
     authenticator: Authenticator;
     jwtSerializerSecretProvider: SecretKeyProvider;
     notebookStore: NotebookStore;

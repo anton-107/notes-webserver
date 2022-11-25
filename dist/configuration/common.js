@@ -1,27 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.commonConfiguration = exports.resetConfigurationCache = void 0;
-const user_store_inmemory_1 = require("../stores/user/user-store-inmemory");
+const authenticator_1 = require("authentication-module/dist/authenticator");
 const jwt_serializer_1 = require("authentication-module/dist/jwt-serializer");
 const scrypt_hashing_1 = require("authentication-module/dist/scrypt-hashing");
-const authenticator_1 = require("authentication-module/dist/authenticator");
-const notebook_store_1 = require("../stores/notebook/notebook-store");
-const person_store_1 = require("../stores/person/person-store");
-const note_store_1 = require("../stores/note/note-store");
-const note_types_registry_1 = require("../registries/note-types-registry");
-const plaintext_handler_1 = require("../registries/note-types/plaintext-handler");
-const date_range_handler_1 = require("../registries/note-types/date-range-handler");
-const personal_date_range_handler_1 = require("../registries/note-types/personal-date-range-handler");
-const post_processor_1 = require("../controller/post-processor");
 const person_selector_controller_1 = require("../controller/person/person-selector-controller");
 const person_short_representation_controller_1 = require("../controller/person/person-short-representation-controller");
+const post_processor_1 = require("../controller/post-processor");
 const cors_headers_1 = require("../http/cors-headers");
+const logger_bunyan_1 = require("../logger/logger-bunyan");
+const date_range_handler_1 = require("../registries/note-types/date-range-handler");
 const notes_container_handler_1 = require("../registries/note-types/notes-container-handler");
-const notebook_table_columns_registry_1 = require("../registries/notebook-table-columns-registry");
+const personal_date_range_handler_1 = require("../registries/note-types/personal-date-range-handler");
+const plaintext_handler_1 = require("../registries/note-types/plaintext-handler");
 const youtube_video_handler_1 = require("../registries/note-types/youtube-video-handler");
-const no_op_youtube_parser_1 = require("./no-op/no-op-youtube-parser");
+const note_types_registry_1 = require("../registries/note-types-registry");
+const notebook_table_columns_registry_1 = require("../registries/notebook-table-columns-registry");
 const attachments_store_1 = require("../stores/attachments/attachments-store");
 const note_attachments_store_1 = require("../stores/note/note-attachments-store");
+const note_store_1 = require("../stores/note/note-store");
+const notebook_store_1 = require("../stores/notebook/notebook-store");
+const person_store_1 = require("../stores/person/person-store");
+const user_store_inmemory_1 = require("../stores/user/user-store-inmemory");
+const no_op_youtube_parser_1 = require("./no-op/no-op-youtube-parser");
+const defaultLogger = new logger_bunyan_1.LoggerBunyan();
 const passwordHashingFunction = new scrypt_hashing_1.ScryptHashingFunction();
 const userStore = new user_store_inmemory_1.InMemoryUserStore();
 const jwtSerializerSecretKey = String(Math.random());
@@ -71,7 +73,9 @@ const commonConfiguration = (overrides) => {
     if (configurationCache) {
         return configurationCache;
     }
+    const logger = overrides.logger || defaultLogger;
     const commonConfiguration = {
+        logger,
         userStore,
         jwtSerializerSecretProvider,
         authenticator: new authenticator_1.Authenticator({
@@ -92,7 +96,7 @@ const commonConfiguration = (overrides) => {
         notebookTableColumnsRegistry,
         corsHeaders: (0, cors_headers_1.corsHeaders)("*"),
         youtubeParser: new no_op_youtube_parser_1.NoOpYoutubeParser(),
-        attachmentsStore: new attachments_store_1.InMemoryAttachmentsStore(),
+        attachmentsStore: new attachments_store_1.InMemoryAttachmentsStore({ logger }),
         noteAttachmentsStore: new note_attachments_store_1.InMemoryNoteAttachmentsStore(),
         ...overrides,
     };

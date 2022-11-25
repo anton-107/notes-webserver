@@ -1,5 +1,5 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
-
+import { Logger } from "../../logger/logger";
 import { Notebook, NotebookSection, NotebookTableColumn } from "../../model/notebook-model";
 import { NotebookStore } from "./notebook-store";
 export declare class NotebookEntity implements Notebook {
@@ -13,6 +13,7 @@ export declare class NotebookEntity implements Notebook {
     updatedAt: string;
 }
 interface NotebookStoreDynamodbProps {
+    logger: Logger;
     dataMapper: DataMapper;
 }
 export declare class NotebookStoreDynamodb implements NotebookStore {

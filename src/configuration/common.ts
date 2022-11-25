@@ -10,6 +10,7 @@ import { PersonSelectorController } from "../controller/person/person-selector-c
 import { PersonShortRepresentationController } from "../controller/person/person-short-representation-controller";
 import { PostProcessorRegistry } from "../controller/post-processor";
 import { corsHeaders } from "../http/cors-headers";
+import { LoggerBunyan } from "../logger/logger-bunyan";
 import { DateRangeNoteHandler } from "../registries/note-types/date-range-handler";
 import { NotesContainerHandler } from "../registries/note-types/notes-container-handler";
 import { PersonalDateRangeNoteHandler } from "../registries/note-types/personal-date-range-handler";
@@ -28,6 +29,8 @@ import {
   ServiceConfigurationOverrides,
 } from "./configuration";
 import { NoOpYoutubeParser } from "./no-op/no-op-youtube-parser";
+
+const defaultLogger = new LoggerBunyan();
 
 const passwordHashingFunction = new ScryptHashingFunction();
 const userStore = new InMemoryUserStore();
@@ -90,7 +93,9 @@ export const commonConfiguration = (
   if (configurationCache) {
     return configurationCache;
   }
+  const logger = overrides.logger || defaultLogger;
   const commonConfiguration = {
+    logger,
     userStore,
     jwtSerializerSecretProvider,
     authenticator: new Authenticator({
@@ -112,7 +117,7 @@ export const commonConfiguration = (
     notebookTableColumnsRegistry,
     corsHeaders: corsHeaders("*"),
     youtubeParser: new NoOpYoutubeParser(),
-    attachmentsStore: new InMemoryAttachmentsStore(),
+    attachmentsStore: new InMemoryAttachmentsStore({ logger }),
     noteAttachmentsStore: new InMemoryNoteAttachmentsStore(),
     ...overrides,
   };

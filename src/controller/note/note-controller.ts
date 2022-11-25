@@ -3,6 +3,7 @@ import { generate } from "short-uuid";
 import { FormBody } from "../../http/body-parser";
 import { CORSHeaders } from "../../http/cors-headers";
 import { HttpResponse, HttpStatus } from "../../http/http";
+import { Logger } from "../../logger/logger";
 import { Note } from "../../model/note-model";
 import { NoteTypesRegistry } from "../../registries/note-types-registry";
 import { AttachmentsStore } from "../../stores/attachments/attachments-store";
@@ -27,8 +28,10 @@ export interface NoteControllerProperties
 }
 
 export class NoteController extends EntityController<Note> {
+  protected logger: Logger;
   constructor(private noteControllerProperties: NoteControllerProperties) {
     super(noteControllerProperties);
+    this.logger = this.noteControllerProperties.logger;
   }
   public async showCreateNewEntityPage(): Promise<HttpResponse> {
     const user = await this.noteControllerProperties.authenticator.authenticate(
@@ -57,23 +60,23 @@ export class NoteController extends EntityController<Note> {
     );
   }
   public async listAttachments(noteID: string): Promise<HttpResponse> {
-    console.log("Checking user");
+    this.logger.info("Checking user");
     const user = await this.noteControllerProperties.authenticator.authenticate(
       this.noteControllerProperties.authenticationToken
     );
-    console.log("Found user", user);
-    console.log("Checking note");
+    this.logger.info("Found user", { username: user.username });
+    this.logger.info("Checking note");
     const note = await this.noteControllerProperties.noteStore.getOne(
       user.username,
       noteID
     );
-    console.log("Found note", note);
+    this.logger.info("Found note", { data: note });
     const attachments =
       await this.noteControllerProperties.noteAttachmentsStore.listAllForNote(
         user.username,
         note.id
       );
-    console.log("Found attachments", attachments);
+    this.logger.info("Found attachments", { data: attachments });
 
     return {
       isBase64Encoded: false,
@@ -89,35 +92,39 @@ export class NoteController extends EntityController<Note> {
     noteID: string,
     attachmentID: string
   ): Promise<HttpResponse> {
-    console.log("Checking user");
+    this.logger.info("Checking user");
     const user = await this.noteControllerProperties.authenticator.authenticate(
       this.noteControllerProperties.authenticationToken
     );
-    console.log("Found user", user);
-    console.log("Checking note");
+    this.logger.info("Found user", { username: user.username });
+    this.logger.info("Checking note");
     const note = await this.noteControllerProperties.noteStore.getOne(
       user.username,
       noteID
     );
-    console.log("Found note", note);
+    this.logger.info("Found note", { data: note });
 
-    console.log("Checking attachments");
+    this.logger.info("Checking attachments");
     const noteAttachments =
       await this.noteControllerProperties.noteAttachmentsStore.listAllForNote(
         user.username,
         note.id
       );
-    console.log("Found attachments", noteAttachments);
-    console.log("Checking noteAttachment");
+    this.logger.info("Found attachments", { data: noteAttachments });
+    this.logger.info("Checking noteAttachment");
     const noteAttachment = noteAttachments.find((a) => a.id === attachmentID);
-    console.log("Found noteAttachment", noteAttachment);
+    this.logger.info("Found noteAttachment", { data: noteAttachment });
 
-    console.log("Reading objectBody", noteAttachment.objectKey);
+    this.logger.info("Reading objectBody", {
+      entityID: noteAttachment.objectKey,
+    });
     const objectBody =
       await this.noteControllerProperties.attachmentsStore.read(
         noteAttachment.objectKey
       );
-    console.log("Got object body of length", objectBody.length);
+    this.logger.info("Got object body of length", {
+      objectSize: objectBody.length,
+    });
 
     return {
       isBase64Encoded: true,
@@ -185,17 +192,16 @@ export class NoteController extends EntityController<Note> {
       entity.notebookID
     );
     if (!notebook) {
-      console.log(
+      this.logger.info(
         "[isAuthorizedToCreate] notebook not found. Access denied",
-        notebook
+        { data: notebook }
       );
       return false;
     }
     // if notebook is found, it means that user owns that notebook
-    console.log(
-      "[isAuthorizedToCreate] notebook found. Access granted",
-      notebook
-    );
+    this.logger.info("[isAuthorizedToCreate] notebook found. Access granted", {
+      data: notebook,
+    });
     return true;
   }
   protected getEntityURL(note: Note): string {

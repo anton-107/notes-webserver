@@ -3,6 +3,7 @@ import { Authenticator } from "authentication-module/dist/authenticator";
 import { FormBody } from "../http/body-parser";
 import { HttpResponse, HttpStatus } from "../http/http";
 import { ResponseType } from "../http/response-type-parser";
+import { Logger } from "../logger/logger";
 import { EntityStore } from "../stores/entity-store";
 import { HttpRedirectView } from "../views/http-redirect-view";
 import { PostProcessorRegistry } from "./post-processor";
@@ -15,6 +16,7 @@ export interface EntityView<T> {
 }
 
 export interface EntityControllerProperties<T> {
+  logger: Logger;
   authenticationToken: string;
   authenticator: Authenticator;
   entityStore: EntityStore<T>;
@@ -27,8 +29,11 @@ export interface EntityControllerProperties<T> {
 export abstract class EntityController<T> {
   protected authorizedUserName: string | null = null;
   protected selectedEntity: T | null = null;
+  protected logger: Logger;
 
-  constructor(private properties: EntityControllerProperties<T>) {}
+  constructor(private properties: EntityControllerProperties<T>) {
+    this.logger = this.properties.logger;
+  }
   protected abstract getEntityName(): string;
   protected abstract mapRequestToExistingEntity(
     username: string,
@@ -53,7 +58,9 @@ export abstract class EntityController<T> {
     );
 
     if (!user.isAuthenticated) {
-      console.error("User is not authenticated", user);
+      this.properties.logger.error("User is not authenticated", {
+        username: user.username,
+      });
       return {
         isBase64Encoded: false,
         statusCode: HttpStatus.FORBIDDEN,
@@ -67,10 +74,9 @@ export abstract class EntityController<T> {
       entityID
     );
     if (!entity) {
-      console.error(
+      this.properties.logger.error(
         `${this.getEntityName()} is not found for user `,
-        user.username,
-        entityID
+        { username: user.username, entityID }
       );
       return {
         isBase64Encoded: false,
@@ -107,7 +113,9 @@ export abstract class EntityController<T> {
     );
 
     if (!user.isAuthenticated) {
-      console.error("User is not authenticated", user);
+      this.properties.logger.error("User is not authenticated", {
+        username: user.username,
+      });
       return {
         isBase64Encoded: false,
         statusCode: HttpStatus.FORBIDDEN,
@@ -122,10 +130,9 @@ export abstract class EntityController<T> {
       entityID
     );
     if (!entity) {
-      console.error(
+      this.properties.logger.error(
         `${this.getEntityName()} is not found for user `,
-        user.username,
-        entityID
+        { username: user.username, entityID }
       );
       return {
         isBase64Encoded: false,
@@ -144,7 +151,9 @@ export abstract class EntityController<T> {
     );
 
     if (!user.isAuthenticated) {
-      console.error("User is not authenticated", user);
+      this.properties.logger.error("User is not authenticated", {
+        username: user.username,
+      });
       return {
         isBase64Encoded: false,
         statusCode: HttpStatus.FORBIDDEN,
@@ -166,7 +175,9 @@ export abstract class EntityController<T> {
     );
 
     if (!user.isAuthenticated) {
-      console.error("User is not authenticated", user);
+      this.properties.logger.error("User is not authenticated", {
+        username: user.username,
+      });
       return {
         isBase64Encoded: false,
         statusCode: HttpStatus.FORBIDDEN,
@@ -175,7 +186,10 @@ export abstract class EntityController<T> {
       };
     }
     if (!entityID) {
-      console.error(`No ${this.getEntityName()} id found in request`, entityID);
+      this.properties.logger.error(
+        `No ${this.getEntityName()} id found in request`,
+        { entityID }
+      );
       return {
         isBase64Encoded: false,
         statusCode: HttpStatus.BAD_REQUEST,
@@ -190,10 +204,9 @@ export abstract class EntityController<T> {
     );
 
     if (!entity) {
-      console.error(
+      this.properties.logger.error(
         `Entity ${this.getEntityName()} is not found for deletion`,
-        user,
-        entityID
+        { username: user.username, entityID }
       );
       return {
         isBase64Encoded: false,
@@ -206,7 +219,10 @@ export abstract class EntityController<T> {
     try {
       await this.properties.entityStore.deleteOne(user.username, entityID);
     } catch (err) {
-      console.log(`Could not delete ${this.getEntityName()}`, entityID, err);
+      this.properties.logger.info(`Could not delete ${this.getEntityName()}`, {
+        entityID,
+        error: err,
+      });
       return {
         isBase64Encoded: false,
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -215,7 +231,10 @@ export abstract class EntityController<T> {
       };
     }
 
-    console.log(`${this.getEntityName()} deleted`, user.username, entityID);
+    this.properties.logger.info(`${this.getEntityName()} deleted`, {
+      username: user.username,
+      entityID,
+    });
 
     if (this.properties.responseType === ResponseType.JSON) {
       return this.properties.entityView.renderDetailsPageOneEntity(entity);
@@ -231,7 +250,9 @@ export abstract class EntityController<T> {
       this.properties.authenticationToken
     );
     if (!user.isAuthenticated) {
-      console.error("User is not authenticated", user);
+      this.properties.logger.error("User is not authenticated", {
+        username: user.username,
+      });
       return {
         isBase64Encoded: false,
         statusCode: HttpStatus.FORBIDDEN,
@@ -246,10 +267,9 @@ export abstract class EntityController<T> {
       entityID
     );
     if (!existingEntity) {
-      console.error(
+      this.properties.logger.error(
         `Entity ${this.getEntityName()} is not found for update`,
-        user,
-        entityID
+        { username: user.username, entityID }
       );
       return {
         isBase64Encoded: false,
@@ -290,7 +310,9 @@ export abstract class EntityController<T> {
       this.properties.authenticationToken
     );
     if (!user.isAuthenticated) {
-      console.error("User is not authenticated", user);
+      this.properties.logger.error("User is not authenticated", {
+        username: user.username,
+      });
       return {
         isBase64Encoded: false,
         statusCode: HttpStatus.FORBIDDEN,
@@ -303,10 +325,9 @@ export abstract class EntityController<T> {
     const isAuthorized = await this.isAuthorizedToCreate(user.username, entity);
 
     if (!isAuthorized) {
-      console.error(
+      this.properties.logger.error(
         `User is not authorized to create ${this.getEntityName()}`,
-        user,
-        entity
+        { username: user.username, data: entity }
       );
       return {
         isBase64Encoded: false,

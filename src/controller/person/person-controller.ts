@@ -35,11 +35,16 @@ export class PersonController extends EntityController<Person> {
     user: string,
     entity: Person
   ): Promise<boolean> {
-    console.log("everyone is authorized to add a person", entity, user);
+    this.logger.info("everyone is authorized to add a person", {
+      data: entity,
+      username: user,
+    });
     return true;
   }
   protected getEntityURL(entity: Person): string {
-    console.log("list of people is currently shown on home", entity);
+    this.logger.info("list of people is currently shown on home", {
+      data: entity,
+    });
     return "/home";
   }
 }

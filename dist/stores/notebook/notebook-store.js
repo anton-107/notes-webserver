@@ -17,7 +17,6 @@ class InMemoryNotebookStore {
     async editOne(notebook) {
         const item = this.items.find((x) => x.owner === notebook.owner && x.id === notebook.id);
         if (!item) {
-            console.error("Notebook is not found for edit", notebook);
             throw Error("Notebook is not found");
         }
         item.name = notebook.name;

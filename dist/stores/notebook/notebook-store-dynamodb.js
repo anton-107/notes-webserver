@@ -61,16 +61,16 @@ class NotebookStoreDynamodb {
                 sortKey: `NOTEBOOK_${notebook.id}`,
             });
             const objectSaved = await this.properties.dataMapper.put(entity);
-            console.info("Notebook saved", objectSaved);
+            this.properties.logger.info("Note saved", { data: objectSaved });
         }
         catch (err) {
-            console.error("Error adding notebook: ", err);
+            this.properties.logger.error("Error adding notebook: ", { error: err });
             throw err;
         }
     }
     async listAll(owner) {
         try {
-            console.log(`[NotebookStoreDynamodb] fetching up notebooks for owner ${owner}`);
+            this.properties.logger.info(`[NotebookStoreDynamodb] fetching up notebooks for owner ${owner}`);
             const r = [];
             for await (const entity of this.properties.dataMapper.query(NotebookEntity, {
                 type: "And",
@@ -92,7 +92,10 @@ class NotebookStoreDynamodb {
             return r;
         }
         catch (err) {
-            console.log("No notebooks found for user", owner, err);
+            this.properties.logger.info("No notebooks found for user", {
+                owner,
+                error: err,
+            });
             return [];
         }
     }
@@ -113,7 +116,7 @@ class NotebookStoreDynamodb {
             };
         }
         catch (err) {
-            console.error(`Could not find notebook for ${owner}/${id}`, err);
+            this.properties.logger.error(`Could not find notebook for ${owner}/${id}`, { error: err });
             return null;
         }
     }
@@ -125,7 +128,7 @@ class NotebookStoreDynamodb {
             }));
         }
         catch (err) {
-            console.error(`Could not delete notebook for ${owner}/${id}`, err);
+            this.properties.logger.error(`Could not delete notebook for ${owner}/${id}`, { error: err });
             throw err;
         }
     }
@@ -134,7 +137,10 @@ class NotebookStoreDynamodb {
             await this.properties.dataMapper.update(Object.assign(new NotebookEntity(), { sortKey: `NOTEBOOK_${notebook.id}` }, notebook));
         }
         catch (err) {
-            console.error("Could not edit notebook", notebook, err);
+            this.properties.logger.error("Could not edit notebook", {
+                data: notebook,
+                error: err,
+            });
             throw err;
         }
     }

@@ -11,7 +11,7 @@ const server = new NotesWebserver({
 async function main() {
   const localPort = 3000;
   server.listen(localPort);
-  console.log(
+  config.logger.info(
     `Notes webserver is listening on http://localhost:${localPort}/home`
   );
   const passwordHash = await config.passwordHashingFunction.generateHash(

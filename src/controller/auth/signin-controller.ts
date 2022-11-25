@@ -4,8 +4,10 @@ import { FormBody } from "../../http/body-parser";
 import { CORSHeaders } from "../../http/cors-headers";
 import { HttpResponse, HttpStatus } from "../../http/http";
 import { ResponseType } from "../../http/response-type-parser";
+import { Logger } from "../../logger/logger";
 
 interface SigninControllerProperties {
+  logger: Logger;
   authenticationToken: string;
   authenticator: Authenticator;
   baseUrl: string;
@@ -16,16 +18,17 @@ interface SigninControllerProperties {
 export class SigninController {
   constructor(private properties: SigninControllerProperties) {}
   public async render(form: FormBody): Promise<HttpResponse> {
-    console.log("signin attempt", form["user-login"]);
+    this.properties.logger.info("signin attempt", { data: form["user-login"] });
     const signinResult = await this.properties.authenticator.signIn(
       form["user-login"],
       form["user-password"]
     );
-    console.log(
-      "signin result",
-      signinResult.isAuthenticated,
-      signinResult.authenticationFailedReason
-    );
+    this.properties.logger.info("signin result", {
+      data: {
+        isAuthenticated: signinResult.isAuthenticated,
+        authenticationFailedReason: signinResult.authenticationFailedReason,
+      },
+    });
     if (this.properties.responseType === ResponseType.JSON) {
       return {
         isBase64Encoded: false,

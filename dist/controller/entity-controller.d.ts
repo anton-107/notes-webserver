@@ -1,8 +1,8 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
-
 import { FormBody } from "../http/body-parser";
 import { HttpResponse } from "../http/http";
 import { ResponseType } from "../http/response-type-parser";
+import { Logger } from "../logger/logger";
 import { EntityStore } from "../stores/entity-store";
 import { HttpRedirectView } from "../views/http-redirect-view";
 import { PostProcessorRegistry } from "./post-processor";
@@ -13,6 +13,7 @@ export interface EntityView<T> {
     renderListPageAllEntities(entities: T[]): HttpResponse;
 }
 export interface EntityControllerProperties<T> {
+    logger: Logger;
     authenticationToken: string;
     authenticator: Authenticator;
     entityStore: EntityStore<T>;
@@ -25,6 +26,7 @@ export declare abstract class EntityController<T> {
     private properties;
     protected authorizedUserName: string | null;
     protected selectedEntity: T | null;
+    protected logger: Logger;
     constructor(properties: EntityControllerProperties<T>);
     protected abstract getEntityName(): string;
     protected abstract mapRequestToExistingEntity(username: string, existingEntity: T, requestForm: FormBody): T;

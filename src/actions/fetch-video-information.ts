@@ -1,6 +1,7 @@
 import { generate } from "short-uuid";
 
 import { dependenciesConfiguration } from "../configuration/configuration";
+import { Logger } from "../logger/logger";
 import { NoteAttachment } from "../model/note-model";
 import { AttachmentsStore } from "../stores/attachments/attachments-store";
 import { NoteAttachmentsStore } from "../stores/note/note-attachments-store";
@@ -12,6 +13,7 @@ export interface YoutubeParser {
 }
 
 interface FetchVideoInformationProperties {
+  logger: Logger;
   parser: YoutubeParser;
   attachmentsStore: AttachmentsStore;
   noteAttachmentsStore: NoteAttachmentsStore;
@@ -52,7 +54,9 @@ export class FetchVideoInformation {
       const attachmentID = await this.properties.attachmentsStore.persist(
         captionsContent
       );
-      console.log("Persisted attachment with id ", attachmentID);
+      this.properties.logger.info("Persisted attachment with id ", {
+        data: attachmentID,
+      });
 
       const now = new Date().toISOString();
       const noteAttachment: NoteAttachment = {
@@ -65,7 +69,9 @@ export class FetchVideoInformation {
         fileExtension: "xml",
       };
       await this.properties.noteAttachmentsStore.add(noteAttachment);
-      console.log("Persisted note attachment with id ", noteAttachment.id);
+      this.properties.logger.info("Persisted note attachment with id ", {
+        data: noteAttachment.id,
+      });
     }
     return { actionMessage: "success", captionsURL };
   }
@@ -76,32 +82,41 @@ export async function runFetchVideoInformation(
 ): Promise<undefined | FetchVideoInformationActionResult> {
   const configuration = dependenciesConfiguration({});
   const action = new FetchVideoInformation({
+    logger: configuration.logger,
     parser: configuration.youtubeParser,
     attachmentsStore: configuration.attachmentsStore,
     noteAttachmentsStore: configuration.noteAttachmentsStore,
   });
   for (const record of event.Records) {
     if (record.eventName !== "INSERT") {
-      console.log("Ignoring non-INSERT event", record.eventName);
+      configuration.logger.info("Ignoring non-INSERT event", {
+        data: record.eventName,
+      });
       return;
     }
     const note = unmarshallRecordToNote(record.dynamodb.NewImage);
     if (!note.extensionProperties) {
-      console.log("Ignoring a note without extensionProperties", note);
+      configuration.logger.info("Ignoring a note without extensionProperties", {
+        data: note,
+      });
       return;
     }
     if (!note.type) {
-      console.log("Ignoring a note without a type", note);
+      configuration.logger.info("Ignoring a note without a type", {
+        data: note,
+      });
       return;
     }
     if (note.type.type !== "youtube-video") {
-      console.log("Ignoring a non youtube-video note", note);
+      configuration.logger.info("Ignoring a non youtube-video note", {
+        data: note,
+      });
       return;
     }
     if (!note.extensionProperties.youtubeURL) {
-      console.log(
+      configuration.logger.info(
         "Ignoring a note without extensionProperties.youtubeURL set",
-        note
+        { data: note }
       );
       return;
     }
@@ -110,7 +125,7 @@ export async function runFetchVideoInformation(
       noteOwner: note.owner,
       videoURL: note.extensionProperties.youtubeURL,
     });
-    console.log("action result", result);
+    configuration.logger.info("action result", { data: result });
     return result;
   }
 }

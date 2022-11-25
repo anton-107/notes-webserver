@@ -34,7 +34,6 @@ export class InMemoryNoteStore implements NoteStore {
       (x) => x.owner === note.owner && x.id === note.id
     );
     if (!item) {
-      console.error("Note is not found for edit", note);
       throw Error("Note is not found");
     }
     Object.assign(item, note);

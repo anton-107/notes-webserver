@@ -1,5 +1,5 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
-
+import { Logger } from "../../logger/logger";
 import { NoteAttachment } from "../../model/note-model";
 import { NoteAttachmentsStore } from "./note-attachments-store";
 export declare class NoteAttachmentEntity implements NoteAttachment {
@@ -13,6 +13,7 @@ export declare class NoteAttachmentEntity implements NoteAttachment {
     createdAt: string;
 }
 interface NoteAttachmentsStoreDynamodbProps {
+    logger: Logger;
     dataMapper: DataMapper;
 }
 export declare class NoteAttachmentsStoreDynamodb implements NoteAttachmentsStore {

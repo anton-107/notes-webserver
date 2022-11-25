@@ -63,16 +63,16 @@ class NoteStoreDynamodb {
                 sortKey: `NOTE_${note.id}`,
             });
             const objectSaved = await this.properties.dataMapper.put(entity);
-            console.info("Note saved", objectSaved);
+            this.properties.logger.info("Note saved", { data: objectSaved });
         }
         catch (err) {
-            console.error("Error adding note: ", err);
+            this.properties.logger.error("Error adding note: ", { error: err });
             throw err;
         }
     }
     async listAll(owner) {
         try {
-            console.log(`[NoteStoreDynamodb] fetching up notes for owner ${owner}`);
+            this.properties.logger.info(`[NoteStoreDynamodb] fetching up notes for owner ${owner}`);
             const r = [];
             for await (const entity of this.properties.dataMapper.query(NoteEntity, {
                 type: "And",
@@ -88,7 +88,10 @@ class NoteStoreDynamodb {
             return r;
         }
         catch (err) {
-            console.log("No notes found for user", owner, err);
+            this.properties.logger.info("No notes found for user", {
+                owner,
+                error: err,
+            });
             return [];
         }
     }
@@ -103,7 +106,9 @@ class NoteStoreDynamodb {
             };
         }
         catch (err) {
-            console.error(`Could not find note for ${owner}/${id}`, err);
+            this.properties.logger.error(`Could not find note for ${owner}/${id}`, {
+                error: err,
+            });
             return null;
         }
     }
@@ -115,7 +120,9 @@ class NoteStoreDynamodb {
             }));
         }
         catch (err) {
-            console.error(`Could not delete note for ${owner}/${id}`, err);
+            this.properties.logger.error(`Could not delete note for ${owner}/${id}`, {
+                error: err,
+            });
             throw err;
         }
     }
@@ -124,13 +131,16 @@ class NoteStoreDynamodb {
             await this.properties.dataMapper.update(Object.assign(new NoteEntity(), { sortKey: `NOTE_${note.id}` }, note));
         }
         catch (err) {
-            console.error("Could not edit note", note, err);
+            this.properties.logger.error("Could not edit note", {
+                data: note,
+                error: err,
+            });
             throw err;
         }
     }
     async listAllInNotebook(owner, notebookID) {
         try {
-            console.log(`[NoteStoreDynamodb] listing all notes for owner ${owner} in ${notebookID}`);
+            this.properties.logger.info(`[NoteStoreDynamodb] listing all notes for owner ${owner} in ${notebookID}`);
             const r = [];
             for await (const entity of this.properties.dataMapper.query(NoteEntity, {
                 type: "And",
@@ -146,7 +156,10 @@ class NoteStoreDynamodb {
             return r;
         }
         catch (err) {
-            console.log("No notes found for user", owner, err);
+            this.properties.logger.info("No notes found for user", {
+                owner,
+                error: err,
+            });
             return [];
         }
     }

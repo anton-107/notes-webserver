@@ -5,11 +5,13 @@ import {
   NoteEntity,
   NoteStoreDynamodb,
 } from "../../../src/stores/note/note-store-dynamodb";
+import { LoggerBunyan } from "./../../../src/logger/logger-bunyan";
 
 describe("NoteStoreDynamodb", () => {
   it("should add a note", async () => {
     const dataMapperMock = mock<DataMapper>();
     const store = new NoteStoreDynamodb({
+      logger: new LoggerBunyan(),
       dataMapper: instance(dataMapperMock),
     });
     await store.add({
@@ -27,6 +29,7 @@ describe("NoteStoreDynamodb", () => {
       throw Error("this is a test error");
     });
     const store = new NoteStoreDynamodb({
+      logger: new LoggerBunyan(),
       dataMapper: instance(dataMapperMock),
     });
     expect(async () => {
@@ -43,7 +46,6 @@ describe("NoteStoreDynamodb", () => {
     const dataMapperMock = mock<DataMapper>();
     const iterator = mock<QueryIterator<NoteEntity>>();
     when(iterator[Symbol.asyncIterator]).thenCall(() => {
-      console.log("Symbol is called");
       let callsCount = 0;
       return {
         next() {
@@ -62,6 +64,7 @@ describe("NoteStoreDynamodb", () => {
       instance(iterator)
     );
     const store = new NoteStoreDynamodb({
+      logger: new LoggerBunyan(),
       dataMapper: instance(dataMapperMock),
     });
     const notes = await store.listAll("testuser2");
@@ -71,7 +74,6 @@ describe("NoteStoreDynamodb", () => {
     const dataMapperMock = mock<DataMapper>();
     const iterator = mock<QueryIterator<NoteEntity>>();
     when(iterator[Symbol.asyncIterator]).thenCall(() => {
-      console.log("Symbol is called");
       let callsCount = 0;
       return {
         next() {
@@ -90,6 +92,7 @@ describe("NoteStoreDynamodb", () => {
       instance(iterator)
     );
     const store = new NoteStoreDynamodb({
+      logger: new LoggerBunyan(),
       dataMapper: instance(dataMapperMock),
     });
     const notes = await store.listAllInNotebook("testuser2", "notebook-id");
@@ -101,6 +104,7 @@ describe("NoteStoreDynamodb", () => {
       throw Error("this is a test error");
     });
     const store = new NoteStoreDynamodb({
+      logger: new LoggerBunyan(),
       dataMapper: instance(dataMapperMock),
     });
     let notes = await store.listAll("testuser1");
@@ -114,6 +118,7 @@ describe("NoteStoreDynamodb", () => {
       throw Error("this is a test error");
     });
     const store = new NoteStoreDynamodb({
+      logger: new LoggerBunyan(),
       dataMapper: instance(dataMapperMock),
     });
     const note = await store.getOne("testuser1", "sample-id");
@@ -129,6 +134,7 @@ describe("NoteStoreDynamodb", () => {
       notebookID: "",
     });
     const store = new NoteStoreDynamodb({
+      logger: new LoggerBunyan(),
       dataMapper: instance(dataMapperMock),
     });
     const note = await store.getOne("user1", "test-note");
@@ -143,6 +149,7 @@ describe("NoteStoreDynamodb", () => {
       throw Error("this is a test error on delete");
     });
     const store = new NoteStoreDynamodb({
+      logger: new LoggerBunyan(),
       dataMapper: instance(dataMapperMock),
     });
     expect(async () => {
@@ -155,6 +162,7 @@ describe("NoteStoreDynamodb", () => {
       throw Error("this is a test error on edit");
     });
     const store = new NoteStoreDynamodb({
+      logger: new LoggerBunyan(),
       dataMapper: instance(dataMapperMock),
     });
     expect(async () => {

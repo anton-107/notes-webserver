@@ -1,5 +1,6 @@
 import { FormBody } from "../../http/body-parser";
 import { HttpResponse } from "../../http/http";
+import { Logger } from "../../logger/logger";
 import { Notebook } from "../../model/notebook-model";
 import { NoteTypesRegistry } from "../../registries/note-types-registry";
 import { NotebookTableColumnsRegistry } from "../../registries/notebook-table-columns-registry";
@@ -16,6 +17,7 @@ export interface NotebookControllerProperties extends EntityControllerProperties
 }
 export declare class NotebookController extends EntityController<Notebook> {
     private notebookControllerProperties;
+    protected logger: Logger;
     constructor(notebookControllerProperties: NotebookControllerProperties);
     listSupportedColumns(): Promise<HttpResponse>;
     protected getEntityName(): string;

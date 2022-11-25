@@ -36,7 +36,7 @@ class UserStoreDynamodb {
     }
     async getUserByName(username) {
         try {
-            console.log(`[UserStoreDynamodb] fetching up user ${username}`);
+            this.properties.logger.info(`[UserStoreDynamodb] fetching up user ${username}`);
             const entity = await this.properties.dataMapper.get(Object.assign(new UserEntity(), { username, sortKey: "USER" }));
             return {
                 username: entity.username,
@@ -44,7 +44,7 @@ class UserStoreDynamodb {
             };
         }
         catch (err) {
-            console.log("No user found", username, err);
+            this.properties.logger.info("No user found", { username, error: err });
             return null;
         }
     }
@@ -54,10 +54,10 @@ class UserStoreDynamodb {
                 sortKey: "USER",
             });
             const objectSaved = await this.properties.dataMapper.put(entity);
-            console.info("User saved", objectSaved);
+            this.properties.logger.info("User saved", { data: objectSaved });
         }
         catch (err) {
-            console.error("Error adding user: ", err);
+            this.properties.logger.error("Error adding user: ", { error: err });
             throw err;
         }
     }

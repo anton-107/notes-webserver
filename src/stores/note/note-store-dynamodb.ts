@@ -7,6 +7,7 @@ import {
 } from "@aws/dynamodb-data-mapper-annotations";
 import { AttributePath, FunctionExpression } from "@aws/dynamodb-expressions";
 
+import { Logger } from "../../logger/logger";
 import { Note, NoteType } from "../../model/note-model";
 import { NotebookColumnValueType } from "../../model/notebook-model";
 import { NoteStore } from "./note-store";
@@ -41,6 +42,7 @@ export class NoteEntity implements Note {
 }
 
 interface NoteStoreDynamodbProps {
+  logger: Logger;
   dataMapper: DataMapper;
 }
 
@@ -54,15 +56,17 @@ export class NoteStoreDynamodb implements NoteStore {
         sortKey: `NOTE_${note.id}`,
       });
       const objectSaved = await this.properties.dataMapper.put(entity);
-      console.info("Note saved", objectSaved);
+      this.properties.logger.info("Note saved", { data: objectSaved });
     } catch (err) {
-      console.error("Error adding note: ", err);
+      this.properties.logger.error("Error adding note: ", { error: err });
       throw err;
     }
   }
   public async listAll(owner: string): Promise<Note[]> {
     try {
-      console.log(`[NoteStoreDynamodb] fetching up notes for owner ${owner}`);
+      this.properties.logger.info(
+        `[NoteStoreDynamodb] fetching up notes for owner ${owner}`
+      );
       const r: Note[] = [];
       for await (const entity of this.properties.dataMapper.query(NoteEntity, {
         type: "And",
@@ -81,7 +85,10 @@ export class NoteStoreDynamodb implements NoteStore {
       }
       return r;
     } catch (err) {
-      console.log("No notes found for user", owner, err);
+      this.properties.logger.info("No notes found for user", {
+        owner,
+        error: err,
+      });
       return [];
     }
   }
@@ -97,7 +104,9 @@ export class NoteStoreDynamodb implements NoteStore {
         ...entity,
       };
     } catch (err) {
-      console.error(`Could not find note for ${owner}/${id}`, err);
+      this.properties.logger.error(`Could not find note for ${owner}/${id}`, {
+        error: err,
+      });
       return null;
     }
   }
@@ -110,7 +119,9 @@ export class NoteStoreDynamodb implements NoteStore {
         })
       );
     } catch (err) {
-      console.error(`Could not delete note for ${owner}/${id}`, err);
+      this.properties.logger.error(`Could not delete note for ${owner}/${id}`, {
+        error: err,
+      });
       throw err;
     }
   }
@@ -120,7 +131,10 @@ export class NoteStoreDynamodb implements NoteStore {
         Object.assign(new NoteEntity(), { sortKey: `NOTE_${note.id}` }, note)
       );
     } catch (err) {
-      console.error("Could not edit note", note, err);
+      this.properties.logger.error("Could not edit note", {
+        data: note,
+        error: err,
+      });
       throw err;
     }
   }
@@ -129,7 +143,7 @@ export class NoteStoreDynamodb implements NoteStore {
     notebookID: string
   ): Promise<Note[]> {
     try {
-      console.log(
+      this.properties.logger.info(
         `[NoteStoreDynamodb] listing all notes for owner ${owner} in ${notebookID}`
       );
       const r: Note[] = [];
@@ -150,7 +164,10 @@ export class NoteStoreDynamodb implements NoteStore {
       }
       return r;
     } catch (err) {
-      console.log("No notes found for user", owner, err);
+      this.properties.logger.info("No notes found for user", {
+        owner,
+        error: err,
+      });
       return [];
     }
   }

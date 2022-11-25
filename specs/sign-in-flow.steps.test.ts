@@ -1,4 +1,4 @@
-import { defineFeature,loadFeature } from "jest-cucumber";
+import { defineFeature, loadFeature } from "jest-cucumber";
 
 import { TestScenario } from "./test-scenario";
 

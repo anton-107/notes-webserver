@@ -13,7 +13,7 @@ class HomePageController {
         const responseToAnonymous = `<h1>hello anonymous!</h1><a data-testid='sign-in-link' href='${this.properties.baseUrl}/signin'>Sign in</a>`;
         const authToken = this.properties.authenticationToken;
         if (!authToken) {
-            console.log("No auth token is present");
+            this.properties.logger.info("No auth token is present");
             return {
                 isBase64Encoded: false,
                 statusCode: http_1.HttpStatus.OK,
@@ -23,7 +23,9 @@ class HomePageController {
         }
         const user = await this.properties.authenticator.authenticate(authToken);
         if (!user.isAuthenticated) {
-            console.log("Not authenticated:", user.errorMessage);
+            this.properties.logger.info("Not authenticated:", {
+                error: Error(user.errorMessage),
+            });
             return {
                 isBase64Encoded: false,
                 statusCode: http_1.HttpStatus.OK,

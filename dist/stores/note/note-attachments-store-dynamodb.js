@@ -63,16 +63,16 @@ class NoteAttachmentsStoreDynamodb {
                 sortKey: `ATTACHMENT_${attachment.id}`,
             });
             const objectSaved = await this.properties.dataMapper.put(entity);
-            console.info("Attachment saved", objectSaved);
+            this.properties.logger.info("Attachment saved", { data: objectSaved });
         }
         catch (err) {
-            console.error("Error adding attachment: ", err);
+            this.properties.logger.error("Error adding attachment: ", { error: err });
             throw err;
         }
     }
     async listAllForNote(owner, noteID) {
         try {
-            console.log(`[NoteAttachmentsStoreDynamodb] listing all attachments for owner ${owner} for note ${noteID}`);
+            this.properties.logger.info(`[NoteAttachmentsStoreDynamodb] listing all attachments for owner ${owner} for note ${noteID}`);
             const r = [];
             for await (const entity of this.properties.dataMapper.query(NoteAttachmentEntity, {
                 type: "And",
@@ -88,7 +88,10 @@ class NoteAttachmentsStoreDynamodb {
             return r;
         }
         catch (err) {
-            console.log("No attachments found for note", owner, err);
+            this.properties.logger.info("No attachments found for note", {
+                owner,
+                error: err,
+            });
             return [];
         }
     }

@@ -48,7 +48,6 @@ class PlaintextNoteHandler {
             }
             const supportedColumns = this.properties.notebookTableColumnsRegistry.listColumns();
             const requestedColumns = form["table-columns"];
-            console.log("requestedColumns", requestedColumns);
             supportedColumns.forEach((c) => {
                 if (requestedColumns[c.columnType]) {
                     r.columnValues[c.columnType] = requestedColumns[c.columnType];

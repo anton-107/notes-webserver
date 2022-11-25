@@ -17,7 +17,6 @@ class InMemoryPersonStore {
     async editOne(person) {
         const item = this.items.find((x) => x.manager === person.manager && x.id === person.id);
         if (!item) {
-            console.error("Person is not found for edit", person);
             throw Error("Person is not found");
         }
         item.name = person.name;

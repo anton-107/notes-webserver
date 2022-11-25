@@ -1,11 +1,13 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 
 import { HttpResponse, HttpStatus } from "../../http/http";
+import { Logger } from "../../logger/logger";
 import { NotebookStore } from "../../stores/notebook/notebook-store";
 import { PersonStore } from "../../stores/person/person-store";
 import { HomeHtmlView } from "../../views/home/home-html-view";
 
 interface HomePageProperties {
+  logger: Logger;
   authenticationToken: string;
   authenticator: Authenticator;
   notebookStore: NotebookStore;
@@ -24,7 +26,7 @@ export class HomePageController {
 
     const authToken = this.properties.authenticationToken;
     if (!authToken) {
-      console.log("No auth token is present");
+      this.properties.logger.info("No auth token is present");
       return {
         isBase64Encoded: false,
         statusCode: HttpStatus.OK,
@@ -35,7 +37,9 @@ export class HomePageController {
 
     const user = await this.properties.authenticator.authenticate(authToken);
     if (!user.isAuthenticated) {
-      console.log("Not authenticated:", user.errorMessage);
+      this.properties.logger.info("Not authenticated:", {
+        error: Error(user.errorMessage),
+      });
       return {
         isBase64Encoded: false,
         statusCode: HttpStatus.OK,

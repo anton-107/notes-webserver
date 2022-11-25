@@ -20,7 +20,6 @@ export class PostProcessorRegistry {
       const regexp = postProcessor.getRegularExpressionForMacro();
       const match = body.match(regexp);
       if (match) {
-        console.log("MATCH: ", regexp);
         const renderedMacro = await postProcessor.renderMacro(username, match);
         body = body.replace(regexp, renderedMacro);
       }

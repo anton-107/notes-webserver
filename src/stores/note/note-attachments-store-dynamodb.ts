@@ -7,6 +7,7 @@ import {
 } from "@aws/dynamodb-data-mapper-annotations";
 import { AttributePath, FunctionExpression } from "@aws/dynamodb-expressions";
 
+import { Logger } from "../../logger/logger";
 import { NoteAttachment } from "../../model/note-model";
 import { NoteAttachmentsStore } from "./note-attachments-store";
 
@@ -40,6 +41,7 @@ export class NoteAttachmentEntity implements NoteAttachment {
 }
 
 interface NoteAttachmentsStoreDynamodbProps {
+  logger: Logger;
   dataMapper: DataMapper;
 }
 
@@ -53,9 +55,9 @@ export class NoteAttachmentsStoreDynamodb implements NoteAttachmentsStore {
         sortKey: `ATTACHMENT_${attachment.id}`,
       });
       const objectSaved = await this.properties.dataMapper.put(entity);
-      console.info("Attachment saved", objectSaved);
+      this.properties.logger.info("Attachment saved", { data: objectSaved });
     } catch (err) {
-      console.error("Error adding attachment: ", err);
+      this.properties.logger.error("Error adding attachment: ", { error: err });
       throw err;
     }
   }
@@ -64,7 +66,7 @@ export class NoteAttachmentsStoreDynamodb implements NoteAttachmentsStore {
     noteID: string
   ): Promise<NoteAttachment[]> {
     try {
-      console.log(
+      this.properties.logger.info(
         `[NoteAttachmentsStoreDynamodb] listing all attachments for owner ${owner} for note ${noteID}`
       );
       const r: NoteAttachment[] = [];
@@ -88,7 +90,10 @@ export class NoteAttachmentsStoreDynamodb implements NoteAttachmentsStore {
       }
       return r;
     } catch (err) {
-      console.log("No attachments found for note", owner, err);
+      this.properties.logger.info("No attachments found for note", {
+        owner,
+        error: err,
+      });
       return [];
     }
   }

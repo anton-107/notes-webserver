@@ -8,9 +8,14 @@ class SigninController {
         this.properties = properties;
     }
     async render(form) {
-        console.log("signin attempt", form["user-login"]);
+        this.properties.logger.info("signin attempt", { data: form["user-login"] });
         const signinResult = await this.properties.authenticator.signIn(form["user-login"], form["user-password"]);
-        console.log("signin result", signinResult.isAuthenticated, signinResult.authenticationFailedReason);
+        this.properties.logger.info("signin result", {
+            data: {
+                isAuthenticated: signinResult.isAuthenticated,
+                authenticationFailedReason: signinResult.authenticationFailedReason,
+            },
+        });
         if (this.properties.responseType === response_type_parser_1.ResponseType.JSON) {
             return {
                 isBase64Encoded: false,

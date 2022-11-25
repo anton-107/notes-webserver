@@ -4,7 +4,10 @@ import { anything, instance, mock, when } from "ts-mockito";
 import { corsHeaders } from "../../src/http/cors-headers";
 import { HttpStatus } from "../../src/http/http";
 import { ResponseType } from "../../src/http/response-type-parser";
+import { LoggerBunyan } from "../../src/logger/logger-bunyan";
 import { SigninController } from "./../../src/controller/auth/signin-controller";
+
+const logger = new LoggerBunyan();
 
 describe("SigninController", () => {
   it("should return forbidden in json response if authentication fails", async () => {
@@ -13,6 +16,7 @@ describe("SigninController", () => {
       isAuthenticated: false,
     });
     const c = new SigninController({
+      logger,
       authenticationToken: "fake-token",
       authenticator: instance(authenticatorMock),
       baseUrl: "",
@@ -30,6 +34,7 @@ describe("SigninController", () => {
       isAuthenticated: true,
     });
     const c = new SigninController({
+      logger,
       authenticationToken: "fake-token",
       authenticator: instance(authenticatorMock),
       baseUrl: "",
@@ -49,6 +54,7 @@ describe("SigninController", () => {
       accessToken: "mocked-access-token",
     });
     const c = new SigninController({
+      logger,
       authenticationToken: "fake-token",
       authenticator: instance(authenticatorMock),
       baseUrl: "",

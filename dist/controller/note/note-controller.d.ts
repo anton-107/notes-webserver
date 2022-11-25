@@ -1,6 +1,7 @@
 import { FormBody } from "../../http/body-parser";
 import { CORSHeaders } from "../../http/cors-headers";
 import { HttpResponse } from "../../http/http";
+import { Logger } from "../../logger/logger";
 import { Note } from "../../model/note-model";
 import { NoteTypesRegistry } from "../../registries/note-types-registry";
 import { AttachmentsStore } from "../../stores/attachments/attachments-store";
@@ -20,6 +21,7 @@ export interface NoteControllerProperties extends EntityControllerProperties<Not
 }
 export declare class NoteController extends EntityController<Note> {
     private noteControllerProperties;
+    protected logger: Logger;
     constructor(noteControllerProperties: NoteControllerProperties);
     showCreateNewEntityPage(): Promise<HttpResponse>;
     showNotesInNotebook(notebookID: string): Promise<HttpResponse>;

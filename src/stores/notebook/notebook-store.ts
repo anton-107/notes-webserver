@@ -24,7 +24,6 @@ export class InMemoryNotebookStore implements NotebookStore {
       (x) => x.owner === notebook.owner && x.id === notebook.id
     );
     if (!item) {
-      console.error("Notebook is not found for edit", notebook);
       throw Error("Notebook is not found");
     }
     item.name = notebook.name;

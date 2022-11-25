@@ -1,16 +1,23 @@
+import { Logger } from "../../logger/logger";
+
 export interface AttachmentsStore {
   persist(attachmentContent: string): Promise<string>;
   read(objectKey: string): Promise<string>;
 }
 
+interface InMemoryAttachmentsStoreProperties {
+  logger: Logger;
+}
+
 export class InMemoryAttachmentsStore implements AttachmentsStore {
+  constructor(private properties: InMemoryAttachmentsStoreProperties) {}
   private attachments: string[] = [];
   public async persist(attachmentContent: string): Promise<string> {
     const index = this.attachments.length;
     this.attachments.push(attachmentContent);
-    console.log(
+    this.properties.logger.info(
       "InMemoryAttachmentsStore: saved attachment of size",
-      attachmentContent.length
+      { objectSize: attachmentContent.length }
     );
     return String(index);
   }

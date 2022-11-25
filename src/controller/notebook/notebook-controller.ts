@@ -2,6 +2,7 @@ import { generate } from "short-uuid";
 
 import { FormBody } from "../../http/body-parser";
 import { HttpResponse, HttpStatus } from "../../http/http";
+import { Logger } from "../../logger/logger";
 import { Notebook } from "../../model/notebook-model";
 import { NoteTypesRegistry } from "../../registries/note-types-registry";
 import { NotebookTableColumnsRegistry } from "../../registries/notebook-table-columns-registry";
@@ -23,10 +24,12 @@ export interface NotebookControllerProperties
 }
 
 export class NotebookController extends EntityController<Notebook> {
+  protected logger: Logger;
   constructor(
     private notebookControllerProperties: NotebookControllerProperties
   ) {
     super(notebookControllerProperties);
+    this.logger = this.notebookControllerProperties.logger;
   }
   public async listSupportedColumns(): Promise<HttpResponse> {
     const columns =
@@ -90,11 +93,16 @@ export class NotebookController extends EntityController<Notebook> {
     user: string,
     entity: Notebook
   ): Promise<boolean> {
-    console.log("everyone is authorized to create a notebook", entity, user);
+    this.logger.info("everyone is authorized to create a notebook", {
+      username: user,
+      data: entity,
+    });
     return true;
   }
   protected getEntityURL(entity: Notebook): string {
-    console.log("notebook list is currently shown on home", entity);
+    this.logger.info("notebook list is currently shown on home", {
+      data: entity,
+    });
     return "/home";
   }
 
@@ -117,10 +125,6 @@ export class NotebookController extends EntityController<Notebook> {
           await this.showLinksToAddNotes(entityID)
         ),
     };
-    console.log(
-      "notebook controller showSingleEntityDetailsPage",
-      this.notebookControllerProperties.postProcessorRegistry
-    );
     return await this.notebookControllerProperties.postProcessorRegistry.processResponse(
       this.authorizedUserName,
       httpResponse

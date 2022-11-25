@@ -1,12 +1,16 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
 import { anything, instance, mock, verify, when } from "ts-mockito";
 
+import { LoggerBunyan } from "../../src/logger/logger-bunyan";
 import { UserStoreDynamodb } from "../../src/stores/user/user-store-dynamodb";
+
+const logger = new LoggerBunyan();
 
 describe("UserStoreDynamodb", () => {
   it("should add a user", async () => {
     const dataMapperMock = mock<DataMapper>();
     const store = new UserStoreDynamodb({
+      logger,
       dataMapper: instance(dataMapperMock),
     });
     await store.addUser({
@@ -21,6 +25,7 @@ describe("UserStoreDynamodb", () => {
       throw Error("this is a test error");
     });
     const store = new UserStoreDynamodb({
+      logger,
       dataMapper: instance(dataMapperMock),
     });
     expect(async () => {
@@ -37,6 +42,7 @@ describe("UserStoreDynamodb", () => {
       passwordHash: "password-hash-2",
     });
     const store = new UserStoreDynamodb({
+      logger,
       dataMapper: instance(dataMapperMock),
     });
     const user = await store.getUserByName("testuser2");
@@ -46,6 +52,7 @@ describe("UserStoreDynamodb", () => {
     const dataMapperMock = mock<DataMapper>();
     when(dataMapperMock.get(anything())).thenReject();
     const store = new UserStoreDynamodb({
+      logger,
       dataMapper: instance(dataMapperMock),
     });
     const user = await store.getUserByName("testuser2");

@@ -27,11 +27,16 @@ class PersonController extends entity_controller_1.EntityController {
         };
     }
     async isAuthorizedToCreate(user, entity) {
-        console.log("everyone is authorized to add a person", entity, user);
+        this.logger.info("everyone is authorized to add a person", {
+            data: entity,
+            username: user,
+        });
         return true;
     }
     getEntityURL(entity) {
-        console.log("list of people is currently shown on home", entity);
+        this.logger.info("list of people is currently shown on home", {
+            data: entity,
+        });
         return "/home";
     }
 }
