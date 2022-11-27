@@ -3,9 +3,11 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint", "simple-import-sort"],
   extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  ignorePatterns: ["/dist/**/*"],
   rules: {
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "no-console": "error",
+    "max-depth": ["error", 2],
   },
 };

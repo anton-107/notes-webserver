@@ -1,4 +1,5 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
+
 import { Logger } from "../../logger/logger";
 import { NoteAttachment } from "../../model/note-model";
 import { NoteAttachmentsStore } from "./note-attachments-store";
