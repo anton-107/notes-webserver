@@ -53,6 +53,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "short-uuid": "^4.2.0",
-    "youtube-module": "anton-107/youtube-module"
+    "youtube-module": "anton-107/youtube-module",
+    "opensearch-module": "anton-107/opensearch-module"
   }
 }
