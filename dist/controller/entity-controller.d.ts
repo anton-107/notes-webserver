@@ -1,5 +1,4 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
-
 import { FormBody } from "../http/body-parser";
 import { HttpResponse } from "../http/http";
 import { ResponseType } from "../http/response-type-parser";

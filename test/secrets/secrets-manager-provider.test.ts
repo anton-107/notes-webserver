@@ -1,5 +1,4 @@
-import { SecretsManager } from "aws-sdk";
-import { AWSError, Request } from "aws-sdk";
+import { AWSError, Request, SecretsManager } from "aws-sdk";
 import { anything, instance, mock, when } from "ts-mockito";
 
 import { LoggerBunyan } from "../../src/logger/logger-bunyan";

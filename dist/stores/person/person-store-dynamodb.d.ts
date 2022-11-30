@@ -1,5 +1,4 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
-
 import { Logger } from "../../logger/logger";
 import { Person } from "../../model/person-model";
 import { PersonStore } from "./person-store";

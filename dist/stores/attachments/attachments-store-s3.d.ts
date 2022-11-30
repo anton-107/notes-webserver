@@ -1,5 +1,4 @@
 import { S3 } from "aws-sdk";
-
 import { Logger } from "../../logger/logger";
 import { AttachmentsStore } from "./attachments-store";
 interface AttachmentsStoreS3Properties {

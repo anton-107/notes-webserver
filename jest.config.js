@@ -13,6 +13,6 @@ module.exports = {
   collectCoverageFrom: ["src/**/*"],
   transformIgnorePatterns: [
     "/node_modules/(?!(authentication-module)/)",
-    "/src/actions/index-for-search.ts"
+    "/src/actions/index-for-search.ts",
   ],
 };

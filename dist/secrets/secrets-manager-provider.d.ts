@@ -1,6 +1,5 @@
 import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
 import { SecretsManager } from "aws-sdk";
-
 import { Logger } from "../logger/logger";
 interface SecretsManagerProviderProperties {
     logger: Logger;
