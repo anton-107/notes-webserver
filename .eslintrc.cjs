@@ -9,6 +9,7 @@ module.exports = {
     "simple-import-sort/exports": "error",
     "no-console": "error",
     "no-duplicate-imports": "error",
+    "@typescript-eslint/no-unused-vars": "error",
     "max-depth": ["error", 2],
   },
 };

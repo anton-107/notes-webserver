@@ -13,6 +13,12 @@ describe("Configuration", () => {
     resetConfigurationCache();
   });
 
+  it("should be idempotent", () => {
+    const config1 = dependenciesConfiguration({});
+    const config2 = dependenciesConfiguration({});
+    expect(config1).toBe(config2);
+  });
+
   it("should set up user store in dynamodb", () => {
     process.env = Object.assign({}, process.env, {
       USER_STORE_TYPE: "dynamodb",
