@@ -23,6 +23,7 @@ const notebook_store_1 = require("../stores/notebook/notebook-store");
 const person_store_1 = require("../stores/person/person-store");
 const user_store_inmemory_1 = require("../stores/user/user-store-inmemory");
 const no_op_youtube_parser_1 = require("./no-op/no-op-youtube-parser");
+const search_store_1 = require("../stores/search/search-store");
 const defaultLogger = new logger_bunyan_1.LoggerBunyan();
 const passwordHashingFunction = new scrypt_hashing_1.ScryptHashingFunction();
 const userStore = new user_store_inmemory_1.InMemoryUserStore();
@@ -98,6 +99,7 @@ const commonConfiguration = (overrides) => {
         youtubeParser: new no_op_youtube_parser_1.NoOpYoutubeParser(),
         attachmentsStore: new attachments_store_1.InMemoryAttachmentsStore({ logger }),
         noteAttachmentsStore: new note_attachments_store_1.InMemoryNoteAttachmentsStore(),
+        searchStore: new search_store_1.InMemorySearchStore(notebookStore, noteStore),
         ...overrides,
     };
     postProcessorRegistry.addPostProcessor(new person_selector_controller_1.PersonSelectorController(commonConfiguration));

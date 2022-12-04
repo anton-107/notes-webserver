@@ -21,6 +21,7 @@ import { NoteAttachmentsStore } from "../stores/note/note-attachments-store";
 import { NoteStore } from "../stores/note/note-store";
 import { NotebookStore } from "../stores/notebook/notebook-store";
 import { PersonStore } from "../stores/person/person-store";
+import { SearchStore } from "../stores/search/search-store";
 import { HttpRedirectView } from "../views/http-redirect-view";
 import { NoteHtmlView } from "../views/note/note-html-view";
 import { NotebookHtmlView } from "../views/notebook/notebook-html-view";
@@ -53,6 +54,7 @@ export interface ServiceConfiguration {
   youtubeParser: YoutubeParser;
   attachmentsStore: AttachmentsStore;
   noteAttachmentsStore: NoteAttachmentsStore;
+  searchStore: SearchStore;
 }
 export type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
 

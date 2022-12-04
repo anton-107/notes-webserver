@@ -3,12 +3,14 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { Express } from "express";
 import * as http from "http";
+import { ParsedQs } from "qs";
 
 import { CORSHeaders } from "./http/cors-headers";
 import {
   HttpRequestHandler,
   HttpResponse,
   PostFormHttpHandler,
+  QueryStringParameters,
 } from "./http/http";
 import { Route } from "./router";
 
@@ -40,6 +42,7 @@ export class NotesWebserver {
             const response: HttpResponse = await handler({
               headers: req.headers,
               pathParameters: req.params,
+              queryStringParameters: this.parsedQSToMap(req.query),
             });
             Object.keys(response.headers).forEach((k) => {
               res.setHeader(k, response.headers[k]);
@@ -58,6 +61,7 @@ export class NotesWebserver {
                 body: req.body.toString("utf-8"),
                 headers: req.headers,
                 pathParameters: req.params,
+                queryStringParameters: this.parsedQSToMap(req.query),
               });
               Object.keys(response.headers).forEach((k) => {
                 res.setHeader(k, response.headers[k]);
@@ -75,5 +79,14 @@ export class NotesWebserver {
   }
   public stop() {
     this.server.close();
+  }
+  private parsedQSToMap(qs: ParsedQs): QueryStringParameters {
+    const r: QueryStringParameters = {};
+
+    Object.keys(qs).forEach((k) => {
+      r[k] = String(qs[k]);
+    });
+
+    return r;
   }
 }

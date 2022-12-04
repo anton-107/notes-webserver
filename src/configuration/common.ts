@@ -23,6 +23,7 @@ import { InMemoryNoteAttachmentsStore } from "../stores/note/note-attachments-st
 import { InMemoryNoteStore } from "../stores/note/note-store";
 import { InMemoryNotebookStore } from "../stores/notebook/notebook-store";
 import { InMemoryPersonStore } from "../stores/person/person-store";
+import { InMemorySearchStore } from "../stores/search/search-store";
 import { InMemoryUserStore } from "../stores/user/user-store-inmemory";
 import {
   ServiceConfiguration,
@@ -119,6 +120,7 @@ export const commonConfiguration = (
     youtubeParser: new NoOpYoutubeParser(),
     attachmentsStore: new InMemoryAttachmentsStore({ logger }),
     noteAttachmentsStore: new InMemoryNoteAttachmentsStore(),
+    searchStore: new InMemorySearchStore(notebookStore, noteStore),
     ...overrides,
   };
 

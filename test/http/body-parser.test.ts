@@ -6,6 +6,7 @@ describe("body-parser:parseBody", () => {
       body: "field1=value1&field2=value2",
       headers: {},
       pathParameters: {},
+      queryStringParameters: {},
     });
     expect(form.field1).toBe("value1");
     expect(form.field2).toBe("value2");
@@ -17,6 +18,7 @@ describe("body-parser:parseBody", () => {
         "content-type": "application/json",
       },
       pathParameters: {},
+      queryStringParameters: {},
     });
     expect(form.field1).toBe("value1");
     expect(form.field2).toBe("value2");

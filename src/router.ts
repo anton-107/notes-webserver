@@ -29,6 +29,7 @@ import { getOnePersonHandler } from "./routes/person/get-one-person";
 import { deleteOnePersonHandler } from "./routes/person/post-delete-person";
 import { postEditPersonHandler } from "./routes/person/post-edit-person";
 import { postPersonHandler } from "./routes/person/post-person";
+import { searchAllHandler } from "./routes/search/search-all";
 
 export interface Route {
   method: "GET" | "POST";
@@ -205,6 +206,12 @@ export const routes: Route[] = [
     path: "/note/:noteID/attachment/:attachmentID",
     import: join(__dirname, "./routes/note/attachment/download-attachment"),
     action: downloadAttachmentHandler.name,
+  },
+  {
+    method: "GET",
+    path: "/search",
+    import: join(__dirname, "./routes/search/search-all"),
+    action: searchAllHandler.name,
   },
 ];
 

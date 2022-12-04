@@ -31,6 +31,7 @@ const get_one_person_1 = require("./routes/person/get-one-person");
 const post_delete_person_1 = require("./routes/person/post-delete-person");
 const post_edit_person_1 = require("./routes/person/post-edit-person");
 const post_person_1 = require("./routes/person/post-person");
+const search_all_1 = require("./routes/search/search-all");
 exports.routes = [
     {
         method: "GET",
@@ -199,6 +200,12 @@ exports.routes = [
         path: "/note/:noteID/attachment/:attachmentID",
         import: (0, path_1.join)(__dirname, "./routes/note/attachment/download-attachment"),
         action: download_attachment_1.downloadAttachmentHandler.name,
+    },
+    {
+        method: "GET",
+        path: "/search",
+        import: (0, path_1.join)(__dirname, "./routes/search/search-all"),
+        action: search_all_1.searchAllHandler.name,
     },
 ];
 exports.actions = [

@@ -48,6 +48,7 @@ class NotesWebserver {
                         const response = await handler({
                             headers: req.headers,
                             pathParameters: req.params,
+                            queryStringParameters: this.parsedQSToMap(req.query),
                         });
                         Object.keys(response.headers).forEach((k) => {
                             res.setHeader(k, response.headers[k]);
@@ -63,6 +64,7 @@ class NotesWebserver {
                             body: req.body.toString("utf-8"),
                             headers: req.headers,
                             pathParameters: req.params,
+                            queryStringParameters: this.parsedQSToMap(req.query),
                         });
                         Object.keys(response.headers).forEach((k) => {
                             res.setHeader(k, response.headers[k]);
@@ -78,6 +80,13 @@ class NotesWebserver {
     }
     stop() {
         this.server.close();
+    }
+    parsedQSToMap(qs) {
+        const r = {};
+        Object.keys(qs).forEach(k => {
+            r[k] = String(qs[k]);
+        });
+        return r;
     }
 }
 exports.NotesWebserver = NotesWebserver;

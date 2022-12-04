@@ -11,6 +11,7 @@ import { NoteAttachmentsStore } from "../stores/note/note-attachments-store";
 import { NoteStore } from "../stores/note/note-store";
 import { NotebookStore } from "../stores/notebook/notebook-store";
 import { PersonStore } from "../stores/person/person-store";
+import { SearchStore } from "../stores/search/search-store";
 import { HttpRedirectView } from "../views/http-redirect-view";
 import { NoteHtmlView } from "../views/note/note-html-view";
 import { NotebookHtmlView } from "../views/notebook/notebook-html-view";
@@ -33,6 +34,7 @@ export interface ServiceConfiguration {
     youtubeParser: YoutubeParser;
     attachmentsStore: AttachmentsStore;
     noteAttachmentsStore: NoteAttachmentsStore;
+    searchStore: SearchStore;
 }
 export declare type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
 export declare const dependenciesConfiguration: (overrides: ServiceConfigurationOverrides) => ServiceConfiguration;
@@ -53,6 +55,7 @@ export declare const notebookControllerConfiguration: (overrides: ServiceConfigu
     youtubeParser: YoutubeParser;
     attachmentsStore: AttachmentsStore;
     noteAttachmentsStore: NoteAttachmentsStore;
+    searchStore: SearchStore;
     entityView: NotebookHtmlView;
     httpRedirectView: HttpRedirectView;
     entityStore: NotebookStore;
@@ -76,6 +79,7 @@ export declare const personControllerConfiguration: (overrides: ServiceConfigura
     youtubeParser: YoutubeParser;
     attachmentsStore: AttachmentsStore;
     noteAttachmentsStore: NoteAttachmentsStore;
+    searchStore: SearchStore;
     entityView: PersonHtmlView;
     httpRedirectView: HttpRedirectView;
     entityStore: PersonStore;
@@ -97,6 +101,7 @@ export declare const noteControllerConfiguration: (overrides: ServiceConfigurati
     youtubeParser: YoutubeParser;
     attachmentsStore: AttachmentsStore;
     noteAttachmentsStore: NoteAttachmentsStore;
+    searchStore: SearchStore;
     httpRedirectView: HttpRedirectView;
     entityStore: NoteStore;
 };

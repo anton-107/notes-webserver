@@ -10,5 +10,6 @@ export declare class NotesWebserver {
     constructor(properties: NotesWebserverProperties);
     listen(port: number): void;
     stop(): void;
+    private parsedQSToMap;
 }
 export {};
