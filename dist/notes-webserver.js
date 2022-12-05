@@ -83,7 +83,7 @@ class NotesWebserver {
     }
     parsedQSToMap(qs) {
         const r = {};
-        Object.keys(qs).forEach(k => {
+        Object.keys(qs).forEach((k) => {
             r[k] = String(qs[k]);
         });
         return r;

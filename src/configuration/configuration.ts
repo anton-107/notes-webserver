@@ -35,6 +35,7 @@ import {
 } from "./note-store-dynamo";
 import { notebookStoreDynamoConfiguration } from "./notebook-store-dynamo";
 import { personStoreDynamoConfiguration } from "./person-store-dynamo";
+import { searchStoreOpensearchServerlessConfiguration } from "./search-store-opensearch-serverless";
 import { userStoreDynamoConfiguration } from "./user-store-dynamo";
 
 export interface ServiceConfiguration {
@@ -106,6 +107,16 @@ export const dependenciesConfiguration = (
       bucketName: process.env["S3_ATTACHMENTS_BUCKET"],
       folderName: process.env["S3_ATTACHMENTS_FOLDER"],
     });
+  }
+  if (process.env["SEARCH_DOMAIN_SERVERLESS_ENDPOINT"]) {
+    Object.assign(
+      contextConfiguration,
+      searchStoreOpensearchServerlessConfiguration(
+        logger,
+        process.env["SEARCH_DOMAIN_SERVERLESS_ENDPOINT"],
+        process.env["SEARCH_INDEX_NAME"]
+      )
+    );
   }
   contextConfiguration.baseUrl = process.env["BASE_URL"] || "";
 

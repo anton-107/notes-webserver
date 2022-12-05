@@ -17,6 +17,7 @@ const jwt_serializer_secrets_manager_1 = require("./jwt-serializer-secrets-manag
 const note_store_dynamo_1 = require("./note-store-dynamo");
 const notebook_store_dynamo_1 = require("./notebook-store-dynamo");
 const person_store_dynamo_1 = require("./person-store-dynamo");
+const search_store_opensearch_serverless_1 = require("./search-store-opensearch-serverless");
 const user_store_dynamo_1 = require("./user-store-dynamo");
 const dependenciesConfiguration = (overrides) => {
     const logger = new logger_bunyan_1.LoggerBunyan();
@@ -52,6 +53,9 @@ const dependenciesConfiguration = (overrides) => {
             bucketName: process.env["S3_ATTACHMENTS_BUCKET"],
             folderName: process.env["S3_ATTACHMENTS_FOLDER"],
         });
+    }
+    if (process.env["SEARCH_DOMAIN_SERVERLESS_ENDPOINT"]) {
+        Object.assign(contextConfiguration, (0, search_store_opensearch_serverless_1.searchStoreOpensearchServerlessConfiguration)(logger, process.env["SEARCH_DOMAIN_SERVERLESS_ENDPOINT"], process.env["SEARCH_INDEX_NAME"]));
     }
     contextConfiguration.baseUrl = process.env["BASE_URL"] || "";
     const configuration = (0, common_1.commonConfiguration)({

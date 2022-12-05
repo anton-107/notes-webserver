@@ -13,12 +13,12 @@ class SearchController {
             isBase64Encoded: false,
             headers: {
                 "Content-Type": "application/json",
-                ...this.properties.corsHeaders
+                ...this.properties.corsHeaders,
             },
             statusCode: http_1.HttpStatus.OK,
             body: JSON.stringify({
-                results
-            })
+                results,
+            }),
         };
     }
 }

@@ -4,6 +4,7 @@ import { resetConfigurationCache } from "../../src/configuration/common";
 import { dependenciesConfiguration } from "../../src/configuration/configuration";
 import { AttachmentsStoreS3 } from "../../src/stores/attachments/attachments-store-s3";
 import { NoteAttachmentsStoreDynamodb } from "../../src/stores/note/note-attachments-store-dynamodb";
+import { SearchStoreOpensearchServerless } from "../../src/stores/search/search-store-opensearch-serverless";
 
 describe("Configuration", () => {
   const env = Object.assign({}, process.env);
@@ -95,5 +96,14 @@ describe("Configuration", () => {
     });
     const config = dependenciesConfiguration({});
     expect(config.attachmentsStore).toBeInstanceOf(AttachmentsStoreS3);
+  });
+
+  it("should set up search store", () => {
+    process.env = Object.assign({}, process.env, {
+      SEARCH_DOMAIN_SERVERLESS_ENDPOINT: "my-endpoint",
+      SEARCH_INDEX_NAME: "my-index",
+    });
+    const config = dependenciesConfiguration({});
+    expect(config.searchStore).toBeInstanceOf(SearchStoreOpensearchServerless);
   });
 });
