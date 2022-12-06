@@ -10,7 +10,8 @@ class SearchStoreOpensearchServerless {
             username: user,
             data: { keyword },
         });
-        return [];
+        const results = await this.properties.openSearchClient.search(keyword, user);
+        return results.filter((x) => x.owner && x.owner === user);
     }
 }
 exports.SearchStoreOpensearchServerless = SearchStoreOpensearchServerless;
