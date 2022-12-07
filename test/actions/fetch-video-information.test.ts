@@ -2,6 +2,7 @@ import { getSchema } from "@aws/dynamodb-data-mapper";
 import { marshallItem } from "@aws/dynamodb-data-marshaller";
 import { instance, mock, when } from "ts-mockito";
 
+import { YoutubeParser } from "../../src/actions/fetch-video-information/interfaces";
 import { NoOpYoutubeParser } from "../../src/configuration/no-op/no-op-youtube-parser";
 import { LoggerBunyan } from "../../src/logger/logger-bunyan";
 import {
@@ -13,8 +14,7 @@ import { NoteEntity } from "../../src/stores/note/note-store-dynamodb";
 import {
   FetchVideoInformation,
   runFetchVideoInformation,
-  YoutubeParser,
-} from "./../../src/actions/fetch-video-information";
+} from "./../../src/actions/fetch-video-information/fetch-video-information";
 
 const logger = new LoggerBunyan();
 
