@@ -18,4 +18,5 @@ jobs:
       - run: npm run test:coverage
       - run: npm run lint
       - run: npm run check-format
+      - run: npm run check-dependencies
       - run: npm run build

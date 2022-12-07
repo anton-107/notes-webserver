@@ -48,15 +48,21 @@
   "dependencies": {
     "@aws/dynamodb-data-mapper": "^0.7.3",
     "@aws/dynamodb-data-mapper-annotations": "^0.7.3",
+    "@aws/dynamodb-data-marshaller": "^0.7.3",
+    "@aws/dynamodb-expressions": "^0.7.3",
+    "@opensearch-project/opensearch": "^2.1.0",
     "authentication-module": "anton-107/authenticator",
     "aws-sdk": "^2.1152.0",
+    "body-parser": "^1.20.1",
     "bunyan": "^1.8.15",
     "cookie": "^0.5.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "opensearch-module": "anton-107/opensearch-module",
+    "qs": "^6.11.0",
     "short-uuid": "^4.2.0",
+    "uuid": "^9.0.0",
     "youtube-module": "anton-107/youtube-module"
   }
 }
