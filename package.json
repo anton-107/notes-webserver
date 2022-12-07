@@ -11,6 +11,7 @@
     "test:coverage": "jest  -c jest.config.js --coverage",
     "check-format": "prettier --check .",
     "fix-format": "prettier --write .",
+    "check-dependencies": "depcruise --config .dependency-cruiser.js src",
     "lint": "eslint . --ext .ts",
     "fix-lint": "eslint . --ext .ts --fix",
     "fix": "npm run fix-format && npm run fix-lint"
@@ -30,6 +31,7 @@
     "@types/node-fetch": "^2.6.1",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "@typescript-eslint/parser": "^5.25.0",
+    "dependency-cruiser": "^12.1.0",
     "eslint": "^8.16.0",
     "eslint-plugin-simple-import-sort": "^8.0.0",
     "jest": "^28.1.0",
