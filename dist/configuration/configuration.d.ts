@@ -1,6 +1,6 @@
 import { Authenticator, PasswordHashingFunction, UserStore } from "authentication-module/dist/authenticator";
 import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
-import { YoutubeParser } from "../actions/fetch-video-information";
+import { YoutubeParser } from "../actions/fetch-video-information/interfaces";
 import { PostProcessorRegistry } from "../controller/post-processor";
 import { CORSHeaders } from "../http/cors-headers";
 import { Logger } from "../logger/logger";

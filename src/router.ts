@@ -1,6 +1,6 @@
 import { join } from "path";
 
-import { runFetchVideoInformation } from "./actions/fetch-video-information";
+import { runFetchVideoInformation } from "./actions/fetch-video-information/fetch-video-information";
 import { getSigninHandler } from "./routes/auth/get-signin";
 import { getWhoamiHandler } from "./routes/auth/get-whoami";
 import { postSigninHandler } from "./routes/auth/post-signin";

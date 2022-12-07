@@ -1,4 +1,4 @@
-import { YoutubeParser } from "../../actions/fetch-video-information";
+import { YoutubeParser } from "../../actions/fetch-video-information/interfaces";
 
 export class NoOpYoutubeParser implements YoutubeParser {
   public async parseCaptionsURL(): Promise<string[]> {

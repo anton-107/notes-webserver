@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.actions = exports.routes = void 0;
 const path_1 = require("path");
-const fetch_video_information_1 = require("./actions/fetch-video-information");
+const fetch_video_information_1 = require("./actions/fetch-video-information/fetch-video-information");
 const get_signin_1 = require("./routes/auth/get-signin");
 const get_whoami_1 = require("./routes/auth/get-whoami");
 const post_signin_1 = require("./routes/auth/post-signin");

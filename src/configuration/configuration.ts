@@ -8,7 +8,7 @@ import { S3 } from "aws-sdk";
 import { get } from "https";
 import { YoutubeParser as YoutubeModuleParser } from "youtube-module/dist/youtube-parser";
 
-import { YoutubeParser } from "../actions/fetch-video-information";
+import { YoutubeParser } from "../actions/fetch-video-information/interfaces";
 import { PostProcessorRegistry } from "../controller/post-processor";
 import { CORSHeaders, corsHeaders } from "../http/cors-headers";
 import { Logger } from "../logger/logger";

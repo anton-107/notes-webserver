@@ -1,23 +1,12 @@
 import { generate } from "short-uuid";
 
-import { dependenciesConfiguration } from "../configuration/configuration";
-import { Logger } from "../logger/logger";
-import { NoteAttachment } from "../model/note-model";
-import { AttachmentsStore } from "../stores/attachments/attachments-store";
-import { NoteAttachmentsStore } from "../stores/note/note-attachments-store";
-import { StreamEvent, unmarshallRecordToNote } from "./dynamodb-stream-source";
-
-export interface YoutubeParser {
-  parseCaptionsURL(videoID: string): Promise<string[]>;
-  downloadCaptions(captionURL: string): Promise<string>;
-}
-
-interface FetchVideoInformationProperties {
-  logger: Logger;
-  parser: YoutubeParser;
-  attachmentsStore: AttachmentsStore;
-  noteAttachmentsStore: NoteAttachmentsStore;
-}
+import { dependenciesConfiguration } from "../../configuration/configuration";
+import { Logger } from "../../logger/logger";
+import { NoteAttachment } from "../../model/note-model";
+import { AttachmentsStore } from "../../stores/attachments/attachments-store";
+import { NoteAttachmentsStore } from "../../stores/note/note-attachments-store";
+import { StreamEvent, unmarshallRecordToNote } from "../dynamodb-stream-source";
+import { YoutubeParser } from "./interfaces";
 
 interface FetchVideoInformationAction {
   noteOwner: string;
@@ -31,6 +20,13 @@ interface FetchVideoInformationActionResult {
     | "videoURL is not supported"
     | "could not find video id";
   captionsURL?: string[];
+}
+
+interface FetchVideoInformationProperties {
+  logger: Logger;
+  parser: YoutubeParser;
+  attachmentsStore: AttachmentsStore;
+  noteAttachmentsStore: NoteAttachmentsStore;
 }
 
 export class FetchVideoInformation {
