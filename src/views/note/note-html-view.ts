@@ -1,4 +1,3 @@
-import { EntityView } from "../../controller/entity-controller";
 import { CORSHeaders } from "../../http/cors-headers";
 import { HttpResponse, HttpStatus } from "../../http/http";
 import { Note } from "../../model/note-model";
@@ -6,6 +5,7 @@ import {
   NoteTypeHandler,
   NoteTypesRegistry,
 } from "../../registries/note-types-registry";
+import { EntityView } from "../entity-view";
 import { HtmlViewProperties } from "../interfaces";
 
 export interface NoteHtmlViewProperties extends HtmlViewProperties {

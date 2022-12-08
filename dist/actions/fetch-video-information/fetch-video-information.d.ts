@@ -1,7 +1,7 @@
-import { StreamEvent } from "../dynamodb-stream-source";
 import { Logger } from "../../logger/logger";
 import { AttachmentsStore } from "../../stores/attachments/attachments-store";
 import { NoteAttachmentsStore } from "../../stores/note/note-attachments-store";
+import { StreamEvent } from "../dynamodb-stream-source";
 import { YoutubeParser } from "./interfaces";
 interface FetchVideoInformationAction {
     noteOwner: string;

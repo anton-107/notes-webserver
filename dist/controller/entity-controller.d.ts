@@ -4,14 +4,9 @@ import { HttpResponse } from "../http/http";
 import { ResponseType } from "../http/response-type-parser";
 import { Logger } from "../logger/logger";
 import { EntityStore } from "../stores/entity-store";
+import { EntityView } from "../views/entity-view";
 import { HttpRedirectView } from "../views/http-redirect-view";
 import { PostProcessorRegistry } from "./post-processor";
-export interface EntityView<T> {
-    renderEditingFormOneEntity(entity: T): HttpResponse;
-    renderCreationFormOneEntity(partialEntity: Partial<T>): HttpResponse;
-    renderDetailsPageOneEntity(entity: T): HttpResponse;
-    renderListPageAllEntities(entities: T[]): HttpResponse;
-}
 export interface EntityControllerProperties<T> {
     logger: Logger;
     authenticationToken: string;

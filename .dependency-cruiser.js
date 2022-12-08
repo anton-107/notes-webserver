@@ -1,6 +1,12 @@
 /** @type {import('dependency-cruiser').IConfiguration} */
 module.exports = {
   forbidden: [
+    {
+      name: "views-do-not-depend-on-controller",
+      severity: "error",
+      from: { path: "views/" },
+      to: { path: "controller/" },
+    },
     /* rules from the 'recommended' preset: */
     {
       name: "no-circular",

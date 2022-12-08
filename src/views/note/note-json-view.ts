@@ -1,6 +1,6 @@
-import { EntityView } from "../../controller/entity-controller";
 import { HttpResponse, HttpStatus } from "../../http/http";
 import { Note } from "../../model/note-model";
+import { EntityView } from "../entity-view";
 import { NoteHtmlView } from "./note-html-view";
 
 export class NoteJsonView extends NoteHtmlView implements EntityView<Note> {

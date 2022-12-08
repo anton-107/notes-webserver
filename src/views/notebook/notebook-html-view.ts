@@ -1,7 +1,7 @@
-import { EntityView } from "../../controller/entity-controller";
 import { CORSHeaders } from "../../http/cors-headers";
 import { HttpResponse, HttpStatus } from "../../http/http";
 import { Notebook } from "../../model/notebook-model";
+import { EntityView } from "../entity-view";
 import { HtmlViewProperties } from "../interfaces";
 
 export interface NotebookViewProperties extends HtmlViewProperties {
