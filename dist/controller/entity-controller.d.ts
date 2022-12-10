@@ -5,6 +5,7 @@ import { ResponseType } from "../http/response-type-parser";
 import { Logger } from "../logger/logger";
 import { EntityStore } from "../stores/entity-store";
 import { EntityView } from "../views/entity-view";
+import { HttpForbiddenView } from "../views/http-forbidden-view";
 import { HttpRedirectView } from "../views/http-redirect-view";
 import { PostProcessorRegistry } from "./post-processor";
 export interface EntityControllerProperties<T> {
@@ -14,6 +15,7 @@ export interface EntityControllerProperties<T> {
     entityStore: EntityStore<T>;
     entityView: EntityView<T>;
     httpRedirectView: HttpRedirectView;
+    httpForbiddenView: HttpForbiddenView;
     postProcessorRegistry: PostProcessorRegistry;
     responseType: ResponseType;
 }

@@ -12,6 +12,7 @@ import { NoteStore } from "../stores/note/note-store";
 import { NotebookStore } from "../stores/notebook/notebook-store";
 import { PersonStore } from "../stores/person/person-store";
 import { SearchStore } from "../stores/search/search-store";
+import { HttpForbiddenView } from "../views/http-forbidden-view";
 import { HttpRedirectView } from "../views/http-redirect-view";
 import { NoteHtmlView } from "../views/note/note-html-view";
 import { NotebookHtmlView } from "../views/notebook/notebook-html-view";
@@ -58,6 +59,7 @@ export declare const notebookControllerConfiguration: (overrides: ServiceConfigu
     searchStore: SearchStore;
     entityView: NotebookHtmlView;
     httpRedirectView: HttpRedirectView;
+    httpForbiddenView: HttpForbiddenView;
     entityStore: NotebookStore;
     noteHtmlView: NoteHtmlView;
     notebookJsonView: NotebookJsonView;
@@ -82,6 +84,7 @@ export declare const personControllerConfiguration: (overrides: ServiceConfigura
     searchStore: SearchStore;
     entityView: PersonHtmlView;
     httpRedirectView: HttpRedirectView;
+    httpForbiddenView: HttpForbiddenView;
     entityStore: PersonStore;
 };
 export declare const noteControllerConfiguration: (overrides: ServiceConfigurationOverrides) => {
@@ -103,5 +106,6 @@ export declare const noteControllerConfiguration: (overrides: ServiceConfigurati
     noteAttachmentsStore: NoteAttachmentsStore;
     searchStore: SearchStore;
     httpRedirectView: HttpRedirectView;
+    httpForbiddenView: HttpForbiddenView;
     entityStore: NoteStore;
 };

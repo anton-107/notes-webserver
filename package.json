@@ -12,6 +12,7 @@
     "check-format": "prettier --check .",
     "fix-format": "prettier --write .",
     "check-dependencies": "depcruise --config .dependency-cruiser.js src",
+    "check-duplications": "jscpd --pattern 'src/**/*.ts' -l 17 --exitCode 1",
     "lint": "eslint . --ext .ts",
     "fix-lint": "eslint . --ext .ts --fix",
     "fix": "npm run fix-format && npm run fix-lint"
@@ -36,6 +37,7 @@
     "eslint-plugin-simple-import-sort": "^8.0.0",
     "jest": "^28.1.0",
     "jest-cucumber": "^3.0.1",
+    "jscpd": "^3.5.1",
     "json-query": "^2.2.2",
     "node-fetch": "^2.6.7",
     "node-html-parser": "^5.3.3",

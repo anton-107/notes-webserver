@@ -6,6 +6,7 @@ import { ResponseType } from "../http/response-type-parser";
 import { Logger } from "../logger/logger";
 import { EntityStore } from "../stores/entity-store";
 import { EntityView } from "../views/entity-view";
+import { HttpForbiddenView } from "../views/http-forbidden-view";
 import { HttpRedirectView } from "../views/http-redirect-view";
 import { PostProcessorRegistry } from "./post-processor";
 
@@ -16,6 +17,7 @@ export interface EntityControllerProperties<T> {
   entityStore: EntityStore<T>;
   entityView: EntityView<T>;
   httpRedirectView: HttpRedirectView;
+  httpForbiddenView: HttpForbiddenView;
   postProcessorRegistry: PostProcessorRegistry;
   responseType: ResponseType;
 }
@@ -55,12 +57,7 @@ export abstract class EntityController<T> {
       this.properties.logger.error("User is not authenticated", {
         username: user.username,
       });
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.FORBIDDEN,
-        headers: {},
-        body: "Forbidden.",
-      };
+      return this.properties.httpForbiddenView.showForbidden();
     }
 
     const entity = await this.properties.entityStore.getOne(
@@ -110,12 +107,7 @@ export abstract class EntityController<T> {
       this.properties.logger.error("User is not authenticated", {
         username: user.username,
       });
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.FORBIDDEN,
-        headers: {},
-        body: "Forbidden.",
-      };
+      return this.properties.httpForbiddenView.showForbidden();
     }
     this.authorizedUserName = user.username;
 
@@ -148,12 +140,7 @@ export abstract class EntityController<T> {
       this.properties.logger.error("User is not authenticated", {
         username: user.username,
       });
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.FORBIDDEN,
-        headers: {},
-        body: "Forbidden.",
-      };
+      return this.properties.httpForbiddenView.showForbidden();
     }
 
     const entities = await this.properties.entityStore.listAll(user.username);
@@ -172,12 +159,7 @@ export abstract class EntityController<T> {
       this.properties.logger.error("User is not authenticated", {
         username: user.username,
       });
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.FORBIDDEN,
-        headers: {},
-        body: "Forbidden.",
-      };
+      return this.properties.httpForbiddenView.showForbidden();
     }
     if (!entityID) {
       this.properties.logger.error(
@@ -202,12 +184,7 @@ export abstract class EntityController<T> {
         `Entity ${this.getEntityName()} is not found for deletion`,
         { username: user.username, entityID }
       );
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.FORBIDDEN,
-        headers: {},
-        body: "Forbidden.",
-      };
+      return this.properties.httpForbiddenView.showForbidden();
     }
 
     try {
@@ -247,12 +224,7 @@ export abstract class EntityController<T> {
       this.properties.logger.error("User is not authenticated", {
         username: user.username,
       });
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.FORBIDDEN,
-        headers: {},
-        body: "Forbidden.",
-      };
+      return this.properties.httpForbiddenView.showForbidden();
     }
 
     const entityID = this.mapRequestToEntityID(form);
@@ -265,12 +237,7 @@ export abstract class EntityController<T> {
         `Entity ${this.getEntityName()} is not found for update`,
         { username: user.username, entityID }
       );
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.FORBIDDEN,
-        headers: {},
-        body: "Forbidden.",
-      };
+      return this.properties.httpForbiddenView.showForbidden();
     }
 
     const entity = this.mapRequestToExistingEntity(
@@ -307,12 +274,7 @@ export abstract class EntityController<T> {
       this.properties.logger.error("User is not authenticated", {
         username: user.username,
       });
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.FORBIDDEN,
-        headers: {},
-        body: "Forbidden.",
-      };
+      return this.properties.httpForbiddenView.showForbidden();
     }
 
     const entity = this.mapRequestToNewEntity(user.username, form);
@@ -323,12 +285,7 @@ export abstract class EntityController<T> {
         `User is not authorized to create ${this.getEntityName()}`,
         { username: user.username, data: entity }
       );
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.FORBIDDEN,
-        headers: {},
-        body: "Forbidden.",
-      };
+      return this.properties.httpForbiddenView.showForbidden();
     }
 
     await this.properties.entityStore.add(entity);
