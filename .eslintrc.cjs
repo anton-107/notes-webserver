@@ -14,6 +14,7 @@ module.exports = {
     "max-nested-callbacks": ["error", 2],
     "max-lines-per-function": ["error", 75],
     "max-statements": ["error", 25],
+    "max-params": ["error", 3]
   },
   overrides: [
     {
