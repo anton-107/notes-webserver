@@ -164,11 +164,14 @@ export class NoteStoreDynamodb implements NoteStore {
       }
       return r;
     } catch (err) {
-      this.properties.logger.info("No notes found for user (listing all in notebook)", {
-        owner,
-        entityID: notebookID,
-        error: err,
-      });
+      this.properties.logger.info(
+        "No notes found for user (listing all in notebook)",
+        {
+          owner,
+          entityID: notebookID,
+          error: err,
+        }
+      );
       return [];
     }
   }
