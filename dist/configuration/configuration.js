@@ -20,6 +20,7 @@ const notebook_store_dynamo_1 = require("./notebook-store-dynamo");
 const person_store_dynamo_1 = require("./person-store-dynamo");
 const search_store_opensearch_serverless_1 = require("./search-store-opensearch-serverless");
 const user_store_dynamo_1 = require("./user-store-dynamo");
+// eslint-disable-next-line max-statements
 const dependenciesConfiguration = (overrides) => {
     const logger = new logger_bunyan_1.LoggerBunyan();
     const contextConfiguration = {};

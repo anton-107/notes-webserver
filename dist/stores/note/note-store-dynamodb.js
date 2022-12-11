@@ -156,8 +156,9 @@ class NoteStoreDynamodb {
             return r;
         }
         catch (err) {
-            this.properties.logger.info("No notes found for user", {
+            this.properties.logger.info("No notes found for user (listing all in notebook)", {
                 owner,
+                entityID: notebookID,
                 error: err,
             });
             return [];

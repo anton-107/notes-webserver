@@ -43,34 +43,11 @@ class NotesWebserver {
             switch (route.method) {
                 case "GET":
                     return this.app.get(route.path, async (req, res) => {
-                        const module = await Promise.resolve().then(() => __importStar(require(route.import)));
-                        const handler = module[route.action];
-                        const response = await handler({
-                            headers: req.headers,
-                            pathParameters: req.params,
-                            queryStringParameters: this.parsedQSToMap(req.query),
-                        });
-                        Object.keys(response.headers).forEach((k) => {
-                            res.setHeader(k, response.headers[k]);
-                        });
-                        res.status(response.statusCode);
-                        res.send(response.body);
+                        return this.handleGetRequest(route, req, res);
                     });
                 case "POST":
                     return this.app.post(route.path, body_parser_1.default.raw({ type: () => true }), async (req, res) => {
-                        const module = await Promise.resolve().then(() => __importStar(require(route.import)));
-                        const handler = module[route.action];
-                        const response = await handler({
-                            body: req.body.toString("utf-8"),
-                            headers: req.headers,
-                            pathParameters: req.params,
-                            queryStringParameters: this.parsedQSToMap(req.query),
-                        });
-                        Object.keys(response.headers).forEach((k) => {
-                            res.setHeader(k, response.headers[k]);
-                        });
-                        res.status(response.statusCode);
-                        res.send(response.body);
+                        return this.handlePostRequest(route, req, res);
                     });
             }
         });
@@ -80,6 +57,35 @@ class NotesWebserver {
     }
     stop() {
         this.server.close();
+    }
+    async handleGetRequest(route, req, res) {
+        const module = await Promise.resolve().then(() => __importStar(require(route.import)));
+        const handler = module[route.action];
+        const response = await handler({
+            headers: req.headers,
+            pathParameters: req.params,
+            queryStringParameters: this.parsedQSToMap(req.query),
+        });
+        Object.keys(response.headers).forEach((k) => {
+            res.setHeader(k, response.headers[k]);
+        });
+        res.status(response.statusCode);
+        res.send(response.body);
+    }
+    async handlePostRequest(route, req, res) {
+        const module = await Promise.resolve().then(() => __importStar(require(route.import)));
+        const handler = module[route.action];
+        const response = await handler({
+            body: req.body.toString("utf-8"),
+            headers: req.headers,
+            pathParameters: req.params,
+            queryStringParameters: this.parsedQSToMap(req.query),
+        });
+        Object.keys(response.headers).forEach((k) => {
+            res.setHeader(k, response.headers[k]);
+        });
+        res.status(response.statusCode);
+        res.send(response.body);
     }
     parsedQSToMap(qs) {
         const r = {};
