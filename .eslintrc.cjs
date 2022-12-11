@@ -11,5 +11,18 @@ module.exports = {
     "no-duplicate-imports": "error",
     "@typescript-eslint/no-unused-vars": "error",
     "max-depth": ["error", 2],
+    "max-nested-callbacks": ["error", 2],
+    "max-lines-per-function": ["error", 75],
+    "max-statements": ["error", 25],
   },
+  overrides: [
+    {
+      files: ["**/*.test.ts", "**/*.dev.ts"],
+      rules: {
+        "max-lines-per-function": "off",
+        "max-statements": "off",
+        "max-nested-callbacks": "off",
+      },
+    },
+  ],
 };

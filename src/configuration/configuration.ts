@@ -60,6 +60,7 @@ export interface ServiceConfiguration {
 }
 export type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
 
+// eslint-disable-next-line max-statements
 export const dependenciesConfiguration = (
   overrides: ServiceConfigurationOverrides
 ): ServiceConfiguration => {

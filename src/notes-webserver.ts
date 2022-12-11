@@ -1,7 +1,7 @@
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import express, { Express } from "express";
+import express, { Express, Request, Response } from "express";
 import * as http from "http";
 import { ParsedQs } from "qs";
 
@@ -37,37 +37,14 @@ export class NotesWebserver {
       switch (route.method) {
         case "GET":
           return this.app.get(route.path, async (req, res) => {
-            const module = await import(route.import);
-            const handler: HttpRequestHandler = module[route.action];
-            const response: HttpResponse = await handler({
-              headers: req.headers,
-              pathParameters: req.params,
-              queryStringParameters: this.parsedQSToMap(req.query),
-            });
-            Object.keys(response.headers).forEach((k) => {
-              res.setHeader(k, response.headers[k]);
-            });
-            res.status(response.statusCode);
-            res.send(response.body);
+            return this.handleGetRequest(route, req, res);
           });
         case "POST":
           return this.app.post(
             route.path,
             bodyParser.raw({ type: () => true }),
             async (req, res) => {
-              const module = await import(route.import);
-              const handler: PostFormHttpHandler = module[route.action];
-              const response: HttpResponse = await handler({
-                body: req.body.toString("utf-8"),
-                headers: req.headers,
-                pathParameters: req.params,
-                queryStringParameters: this.parsedQSToMap(req.query),
-              });
-              Object.keys(response.headers).forEach((k) => {
-                res.setHeader(k, response.headers[k]);
-              });
-              res.status(response.statusCode);
-              res.send(response.body);
+              return this.handlePostRequest(route, req, res);
             }
           );
       }
@@ -79,6 +56,35 @@ export class NotesWebserver {
   }
   public stop() {
     this.server.close();
+  }
+  private async handleGetRequest(route: Route, req: Request, res: Response) {
+    const module = await import(route.import);
+    const handler: HttpRequestHandler = module[route.action];
+    const response: HttpResponse = await handler({
+      headers: req.headers,
+      pathParameters: req.params,
+      queryStringParameters: this.parsedQSToMap(req.query),
+    });
+    Object.keys(response.headers).forEach((k) => {
+      res.setHeader(k, response.headers[k]);
+    });
+    res.status(response.statusCode);
+    res.send(response.body);
+  }
+  private async handlePostRequest(route: Route, req: Request, res: Response) {
+    const module = await import(route.import);
+    const handler: PostFormHttpHandler = module[route.action];
+    const response: HttpResponse = await handler({
+      body: req.body.toString("utf-8"),
+      headers: req.headers,
+      pathParameters: req.params,
+      queryStringParameters: this.parsedQSToMap(req.query),
+    });
+    Object.keys(response.headers).forEach((k) => {
+      res.setHeader(k, response.headers[k]);
+    });
+    res.status(response.statusCode);
+    res.send(response.body);
   }
   private parsedQSToMap(qs: ParsedQs): QueryStringParameters {
     const r: QueryStringParameters = {};
