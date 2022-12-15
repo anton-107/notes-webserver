@@ -60,10 +60,7 @@ export interface ServiceConfiguration {
 }
 export type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
 
-// eslint-disable-next-line max-statements
-export const dependenciesConfiguration = (
-  overrides: ServiceConfigurationOverrides
-): ServiceConfiguration => {
+const contextConfiguration = (): ServiceConfigurationOverrides  => {
   const logger = new LoggerBunyan();
   const contextConfiguration: ServiceConfigurationOverrides = {};
   contextConfiguration.logger = logger;
@@ -121,9 +118,15 @@ export const dependenciesConfiguration = (
     );
   }
   contextConfiguration.baseUrl = process.env["BASE_URL"] || "";
+  return contextConfiguration;
+}
 
+// eslint-disable-next-line max-statements
+export const dependenciesConfiguration = (
+  overrides: ServiceConfigurationOverrides
+): ServiceConfiguration => {
   const configuration = commonConfiguration({
-    ...contextConfiguration,
+    ...contextConfiguration(),
     ...overrides,
   });
   if (process.env["CORS_ALLOWED_ORIGINS"]) {
