@@ -61,7 +61,7 @@ export interface ServiceConfiguration {
 }
 export type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
 
-const contextConfiguration = (): ServiceConfigurationOverrides  => {
+const contextConfiguration = (): ServiceConfigurationOverrides => {
   const logger = new LoggerBunyan();
   const contextConfiguration: ServiceConfigurationOverrides = {};
   contextConfiguration.logger = logger;
@@ -120,7 +120,7 @@ const contextConfiguration = (): ServiceConfigurationOverrides  => {
   }
   contextConfiguration.baseUrl = process.env["BASE_URL"] || "";
   return contextConfiguration;
-}
+};
 
 // eslint-disable-next-line max-statements
 export const dependenciesConfiguration = (
