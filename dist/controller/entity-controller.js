@@ -83,12 +83,7 @@ class EntityController {
         }
         if (!entityID) {
             this.properties.logger.error(`No ${this.getEntityName()} id found in request`, { entityID });
-            return {
-                isBase64Encoded: false,
-                statusCode: http_1.HttpStatus.BAD_REQUEST,
-                headers: {},
-                body: "Bad request.",
-            };
+            return this.properties.httpBadRequestView.showBadRequest();
         }
         const entity = await this.properties.entityStore.getOne(user.username, entityID);
         if (!entity) {

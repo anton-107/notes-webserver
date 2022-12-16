@@ -22,6 +22,7 @@ import { NoteStore } from "../stores/note/note-store";
 import { NotebookStore } from "../stores/notebook/notebook-store";
 import { PersonStore } from "../stores/person/person-store";
 import { SearchStore } from "../stores/search/search-store";
+import { HttpBadRequestView } from "../views/http-bad-request-view";
 import { HttpForbiddenView } from "../views/http-forbidden-view";
 import { HttpRedirectView } from "../views/http-redirect-view";
 import { NoteHtmlView } from "../views/note/note-html-view";
@@ -145,6 +146,7 @@ export const notebookControllerConfiguration = (
     entityView: new NotebookHtmlView({ ...configuration }),
     httpRedirectView: new HttpRedirectView({ ...configuration }),
     httpForbiddenView: new HttpForbiddenView(),
+    httpBadRequestView: new HttpBadRequestView(),
     entityStore: configuration.notebookStore,
     noteStore: configuration.noteStore,
     noteHtmlView: new NoteHtmlView({ ...configuration }),
@@ -161,6 +163,7 @@ export const personControllerConfiguration = (
     entityView: new PersonHtmlView({ ...configuration }),
     httpRedirectView: new HttpRedirectView({ ...configuration }),
     httpForbiddenView: new HttpForbiddenView(),
+    httpBadRequestView: new HttpBadRequestView(),
     entityStore: configuration.personStore,
     ...overrides,
   };
@@ -173,6 +176,7 @@ export const noteControllerConfiguration = (
     ...configuration,
     httpRedirectView: new HttpRedirectView({ ...configuration }),
     httpForbiddenView: new HttpForbiddenView(),
+    httpBadRequestView: new HttpBadRequestView(),
     entityStore: configuration.noteStore,
     ...overrides,
   };

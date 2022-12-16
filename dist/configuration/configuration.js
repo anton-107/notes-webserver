@@ -7,6 +7,7 @@ const youtube_parser_1 = require("youtube-module/dist/youtube-parser");
 const cors_headers_1 = require("../http/cors-headers");
 const logger_bunyan_1 = require("../logger/logger-bunyan");
 const attachments_store_s3_1 = require("../stores/attachments/attachments-store-s3");
+const http_bad_request_view_1 = require("../views/http-bad-request-view");
 const http_forbidden_view_1 = require("../views/http-forbidden-view");
 const http_redirect_view_1 = require("../views/http-redirect-view");
 const note_html_view_1 = require("../views/note/note-html-view");
@@ -20,8 +21,7 @@ const notebook_store_dynamo_1 = require("./notebook-store-dynamo");
 const person_store_dynamo_1 = require("./person-store-dynamo");
 const search_store_opensearch_serverless_1 = require("./search-store-opensearch-serverless");
 const user_store_dynamo_1 = require("./user-store-dynamo");
-// eslint-disable-next-line max-statements
-const dependenciesConfiguration = (overrides) => {
+const contextConfiguration = () => {
     const logger = new logger_bunyan_1.LoggerBunyan();
     const contextConfiguration = {};
     contextConfiguration.logger = logger;
@@ -60,8 +60,12 @@ const dependenciesConfiguration = (overrides) => {
         Object.assign(contextConfiguration, (0, search_store_opensearch_serverless_1.searchStoreOpensearchServerlessConfiguration)(logger, process.env["SEARCH_DOMAIN_SERVERLESS_ENDPOINT"], process.env["SEARCH_INDEX_NAME"]));
     }
     contextConfiguration.baseUrl = process.env["BASE_URL"] || "";
+    return contextConfiguration;
+};
+// eslint-disable-next-line max-statements
+const dependenciesConfiguration = (overrides) => {
     const configuration = (0, common_1.commonConfiguration)({
-        ...contextConfiguration,
+        ...contextConfiguration(),
         ...overrides,
     });
     if (process.env["CORS_ALLOWED_ORIGINS"]) {
@@ -77,6 +81,7 @@ const notebookControllerConfiguration = (overrides) => {
         entityView: new notebook_html_view_1.NotebookHtmlView({ ...configuration }),
         httpRedirectView: new http_redirect_view_1.HttpRedirectView({ ...configuration }),
         httpForbiddenView: new http_forbidden_view_1.HttpForbiddenView(),
+        httpBadRequestView: new http_bad_request_view_1.HttpBadRequestView(),
         entityStore: configuration.notebookStore,
         noteStore: configuration.noteStore,
         noteHtmlView: new note_html_view_1.NoteHtmlView({ ...configuration }),
@@ -92,6 +97,7 @@ const personControllerConfiguration = (overrides) => {
         entityView: new person_html_view_1.PersonHtmlView({ ...configuration }),
         httpRedirectView: new http_redirect_view_1.HttpRedirectView({ ...configuration }),
         httpForbiddenView: new http_forbidden_view_1.HttpForbiddenView(),
+        httpBadRequestView: new http_bad_request_view_1.HttpBadRequestView(),
         entityStore: configuration.personStore,
         ...overrides,
     };
@@ -103,6 +109,7 @@ const noteControllerConfiguration = (overrides) => {
         ...configuration,
         httpRedirectView: new http_redirect_view_1.HttpRedirectView({ ...configuration }),
         httpForbiddenView: new http_forbidden_view_1.HttpForbiddenView(),
+        httpBadRequestView: new http_bad_request_view_1.HttpBadRequestView(),
         entityStore: configuration.noteStore,
         ...overrides,
     };

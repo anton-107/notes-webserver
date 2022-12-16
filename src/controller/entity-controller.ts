@@ -6,6 +6,7 @@ import { ResponseType } from "../http/response-type-parser";
 import { Logger } from "../logger/logger";
 import { EntityStore } from "../stores/entity-store";
 import { EntityView } from "../views/entity-view";
+import { HttpBadRequestView } from "../views/http-bad-request-view";
 import { HttpForbiddenView } from "../views/http-forbidden-view";
 import { HttpRedirectView } from "../views/http-redirect-view";
 import { PostProcessorRegistry } from "./post-processor";
@@ -18,6 +19,7 @@ export interface EntityControllerProperties<T> {
   entityView: EntityView<T>;
   httpRedirectView: HttpRedirectView;
   httpForbiddenView: HttpForbiddenView;
+  httpBadRequestView: HttpBadRequestView;
   postProcessorRegistry: PostProcessorRegistry;
   responseType: ResponseType;
 }
@@ -166,12 +168,7 @@ export abstract class EntityController<T> {
         `No ${this.getEntityName()} id found in request`,
         { entityID }
       );
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.BAD_REQUEST,
-        headers: {},
-        body: "Bad request.",
-      };
+      return this.properties.httpBadRequestView.showBadRequest();
     }
 
     const entity = await this.properties.entityStore.getOne(
