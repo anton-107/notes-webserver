@@ -12,7 +12,7 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": "error",
     "max-depth": ["error", 2],
     "max-nested-callbacks": ["error", 2],
-    "max-lines-per-function": ["error", 65],
+    "max-lines-per-function": ["error", 60],
     "max-statements": ["error", 25],
     "max-params": ["error", 3],
   },

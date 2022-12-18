@@ -6,8 +6,8 @@ import { Logger } from "../logger/logger";
 import { EntityStore } from "../stores/entity-store";
 import { EntityView } from "../views/entity-view";
 import { HttpBadRequestView } from "../views/http-bad-request-view";
-import { HttpForbiddenView } from "../views/http-forbidden-view";
 import { HttpRedirectView } from "../views/http-redirect-view";
+import { HttpStatusView } from "../views/http-status-view";
 import { PostProcessorRegistry } from "./post-processor";
 export interface EntityControllerProperties<T> {
     logger: Logger;
@@ -16,7 +16,7 @@ export interface EntityControllerProperties<T> {
     entityStore: EntityStore<T>;
     entityView: EntityView<T>;
     httpRedirectView: HttpRedirectView;
-    httpForbiddenView: HttpForbiddenView;
+    httpStatusView: HttpStatusView;
     httpBadRequestView: HttpBadRequestView;
     postProcessorRegistry: PostProcessorRegistry;
     responseType: ResponseType;

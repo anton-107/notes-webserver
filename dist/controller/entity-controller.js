@@ -16,7 +16,7 @@ class EntityController {
             this.properties.logger.error("User is not authenticated", {
                 username: user.username,
             });
-            return this.properties.httpForbiddenView.showForbidden();
+            return this.properties.httpStatusView.showForbidden();
         }
         const entity = await this.properties.entityStore.getOne(user.username, entityID);
         if (!entity) {
@@ -43,7 +43,7 @@ class EntityController {
             this.properties.logger.error("User is not authenticated", {
                 username: user.username,
             });
-            return this.properties.httpForbiddenView.showForbidden();
+            return this.properties.httpStatusView.showForbidden();
         }
         this.authorizedUserName = user.username;
         const entity = await this.properties.entityStore.getOne(user.username, entityID);
@@ -66,7 +66,7 @@ class EntityController {
             this.properties.logger.error("User is not authenticated", {
                 username: user.username,
             });
-            return this.properties.httpForbiddenView.showForbidden();
+            return this.properties.httpStatusView.showForbidden();
         }
         const entities = await this.properties.entityStore.listAll(user.username);
         return {
@@ -79,7 +79,7 @@ class EntityController {
             this.properties.logger.error("User is not authenticated", {
                 username: user.username,
             });
-            return this.properties.httpForbiddenView.showForbidden();
+            return this.properties.httpStatusView.showForbidden();
         }
         if (!entityID) {
             this.properties.logger.error(`No ${this.getEntityName()} id found in request`, { entityID });
@@ -88,7 +88,7 @@ class EntityController {
         const entity = await this.properties.entityStore.getOne(user.username, entityID);
         if (!entity) {
             this.properties.logger.error(`Entity ${this.getEntityName()} is not found for deletion`, { username: user.username, entityID });
-            return this.properties.httpForbiddenView.showForbidden();
+            return this.properties.httpStatusView.showForbidden();
         }
         try {
             await this.properties.entityStore.deleteOne(user.username, entityID);
@@ -98,12 +98,7 @@ class EntityController {
                 entityID,
                 error: err,
             });
-            return {
-                isBase64Encoded: false,
-                statusCode: http_1.HttpStatus.INTERNAL_SERVER_ERROR,
-                headers: {},
-                body: "Internal server error.",
-            };
+            return this.properties.httpStatusView.showInternalServerError();
         }
         this.properties.logger.info(`${this.getEntityName()} deleted`, {
             username: user.username,
@@ -120,25 +115,20 @@ class EntityController {
             this.properties.logger.error("User is not authenticated", {
                 username: user.username,
             });
-            return this.properties.httpForbiddenView.showForbidden();
+            return this.properties.httpStatusView.showForbidden();
         }
         const entityID = this.mapRequestToEntityID(form);
         const existingEntity = await this.properties.entityStore.getOne(user.username, entityID);
         if (!existingEntity) {
             this.properties.logger.error(`Entity ${this.getEntityName()} is not found for update`, { username: user.username, entityID });
-            return this.properties.httpForbiddenView.showForbidden();
+            return this.properties.httpStatusView.showForbidden();
         }
         const entity = this.mapRequestToExistingEntity(user.username, existingEntity, form);
         try {
             await this.properties.entityStore.editOne(entity);
         }
         catch (err) {
-            return {
-                isBase64Encoded: false,
-                statusCode: http_1.HttpStatus.INTERNAL_SERVER_ERROR,
-                headers: {},
-                body: "Internal server error.",
-            };
+            return this.properties.httpStatusView.showInternalServerError();
         }
         if (this.properties.responseType === response_type_parser_1.ResponseType.JSON) {
             return this.properties.entityView.renderDetailsPageOneEntity(entity);
@@ -151,13 +141,13 @@ class EntityController {
             this.properties.logger.error("User is not authenticated", {
                 username: user.username,
             });
-            return this.properties.httpForbiddenView.showForbidden();
+            return this.properties.httpStatusView.showForbidden();
         }
         const entity = this.mapRequestToNewEntity(user.username, form);
         const isAuthorized = await this.isAuthorizedToCreate(user.username, entity);
         if (!isAuthorized) {
             this.properties.logger.error(`User is not authorized to create ${this.getEntityName()}`, { username: user.username, data: entity });
-            return this.properties.httpForbiddenView.showForbidden();
+            return this.properties.httpStatusView.showForbidden();
         }
         await this.properties.entityStore.add(entity);
         if (this.properties.responseType === response_type_parser_1.ResponseType.JSON) {

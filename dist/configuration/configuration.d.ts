@@ -13,8 +13,8 @@ import { NotebookStore } from "../stores/notebook/notebook-store";
 import { PersonStore } from "../stores/person/person-store";
 import { SearchStore } from "../stores/search/search-store";
 import { HttpBadRequestView } from "../views/http-bad-request-view";
-import { HttpForbiddenView } from "../views/http-forbidden-view";
 import { HttpRedirectView } from "../views/http-redirect-view";
+import { HttpStatusView } from "../views/http-status-view";
 import { NoteHtmlView } from "../views/note/note-html-view";
 import { NotebookHtmlView } from "../views/notebook/notebook-html-view";
 import { NotebookJsonView } from "../views/notebook/notebook-json-view";
@@ -60,7 +60,7 @@ export declare const notebookControllerConfiguration: (overrides: ServiceConfigu
     searchStore: SearchStore;
     entityView: NotebookHtmlView;
     httpRedirectView: HttpRedirectView;
-    httpForbiddenView: HttpForbiddenView;
+    httpStatusView: HttpStatusView;
     httpBadRequestView: HttpBadRequestView;
     entityStore: NotebookStore;
     noteHtmlView: NoteHtmlView;
@@ -86,7 +86,7 @@ export declare const personControllerConfiguration: (overrides: ServiceConfigura
     searchStore: SearchStore;
     entityView: PersonHtmlView;
     httpRedirectView: HttpRedirectView;
-    httpForbiddenView: HttpForbiddenView;
+    httpStatusView: HttpStatusView;
     httpBadRequestView: HttpBadRequestView;
     entityStore: PersonStore;
 };
@@ -109,7 +109,7 @@ export declare const noteControllerConfiguration: (overrides: ServiceConfigurati
     noteAttachmentsStore: NoteAttachmentsStore;
     searchStore: SearchStore;
     httpRedirectView: HttpRedirectView;
-    httpForbiddenView: HttpForbiddenView;
+    httpStatusView: HttpStatusView;
     httpBadRequestView: HttpBadRequestView;
     entityStore: NoteStore;
 };

@@ -23,8 +23,8 @@ import { NotebookStore } from "../stores/notebook/notebook-store";
 import { PersonStore } from "../stores/person/person-store";
 import { SearchStore } from "../stores/search/search-store";
 import { HttpBadRequestView } from "../views/http-bad-request-view";
-import { HttpForbiddenView } from "../views/http-forbidden-view";
 import { HttpRedirectView } from "../views/http-redirect-view";
+import { HttpStatusView } from "../views/http-status-view";
 import { NoteHtmlView } from "../views/note/note-html-view";
 import { NotebookHtmlView } from "../views/notebook/notebook-html-view";
 import { NotebookJsonView } from "../views/notebook/notebook-json-view";
@@ -145,7 +145,7 @@ export const notebookControllerConfiguration = (
     ...configuration,
     entityView: new NotebookHtmlView({ ...configuration }),
     httpRedirectView: new HttpRedirectView({ ...configuration }),
-    httpForbiddenView: new HttpForbiddenView(),
+    httpStatusView: new HttpStatusView(),
     httpBadRequestView: new HttpBadRequestView(),
     entityStore: configuration.notebookStore,
     noteStore: configuration.noteStore,
@@ -162,7 +162,7 @@ export const personControllerConfiguration = (
     ...configuration,
     entityView: new PersonHtmlView({ ...configuration }),
     httpRedirectView: new HttpRedirectView({ ...configuration }),
-    httpForbiddenView: new HttpForbiddenView(),
+    httpStatusView: new HttpStatusView(),
     httpBadRequestView: new HttpBadRequestView(),
     entityStore: configuration.personStore,
     ...overrides,
@@ -175,7 +175,7 @@ export const noteControllerConfiguration = (
   return {
     ...configuration,
     httpRedirectView: new HttpRedirectView({ ...configuration }),
-    httpForbiddenView: new HttpForbiddenView(),
+    httpStatusView: new HttpStatusView(),
     httpBadRequestView: new HttpBadRequestView(),
     entityStore: configuration.noteStore,
     ...overrides,

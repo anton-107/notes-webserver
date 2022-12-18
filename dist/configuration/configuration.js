@@ -8,8 +8,8 @@ const cors_headers_1 = require("../http/cors-headers");
 const logger_bunyan_1 = require("../logger/logger-bunyan");
 const attachments_store_s3_1 = require("../stores/attachments/attachments-store-s3");
 const http_bad_request_view_1 = require("../views/http-bad-request-view");
-const http_forbidden_view_1 = require("../views/http-forbidden-view");
 const http_redirect_view_1 = require("../views/http-redirect-view");
+const http_status_view_1 = require("../views/http-status-view");
 const note_html_view_1 = require("../views/note/note-html-view");
 const notebook_html_view_1 = require("../views/notebook/notebook-html-view");
 const notebook_json_view_1 = require("../views/notebook/notebook-json-view");
@@ -80,7 +80,7 @@ const notebookControllerConfiguration = (overrides) => {
         ...configuration,
         entityView: new notebook_html_view_1.NotebookHtmlView({ ...configuration }),
         httpRedirectView: new http_redirect_view_1.HttpRedirectView({ ...configuration }),
-        httpForbiddenView: new http_forbidden_view_1.HttpForbiddenView(),
+        httpStatusView: new http_status_view_1.HttpStatusView(),
         httpBadRequestView: new http_bad_request_view_1.HttpBadRequestView(),
         entityStore: configuration.notebookStore,
         noteStore: configuration.noteStore,
@@ -96,7 +96,7 @@ const personControllerConfiguration = (overrides) => {
         ...configuration,
         entityView: new person_html_view_1.PersonHtmlView({ ...configuration }),
         httpRedirectView: new http_redirect_view_1.HttpRedirectView({ ...configuration }),
-        httpForbiddenView: new http_forbidden_view_1.HttpForbiddenView(),
+        httpStatusView: new http_status_view_1.HttpStatusView(),
         httpBadRequestView: new http_bad_request_view_1.HttpBadRequestView(),
         entityStore: configuration.personStore,
         ...overrides,
@@ -108,7 +108,7 @@ const noteControllerConfiguration = (overrides) => {
     return {
         ...configuration,
         httpRedirectView: new http_redirect_view_1.HttpRedirectView({ ...configuration }),
-        httpForbiddenView: new http_forbidden_view_1.HttpForbiddenView(),
+        httpStatusView: new http_status_view_1.HttpStatusView(),
         httpBadRequestView: new http_bad_request_view_1.HttpBadRequestView(),
         entityStore: configuration.noteStore,
         ...overrides,

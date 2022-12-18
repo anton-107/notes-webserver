@@ -7,8 +7,8 @@ import { Logger } from "../logger/logger";
 import { EntityStore } from "../stores/entity-store";
 import { EntityView } from "../views/entity-view";
 import { HttpBadRequestView } from "../views/http-bad-request-view";
-import { HttpForbiddenView } from "../views/http-forbidden-view";
 import { HttpRedirectView } from "../views/http-redirect-view";
+import { HttpStatusView } from "../views/http-status-view";
 import { PostProcessorRegistry } from "./post-processor";
 
 export interface EntityControllerProperties<T> {
@@ -18,7 +18,7 @@ export interface EntityControllerProperties<T> {
   entityStore: EntityStore<T>;
   entityView: EntityView<T>;
   httpRedirectView: HttpRedirectView;
-  httpForbiddenView: HttpForbiddenView;
+  httpStatusView: HttpStatusView;
   httpBadRequestView: HttpBadRequestView;
   postProcessorRegistry: PostProcessorRegistry;
   responseType: ResponseType;
@@ -59,7 +59,7 @@ export abstract class EntityController<T> {
       this.properties.logger.error("User is not authenticated", {
         username: user.username,
       });
-      return this.properties.httpForbiddenView.showForbidden();
+      return this.properties.httpStatusView.showForbidden();
     }
 
     const entity = await this.properties.entityStore.getOne(
@@ -109,7 +109,7 @@ export abstract class EntityController<T> {
       this.properties.logger.error("User is not authenticated", {
         username: user.username,
       });
-      return this.properties.httpForbiddenView.showForbidden();
+      return this.properties.httpStatusView.showForbidden();
     }
     this.authorizedUserName = user.username;
 
@@ -142,7 +142,7 @@ export abstract class EntityController<T> {
       this.properties.logger.error("User is not authenticated", {
         username: user.username,
       });
-      return this.properties.httpForbiddenView.showForbidden();
+      return this.properties.httpStatusView.showForbidden();
     }
 
     const entities = await this.properties.entityStore.listAll(user.username);
@@ -161,7 +161,7 @@ export abstract class EntityController<T> {
       this.properties.logger.error("User is not authenticated", {
         username: user.username,
       });
-      return this.properties.httpForbiddenView.showForbidden();
+      return this.properties.httpStatusView.showForbidden();
     }
     if (!entityID) {
       this.properties.logger.error(
@@ -181,7 +181,7 @@ export abstract class EntityController<T> {
         `Entity ${this.getEntityName()} is not found for deletion`,
         { username: user.username, entityID }
       );
-      return this.properties.httpForbiddenView.showForbidden();
+      return this.properties.httpStatusView.showForbidden();
     }
 
     try {
@@ -191,12 +191,7 @@ export abstract class EntityController<T> {
         entityID,
         error: err,
       });
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        headers: {},
-        body: "Internal server error.",
-      };
+      return this.properties.httpStatusView.showInternalServerError();
     }
 
     this.properties.logger.info(`${this.getEntityName()} deleted`, {
@@ -221,7 +216,7 @@ export abstract class EntityController<T> {
       this.properties.logger.error("User is not authenticated", {
         username: user.username,
       });
-      return this.properties.httpForbiddenView.showForbidden();
+      return this.properties.httpStatusView.showForbidden();
     }
 
     const entityID = this.mapRequestToEntityID(form);
@@ -234,7 +229,7 @@ export abstract class EntityController<T> {
         `Entity ${this.getEntityName()} is not found for update`,
         { username: user.username, entityID }
       );
-      return this.properties.httpForbiddenView.showForbidden();
+      return this.properties.httpStatusView.showForbidden();
     }
 
     const entity = this.mapRequestToExistingEntity(
@@ -245,12 +240,7 @@ export abstract class EntityController<T> {
     try {
       await this.properties.entityStore.editOne(entity);
     } catch (err) {
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        headers: {},
-        body: "Internal server error.",
-      };
+      return this.properties.httpStatusView.showInternalServerError();
     }
 
     if (this.properties.responseType === ResponseType.JSON) {
@@ -271,7 +261,7 @@ export abstract class EntityController<T> {
       this.properties.logger.error("User is not authenticated", {
         username: user.username,
       });
-      return this.properties.httpForbiddenView.showForbidden();
+      return this.properties.httpStatusView.showForbidden();
     }
 
     const entity = this.mapRequestToNewEntity(user.username, form);
@@ -282,7 +272,7 @@ export abstract class EntityController<T> {
         `User is not authorized to create ${this.getEntityName()}`,
         { username: user.username, data: entity }
       );
-      return this.properties.httpForbiddenView.showForbidden();
+      return this.properties.httpStatusView.showForbidden();
     }
 
     await this.properties.entityStore.add(entity);
