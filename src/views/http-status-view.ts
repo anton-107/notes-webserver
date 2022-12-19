@@ -1,6 +1,14 @@
 import { HttpResponse, HttpStatus } from "../http/http";
 
 export class HttpStatusView {
+  public showNotFound(): HttpResponse {
+    return {
+      isBase64Encoded: false,
+      statusCode: HttpStatus.NOT_FOUND,
+      headers: {},
+      body: "Not found.",
+    };
+  }
   public showForbidden(): HttpResponse {
     return {
       isBase64Encoded: false,

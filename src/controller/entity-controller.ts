@@ -1,7 +1,7 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 
 import { FormBody } from "../http/body-parser";
-import { HttpResponse, HttpStatus } from "../http/http";
+import { HttpResponse } from "../http/http";
 import { ResponseType } from "../http/response-type-parser";
 import { Logger } from "../logger/logger";
 import { EntityStore } from "../stores/entity-store";
@@ -71,12 +71,7 @@ export abstract class EntityController<T> {
         `${this.getEntityName()} is not found for user `,
         { username: user.username, entityID }
       );
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.NOT_FOUND,
-        headers: {},
-        body: "Not found.",
-      };
+      return this.properties.httpStatusView.showNotFound();
     }
 
     this.selectedEntity = entity;
@@ -122,12 +117,7 @@ export abstract class EntityController<T> {
         `${this.getEntityName()} is not found for user `,
         { username: user.username, entityID }
       );
-      return {
-        isBase64Encoded: false,
-        statusCode: HttpStatus.NOT_FOUND,
-        headers: {},
-        body: "Not found.",
-      };
+      return this.properties.httpStatusView.showNotFound();
     }
     return {
       ...this.properties.entityView.renderDetailsPageOneEntity(entity),
