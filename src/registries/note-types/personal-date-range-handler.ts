@@ -26,7 +26,11 @@ export class PersonalDateRangeNoteHandler
     existingNote: Note,
     form: FormBody
   ): Note {
-    const entity = super.mapRequestToNewEntity(username, form);
+    const entity = super.mapRequestToExistingEntity(
+      username,
+      existingNote,
+      form
+    );
     entity.extensionProperties.personID = form["person-id"];
     return entity;
   }
