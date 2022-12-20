@@ -1,10 +1,12 @@
-import { generate } from "short-uuid";
-
 import { FormBody } from "../../http/body-parser";
 import { Note, RenderedNote } from "../../model/note-model";
 import { NoteTypeHandler } from "../note-types-registry";
+import { DateRangeNoteHandler } from "./date-range-handler";
 
-export class PersonalDateRangeNoteHandler implements NoteTypeHandler {
+export class PersonalDateRangeNoteHandler
+  extends DateRangeNoteHandler
+  implements NoteTypeHandler
+{
   public isMatchForAutoType(): boolean {
     return false;
   }
@@ -15,33 +17,18 @@ export class PersonalDateRangeNoteHandler implements NoteTypeHandler {
     return "personal date range entry";
   }
   public mapRequestToNewEntity(username: string, form: FormBody): Note {
-    return {
-      id: generate(),
-      notebookID: form["notebook-id"],
-      owner: username,
-      type: { type: this.typeName() },
-      content: form["note-content"],
-      extensionProperties: {
-        personID: form["person-id"],
-        dateRangeStart: form["date-range-start"],
-        dateRangeEnd: form["date-range-end"],
-      },
-    };
+    const entity = super.mapRequestToNewEntity(username, form);
+    entity.extensionProperties.personID = form["person-id"];
+    return entity;
   }
   public mapRequestToExistingEntity(
     username: string,
     existingNote: Note,
     form: FormBody
   ): Note {
-    return {
-      ...existingNote,
-      content: form["note-content"],
-      extensionProperties: {
-        personID: form["person-id"],
-        dateRangeStart: form["date-range-start"],
-        dateRangeEnd: form["date-range-end"],
-      },
-    };
+    const entity = super.mapRequestToNewEntity(username, form);
+    entity.extensionProperties.personID = form["person-id"];
+    return entity;
   }
   public render(note: Note): RenderedNote {
     return {
@@ -49,7 +36,7 @@ export class PersonalDateRangeNoteHandler implements NoteTypeHandler {
       renderedContent: this.htmlView(note),
     };
   }
-  private htmlView(note: Note): string {
+  protected htmlView(note: Note): string {
     return `
       <div>{{MACRO_PERSON_SHORT_REPRESENTATION:${note.extensionProperties.personID}}}</div>
       <div>Date start: <span data-testid='date-range-start'>${note.extensionProperties.dateRangeStart}</span></div>

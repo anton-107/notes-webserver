@@ -47,7 +47,7 @@ export class DateRangeNoteHandler implements NoteTypeHandler {
       renderedContent: this.htmlView(note),
     };
   }
-  private htmlView(note: Note): string {
+  protected htmlView(note: Note): string {
     return `
       <div><span data-testid='note-content'>${note.content}</span></div>
       <div>Date start: <span data-testid='date-range-start'>${note.extensionProperties.dateRangeStart}</span></div>
