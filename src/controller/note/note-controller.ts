@@ -59,21 +59,12 @@ export class NoteController extends EntityController<Note> {
       notes
     );
   }
+
   public async listAttachments(noteID: string): Promise<HttpResponse> {
-    this.logger.info("Checking user");
-    const user = await this.noteControllerProperties.authenticator.authenticate(
-      this.noteControllerProperties.authenticationToken
-    );
-    this.logger.info("Found user", { username: user.username });
-    this.logger.info("Checking note");
-    const note = await this.noteControllerProperties.noteStore.getOne(
-      user.username,
-      noteID
-    );
-    this.logger.info("Found note", { data: note });
+    const { note, username } = await this.getNote(noteID);
     const attachments =
       await this.noteControllerProperties.noteAttachmentsStore.listAllForNote(
-        user.username,
+        username,
         note.id
       );
     this.logger.info("Found attachments", { data: attachments });
@@ -92,22 +83,12 @@ export class NoteController extends EntityController<Note> {
     noteID: string,
     attachmentID: string
   ): Promise<HttpResponse> {
-    this.logger.info("Checking user");
-    const user = await this.noteControllerProperties.authenticator.authenticate(
-      this.noteControllerProperties.authenticationToken
-    );
-    this.logger.info("Found user", { username: user.username });
-    this.logger.info("Checking note");
-    const note = await this.noteControllerProperties.noteStore.getOne(
-      user.username,
-      noteID
-    );
-    this.logger.info("Found note", { data: note });
+    const { note, username } = await this.getNote(noteID);
 
     this.logger.info("Checking attachments");
     const noteAttachments =
       await this.noteControllerProperties.noteAttachmentsStore.listAllForNote(
-        user.username,
+        username,
         note.id
       );
     this.logger.info("Found attachments", { data: noteAttachments });
@@ -206,5 +187,27 @@ export class NoteController extends EntityController<Note> {
   }
   protected getEntityURL(note: Note): string {
     return `/notebook/${note.notebookID}`;
+  }
+
+  private async getUserName(): Promise<string> {
+    this.logger.info("Checking user");
+    const user = await this.noteControllerProperties.authenticator.authenticate(
+      this.noteControllerProperties.authenticationToken
+    );
+    this.logger.info("Found user", { username: user.username });
+    return user.username;
+  }
+
+  private async getNote(
+    noteID: string
+  ): Promise<{ note: Note; username: string }> {
+    const username = await this.getUserName();
+    this.logger.info("Checking note");
+    const note = await this.noteControllerProperties.noteStore.getOne(
+      username,
+      noteID
+    );
+    this.logger.info("Found note", { data: note });
+    return { note, username };
   }
 }
