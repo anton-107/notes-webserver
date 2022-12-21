@@ -56,9 +56,12 @@ export abstract class EntityController<T> {
     );
 
     if (!user.isAuthenticated) {
-      this.properties.logger.error("User is not authenticated", {
-        username: user.username,
-      });
+      this.properties.logger.error(
+        "User is not authenticated to read the single entity",
+        {
+          username: user.username,
+        }
+      );
       return this.properties.httpStatusView.showForbidden();
     }
 
@@ -101,9 +104,12 @@ export abstract class EntityController<T> {
     );
 
     if (!user.isAuthenticated) {
-      this.properties.logger.error("User is not authenticated", {
-        username: user.username,
-      });
+      this.properties.logger.error(
+        "User is not authenticated to read single entity details",
+        {
+          username: user.username,
+        }
+      );
       return this.properties.httpStatusView.showForbidden();
     }
     this.authorizedUserName = user.username;
@@ -248,9 +254,12 @@ export abstract class EntityController<T> {
       this.properties.authenticationToken
     );
     if (!user.isAuthenticated) {
-      this.properties.logger.error("User is not authenticated", {
-        username: user.username,
-      });
+      this.properties.logger.error(
+        "User is not authenticated to create an entity",
+        {
+          username: user.username,
+        }
+      );
       return this.properties.httpStatusView.showForbidden();
     }
 
