@@ -2,7 +2,7 @@ import { NoteControllerBuilder } from "../../../controller/note/note-controller-
 import {
   HttpRequest,
   HttpRequestHandler,
-  HttpResponse
+  HttpResponse,
 } from "../../../http/http";
 import { parseResponseType } from "../../../http/response-type-parser";
 
