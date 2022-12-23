@@ -33,4 +33,6 @@ export declare class NoteController extends EntityController<Note> {
     protected mapRequestToNewEntity(username: string, form: FormBody): Note;
     protected isAuthorizedToCreate(user: string, entity: Note): Promise<boolean>;
     protected getEntityURL(note: Note): string;
+    private getUserName;
+    private getNote;
 }

@@ -1,26 +1,15 @@
-import { notebookControllerConfiguration } from "../../configuration/configuration";
-import { NotebookController } from "../../controller/notebook/notebook-controller";
-import { parseCookie } from "../../http/cookie-parser";
+import { NotebookControllerBuilder } from "../../controller/notebook/notebook-controller-builder";
 import { HttpRequest, HttpRequestHandler, HttpResponse } from "../../http/http";
-import {
-  parseResponseType,
-  ResponseType,
-} from "../../http/response-type-parser";
-import { NotebookJsonView } from "../../views/notebook/notebook-json-view";
+import { parseResponseType } from "../../http/response-type-parser";
 
 export const getOneNotebookHandler: HttpRequestHandler = async (
   request: HttpRequest
 ): Promise<HttpResponse> => {
-  const responseType = parseResponseType(request.headers);
-  const configuration = {
-    ...notebookControllerConfiguration({}),
-    authenticationToken: parseCookie(request.headers, "Authentication"),
+  const controller = NotebookControllerBuilder.build({
+    headers: request.headers,
     responseType: parseResponseType(request.headers),
-  };
-  if (responseType === ResponseType.JSON) {
-    configuration.entityView = new NotebookJsonView(configuration);
-  }
-  return await new NotebookController(
-    configuration
-  ).showSingleEntityDetailsPage(request.pathParameters.notebookID);
+  });
+  return await controller.showSingleEntityDetailsPage(
+    request.pathParameters.notebookID
+  );
 };

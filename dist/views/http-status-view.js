@@ -3,6 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.HttpStatusView = void 0;
 const http_1 = require("../http/http");
 class HttpStatusView {
+    showNotFound() {
+        return {
+            isBase64Encoded: false,
+            statusCode: http_1.HttpStatus.NOT_FOUND,
+            headers: {},
+            body: "Not found.",
+        };
+    }
     showForbidden() {
         return {
             isBase64Encoded: false,

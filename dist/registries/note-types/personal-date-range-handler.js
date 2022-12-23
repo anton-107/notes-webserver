@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PersonalDateRangeNoteHandler = void 0;
-const short_uuid_1 = require("short-uuid");
-class PersonalDateRangeNoteHandler {
+const date_range_handler_1 = require("./date-range-handler");
+class PersonalDateRangeNoteHandler extends date_range_handler_1.DateRangeNoteHandler {
     isMatchForAutoType() {
         return false;
     }
@@ -13,29 +13,14 @@ class PersonalDateRangeNoteHandler {
         return "personal date range entry";
     }
     mapRequestToNewEntity(username, form) {
-        return {
-            id: (0, short_uuid_1.generate)(),
-            notebookID: form["notebook-id"],
-            owner: username,
-            type: { type: this.typeName() },
-            content: form["note-content"],
-            extensionProperties: {
-                personID: form["person-id"],
-                dateRangeStart: form["date-range-start"],
-                dateRangeEnd: form["date-range-end"],
-            },
-        };
+        const entity = super.mapRequestToNewEntity(username, form);
+        entity.extensionProperties.personID = form["person-id"];
+        return entity;
     }
     mapRequestToExistingEntity(username, existingNote, form) {
-        return {
-            ...existingNote,
-            content: form["note-content"],
-            extensionProperties: {
-                personID: form["person-id"],
-                dateRangeStart: form["date-range-start"],
-                dateRangeEnd: form["date-range-end"],
-            },
-        };
+        const entity = super.mapRequestToExistingEntity(username, existingNote, form);
+        entity.extensionProperties.personID = form["person-id"];
+        return entity;
     }
     render(note) {
         return {

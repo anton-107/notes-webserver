@@ -9,6 +9,8 @@ import { NoteController } from "./note-controller";
 interface NoteControllerBuilderProperties {
   headers: HttpHeaders;
   responseType: ResponseType;
+  notebookID?: string;
+  noteType?: string;
 }
 
 export class NoteControllerBuilder {
@@ -21,10 +23,13 @@ export class NoteControllerBuilder {
       entityView:
         properties.responseType === ResponseType.JSON
           ? new NoteJsonView({ ...configuration })
-          : new NoteHtmlView({ ...configuration }),
+          : new NoteHtmlView({
+              ...configuration,
+              notebookID: properties.notebookID,
+            }),
       authenticationToken: parseCookie(properties.headers, "Authentication"),
-      notebookID: null,
-      noteType: null,
+      notebookID: properties.notebookID,
+      noteType: properties.noteType,
       responseType: properties.responseType,
     });
   }

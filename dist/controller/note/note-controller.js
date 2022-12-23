@@ -23,13 +23,8 @@ class NoteController extends entity_controller_1.EntityController {
         return this.noteControllerProperties.entityView.renderListPageAllEntities(notes);
     }
     async listAttachments(noteID) {
-        this.logger.info("Checking user");
-        const user = await this.noteControllerProperties.authenticator.authenticate(this.noteControllerProperties.authenticationToken);
-        this.logger.info("Found user", { username: user.username });
-        this.logger.info("Checking note");
-        const note = await this.noteControllerProperties.noteStore.getOne(user.username, noteID);
-        this.logger.info("Found note", { data: note });
-        const attachments = await this.noteControllerProperties.noteAttachmentsStore.listAllForNote(user.username, note.id);
+        const { note, username } = await this.getNote(noteID);
+        const attachments = await this.noteControllerProperties.noteAttachmentsStore.listAllForNote(username, note.id);
         this.logger.info("Found attachments", { data: attachments });
         return {
             isBase64Encoded: false,
@@ -42,14 +37,9 @@ class NoteController extends entity_controller_1.EntityController {
         };
     }
     async downloadAttachment(noteID, attachmentID) {
-        this.logger.info("Checking user");
-        const user = await this.noteControllerProperties.authenticator.authenticate(this.noteControllerProperties.authenticationToken);
-        this.logger.info("Found user", { username: user.username });
-        this.logger.info("Checking note");
-        const note = await this.noteControllerProperties.noteStore.getOne(user.username, noteID);
-        this.logger.info("Found note", { data: note });
+        const { note, username } = await this.getNote(noteID);
         this.logger.info("Checking attachments");
-        const noteAttachments = await this.noteControllerProperties.noteAttachmentsStore.listAllForNote(user.username, note.id);
+        const noteAttachments = await this.noteControllerProperties.noteAttachmentsStore.listAllForNote(username, note.id);
         this.logger.info("Found attachments", { data: noteAttachments });
         this.logger.info("Checking noteAttachment");
         const noteAttachment = noteAttachments.find((a) => a.id === attachmentID);
@@ -115,6 +105,19 @@ class NoteController extends entity_controller_1.EntityController {
     }
     getEntityURL(note) {
         return `/notebook/${note.notebookID}`;
+    }
+    async getUserName() {
+        this.logger.info("Checking user");
+        const user = await this.noteControllerProperties.authenticator.authenticate(this.noteControllerProperties.authenticationToken);
+        this.logger.info("Found user", { username: user.username });
+        return user.username;
+    }
+    async getNote(noteID) {
+        const username = await this.getUserName();
+        this.logger.info("Checking note");
+        const note = await this.noteControllerProperties.noteStore.getOne(username, noteID);
+        this.logger.info("Found note", { data: note });
+        return { note, username };
     }
 }
 exports.NoteController = NoteController;

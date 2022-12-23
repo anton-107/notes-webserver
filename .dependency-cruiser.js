@@ -2,6 +2,12 @@
 module.exports = {
   forbidden: [
     {
+      name: "routes-only-depend-on-controller",
+      severity: "error",
+      from: { path: "routes/" },
+      to: { pathNot: "(http|configuration|controller)/" },
+    },
+    {
       name: "views-do-not-depend-on-controller",
       severity: "error",
       from: { path: "views/" },

@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EntityController = void 0;
-const http_1 = require("../http/http");
 const response_type_parser_1 = require("../http/response-type-parser");
 class EntityController {
     constructor(properties) {
@@ -13,7 +12,7 @@ class EntityController {
     async showEditSingleEntityPage(entityID) {
         const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);
         if (!user.isAuthenticated) {
-            this.properties.logger.error("User is not authenticated", {
+            this.properties.logger.error("User is not authenticated to read the single entity", {
                 username: user.username,
             });
             return this.properties.httpStatusView.showForbidden();
@@ -21,12 +20,7 @@ class EntityController {
         const entity = await this.properties.entityStore.getOne(user.username, entityID);
         if (!entity) {
             this.properties.logger.error(`${this.getEntityName()} is not found for user `, { username: user.username, entityID });
-            return {
-                isBase64Encoded: false,
-                statusCode: http_1.HttpStatus.NOT_FOUND,
-                headers: {},
-                body: "Not found.",
-            };
+            return this.properties.httpStatusView.showNotFound();
         }
         this.selectedEntity = entity;
         const editNewEntityResponse = this.properties.entityView.renderEditingFormOneEntity(entity);
@@ -40,7 +34,7 @@ class EntityController {
     async showSingleEntityDetailsPage(entityID) {
         const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);
         if (!user.isAuthenticated) {
-            this.properties.logger.error("User is not authenticated", {
+            this.properties.logger.error("User is not authenticated to read single entity details", {
                 username: user.username,
             });
             return this.properties.httpStatusView.showForbidden();
@@ -49,12 +43,7 @@ class EntityController {
         const entity = await this.properties.entityStore.getOne(user.username, entityID);
         if (!entity) {
             this.properties.logger.error(`${this.getEntityName()} is not found for user `, { username: user.username, entityID });
-            return {
-                isBase64Encoded: false,
-                statusCode: http_1.HttpStatus.NOT_FOUND,
-                headers: {},
-                body: "Not found.",
-            };
+            return this.properties.httpStatusView.showNotFound();
         }
         return {
             ...this.properties.entityView.renderDetailsPageOneEntity(entity),
@@ -138,7 +127,7 @@ class EntityController {
     async performCreateSingleEntityAction(form) {
         const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);
         if (!user.isAuthenticated) {
-            this.properties.logger.error("User is not authenticated", {
+            this.properties.logger.error("User is not authenticated to create an entity", {
                 username: user.username,
             });
             return this.properties.httpStatusView.showForbidden();
