@@ -13,11 +13,14 @@ import { NotebookHtmlView } from "../views/notebook/notebook-html-view";
 import { NotebookJsonView } from "../views/notebook/notebook-json-view";
 import { PersonHtmlView } from "../views/person/person-html-view";
 import { commonConfiguration } from "./common";
-import { ServiceConfiguration, ServiceConfigurationOverrides } from "./interfaces";
+import {
+  ServiceConfiguration,
+  ServiceConfigurationOverrides,
+} from "./interfaces";
 import { jwtSerializerSecretsManagerConfiguration } from "./jwt-serializer-secrets-manager";
 import {
   noteAttachmentsStoreDynamoConfiguration,
-  noteStoreDynamoConfiguration
+  noteStoreDynamoConfiguration,
 } from "./note-store-dynamo";
 import { notebookStoreDynamoConfiguration } from "./notebook-store-dynamo";
 import { personStoreDynamoConfiguration } from "./person-store-dynamo";
@@ -144,4 +147,4 @@ export const noteControllerConfiguration = (
     ...overrides,
   };
 };
-export {ServiceConfiguration};
+export { ServiceConfiguration };

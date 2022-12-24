@@ -1,7 +1,7 @@
 import {
   Authenticator,
   PasswordHashingFunction,
-  UserStore
+  UserStore,
 } from "authentication-module/dist/authenticator";
 import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
 
