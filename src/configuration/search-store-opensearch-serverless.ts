@@ -4,7 +4,7 @@ import { OpenSearchServerlessConnection } from "opensearch-module/dist/opensearc
 
 import { Logger } from "../logger/logger";
 import { SearchStoreOpensearchServerless } from "../stores/search/search-store-opensearch-serverless";
-import { ServiceConfigurationOverrides } from "./configuration";
+import { ServiceConfigurationOverrides } from "./interfaces";
 
 export const searchStoreOpensearchServerlessConfiguration = (
   logger: Logger,

@@ -1,27 +1,10 @@
-import {
-  Authenticator,
-  PasswordHashingFunction,
-  UserStore,
-} from "authentication-module/dist/authenticator";
-import { SecretKeyProvider } from "authentication-module/dist/jwt-serializer";
 import { S3 } from "aws-sdk";
 import { get } from "https";
 import { YoutubeParser as YoutubeModuleParser } from "youtube-module/dist/youtube-parser";
 
-import { YoutubeParser } from "../actions/fetch-video-information/interfaces";
-import { PostProcessorRegistry } from "../controller/post-processor";
-import { CORSHeaders, corsHeaders } from "../http/cors-headers";
-import { Logger } from "../logger/logger";
+import { corsHeaders } from "../http/cors-headers";
 import { LoggerBunyan } from "../logger/logger-bunyan";
-import { NoteTypesRegistry } from "../registries/note-types-registry";
-import { NotebookTableColumnsRegistry } from "../registries/notebook-table-columns-registry";
-import { AttachmentsStore } from "../stores/attachments/attachments-store";
 import { AttachmentsStoreS3 } from "../stores/attachments/attachments-store-s3";
-import { NoteAttachmentsStore } from "../stores/note/note-attachments-store";
-import { NoteStore } from "../stores/note/note-store";
-import { NotebookStore } from "../stores/notebook/notebook-store";
-import { PersonStore } from "../stores/person/person-store";
-import { SearchStore } from "../stores/search/search-store";
 import { HttpBadRequestView } from "../views/http-bad-request-view";
 import { HttpRedirectView } from "../views/http-redirect-view";
 import { HttpStatusView } from "../views/http-status-view";
@@ -30,36 +13,16 @@ import { NotebookHtmlView } from "../views/notebook/notebook-html-view";
 import { NotebookJsonView } from "../views/notebook/notebook-json-view";
 import { PersonHtmlView } from "../views/person/person-html-view";
 import { commonConfiguration } from "./common";
+import { ServiceConfiguration, ServiceConfigurationOverrides } from "./interfaces";
 import { jwtSerializerSecretsManagerConfiguration } from "./jwt-serializer-secrets-manager";
 import {
   noteAttachmentsStoreDynamoConfiguration,
-  noteStoreDynamoConfiguration,
+  noteStoreDynamoConfiguration
 } from "./note-store-dynamo";
 import { notebookStoreDynamoConfiguration } from "./notebook-store-dynamo";
 import { personStoreDynamoConfiguration } from "./person-store-dynamo";
 import { searchStoreOpensearchServerlessConfiguration } from "./search-store-opensearch-serverless";
 import { userStoreDynamoConfiguration } from "./user-store-dynamo";
-
-export interface ServiceConfiguration {
-  logger: Logger;
-  authenticator: Authenticator;
-  jwtSerializerSecretProvider: SecretKeyProvider;
-  notebookStore: NotebookStore;
-  personStore: PersonStore;
-  noteStore: NoteStore;
-  noteTypesRegistry: NoteTypesRegistry;
-  postProcessorRegistry: PostProcessorRegistry;
-  notebookTableColumnsRegistry: NotebookTableColumnsRegistry;
-  passwordHashingFunction: PasswordHashingFunction;
-  userStore: UserStore;
-  corsHeaders: CORSHeaders;
-  baseUrl: string;
-  youtubeParser: YoutubeParser;
-  attachmentsStore: AttachmentsStore;
-  noteAttachmentsStore: NoteAttachmentsStore;
-  searchStore: SearchStore;
-}
-export type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
 
 const contextConfiguration = (): ServiceConfigurationOverrides => {
   const logger = new LoggerBunyan();
@@ -181,3 +144,4 @@ export const noteControllerConfiguration = (
     ...overrides,
   };
 };
+export {ServiceConfiguration};

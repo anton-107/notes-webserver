@@ -3,7 +3,7 @@ import { DynamoDB } from "aws-sdk";
 
 import { Logger } from "../logger/logger";
 import { PersonStoreDynamodb } from "../stores/person/person-store-dynamodb";
-import { ServiceConfigurationOverrides } from "./configuration";
+import { ServiceConfigurationOverrides } from "./interfaces";
 
 export const personStoreDynamoConfiguration = (
   logger: Logger

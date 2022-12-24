@@ -2,7 +2,7 @@ import { SecretsManager } from "aws-sdk";
 
 import { Logger } from "../logger/logger";
 import { SecretsManagerProvider } from "../secrets/secrets-manager-provider";
-import { ServiceConfigurationOverrides } from "./configuration";
+import { ServiceConfigurationOverrides } from "./interfaces";
 
 export const jwtSerializerSecretsManagerConfiguration = (
   logger: Logger,

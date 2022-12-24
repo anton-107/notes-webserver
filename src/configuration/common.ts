@@ -28,7 +28,7 @@ import { InMemoryUserStore } from "../stores/user/user-store-inmemory";
 import {
   ServiceConfiguration,
   ServiceConfigurationOverrides,
-} from "./configuration";
+} from "./interfaces";
 import { NoOpYoutubeParser } from "./no-op/no-op-youtube-parser";
 
 const defaultLogger = new LoggerBunyan();
