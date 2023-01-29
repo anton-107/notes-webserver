@@ -21,6 +21,7 @@ describe("Notebook store", () => {
           tableColumns: [],
           createdAt: "",
           updatedAt: "",
+          status: "",
         })
     ).rejects.toThrow("Notebook is not found");
   });

@@ -9,6 +9,6 @@ export interface Action {
     actionName: string;
     import: string;
     action: string;
-    eventSource: "note-entries";
+    eventSource: "notebook-entries" | "note-entries";
 }
 export declare const actions: Action[];

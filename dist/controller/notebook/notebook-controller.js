@@ -53,6 +53,7 @@ class NotebookController extends entity_controller_1.EntityController {
             tableColumns: [],
             createdAt: now,
             updatedAt: now,
+            status: "",
         };
     }
     async isAuthorizedToCreate(user, entity) {

@@ -1,6 +1,7 @@
 import { join } from "path";
 
 import { runFetchVideoInformation } from "./actions/fetch-video-information/fetch-video-information";
+import { runTriggerDeleteNotebookWorkflow } from "./actions/trigger-workflow/trigger-delete-notebook-workflow";
 import { getSigninHandler } from "./routes/auth/get-signin";
 import { getWhoamiHandler } from "./routes/auth/get-whoami";
 import { postSigninHandler } from "./routes/auth/post-signin";
@@ -219,7 +220,7 @@ export interface Action {
   actionName: string;
   import: string;
   action: string;
-  eventSource: "note-entries";
+  eventSource: "notebook-entries" | "note-entries";
 }
 
 export const actions: Action[] = [
@@ -228,5 +229,11 @@ export const actions: Action[] = [
     import: join(__dirname, "./actions/fetch-video-information"),
     action: runFetchVideoInformation.name,
     eventSource: "note-entries",
+  },
+  {
+    actionName: "trigger-delete-notebook-workflow",
+    import: join(__dirname, "./actions/trigger-workflow"),
+    action: runTriggerDeleteNotebookWorkflow.name,
+    eventSource: "notebook-entries",
   },
 ];

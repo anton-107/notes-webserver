@@ -62,6 +62,7 @@ describe("Route POST /notebook/:notebookID/edit", () => {
       tableColumns: [],
       createdAt: "",
       updatedAt: "",
+      status: "",
     });
     when(notebookStoreMock.editOne(anything())).thenReject(
       Error("this is a test error")

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.actions = exports.routes = void 0;
 const path_1 = require("path");
 const fetch_video_information_1 = require("./actions/fetch-video-information/fetch-video-information");
+const trigger_delete_notebook_workflow_1 = require("./actions/trigger-workflow/trigger-delete-notebook-workflow");
 const get_signin_1 = require("./routes/auth/get-signin");
 const get_whoami_1 = require("./routes/auth/get-whoami");
 const post_signin_1 = require("./routes/auth/post-signin");
@@ -214,6 +215,12 @@ exports.actions = [
         import: (0, path_1.join)(__dirname, "./actions/fetch-video-information"),
         action: fetch_video_information_1.runFetchVideoInformation.name,
         eventSource: "note-entries",
+    },
+    {
+        actionName: "trigger-delete-notebook-workflow",
+        import: (0, path_1.join)(__dirname, "./actions/trigger-workflow"),
+        action: trigger_delete_notebook_workflow_1.runTriggerDeleteNotebookWorkflow.name,
+        eventSource: "notebook-entries",
     },
 ];
 //# sourceMappingURL=router.js.map

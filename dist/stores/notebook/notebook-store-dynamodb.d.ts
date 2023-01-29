@@ -1,6 +1,6 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
 import { Logger } from "../../logger/logger";
-import { Notebook, NotebookSection, NotebookTableColumn } from "../../model/notebook-model";
+import { Notebook, NotebookSection, NotebookStatus, NotebookTableColumn } from "../../model/notebook-model";
 import { NotebookStore } from "./notebook-store";
 export declare class NotebookEntity implements Notebook {
     owner: string;
@@ -11,6 +11,7 @@ export declare class NotebookEntity implements Notebook {
     tableColumns: NotebookTableColumn[];
     createdAt: string;
     updatedAt: string;
+    status: NotebookStatus;
 }
 interface NotebookStoreDynamodbProps {
     logger: Logger;

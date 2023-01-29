@@ -24,6 +24,7 @@ describe("NotebookStoreDynamodb", () => {
       tableColumns: [],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      status: "",
     });
     verify(dataMapperMock.put(anything())).called();
   });
@@ -45,6 +46,7 @@ describe("NotebookStoreDynamodb", () => {
         tableColumns: [],
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        status: "",
       });
     }).rejects.toThrow();
   });
@@ -148,6 +150,7 @@ describe("NotebookStoreDynamodb", () => {
         tableColumns: [],
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        status: "",
       });
     }).rejects.toThrow("this is a test error on edit");
   });

@@ -11,6 +11,7 @@ import { Logger } from "../../logger/logger";
 import {
   Notebook,
   NotebookSection,
+  NotebookStatus,
   NotebookTableColumn,
 } from "../../model/notebook-model";
 import { NotebookStore } from "./notebook-store";
@@ -42,6 +43,9 @@ export class NotebookEntity implements Notebook {
 
   @attribute()
   updatedAt: string;
+
+  @attribute()
+  status: NotebookStatus;
 }
 
 interface NotebookStoreDynamodbProps {
@@ -91,6 +95,7 @@ export class NotebookStoreDynamodb implements NotebookStore {
           tableColumns: entity.tableColumns,
           createdAt: entity.createdAt,
           updatedAt: entity.updatedAt,
+          status: entity.status,
         });
       }
       return r;
@@ -118,6 +123,7 @@ export class NotebookStoreDynamodb implements NotebookStore {
         tableColumns: entity.tableColumns,
         createdAt: entity.createdAt,
         updatedAt: entity.updatedAt,
+        status: entity.status,
       };
     } catch (err) {
       this.properties.logger.error(

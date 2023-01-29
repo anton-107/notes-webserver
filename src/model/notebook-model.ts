@@ -1,3 +1,5 @@
+export type NotebookStatus = "" | "MARKED_FOR_DELETION";
+
 export interface NotebookSection {
   id: string;
   name: string;
@@ -26,4 +28,5 @@ export interface Notebook {
   tableColumns: NotebookTableColumn[];
   createdAt: string;
   updatedAt: string;
+  status: NotebookStatus;
 }

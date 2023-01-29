@@ -87,6 +87,7 @@ export class NotebookController extends EntityController<Notebook> {
       tableColumns: [],
       createdAt: now,
       updatedAt: now,
+      status: "",
     };
   }
   protected async isAuthorizedToCreate(
