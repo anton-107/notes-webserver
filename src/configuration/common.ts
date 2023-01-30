@@ -25,6 +25,7 @@ import { InMemoryNotebookStore } from "../stores/notebook/notebook-store";
 import { InMemoryPersonStore } from "../stores/person/person-store";
 import { InMemorySearchStore } from "../stores/search/search-store";
 import { InMemoryUserStore } from "../stores/user/user-store-inmemory";
+import { NoOpWorkflowExecutor } from "../workflows/no-op-workflow-executor";
 import {
   ServiceConfiguration,
   ServiceConfigurationOverrides,
@@ -95,7 +96,7 @@ export const commonConfiguration = (
     return configurationCache;
   }
   const logger = overrides.logger || defaultLogger;
-  const commonConfiguration = {
+  const commonConfiguration: ServiceConfiguration = {
     logger,
     userStore,
     jwtSerializerSecretProvider,
@@ -121,6 +122,7 @@ export const commonConfiguration = (
     attachmentsStore: new InMemoryAttachmentsStore({ logger }),
     noteAttachmentsStore: new InMemoryNoteAttachmentsStore(),
     searchStore: new InMemorySearchStore(notebookStore, noteStore),
+    notebookDeletionStateMachine: new NoOpWorkflowExecutor(),
     ...overrides,
   };
 

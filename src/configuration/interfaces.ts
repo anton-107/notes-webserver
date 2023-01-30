@@ -17,6 +17,7 @@ import { NoteStore } from "../stores/note/note-store";
 import { NotebookStore } from "../stores/notebook/notebook-store";
 import { PersonStore } from "../stores/person/person-store";
 import { SearchStore } from "../stores/search/search-store";
+import { WorkflowExecutor } from "../workflows/interfaces";
 
 export interface ServiceConfiguration {
   logger: Logger;
@@ -36,5 +37,6 @@ export interface ServiceConfiguration {
   attachmentsStore: AttachmentsStore;
   noteAttachmentsStore: NoteAttachmentsStore;
   searchStore: SearchStore;
+  notebookDeletionStateMachine: WorkflowExecutor;
 }
 export type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;

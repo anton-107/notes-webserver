@@ -1,5 +1,6 @@
 import { dependenciesConfiguration } from "../../configuration/configuration";
 import { Logger } from "../../logger/logger";
+import { WorkflowExecutor } from "../../workflows/interfaces";
 import {
   StreamEvent,
   unmarshallRecordToNotebook,
@@ -13,6 +14,7 @@ interface TriggerDeleteNotebookWorkflowActionResult {
 }
 interface TriggerDeleteNotebookWorkflowProperties {
   logger: Logger;
+  stateMachine: WorkflowExecutor;
 }
 
 export class TriggerDeleteNotebookWorkflow {
@@ -23,7 +25,11 @@ export class TriggerDeleteNotebookWorkflow {
     this.properties.logger.info("Invoking delete workflow for notebook", {
       entityID: actionTrigger.notebookID,
     });
-    return { isWorkflowSuccessfullyInvoked: false };
+    const result = await this.properties.stateMachine.startExecution(
+      `notebook-deletion-${actionTrigger.notebookID}`,
+      JSON.stringify({ notebookID: actionTrigger.notebookID })
+    );
+    return { isWorkflowSuccessfullyInvoked: result };
   }
 }
 
@@ -43,6 +49,7 @@ export async function runTriggerDeleteNotebookWorkflow(
     if (notebook.status === "MARKED_FOR_DELETION") {
       const action = new TriggerDeleteNotebookWorkflow({
         logger: configuration.logger,
+        stateMachine: configuration.notebookDeletionStateMachine,
       });
       const result = await action.run({
         notebookID: notebook.id,
