@@ -31,6 +31,7 @@ import { deleteOnePersonHandler } from "./routes/person/post-delete-person";
 import { postEditPersonHandler } from "./routes/person/post-edit-person";
 import { postPersonHandler } from "./routes/person/post-person";
 import { searchAllHandler } from "./routes/search/search-all";
+import { notebookDeletionWorkflow } from "./workflows/notebook-deletion/notebook-deletion-workflow";
 
 export interface Route {
   method: "GET" | "POST";
@@ -220,10 +221,13 @@ export interface Action {
   actionName: string;
   import: string;
   action: string;
+}
+
+export interface ReactiveAction extends Action {
   eventSource: "notebook-entries" | "note-entries";
 }
 
-export const actions: Action[] = [
+export const actions: ReactiveAction[] = [
   {
     actionName: "fetch-video-information",
     import: join(__dirname, "./actions/fetch-video-information"),
@@ -237,3 +241,12 @@ export const actions: Action[] = [
     eventSource: "notebook-entries",
   },
 ];
+
+export interface WorkflowRecord {
+  type: string;
+  action: Action | undefined;
+}
+export interface Workflow {
+  workflow: WorkflowRecord[];
+}
+export const workflows: Workflow[] = [{ workflow: notebookDeletionWorkflow }];

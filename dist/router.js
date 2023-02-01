@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.actions = exports.routes = void 0;
+exports.workflows = exports.actions = exports.routes = void 0;
 const path_1 = require("path");
 const fetch_video_information_1 = require("./actions/fetch-video-information/fetch-video-information");
 const trigger_delete_notebook_workflow_1 = require("./actions/trigger-workflow/trigger-delete-notebook-workflow");
@@ -33,6 +33,7 @@ const post_delete_person_1 = require("./routes/person/post-delete-person");
 const post_edit_person_1 = require("./routes/person/post-edit-person");
 const post_person_1 = require("./routes/person/post-person");
 const search_all_1 = require("./routes/search/search-all");
+const notebook_deletion_workflow_1 = require("./workflows/notebook-deletion/notebook-deletion-workflow");
 exports.routes = [
     {
         method: "GET",
@@ -223,4 +224,5 @@ exports.actions = [
         eventSource: "notebook-entries",
     },
 ];
+exports.workflows = [{ workflow: notebook_deletion_workflow_1.notebookDeletionWorkflow }];
 //# sourceMappingURL=router.js.map

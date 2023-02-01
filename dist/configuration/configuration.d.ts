@@ -25,6 +25,7 @@ export declare const notebookControllerConfiguration: (overrides: ServiceConfigu
     attachmentsStore: import("../stores/attachments/attachments-store").AttachmentsStore;
     noteAttachmentsStore: import("../stores/note/note-attachments-store").NoteAttachmentsStore;
     searchStore: import("../stores/search/search-store").SearchStore;
+    notebookDeletionStateMachine: import("../workflows/interfaces").WorkflowExecutor;
     entityView: NotebookHtmlView;
     httpRedirectView: HttpRedirectView;
     httpStatusView: HttpStatusView;
@@ -51,6 +52,7 @@ export declare const personControllerConfiguration: (overrides: ServiceConfigura
     attachmentsStore: import("../stores/attachments/attachments-store").AttachmentsStore;
     noteAttachmentsStore: import("../stores/note/note-attachments-store").NoteAttachmentsStore;
     searchStore: import("../stores/search/search-store").SearchStore;
+    notebookDeletionStateMachine: import("../workflows/interfaces").WorkflowExecutor;
     entityView: PersonHtmlView;
     httpRedirectView: HttpRedirectView;
     httpStatusView: HttpStatusView;
@@ -75,6 +77,7 @@ export declare const noteControllerConfiguration: (overrides: ServiceConfigurati
     attachmentsStore: import("../stores/attachments/attachments-store").AttachmentsStore;
     noteAttachmentsStore: import("../stores/note/note-attachments-store").NoteAttachmentsStore;
     searchStore: import("../stores/search/search-store").SearchStore;
+    notebookDeletionStateMachine: import("../workflows/interfaces").WorkflowExecutor;
     httpRedirectView: HttpRedirectView;
     httpStatusView: HttpStatusView;
     httpBadRequestView: HttpBadRequestView;
