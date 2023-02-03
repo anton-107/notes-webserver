@@ -1,9 +1,9 @@
-export declare type NotebookStatus = "" | "MARKED_FOR_DELETION";
+export type NotebookStatus = "" | "MARKED_FOR_DELETION";
 export interface NotebookSection {
     id: string;
     name: string;
 }
-export declare type NotebookColumnValueType = "string" | "date" | "datetime" | "boolean" | "person-id" | "note-id" | "notebook-id";
+export type NotebookColumnValueType = "string" | "date" | "datetime" | "boolean" | "person-id" | "note-id" | "notebook-id";
 export interface NotebookTableColumn {
     name: string;
     columnType: string;

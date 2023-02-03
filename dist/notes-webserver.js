@@ -59,7 +59,8 @@ class NotesWebserver {
         this.server.close();
     }
     async handleGetRequest(route, req, res) {
-        const module = await Promise.resolve().then(() => __importStar(require(route.import)));
+        var _a;
+        const module = await (_a = route.import, Promise.resolve().then(() => __importStar(require(_a))));
         const handler = module[route.action];
         const response = await handler({
             headers: req.headers,
@@ -73,7 +74,8 @@ class NotesWebserver {
         res.send(response.body);
     }
     async handlePostRequest(route, req, res) {
-        const module = await Promise.resolve().then(() => __importStar(require(route.import)));
+        var _a;
+        const module = await (_a = route.import, Promise.resolve().then(() => __importStar(require(_a))));
         const handler = module[route.action];
         const response = await handler({
             body: req.body.toString("utf-8"),

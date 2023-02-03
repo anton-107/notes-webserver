@@ -2,7 +2,7 @@ import { Note } from "aws-sdk/clients/securityhub";
 import { OpenSearchClient } from "opensearch-module/dist/opensearch-client";
 import { Notebook } from "../model/notebook-model";
 import { Person } from "../model/person-model";
-declare type IndexableEntity = Notebook | Note | Person;
+type IndexableEntity = Notebook | Note | Person;
 interface IndexForSearchProperties {
     openSearchClient: OpenSearchClient;
 }

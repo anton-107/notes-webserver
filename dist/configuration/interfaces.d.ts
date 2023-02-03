@@ -33,4 +33,4 @@ export interface ServiceConfiguration {
     searchStore: SearchStore;
     notebookDeletionStateMachine: WorkflowExecutor;
 }
-export declare type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;
+export type ServiceConfigurationOverrides = Partial<ServiceConfiguration>;

@@ -1,7 +1,7 @@
-export declare type HttpHeaders = {
+export type HttpHeaders = {
     [key: string]: string | string[];
 };
-export declare type QueryStringParameters = {
+export type QueryStringParameters = {
     [key: string]: string | undefined;
 };
 export interface HttpRequest {
@@ -30,5 +30,5 @@ export interface HttpResponse {
     body: string;
     statusCode: HttpStatus;
 }
-export declare type HttpRequestHandler = (r: HttpRequest) => Promise<HttpResponse>;
-export declare type PostFormHttpHandler = (r: PostFormRequest) => Promise<HttpResponse>;
+export type HttpRequestHandler = (r: HttpRequest) => Promise<HttpResponse>;
+export type PostFormHttpHandler = (r: PostFormRequest) => Promise<HttpResponse>;

@@ -1,7 +1,7 @@
 import { DynamoDBStreams } from "aws-sdk";
 import { Note } from "../model/note-model";
 import { Notebook } from "../model/notebook-model";
-export declare type EventName = "INSERT" | "MODIFY" | "REMOVE";
+export type EventName = "INSERT" | "MODIFY" | "REMOVE";
 export interface StreamEvent {
     Records: {
         eventName: EventName;
