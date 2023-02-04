@@ -14,11 +14,12 @@ export interface ReactiveAction extends Action {
     eventSource: "notebook-entries" | "note-entries";
 }
 export declare const actions: ReactiveAction[];
-export interface WorkflowRecord {
+export interface WorkflowTask {
     type: string;
     action: Action | undefined;
 }
 export interface Workflow {
-    workflow: WorkflowRecord[];
+    name: string;
+    tasks: WorkflowTask[];
 }
 export declare const workflows: Workflow[];

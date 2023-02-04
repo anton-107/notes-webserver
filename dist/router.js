@@ -213,16 +213,18 @@ exports.routes = [
 exports.actions = [
     {
         actionName: "fetch-video-information",
-        import: (0, path_1.join)(__dirname, "./actions/fetch-video-information"),
+        import: (0, path_1.join)(__dirname, "./actions/fetch-video-information/fetch-video-information"),
         action: fetch_video_information_1.runFetchVideoInformation.name,
         eventSource: "note-entries",
     },
     {
         actionName: "trigger-delete-notebook-workflow",
-        import: (0, path_1.join)(__dirname, "./actions/trigger-workflow"),
+        import: (0, path_1.join)(__dirname, "./actions/trigger-workflow/trigger-delete-notebook-workflow"),
         action: trigger_delete_notebook_workflow_1.runTriggerDeleteNotebookWorkflow.name,
         eventSource: "notebook-entries",
     },
 ];
-exports.workflows = [{ workflow: notebook_deletion_workflow_1.notebookDeletionWorkflow }];
+exports.workflows = [
+    { name: 'notebook-deletion', tasks: notebook_deletion_workflow_1.notebookDeletionWorkflow }
+];
 //# sourceMappingURL=router.js.map

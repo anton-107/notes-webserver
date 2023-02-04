@@ -1,10 +1,11 @@
 import { join } from "path";
 
+import { WorkflowTask } from "../../router";
 import { deleteAllNotesInNotebook } from "./delete-all-notes-in-notebook-action";
 import { deleteNotebook } from "./delete-notebook-action";
 import { verifyNoNotesInNotebook } from "./verify-no-notes-in-notebook-action";
 
-export const notebookDeletionWorkflow = [
+export const notebookDeletionWorkflow: WorkflowTask[] = [
   {
     type: "action",
     action: {

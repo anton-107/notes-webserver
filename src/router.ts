@@ -230,23 +230,32 @@ export interface ReactiveAction extends Action {
 export const actions: ReactiveAction[] = [
   {
     actionName: "fetch-video-information",
-    import: join(__dirname, "./actions/fetch-video-information"),
+    import: join(
+      __dirname,
+      "./actions/fetch-video-information/fetch-video-information"
+    ),
     action: runFetchVideoInformation.name,
     eventSource: "note-entries",
   },
   {
     actionName: "trigger-delete-notebook-workflow",
-    import: join(__dirname, "./actions/trigger-workflow"),
+    import: join(
+      __dirname,
+      "./actions/trigger-workflow/trigger-delete-notebook-workflow"
+    ),
     action: runTriggerDeleteNotebookWorkflow.name,
     eventSource: "notebook-entries",
   },
 ];
 
-export interface WorkflowRecord {
+export interface WorkflowTask {
   type: string;
   action: Action | undefined;
 }
 export interface Workflow {
-  workflow: WorkflowRecord[];
+  name: string;
+  tasks: WorkflowTask[];
 }
-export const workflows: Workflow[] = [{ workflow: notebookDeletionWorkflow }];
+export const workflows: Workflow[] = [
+  { name: "notebook-deletion", tasks: notebookDeletionWorkflow },
+];

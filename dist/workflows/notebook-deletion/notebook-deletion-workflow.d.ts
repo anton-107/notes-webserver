@@ -1,8 +1,2 @@
-export declare const notebookDeletionWorkflow: {
-    type: string;
-    action: {
-        actionName: string;
-        import: string;
-        action: string;
-    };
-}[];
+import { WorkflowTask } from "../../router";
+export declare const notebookDeletionWorkflow: WorkflowTask[];
