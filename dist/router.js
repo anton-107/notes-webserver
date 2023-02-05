@@ -225,6 +225,6 @@ exports.actions = [
     },
 ];
 exports.workflows = [
-    { name: 'notebook-deletion', tasks: notebook_deletion_workflow_1.notebookDeletionWorkflow }
+    { name: "notebook-deletion", tasks: notebook_deletion_workflow_1.notebookDeletionWorkflow },
 ];
 //# sourceMappingURL=router.js.map

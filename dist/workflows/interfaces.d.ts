@@ -1,3 +1,4 @@
+export type WorkflowName = "notebook-deletion";
 export interface WorkflowExecutor {
-    startExecution(executionName: string, input: string): Promise<boolean>;
+    startExecution(workflowName: WorkflowName, executionName: string, input: string): Promise<boolean>;
 }

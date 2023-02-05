@@ -7,15 +7,16 @@ import { AWSStepFunctionsExecutor } from "./../../src/workflows/aws-step-functio
 const logger = new LoggerBunyan();
 
 describe("AWSStepFunctionsExecutor", () => {
-  it("should start an execution", async () => {
+  it("should start an execution of a notebook deletion", async () => {
     const stepFunctions = mock<StepFunctions>();
     when(stepFunctions.startExecution(anything())).thenReturn(mock());
     const executor = new AWSStepFunctionsExecutor({
       logger,
       stepFunctions: instance(stepFunctions),
-      stateMachineARN: "deletion-workflow",
+      notebookDeletionStateMachineARN: "deletion-workflow",
     });
     await executor.startExecution(
+      "notebook-deletion",
       "delete-notebook--notebook1",
       JSON.stringify({ notebookID: "notebook-1" })
     );

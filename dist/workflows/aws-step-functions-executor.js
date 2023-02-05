@@ -5,10 +5,16 @@ class AWSStepFunctionsExecutor {
     constructor(properties) {
         this.properties = properties;
     }
-    async startExecution(executionName, input) {
+    async startExecution(workflowName, executionName, input) {
+        let stateMachineArn = undefined;
+        switch (workflowName) {
+            case "notebook-deletion":
+                stateMachineArn = this.properties.notebookDeletionStateMachineARN;
+                break;
+        }
         await this.properties.stepFunctions
             .startExecution({
-            stateMachineArn: this.properties.stateMachineARN,
+            stateMachineArn,
             name: executionName,
             input,
         })
