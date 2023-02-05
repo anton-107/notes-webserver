@@ -1,6 +1,7 @@
 import { join } from "path";
 
 import { runFetchVideoInformation } from "./actions/fetch-video-information/fetch-video-information";
+import { ReactiveAction } from "./actions/interfaces";
 import { runTriggerDeleteNotebookWorkflow } from "./actions/trigger-workflow/trigger-delete-notebook-workflow";
 import { getSigninHandler } from "./routes/auth/get-signin";
 import { getWhoamiHandler } from "./routes/auth/get-whoami";
@@ -31,6 +32,7 @@ import { deleteOnePersonHandler } from "./routes/person/post-delete-person";
 import { postEditPersonHandler } from "./routes/person/post-edit-person";
 import { postPersonHandler } from "./routes/person/post-person";
 import { searchAllHandler } from "./routes/search/search-all";
+import { Workflow } from "./workflows/interfaces";
 import { notebookDeletionWorkflow } from "./workflows/notebook-deletion/notebook-deletion-workflow";
 
 export interface Route {
@@ -217,16 +219,6 @@ export const routes: Route[] = [
   },
 ];
 
-export interface Action {
-  actionName: string;
-  import: string;
-  action: string;
-}
-
-export interface ReactiveAction extends Action {
-  eventSource: "notebook-entries" | "note-entries";
-}
-
 export const actions: ReactiveAction[] = [
   {
     actionName: "fetch-video-information",
@@ -247,15 +239,6 @@ export const actions: ReactiveAction[] = [
     eventSource: "notebook-entries",
   },
 ];
-
-export interface WorkflowTask {
-  type: string;
-  action: Action | undefined;
-}
-export interface Workflow {
-  name: string;
-  tasks: WorkflowTask[];
-}
 export const workflows: Workflow[] = [
   { name: "notebook-deletion", tasks: notebookDeletionWorkflow },
 ];
