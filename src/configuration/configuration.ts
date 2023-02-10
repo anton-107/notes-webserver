@@ -88,7 +88,6 @@ const contextConfiguration = (): ServiceConfigurationOverrides => {
   return contextConfiguration;
 };
 
-// eslint-disable-next-line max-statements
 export const dependenciesConfiguration = (
   overrides: ServiceConfigurationOverrides
 ): ServiceConfiguration => {
