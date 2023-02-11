@@ -20,6 +20,7 @@ const note_store_dynamo_1 = require("./note-store-dynamo");
 const notebook_store_dynamo_1 = require("./notebook-store-dynamo");
 const person_store_dynamo_1 = require("./person-store-dynamo");
 const search_store_opensearch_serverless_1 = require("./search-store-opensearch-serverless");
+const state_machines_1 = require("./state-machines");
 const user_store_dynamo_1 = require("./user-store-dynamo");
 const contextConfiguration = () => {
     const logger = new logger_bunyan_1.LoggerBunyan();
@@ -59,10 +60,12 @@ const contextConfiguration = () => {
     if (process.env["SEARCH_DOMAIN_SERVERLESS_ENDPOINT"]) {
         Object.assign(contextConfiguration, (0, search_store_opensearch_serverless_1.searchStoreOpensearchServerlessConfiguration)(logger, process.env["SEARCH_DOMAIN_SERVERLESS_ENDPOINT"], process.env["SEARCH_INDEX_NAME"]));
     }
+    if (process.env["NOTEBOOK_DELETION_STATE_MACHINE_ARN"]) {
+        Object.assign(contextConfiguration, (0, state_machines_1.notebookDeletionStateMachineConfiguration)(logger, process.env["NOTEBOOK_DELETION_STATE_MACHINE_ARN"]));
+    }
     contextConfiguration.baseUrl = process.env["BASE_URL"] || "";
     return contextConfiguration;
 };
-// eslint-disable-next-line max-statements
 const dependenciesConfiguration = (overrides) => {
     const configuration = (0, common_1.commonConfiguration)({
         ...contextConfiguration(),

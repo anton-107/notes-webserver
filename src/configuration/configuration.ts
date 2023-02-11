@@ -25,6 +25,7 @@ import {
 import { notebookStoreDynamoConfiguration } from "./notebook-store-dynamo";
 import { personStoreDynamoConfiguration } from "./person-store-dynamo";
 import { searchStoreOpensearchServerlessConfiguration } from "./search-store-opensearch-serverless";
+import { notebookDeletionStateMachineConfiguration } from "./state-machines";
 import { userStoreDynamoConfiguration } from "./user-store-dynamo";
 
 const contextConfiguration = (): ServiceConfigurationOverrides => {
@@ -83,6 +84,16 @@ const contextConfiguration = (): ServiceConfigurationOverrides => {
         process.env["SEARCH_INDEX_NAME"]
       )
     );
+  }
+  if (process.env["NOTEBOOK_DELETION_STATE_MACHINE_ARN"]) {
+    Object.assign(
+      contextConfiguration,
+      notebookDeletionStateMachineConfiguration(
+        logger,
+        process.env["NOTEBOOK_DELETION_STATE_MACHINE_ARN"]
+      )
+    );
+
   }
   contextConfiguration.baseUrl = process.env["BASE_URL"] || "";
   return contextConfiguration;

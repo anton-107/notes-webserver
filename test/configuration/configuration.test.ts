@@ -5,6 +5,7 @@ import { dependenciesConfiguration } from "../../src/configuration/configuration
 import { AttachmentsStoreS3 } from "../../src/stores/attachments/attachments-store-s3";
 import { NoteAttachmentsStoreDynamodb } from "../../src/stores/note/note-attachments-store-dynamodb";
 import { SearchStoreOpensearchServerless } from "../../src/stores/search/search-store-opensearch-serverless";
+import { AWSStepFunctionsExecutor } from "../../src/workflows/aws-step-functions-executor";
 
 describe("Configuration", () => {
   const env = Object.assign({}, process.env);
@@ -105,5 +106,13 @@ describe("Configuration", () => {
     });
     const config = dependenciesConfiguration({});
     expect(config.searchStore).toBeInstanceOf(SearchStoreOpensearchServerless);
+  });
+
+  it("should set up step functions executor", () => {
+    process.env = Object.assign({}, process.env, {
+      NOTEBOOK_DELETION_STATE_MACHINE_ARN: "notrbook-deletion-workflow"
+    });
+    const config = dependenciesConfiguration({});
+    expect(config.notebookDeletionStateMachine).toBeInstanceOf(AWSStepFunctionsExecutor);
   });
 });
