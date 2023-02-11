@@ -1,3 +1,4 @@
+import { Logger } from "../logger/logger";
 import { HttpBadRequestView } from "../views/http-bad-request-view";
 import { HttpRedirectView } from "../views/http-redirect-view";
 import { HttpStatusView } from "../views/http-status-view";
@@ -8,7 +9,7 @@ import { PersonHtmlView } from "../views/person/person-html-view";
 import { ServiceConfiguration, ServiceConfigurationOverrides } from "./interfaces";
 export declare const dependenciesConfiguration: (overrides: ServiceConfigurationOverrides) => ServiceConfiguration;
 export declare const notebookControllerConfiguration: (overrides: ServiceConfigurationOverrides) => {
-    logger: import("../logger/logger").Logger;
+    logger: Logger;
     authenticator: import("authentication-module/dist/authenticator").Authenticator;
     jwtSerializerSecretProvider: import("authentication-module/dist/jwt-serializer").SecretKeyProvider;
     notebookStore: import("../stores/notebook/notebook-store").NotebookStore;
@@ -35,7 +36,7 @@ export declare const notebookControllerConfiguration: (overrides: ServiceConfigu
     notebookJsonView: NotebookJsonView;
 };
 export declare const personControllerConfiguration: (overrides: ServiceConfigurationOverrides) => {
-    logger: import("../logger/logger").Logger;
+    logger: Logger;
     authenticator: import("authentication-module/dist/authenticator").Authenticator;
     jwtSerializerSecretProvider: import("authentication-module/dist/jwt-serializer").SecretKeyProvider;
     notebookStore: import("../stores/notebook/notebook-store").NotebookStore;
@@ -60,7 +61,7 @@ export declare const personControllerConfiguration: (overrides: ServiceConfigura
     entityStore: import("../stores/person/person-store").PersonStore;
 };
 export declare const noteControllerConfiguration: (overrides: ServiceConfigurationOverrides) => {
-    logger: import("../logger/logger").Logger;
+    logger: Logger;
     authenticator: import("authentication-module/dist/authenticator").Authenticator;
     jwtSerializerSecretProvider: import("authentication-module/dist/jwt-serializer").SecretKeyProvider;
     notebookStore: import("../stores/notebook/notebook-store").NotebookStore;

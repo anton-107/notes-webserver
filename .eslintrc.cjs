@@ -1,7 +1,11 @@
 module.exports = {
   root: true,
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint", "simple-import-sort", "eslint-plugin-eslint-comments"],
+  plugins: [
+    "@typescript-eslint",
+    "simple-import-sort",
+    "eslint-plugin-eslint-comments",
+  ],
   extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   ignorePatterns: ["/dist/**/*"],
   rules: {
@@ -13,8 +17,8 @@ module.exports = {
     "eslint-comments/no-unused-disable": "error",
     "max-depth": ["error", 2],
     "max-nested-callbacks": ["error", 2],
-    "max-lines-per-function": ["error", 60],
-    "max-statements": ["error", 25],
+    "max-lines-per-function": ["error", 56],
+    "max-statements": ["error", 22],
     "max-params": ["error", 3],
   },
   overrides: [

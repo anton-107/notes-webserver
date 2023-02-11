@@ -8,7 +8,7 @@ const notebookDeletionStateMachineConfiguration = (logger, notebookDeletionState
     r.notebookDeletionStateMachine = new aws_step_functions_executor_1.AWSStepFunctionsExecutor({
         logger,
         stepFunctions: new aws_sdk_1.StepFunctions(),
-        notebookDeletionStateMachineARN
+        notebookDeletionStateMachineARN,
     });
     return r;
 };

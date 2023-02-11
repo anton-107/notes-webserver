@@ -22,47 +22,72 @@ const person_store_dynamo_1 = require("./person-store-dynamo");
 const search_store_opensearch_serverless_1 = require("./search-store-opensearch-serverless");
 const state_machines_1 = require("./state-machines");
 const user_store_dynamo_1 = require("./user-store-dynamo");
+const configurationOverrides = [
+    (contextConfiguration, logger) => {
+        if (process.env["USER_STORE_TYPE"] === "dynamodb") {
+            Object.assign(contextConfiguration, (0, user_store_dynamo_1.userStoreDynamoConfiguration)(logger));
+        }
+    },
+    (contextConfiguration, logger) => {
+        if (process.env["NOTEBOOK_STORE_TYPE"] === "dynamodb") {
+            Object.assign(contextConfiguration, (0, notebook_store_dynamo_1.notebookStoreDynamoConfiguration)(logger));
+        }
+    },
+    (contextConfiguration, logger) => {
+        if (process.env["NOTE_STORE_TYPE"] === "dynamodb") {
+            Object.assign(contextConfiguration, (0, note_store_dynamo_1.noteStoreDynamoConfiguration)(logger));
+        }
+    },
+    (contextConfiguration, logger) => {
+        if (process.env["NOTE_ATTACHMENTS_STORE_TYPE"] === "dynamodb") {
+            Object.assign(contextConfiguration, (0, note_store_dynamo_1.noteAttachmentsStoreDynamoConfiguration)(logger));
+        }
+    },
+    (contextConfiguration, logger) => {
+        if (process.env["PERSON_STORE_TYPE"] === "dynamodb") {
+            Object.assign(contextConfiguration, (0, person_store_dynamo_1.personStoreDynamoConfiguration)(logger));
+        }
+    },
+    (contextConfiguration, logger) => {
+        if (process.env["JWT_SERIALIZER_SECRET_ID"]) {
+            Object.assign(contextConfiguration, (0, jwt_serializer_secrets_manager_1.jwtSerializerSecretsManagerConfiguration)(logger, process.env["JWT_SERIALIZER_SECRET_ID"]));
+        }
+    },
+    (contextConfiguration) => {
+        if (process.env["YOUTUBE_PARSER_ENABLED"] === "true") {
+            contextConfiguration.youtubeParser = new youtube_parser_1.YoutubeParser({
+                httpClient: { get: https_1.get },
+            });
+        }
+    },
+    (contextConfiguration, logger) => {
+        if (process.env["S3_ATTACHMENTS_BUCKET"]) {
+            contextConfiguration.attachmentsStore = new attachments_store_s3_1.AttachmentsStoreS3({
+                logger,
+                s3: new aws_sdk_1.S3(),
+                bucketName: process.env["S3_ATTACHMENTS_BUCKET"],
+                folderName: process.env["S3_ATTACHMENTS_FOLDER"],
+            });
+        }
+    },
+    (contextConfiguration, logger) => {
+        if (process.env["SEARCH_DOMAIN_SERVERLESS_ENDPOINT"]) {
+            Object.assign(contextConfiguration, (0, search_store_opensearch_serverless_1.searchStoreOpensearchServerlessConfiguration)(logger, process.env["SEARCH_DOMAIN_SERVERLESS_ENDPOINT"], process.env["SEARCH_INDEX_NAME"]));
+        }
+    },
+    (contextConfiguration, logger) => {
+        if (process.env["NOTEBOOK_DELETION_STATE_MACHINE_ARN"]) {
+            Object.assign(contextConfiguration, (0, state_machines_1.notebookDeletionStateMachineConfiguration)(logger, process.env["NOTEBOOK_DELETION_STATE_MACHINE_ARN"]));
+        }
+    },
+];
 const contextConfiguration = () => {
     const logger = new logger_bunyan_1.LoggerBunyan();
     const contextConfiguration = {};
     contextConfiguration.logger = logger;
-    if (process.env["USER_STORE_TYPE"] === "dynamodb") {
-        Object.assign(contextConfiguration, (0, user_store_dynamo_1.userStoreDynamoConfiguration)(logger));
-    }
-    if (process.env["NOTEBOOK_STORE_TYPE"] === "dynamodb") {
-        Object.assign(contextConfiguration, (0, notebook_store_dynamo_1.notebookStoreDynamoConfiguration)(logger));
-    }
-    if (process.env["NOTE_STORE_TYPE"] === "dynamodb") {
-        Object.assign(contextConfiguration, (0, note_store_dynamo_1.noteStoreDynamoConfiguration)(logger));
-    }
-    if (process.env["NOTE_ATTACHMENTS_STORE_TYPE"] === "dynamodb") {
-        Object.assign(contextConfiguration, (0, note_store_dynamo_1.noteAttachmentsStoreDynamoConfiguration)(logger));
-    }
-    if (process.env["PERSON_STORE_TYPE"] === "dynamodb") {
-        Object.assign(contextConfiguration, (0, person_store_dynamo_1.personStoreDynamoConfiguration)(logger));
-    }
-    if (process.env["JWT_SERIALIZER_SECRET_ID"]) {
-        Object.assign(contextConfiguration, (0, jwt_serializer_secrets_manager_1.jwtSerializerSecretsManagerConfiguration)(logger, process.env["JWT_SERIALIZER_SECRET_ID"]));
-    }
-    if (process.env["YOUTUBE_PARSER_ENABLED"] === "true") {
-        contextConfiguration.youtubeParser = new youtube_parser_1.YoutubeParser({
-            httpClient: { get: https_1.get },
-        });
-    }
-    if (process.env["S3_ATTACHMENTS_BUCKET"]) {
-        contextConfiguration.attachmentsStore = new attachments_store_s3_1.AttachmentsStoreS3({
-            logger,
-            s3: new aws_sdk_1.S3(),
-            bucketName: process.env["S3_ATTACHMENTS_BUCKET"],
-            folderName: process.env["S3_ATTACHMENTS_FOLDER"],
-        });
-    }
-    if (process.env["SEARCH_DOMAIN_SERVERLESS_ENDPOINT"]) {
-        Object.assign(contextConfiguration, (0, search_store_opensearch_serverless_1.searchStoreOpensearchServerlessConfiguration)(logger, process.env["SEARCH_DOMAIN_SERVERLESS_ENDPOINT"], process.env["SEARCH_INDEX_NAME"]));
-    }
-    if (process.env["NOTEBOOK_DELETION_STATE_MACHINE_ARN"]) {
-        Object.assign(contextConfiguration, (0, state_machines_1.notebookDeletionStateMachineConfiguration)(logger, process.env["NOTEBOOK_DELETION_STATE_MACHINE_ARN"]));
-    }
+    configurationOverrides.forEach((configurationOverride) => {
+        configurationOverride(contextConfiguration, logger);
+    });
     contextConfiguration.baseUrl = process.env["BASE_URL"] || "";
     return contextConfiguration;
 };

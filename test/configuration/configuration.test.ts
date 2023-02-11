@@ -110,9 +110,11 @@ describe("Configuration", () => {
 
   it("should set up step functions executor", () => {
     process.env = Object.assign({}, process.env, {
-      NOTEBOOK_DELETION_STATE_MACHINE_ARN: "notrbook-deletion-workflow"
+      NOTEBOOK_DELETION_STATE_MACHINE_ARN: "notrbook-deletion-workflow",
     });
     const config = dependenciesConfiguration({});
-    expect(config.notebookDeletionStateMachine).toBeInstanceOf(AWSStepFunctionsExecutor);
+    expect(config.notebookDeletionStateMachine).toBeInstanceOf(
+      AWSStepFunctionsExecutor
+    );
   });
 });
