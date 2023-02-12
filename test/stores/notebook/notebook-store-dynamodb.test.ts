@@ -1,11 +1,11 @@
 import { DataMapper, QueryIterator } from "@aws/dynamodb-data-mapper";
 import { anything, instance, mock, verify, when } from "ts-mockito";
 
-import { LoggerBunyan } from "../../src/logger/logger-bunyan";
+import { LoggerBunyan } from "../../../src/logger/logger-bunyan";
 import {
   NotebookEntity,
   NotebookStoreDynamodb,
-} from "./../../src/stores/notebook/notebook-store-dynamodb";
+} from "./../../../src/stores/notebook/notebook-store-dynamodb";
 
 const logger = new LoggerBunyan();
 

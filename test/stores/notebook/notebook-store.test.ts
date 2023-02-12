@@ -1,6 +1,24 @@
-import { InMemoryNotebookStore } from "../../src/stores/notebook/notebook-store";
+import { InMemoryNotebookStore } from "../../../src/stores/notebook/notebook-store";
 
 describe("Notebook store", () => {
+  it("should delete an item", async () => {
+    const s = new InMemoryNotebookStore();
+    await s.add({
+      id: "notebook-1",
+      owner: "user-1",
+      name: "",
+      sections: [],
+      tableColumns: [],
+      createdAt: "",
+      updatedAt: "",
+      status: "",
+    });
+    let notebooks = await s.listAll("user-1");
+    expect(notebooks.length).toBe(1);
+    await s.deleteOne("user-1", "notebook-1");
+    notebooks = await s.listAll("user-1");
+    expect(notebooks.length).toBe(0);
+  });
   it("should throw an error when trying to delete non-existing notebook", async () => {
     const s = new InMemoryNotebookStore();
 
