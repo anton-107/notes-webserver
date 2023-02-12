@@ -3,6 +3,7 @@ module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
   testTimeout: 10_000,
+  maxConcurrency: 3,
   coverageThreshold: {
     global: {
       branches: 100,

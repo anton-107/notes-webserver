@@ -69,6 +69,10 @@ class NotebookController extends entity_controller_1.EntityController {
         });
         return "/home";
     }
+    async deleteEntity(userName, entity) {
+        entity.status = "MARKED_FOR_DELETION";
+        await this.notebookControllerProperties.entityStore.editOne(entity);
+    }
     async showSingleEntityDetailsPage(entityID) {
         const response = await super.showSingleEntityDetailsPage(entityID);
         if (response.statusCode !== http_1.HttpStatus.OK) {

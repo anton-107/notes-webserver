@@ -14,7 +14,9 @@ export class InMemoryNotebookStore implements NotebookStore {
     this.items.push(notebook);
   }
   public async listAll(owner: string): Promise<Notebook[]> {
-    return this.items.filter((x) => x.owner === owner);
+    return this.items.filter(
+      (x) => x.owner === owner && x.status !== "MARKED_FOR_DELETION"
+    );
   }
   public async getOne(owner: string, id: string): Promise<Notebook> {
     return this.items.find((x) => x.owner === owner && x.id === id);

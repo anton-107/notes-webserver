@@ -80,7 +80,7 @@ class EntityController {
             return this.properties.httpStatusView.showForbidden();
         }
         try {
-            await this.properties.entityStore.deleteOne(user.username, entityID);
+            await this.deleteEntity(user.username, entity, entityID);
         }
         catch (err) {
             this.properties.logger.info(`Could not delete ${this.getEntityName()}`, {
@@ -143,6 +143,9 @@ class EntityController {
             return this.properties.entityView.renderDetailsPageOneEntity(entity);
         }
         return this.properties.httpRedirectView.showRedirect(this.getEntityURL(entity));
+    }
+    async deleteEntity(userName, _entity, entityID) {
+        await this.properties.entityStore.deleteOne(userName, entityID);
     }
 }
 exports.EntityController = EntityController;

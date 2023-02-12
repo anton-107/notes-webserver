@@ -181,7 +181,7 @@ export abstract class EntityController<T> {
     }
 
     try {
-      await this.properties.entityStore.deleteOne(user.username, entityID);
+      await this.deleteEntity(user.username, entity, entityID);
     } catch (err) {
       this.properties.logger.info(`Could not delete ${this.getEntityName()}`, {
         entityID,
@@ -282,5 +282,11 @@ export abstract class EntityController<T> {
       this.getEntityURL(entity)
     );
   }
-  // public async showEntityListPage() {}
+  protected async deleteEntity(
+    userName: string,
+    _entity: T,
+    entityID: string
+  ): Promise<void> {
+    await this.properties.entityStore.deleteOne(userName, entityID);
+  }
 }

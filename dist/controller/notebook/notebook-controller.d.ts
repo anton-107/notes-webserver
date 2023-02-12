@@ -26,6 +26,7 @@ export declare class NotebookController extends EntityController<Notebook> {
     protected mapRequestToNewEntity(username: string, form: FormBody): Notebook;
     protected isAuthorizedToCreate(user: string, entity: Notebook): Promise<boolean>;
     protected getEntityURL(entity: Notebook): string;
+    protected deleteEntity(userName: string, entity: Notebook): Promise<void>;
     showSingleEntityDetailsPage(entityID: string): Promise<HttpResponse>;
     private showNotesInNotebook;
     private showLinksToAddNotes;

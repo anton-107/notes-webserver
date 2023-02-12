@@ -9,7 +9,7 @@ class InMemoryNotebookStore {
         this.items.push(notebook);
     }
     async listAll(owner) {
-        return this.items.filter((x) => x.owner === owner);
+        return this.items.filter((x) => x.owner === owner && x.status !== "MARKED_FOR_DELETION");
     }
     async getOne(owner, id) {
         return this.items.find((x) => x.owner === owner && x.id === id);

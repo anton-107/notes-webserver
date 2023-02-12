@@ -106,6 +106,13 @@ export class NotebookController extends EntityController<Notebook> {
     });
     return "/home";
   }
+  protected async deleteEntity(
+    userName: string,
+    entity: Notebook
+  ): Promise<void> {
+    entity.status = "MARKED_FOR_DELETION";
+    await this.notebookControllerProperties.entityStore.editOne(entity);
+  }
 
   public async showSingleEntityDetailsPage(
     entityID: string

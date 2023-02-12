@@ -73,7 +73,7 @@ describe("Route POST /delete-notebook", () => {
     when(notebookStoreMock.getOne(anything(), anything())).thenResolve(
       Object.assign({}, instance(notebookMock))
     );
-    when(notebookStoreMock.deleteOne(anything(), anything())).thenReject();
+    when(notebookStoreMock.editOne(anything())).thenReject();
     const h = new NotebookController({
       ...controllerConfiguration,
       authenticationToken: "",
