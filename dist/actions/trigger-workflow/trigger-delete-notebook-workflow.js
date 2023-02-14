@@ -11,7 +11,7 @@ class TriggerDeleteNotebookWorkflow {
         this.properties.logger.info("Invoking delete workflow for notebook", {
             entityID: actionTrigger.notebookID,
         });
-        const result = await this.properties.stateMachine.startExecution("notebook-deletion", `notebook-deletion-${actionTrigger.notebookID}`, JSON.stringify({ notebookID: actionTrigger.notebookID }));
+        const result = await this.properties.stateMachine.startExecution("notebook-deletion", `notebook-deletion-${actionTrigger.notebookID}-${Date.now()}`, JSON.stringify({ notebookID: actionTrigger.notebookID }));
         return { isWorkflowSuccessfullyInvoked: result };
     }
 }

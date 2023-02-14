@@ -27,7 +27,7 @@ export class TriggerDeleteNotebookWorkflow {
     });
     const result = await this.properties.stateMachine.startExecution(
       "notebook-deletion",
-      `notebook-deletion-${actionTrigger.notebookID}`,
+      `notebook-deletion-${actionTrigger.notebookID}-${Date.now()}`,
       JSON.stringify({ notebookID: actionTrigger.notebookID })
     );
     return { isWorkflowSuccessfullyInvoked: result };
