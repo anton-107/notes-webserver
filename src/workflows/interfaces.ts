@@ -17,3 +17,6 @@ export interface Workflow {
   name: string;
   tasks: WorkflowTask[];
 }
+export interface WorkflowActionContext {
+  input: string;
+}
