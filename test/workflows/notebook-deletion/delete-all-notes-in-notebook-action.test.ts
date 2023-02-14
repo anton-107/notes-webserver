@@ -2,7 +2,9 @@ import { deleteAllNotesInNotebook } from "./../../../src/workflows/notebook-dele
 
 describe("deleteAllNotesInNotebook", () => {
   it("is not implemented yet", async () => {
-    const emptyResponse = await deleteAllNotesInNotebook();
+    const emptyResponse = await deleteAllNotesInNotebook({
+      input: JSON.stringify({ notebookID: "my-notebook" }),
+    });
     expect(emptyResponse).toBeUndefined();
   });
 });
