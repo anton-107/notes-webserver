@@ -1,2 +1,4 @@
-import { WorkflowActionContext } from "../interfaces";
-export declare function deleteAllNotesInNotebook(event: WorkflowActionContext): Promise<void>;
+export interface NotebookDeletionInput {
+    notebookID: string;
+}
+export declare function deleteAllNotesInNotebook(event: NotebookDeletionInput): Promise<void>;

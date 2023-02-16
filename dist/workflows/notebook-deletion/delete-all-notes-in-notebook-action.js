@@ -4,7 +4,7 @@ exports.deleteAllNotesInNotebook = void 0;
 const configuration_1 = require("../../configuration/configuration");
 async function deleteAllNotesInNotebook(event) {
     const configuration = (0, configuration_1.notebookControllerConfiguration)({});
-    configuration.logger.info("Running deleteAllNotesInNotebook with the following input: ", { data: event.input });
+    configuration.logger.info("Running deleteAllNotesInNotebook for the following notebook id: ", { entityID: event.notebookID });
     return;
 }
 exports.deleteAllNotesInNotebook = deleteAllNotesInNotebook;
