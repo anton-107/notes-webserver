@@ -2,7 +2,9 @@ import { verifyNoNotesInNotebook } from "../../../src/workflows/notebook-deletio
 
 describe("verifyNoNotesInNotebook", () => {
   it("is not implemented yet", async () => {
-    const emptyResponse = await verifyNoNotesInNotebook();
-    expect(emptyResponse).toBeUndefined();
+    const output = await verifyNoNotesInNotebook({
+      Payload: { notebookID: "notebook1" },
+    });
+    expect(output.notebookID).toBe("notebook1");
   });
 });

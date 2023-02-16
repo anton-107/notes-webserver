@@ -1,7 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteNotebook = void 0;
-async function deleteNotebook() {
+const configuration_1 = require("../../configuration/configuration");
+async function deleteNotebook({ Payload, }) {
+    const configuration = (0, configuration_1.notebookControllerConfiguration)({});
+    configuration.logger.info("Running verifyNoNotesInNotebook for the following notebook id: ", { entityID: Payload.notebookID });
     return;
 }
 exports.deleteNotebook = deleteNotebook;

@@ -1,2 +1,4 @@
-import { NotebookDeletionInput } from "./delete-all-notes-in-notebook-action";
-export declare function verifyNoNotesInNotebook(event: NotebookDeletionInput): Promise<void>;
+import { NotebookDeletionOutput } from "./delete-all-notes-in-notebook-action";
+export declare function verifyNoNotesInNotebook({ Payload, }: {
+    Payload: NotebookDeletionOutput;
+}): Promise<NotebookDeletionOutput>;

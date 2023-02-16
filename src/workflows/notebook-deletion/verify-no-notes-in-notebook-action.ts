@@ -1,13 +1,17 @@
 import { notebookControllerConfiguration } from "../../configuration/configuration";
-import { NotebookDeletionInput } from "./delete-all-notes-in-notebook-action";
+import { NotebookDeletionOutput } from "./delete-all-notes-in-notebook-action";
 
-export async function verifyNoNotesInNotebook(
-  event: NotebookDeletionInput
-): Promise<void> {
+export async function verifyNoNotesInNotebook({
+  Payload,
+}: {
+  Payload: NotebookDeletionOutput;
+}): Promise<NotebookDeletionOutput> {
   const configuration = notebookControllerConfiguration({});
   configuration.logger.info(
     "Running verifyNoNotesInNotebook for the following notebook id: ",
-    { entityID: event.notebookID }
+    { entityID: Payload.notebookID }
   );
-  return;
+  return {
+    notebookID: Payload.notebookID,
+  };
 }

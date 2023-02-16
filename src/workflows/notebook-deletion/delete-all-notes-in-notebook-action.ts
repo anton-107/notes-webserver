@@ -3,14 +3,19 @@ import { notebookControllerConfiguration } from "../../configuration/configurati
 export interface NotebookDeletionInput {
   notebookID: string;
 }
+export interface NotebookDeletionOutput {
+  notebookID: string;
+}
 
 export async function deleteAllNotesInNotebook(
   event: NotebookDeletionInput
-): Promise<void> {
+): Promise<NotebookDeletionOutput> {
   const configuration = notebookControllerConfiguration({});
   configuration.logger.info(
     "Running deleteAllNotesInNotebook for the following notebook id: ",
     { entityID: event.notebookID }
   );
-  return;
+  return {
+    notebookID: event.notebookID,
+  };
 }

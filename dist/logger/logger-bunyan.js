@@ -30,10 +30,10 @@ class LoggerBunyan {
         this.logger = bunyan.createLogger({ name: "notes-webserver" });
     }
     info(message, data) {
-        this.logger.info({ message, ...data });
+        this.logger.info({ msg: message, ...data });
     }
     error(message, data) {
-        this.logger.error({ message, ...data });
+        this.logger.error({ msg: message, ...data });
     }
 }
 exports.LoggerBunyan = LoggerBunyan;
