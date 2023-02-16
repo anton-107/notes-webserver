@@ -1,13 +1,16 @@
 import { notebookControllerConfiguration } from "../../configuration/configuration";
-import { WorkflowActionContext } from "../interfaces";
+
+export interface NotebookDeletionInput {
+  notebookID: string;
+}
 
 export async function deleteAllNotesInNotebook(
-  event: WorkflowActionContext
+  event: NotebookDeletionInput
 ): Promise<void> {
   const configuration = notebookControllerConfiguration({});
   configuration.logger.info(
-    "Running deleteAllNotesInNotebook with the following input: ",
-    { data: event.input }
+    "Running deleteAllNotesInNotebook for the following notebook id: ",
+    { entityID: event.notebookID }
   );
   return;
 }
