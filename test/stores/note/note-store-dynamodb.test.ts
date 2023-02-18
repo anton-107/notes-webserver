@@ -175,4 +175,30 @@ describe("NoteStoreDynamodb", () => {
       });
     }).rejects.toThrow("this is a test error on edit");
   });
+  it("should delete all notes in a notebook", async () => {
+    const dataMapperMock = mock<DataMapper>();
+    const iterator = mock<QueryIterator<NoteEntity>>();
+    when(iterator[Symbol.asyncIterator]).thenCall(() => {
+      let callsCount = 0;
+      return {
+        next() {
+          callsCount += 1;
+          if (callsCount === 1) {
+            return {
+              done: false,
+              value: [{ content: "test" }],
+            };
+          }
+          return { done: true };
+        },
+      };
+    });
+    when(dataMapperMock.batchDelete(anything())).thenReturn(instance(iterator));
+    const store = new NoteStoreDynamodb({
+      logger: new LoggerBunyan(),
+      dataMapper: instance(dataMapperMock),
+    });
+    await store.deleteAllInNotebook("testuser2", "notebook1");
+    verify(dataMapperMock.batchDelete(anything())).called();
+  });
 });

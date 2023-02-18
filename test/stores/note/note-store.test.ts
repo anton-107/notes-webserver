@@ -56,4 +56,31 @@ describe("Notes store", () => {
     const item = await s.getOne("some-user", "some-id");
     expect(item).toBe(undefined);
   });
+  it("should delete all items in notebook", async () => {
+    const s = new InMemoryNoteStore();
+    await s.add({
+      id: "note-1",
+      notebookID: "notebook-1",
+      owner: "testuser",
+      content: "testcontent",
+      type: { type: "" },
+    });
+    await s.add({
+      id: "note-2",
+      notebookID: "notebook-1",
+      owner: "testuser",
+      content: "testcontent",
+      type: { type: "" },
+    });
+    await s.add({
+      id: "note-3",
+      notebookID: "notebook-2",
+      owner: "testuser",
+      content: "testcontent",
+      type: { type: "" },
+    });
+    await s.deleteAllInNotebook("testuser", "notebook-1");
+    const notes = await s.listAll("testuser");
+    expect(notes.length).toBe(1);
+  });
 });

@@ -125,6 +125,23 @@ export class NoteStoreDynamodb implements NoteStore {
       throw err;
     }
   }
+  public async deleteAllInNotebook(
+    owner: string,
+    notebookID: string
+  ): Promise<void> {
+    this.properties.logger.info(
+      `Deleting all notes in ${owner}'s notebook with id=${notebookID}`
+    );
+    const notesToRemove = await this.listAllInNotebook(owner, notebookID);
+    const entitiesToRemove = notesToRemove.map((x) =>
+      Object.assign(new NoteEntity(), x)
+    );
+    for await (const found of this.properties.dataMapper.batchDelete(
+      entitiesToRemove
+    )) {
+      this.properties.logger.info("Note deleted", { data: found });
+    }
+  }
   public async editOne(note: Note): Promise<void> {
     try {
       await this.properties.dataMapper.update(

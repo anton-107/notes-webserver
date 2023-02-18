@@ -7,6 +7,7 @@ export interface NoteStore extends EntityStore<Note> {
   listAllInNotebook(owner: string, notebookID: string): Promise<Note[]>;
   editOne(note: Note): Promise<void>;
   deleteOne(owner: string, id: string): Promise<void>;
+  deleteAllInNotebook(owner: string, notebookID: string): Promise<void>;
 }
 
 export class InMemoryNoteStore implements NoteStore {
@@ -44,5 +45,14 @@ export class InMemoryNoteStore implements NoteStore {
       throw Error("Note is not found");
     }
     this.items.splice(index, 1);
+  }
+  public async deleteAllInNotebook(
+    owner: string,
+    notebookID: string
+  ): Promise<void> {
+    const newItems = this.items.filter(
+      (x) => x.owner !== owner || x.notebookID !== notebookID
+    );
+    this.items = newItems;
   }
 }
