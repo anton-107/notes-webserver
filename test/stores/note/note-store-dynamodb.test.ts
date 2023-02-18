@@ -193,6 +193,9 @@ describe("NoteStoreDynamodb", () => {
         },
       };
     });
+    when(dataMapperMock.query(anything(), anything())).thenReturn(
+      instance(iterator)
+    );
     when(dataMapperMock.batchDelete(anything())).thenReturn(instance(iterator));
     const store = new NoteStoreDynamodb({
       logger: new LoggerBunyan(),
