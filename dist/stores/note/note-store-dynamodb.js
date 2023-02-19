@@ -126,6 +126,14 @@ class NoteStoreDynamodb {
             throw err;
         }
     }
+    async deleteAllInNotebook(owner, notebookID) {
+        this.properties.logger.info(`Deleting all notes in ${owner}'s notebook with id=${notebookID}`);
+        const notesToRemove = await this.listAllInNotebook(owner, notebookID);
+        const entitiesToRemove = notesToRemove.map((x) => Object.assign(new NoteEntity(), x));
+        for await (const found of this.properties.dataMapper.batchDelete(entitiesToRemove)) {
+            this.properties.logger.info("Note deleted", { data: found });
+        }
+    }
     async editOne(note) {
         try {
             await this.properties.dataMapper.update(Object.assign(new NoteEntity(), { sortKey: `NOTE_${note.id}` }, note));

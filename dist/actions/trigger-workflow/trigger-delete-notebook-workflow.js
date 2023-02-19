@@ -11,7 +11,11 @@ class TriggerDeleteNotebookWorkflow {
         this.properties.logger.info("Invoking delete workflow for notebook", {
             entityID: actionTrigger.notebookID,
         });
-        const result = await this.properties.stateMachine.startExecution("notebook-deletion", `notebook-deletion-${actionTrigger.notebookID}-${Date.now()}`, JSON.stringify({ notebookID: actionTrigger.notebookID }));
+        const input = {
+            owner: actionTrigger.owner,
+            notebookID: actionTrigger.notebookID,
+        };
+        const result = await this.properties.stateMachine.startExecution("notebook-deletion", `notebook-deletion-${actionTrigger.notebookID}-${Date.now()}`, JSON.stringify(input));
         return { isWorkflowSuccessfullyInvoked: result };
     }
 }
@@ -33,6 +37,7 @@ async function runTriggerDeleteNotebookWorkflow(event) {
                 stateMachine: configuration.notebookDeletionStateMachine,
             });
             const result = await action.run({
+                owner: notebook.owner,
                 notebookID: notebook.id,
             });
             results.push(result);

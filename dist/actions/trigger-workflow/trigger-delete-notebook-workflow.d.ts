@@ -2,6 +2,7 @@ import { Logger } from "../../logger/logger";
 import { WorkflowExecutor } from "../../workflows/interfaces";
 import { StreamEvent } from "../dynamodb-stream-source";
 interface TriggerDeleteNotebookWorkflowAction {
+    owner: string;
     notebookID: string;
 }
 interface TriggerDeleteNotebookWorkflowActionResult {

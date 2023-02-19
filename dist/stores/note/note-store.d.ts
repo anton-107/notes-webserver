@@ -6,6 +6,7 @@ export interface NoteStore extends EntityStore<Note> {
     listAllInNotebook(owner: string, notebookID: string): Promise<Note[]>;
     editOne(note: Note): Promise<void>;
     deleteOne(owner: string, id: string): Promise<void>;
+    deleteAllInNotebook(owner: string, notebookID: string): Promise<void>;
 }
 export declare class InMemoryNoteStore implements NoteStore {
     private items;
@@ -15,4 +16,5 @@ export declare class InMemoryNoteStore implements NoteStore {
     getOne(owner: string, id: string): Promise<Note>;
     editOne(note: Note): Promise<void>;
     deleteOne(owner: string, id: string): Promise<void>;
+    deleteAllInNotebook(owner: string, notebookID: string): Promise<void>;
 }

@@ -31,6 +31,10 @@ class InMemoryNoteStore {
         }
         this.items.splice(index, 1);
     }
+    async deleteAllInNotebook(owner, notebookID) {
+        const newItems = this.items.filter((x) => x.owner !== owner || x.notebookID !== notebookID);
+        this.items = newItems;
+    }
 }
 exports.InMemoryNoteStore = InMemoryNoteStore;
 //# sourceMappingURL=note-store.js.map

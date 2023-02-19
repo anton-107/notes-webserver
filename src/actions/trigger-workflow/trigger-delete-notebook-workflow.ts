@@ -1,12 +1,14 @@
 import { dependenciesConfiguration } from "../../configuration/configuration";
 import { Logger } from "../../logger/logger";
 import { WorkflowExecutor } from "../../workflows/interfaces";
+import { NotebookDeletionInput } from "../../workflows/notebook-deletion/delete-all-notes-in-notebook-action";
 import {
   StreamEvent,
   unmarshallRecordToNotebook,
 } from "../dynamodb-stream-source";
 
 interface TriggerDeleteNotebookWorkflowAction {
+  owner: string;
   notebookID: string;
 }
 interface TriggerDeleteNotebookWorkflowActionResult {
@@ -25,10 +27,14 @@ export class TriggerDeleteNotebookWorkflow {
     this.properties.logger.info("Invoking delete workflow for notebook", {
       entityID: actionTrigger.notebookID,
     });
+    const input: NotebookDeletionInput = {
+      owner: actionTrigger.owner,
+      notebookID: actionTrigger.notebookID,
+    };
     const result = await this.properties.stateMachine.startExecution(
       "notebook-deletion",
       `notebook-deletion-${actionTrigger.notebookID}-${Date.now()}`,
-      JSON.stringify({ notebookID: actionTrigger.notebookID })
+      JSON.stringify(input)
     );
     return { isWorkflowSuccessfullyInvoked: result };
   }
@@ -53,6 +59,7 @@ export async function runTriggerDeleteNotebookWorkflow(
         stateMachine: configuration.notebookDeletionStateMachine,
       });
       const result = await action.run({
+        owner: notebook.owner,
         notebookID: notebook.id,
       });
       results.push(result);

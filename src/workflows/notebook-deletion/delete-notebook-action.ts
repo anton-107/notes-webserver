@@ -9,7 +9,7 @@ export async function deleteNotebook({
   const configuration = notebookControllerConfiguration({});
   configuration.logger.info(
     "Running verifyNoNotesInNotebook for the following notebook id: ",
-    { entityID: Payload.notebookID }
+    { entityID: Payload.notebookID, username: Payload.owner }
   );
   return;
 }
