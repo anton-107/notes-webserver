@@ -11,6 +11,9 @@ const postNewNoteHandler = async (request) => {
         headers: request.headers,
         responseType,
     });
+    if (requestBody.notes && Array.isArray(requestBody.notes)) {
+        return await controller.performCreateMultipleEntitiesAction(requestBody);
+    }
     return await controller.performCreateSingleEntityAction(requestBody);
 };
 exports.postNewNoteHandler = postNewNoteHandler;

@@ -39,6 +39,7 @@ export declare abstract class EntityController<T> {
     showListEntitiesPage(): Promise<HttpResponse>;
     performDeleteSingleEntityAction(entityID: string): Promise<HttpResponse>;
     performUpdateSingleEntityAction(form: FormBody): Promise<HttpResponse>;
+    performCreateMultipleEntitiesAction(form: FormBody): Promise<HttpResponse>;
     performCreateSingleEntityAction(form: FormBody): Promise<HttpResponse>;
     protected deleteEntity(userName: string, _entity: T, entityID: string): Promise<void>;
 }

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EntityController = void 0;
+const http_1 = require("../http/http");
 const response_type_parser_1 = require("../http/response-type-parser");
 class EntityController {
     constructor(properties) {
@@ -123,6 +124,15 @@ class EntityController {
             return this.properties.entityView.renderDetailsPageOneEntity(entity);
         }
         return this.properties.httpRedirectView.showRedirect(this.getEntityURL(entity));
+    }
+    async performCreateMultipleEntitiesAction(form) {
+        for (const note of form.notes) {
+            const response = await this.performCreateSingleEntityAction(note);
+            if (response.statusCode !== http_1.HttpStatus.OK) {
+                return response;
+            }
+        }
+        return this.properties.httpStatusView.showJSONCreated();
     }
     async performCreateSingleEntityAction(form) {
         const user = await this.properties.authenticator.authenticate(this.properties.authenticationToken);

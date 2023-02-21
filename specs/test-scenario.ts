@@ -30,6 +30,8 @@ export class TestScenario {
   private jsonRequestBody: JSONData | undefined = undefined;
   private loggedInUser: string;
 
+  private lastResponseStatus: number;
+
   // testing single noteebook page:
   private notebookHref: string;
   private notebookID: string;
@@ -148,12 +150,14 @@ export class TestScenario {
     await this.getJSONRequest(this.jsonURL);
   }
   public async processNewPage() {
-    expect(this.response.getStatus()).toBeLessThan(300);
+    this.lastResponseStatus = this.response.getStatus();
+    expect(this.lastResponseStatus).toBeLessThan(300);
     this.pageRoot = parse(await this.response.getBody());
     this.form = {};
   }
   public async processJSON() {
-    expect(this.response.getStatus()).toBeLessThan(300);
+    this.lastResponseStatus = this.response.getStatus();
+    expect(this.lastResponseStatus).toBeLessThan(300);
     this.form = {};
     const body = await this.response.getBody();
     this.jsonResponse = JSON.parse(body);
@@ -188,13 +192,16 @@ export class TestScenario {
   }
   public setJSONRequestBody(inputString: string) {
     const json = inputString
-      .replace("{notebook-id}", this.notebookID)
+      .replace(/{notebook-id}/g, this.notebookID)
       .replace("{last-known-id}", this.lastKnownID);
     try {
       this.jsonRequestBody = JSON.parse(json);
     } catch (err) {
       throw `Could not parse json request: ${json}. Error: ${err}`;
     }
+  }
+  public checkResponseStatus(expectedStatus: number) {
+    expect(Number(this.lastResponseStatus)).toBe(Number(expectedStatus));
   }
   public checkFirstListElement(fieldName: string, fieldValue: string) {
     const firstElement = this.jsonList[0];
@@ -216,7 +223,7 @@ export class TestScenario {
     const actualValue = jsonQuery(query, { data: this.jsonResponse }).value;
     if (actualValue !== expectedValue) {
       this.logger.error("Was checking checkJSONQuery", {
-        data: { query, response: this.jsonResponse },
+        data: { query, response: JSON.stringify(this.jsonResponse) },
       });
     }
     expect(actualValue).toBe(expectedValue);
@@ -357,7 +364,7 @@ export class TestScenario {
       throw Error("Can not post undefined JSON body");
     }
     const address = `http://localhost:${this.testPort}${url}`
-      .replace("{notebook-id}", this.notebookID)
+      .replace(/{notebook-id}/g, this.notebookID)
       .replace("{last-known-id}", this.lastKnownID);
     this.logger.info("post JSON", {
       data: { address, body: this.jsonRequestBody },

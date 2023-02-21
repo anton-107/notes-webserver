@@ -1,6 +1,14 @@
 import { HttpResponse, HttpStatus } from "../http/http";
 
 export class HttpStatusView {
+  public showJSONCreated(): HttpResponse {
+    return {
+      isBase64Encoded: false,
+      statusCode: HttpStatus.CREATED,
+      headers: {},
+      body: JSON.stringify({ message: "created" }),
+    };
+  }
   public showNotFound(): HttpResponse {
     return {
       isBase64Encoded: false,

@@ -1,7 +1,7 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
 
 import { FormBody } from "../http/body-parser";
-import { HttpResponse } from "../http/http";
+import { HttpResponse, HttpStatus } from "../http/http";
 import { ResponseType } from "../http/response-type-parser";
 import { Logger } from "../logger/logger";
 import { EntityStore } from "../stores/entity-store";
@@ -246,6 +246,19 @@ export abstract class EntityController<T> {
     return this.properties.httpRedirectView.showRedirect(
       this.getEntityURL(entity)
     );
+  }
+  public async performCreateMultipleEntitiesAction(
+    form: FormBody
+  ): Promise<HttpResponse> {
+    for (const note of form.notes) {
+      const response = await this.performCreateSingleEntityAction(
+        note as unknown as FormBody
+      );
+      if (response.statusCode !== HttpStatus.OK) {
+        return response;
+      }
+    }
+    return this.properties.httpStatusView.showJSONCreated();
   }
   public async performCreateSingleEntityAction(
     form: FormBody

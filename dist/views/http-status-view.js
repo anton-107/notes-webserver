@@ -3,6 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.HttpStatusView = void 0;
 const http_1 = require("../http/http");
 class HttpStatusView {
+    showJSONCreated() {
+        return {
+            isBase64Encoded: false,
+            statusCode: http_1.HttpStatus.CREATED,
+            headers: {},
+            body: JSON.stringify({ message: "created" }),
+        };
+    }
     showNotFound() {
         return {
             isBase64Encoded: false,

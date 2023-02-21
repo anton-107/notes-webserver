@@ -4,6 +4,7 @@ exports.HttpStatus = void 0;
 var HttpStatus;
 (function (HttpStatus) {
     HttpStatus[HttpStatus["OK"] = 200] = "OK";
+    HttpStatus[HttpStatus["CREATED"] = 201] = "CREATED";
     HttpStatus[HttpStatus["SEE_OTHER"] = 303] = "SEE_OTHER";
     HttpStatus[HttpStatus["FORBIDDEN"] = 403] = "FORBIDDEN";
     HttpStatus[HttpStatus["BAD_REQUEST"] = 400] = "BAD_REQUEST";

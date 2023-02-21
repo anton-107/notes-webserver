@@ -13,6 +13,7 @@ export interface PostFormRequest extends HttpRequest {
 
 export enum HttpStatus {
   OK = 200,
+  CREATED = 201,
   SEE_OTHER = 303,
   FORBIDDEN = 403,
   BAD_REQUEST = 400,
