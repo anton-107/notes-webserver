@@ -15,3 +15,9 @@ Feature: Notes handling (JSON API)
     Then 'notes' field is a list
     And json query 'notes[0].content' returns value 'note #1'
     And json query 'notes[1].content' returns value 'note #2'
+
+  Scenario: Note creation in bulk with via JSON API when an error occurs creating one of the notes
+    When I create a JSON object: '{"notes": [{"note-type": "note", "notebook-id": "{notebook-id}", "note-content": "note #1", "note-section": "to-do-section"}, {"note-type": "note", "notebook-id": "non-existent-notebook", "note-content": "note #2", "note-section": "to-do-section"}]}'
+    And I POST it to '/note'
+    When response status is loaded
+    Then returned status code is 403

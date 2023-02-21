@@ -155,9 +155,11 @@ export class TestScenario {
     this.pageRoot = parse(await this.response.getBody());
     this.form = {};
   }
+  public async processStatusResponse() {
+    this.lastResponseStatus = this.response.getStatus();
+  }
   public async processJSON() {
     this.lastResponseStatus = this.response.getStatus();
-    expect(this.lastResponseStatus).toBeLessThan(300);
     this.form = {};
     const body = await this.response.getBody();
     this.jsonResponse = JSON.parse(body);

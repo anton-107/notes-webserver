@@ -47,4 +47,23 @@ defineFeature(feature, (test) => {
       testScenario.checkJSONQuery(query, fieldValue)
     );
   });
+  test("Note creation in bulk with via JSON API when an error occurs creating one of the notes", ({
+    when,
+    then,
+    and,
+  }) => {
+    when(/^I create a JSON object: '([^']+)'$/, (json) => {
+      testScenario.setJSONRequestBody(json);
+    });
+    and(/^I POST it to '([^']+)'$/, async (url) => {
+      await testScenario.postJSON(url);
+    });
+    when(
+      "response status is loaded",
+      async () => await testScenario.processStatusResponse()
+    );
+    then(/^returned status code is (\d+)$/, (expectedStatus: number) =>
+      testScenario.checkResponseStatus(expectedStatus)
+    );
+  });
 });
