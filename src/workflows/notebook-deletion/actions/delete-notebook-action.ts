@@ -1,6 +1,6 @@
-import { notebookControllerConfiguration } from "../../configuration/configuration";
-import { Logger } from "../../logger/logger";
-import { NotebookStore } from "../../stores/notebook/notebook-store";
+import { notebookControllerConfiguration } from "../../../configuration/configuration";
+import { Logger } from "../../../logger/logger";
+import { NotebookStore } from "../../../stores/notebook/notebook-store";
 import { NotebookDeletionOutput } from "./delete-all-notes-in-notebook-action";
 
 interface DeleteNotebookActionProperties {

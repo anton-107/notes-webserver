@@ -1,7 +1,7 @@
 import { dependenciesConfiguration } from "../../configuration/configuration";
 import { Logger } from "../../logger/logger";
 import { WorkflowExecutor } from "../../workflows/interfaces";
-import { NotebookDeletionInput } from "../../workflows/notebook-deletion/delete-all-notes-in-notebook-action";
+import { NotebookDeletionInput } from "../../workflows/notebook-deletion/actions/delete-all-notes-in-notebook-action";
 import {
   StreamEvent,
   unmarshallRecordToNotebook,

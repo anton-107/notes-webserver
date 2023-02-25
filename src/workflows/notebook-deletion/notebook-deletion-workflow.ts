@@ -1,9 +1,9 @@
 import { join } from "path";
 
 import { WorkflowTask } from "../interfaces";
-import { deleteAllNotesInNotebook } from "./delete-all-notes-in-notebook-action";
-import { deleteNotebook } from "./delete-notebook-action";
-import { verifyNoNotesInNotebook } from "./verify-no-notes-in-notebook-action";
+import { deleteAllNotesInNotebook } from "./actions/delete-all-notes-in-notebook-action";
+import { deleteNotebook } from "./actions/delete-notebook-action";
+import { verifyNoNotesInNotebook } from "./actions/verify-no-notes-in-notebook-action";
 
 export const notebookDeletionWorkflow: WorkflowTask[] = [
   {
