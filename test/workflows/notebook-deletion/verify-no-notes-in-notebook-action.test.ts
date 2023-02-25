@@ -6,7 +6,7 @@ import { NoteStore } from "../../../src/stores/note/note-store";
 import {
   verifyNoNotesInNotebook,
   VerifyNoNotesInNotebookAction,
-} from "../../../src/workflows/notebook-deletion/verify-no-notes-in-notebook-action";
+} from "../../../src/workflows/notebook-deletion/actions/verify-no-notes-in-notebook-action";
 
 describe("verifyNoNotesInNotebook", () => {
   it("should pass owner and notebookID to output", async () => {

@@ -6,7 +6,7 @@ import { NoteStore } from "../../../src/stores/note/note-store";
 import {
   deleteAllNotesInNotebook,
   DeleteAllNotesInNotebookAction,
-} from "./../../../src/workflows/notebook-deletion/delete-all-notes-in-notebook-action";
+} from "./../../../src/workflows/notebook-deletion/actions/delete-all-notes-in-notebook-action";
 
 describe("deleteAllNotesInNotebook", () => {
   afterEach(() => {

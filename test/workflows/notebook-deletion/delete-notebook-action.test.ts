@@ -3,7 +3,7 @@ import { InMemoryNotebookStore } from "../../../src/stores/notebook/notebook-sto
 import {
   deleteNotebook,
   DeleteNotebookAction,
-} from "../../../src/workflows/notebook-deletion/delete-notebook-action";
+} from "../../../src/workflows/notebook-deletion/actions/delete-notebook-action";
 
 describe("deleteNotebook", () => {
   it("throws an error if no notebook is found to be deleted", async () => {
