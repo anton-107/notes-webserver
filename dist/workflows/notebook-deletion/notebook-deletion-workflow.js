@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.notebookDeletionWorkflow = void 0;
 const path_1 = require("path");
-const delete_all_notes_in_notebook_action_1 = require("./delete-all-notes-in-notebook-action");
-const delete_notebook_action_1 = require("./delete-notebook-action");
-const verify_no_notes_in_notebook_action_1 = require("./verify-no-notes-in-notebook-action");
+const delete_all_notes_in_notebook_action_1 = require("./actions/delete-all-notes-in-notebook-action");
+const delete_notebook_action_1 = require("./actions/delete-notebook-action");
+const verify_no_notes_in_notebook_action_1 = require("./actions/verify-no-notes-in-notebook-action");
 exports.notebookDeletionWorkflow = [
     {
         type: "action",

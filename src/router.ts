@@ -40,6 +40,7 @@ export interface Route {
   path: string;
   import: string;
   action: string;
+  timeoutInSeconds?: number;
 }
 
 export const routes: Route[] = [
@@ -174,6 +175,7 @@ export const routes: Route[] = [
     path: "/note",
     import: join(__dirname, "./routes/note/post-new-note"),
     action: postNewNoteHandler.name,
+    timeoutInSeconds: 10,
   },
   {
     method: "GET",

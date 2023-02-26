@@ -5,6 +5,7 @@ export interface Route {
     path: string;
     import: string;
     action: string;
+    timeoutInSeconds?: number;
 }
 export declare const routes: Route[];
 export declare const actions: ReactiveAction[];

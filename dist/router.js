@@ -166,6 +166,7 @@ exports.routes = [
         path: "/note",
         import: (0, path_1.join)(__dirname, "./routes/note/post-new-note"),
         action: post_new_note_1.postNewNoteHandler.name,
+        timeoutInSeconds: 10,
     },
     {
         method: "GET",
