@@ -11,6 +11,7 @@ import { PersonShortRepresentationController } from "../controller/person/person
 import { PostProcessorRegistry } from "../controller/post-processor";
 import { corsHeaders } from "../http/cors-headers";
 import { LoggerBunyan } from "../logger/logger-bunyan";
+import { SourceFileHandler } from "../registries/note-types/codebase/source-file-handler";
 import { DateRangeNoteHandler } from "../registries/note-types/date-range-handler";
 import { NotesContainerHandler } from "../registries/note-types/notes-container-handler";
 import { PersonalDateRangeNoteHandler } from "../registries/note-types/personal-date-range-handler";
@@ -80,6 +81,9 @@ noteTypesRegistry.addNoteTypeHandler(new PersonalDateRangeNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new NotesContainerHandler());
 noteTypesRegistry.addNoteTypeHandler(
   new YoutubeVideoHandler({ notebookTableColumnsRegistry })
+);
+noteTypesRegistry.addNoteTypeHandler(
+  new SourceFileHandler({ notebookTableColumnsRegistry })
 );
 
 const postProcessorRegistry = new PostProcessorRegistry();

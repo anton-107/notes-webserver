@@ -9,6 +9,7 @@ const person_short_representation_controller_1 = require("../controller/person/p
 const post_processor_1 = require("../controller/post-processor");
 const cors_headers_1 = require("../http/cors-headers");
 const logger_bunyan_1 = require("../logger/logger-bunyan");
+const source_file_handler_1 = require("../registries/note-types/codebase/source-file-handler");
 const date_range_handler_1 = require("../registries/note-types/date-range-handler");
 const notes_container_handler_1 = require("../registries/note-types/notes-container-handler");
 const personal_date_range_handler_1 = require("../registries/note-types/personal-date-range-handler");
@@ -65,6 +66,7 @@ noteTypesRegistry.addNoteTypeHandler(new date_range_handler_1.DateRangeNoteHandl
 noteTypesRegistry.addNoteTypeHandler(new personal_date_range_handler_1.PersonalDateRangeNoteHandler());
 noteTypesRegistry.addNoteTypeHandler(new notes_container_handler_1.NotesContainerHandler());
 noteTypesRegistry.addNoteTypeHandler(new youtube_video_handler_1.YoutubeVideoHandler({ notebookTableColumnsRegistry }));
+noteTypesRegistry.addNoteTypeHandler(new source_file_handler_1.SourceFileHandler({ notebookTableColumnsRegistry }));
 const postProcessorRegistry = new post_processor_1.PostProcessorRegistry();
 let configurationCache = undefined;
 function resetConfigurationCache() {
