@@ -5,8 +5,17 @@ class NotebookTableColumnsRegistry {
     constructor() {
         this.columns = [];
     }
-    addColumn(handler) {
-        this.columns.push(handler);
+    addColumn(column) {
+        this.columns.push(column);
+    }
+    addColumnsFromNoteTypesRegistry(registry) {
+        const handlers = registry.listNoteTypeHandlers();
+        for (const h of handlers) {
+            const columns = h.listSupportedColumns();
+            for (const c of columns) {
+                this.addColumn(c);
+            }
+        }
     }
     listColumns() {
         return this.columns;

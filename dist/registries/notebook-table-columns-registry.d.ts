@@ -1,6 +1,8 @@
 import { NotebookTableColumn } from "../model/notebook-model";
+import { NoteTypesRegistry } from "./note-types-registry";
 export declare class NotebookTableColumnsRegistry {
     private columns;
-    addColumn(handler: NotebookTableColumn): void;
+    addColumn(column: NotebookTableColumn): void;
+    addColumnsFromNoteTypesRegistry(registry: NoteTypesRegistry): void;
     listColumns(): NotebookTableColumn[];
 }

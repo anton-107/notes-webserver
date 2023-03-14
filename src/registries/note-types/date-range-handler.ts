@@ -2,6 +2,7 @@ import { generate } from "short-uuid";
 
 import { FormBody } from "../../http/body-parser";
 import { Note, RenderedNote } from "../../model/note-model";
+import { NotebookTableColumn } from "../../model/notebook-model";
 import { NoteTypeHandler } from "../note-types-registry";
 
 export class DateRangeNoteHandler implements NoteTypeHandler {
@@ -84,5 +85,8 @@ export class DateRangeNoteHandler implements NoteTypeHandler {
     <div>
     * - enter dates in YYYY-MM-DD format
     </div>`;
+  }
+  public listSupportedColumns(): NotebookTableColumn[] {
+    return [];
   }
 }

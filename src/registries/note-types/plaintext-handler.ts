@@ -2,7 +2,10 @@ import { generate } from "short-uuid";
 
 import { FormBody } from "../../http/body-parser";
 import { Note, RenderedNote } from "../../model/note-model";
-import { NotebookColumnValueType } from "../../model/notebook-model";
+import {
+  NotebookColumnValueType,
+  NotebookTableColumn,
+} from "../../model/notebook-model";
 import { NoteTypeHandler } from "../note-types-registry";
 import { NotebookTableColumnsRegistry } from "../notebook-table-columns-registry";
 
@@ -86,5 +89,8 @@ export class PlaintextNoteHandler implements NoteTypeHandler {
         manualOrder: form["note-manual-order"],
       },
     };
+  }
+  public listSupportedColumns(): NotebookTableColumn[] {
+    return [];
   }
 }

@@ -79,6 +79,9 @@ class DateRangeNoteHandler {
     * - enter dates in YYYY-MM-DD format
     </div>`;
     }
+    listSupportedColumns() {
+        return [];
+    }
 }
 exports.DateRangeNoteHandler = DateRangeNoteHandler;
 //# sourceMappingURL=date-range-handler.js.map

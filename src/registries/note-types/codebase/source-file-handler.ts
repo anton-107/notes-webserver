@@ -1,5 +1,6 @@
 import { FormBody } from "../../../http/body-parser";
 import { Note } from "../../../model/note-model";
+import { NotebookTableColumn } from "../../../model/notebook-model";
 import { NoteTypeHandler } from "../../note-types-registry";
 import { PlaintextNoteHandler } from "../plaintext-handler";
 
@@ -35,5 +36,27 @@ export class SourceFileHandler
     note.extensionProperties.numberOfContributors =
       form["number-of-contributors"];
     return note;
+  }
+  public listSupportedColumns(): NotebookTableColumn[] {
+    return [
+      {
+        name: "Number of lines",
+        columnType: "number-of-lines",
+        valueType: "number",
+        valueSource: "extensionProperties",
+      },
+      {
+        name: "Number of changes",
+        columnType: "number-of-changes",
+        valueType: "number",
+        valueSource: "extensionProperties",
+      },
+      {
+        name: "Number of contributors",
+        columnType: "number-of-contributors",
+        valueType: "number",
+        valueSource: "extensionProperties",
+      },
+    ];
   }
 }

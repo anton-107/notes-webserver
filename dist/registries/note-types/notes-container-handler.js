@@ -38,6 +38,9 @@ class NotesContainerHandler {
         r.content = form["note-content"];
         return r;
     }
+    listSupportedColumns() {
+        return [];
+    }
 }
 exports.NotesContainerHandler = NotesContainerHandler;
 //# sourceMappingURL=notes-container-handler.js.map

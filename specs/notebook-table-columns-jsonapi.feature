@@ -12,3 +12,5 @@ Feature: Notebook table columns
     Then json query 'columns[2].name' returns value 'End date'
     Then json query 'columns[3].name' returns value 'Assignee'
     Then json query 'columns[4].name' returns value 'Completed'
+    Then json query 'columns[5].name' returns value 'Number of lines'
+    Then json query 'columns[5].valueSource' returns value 'extensionProperties'

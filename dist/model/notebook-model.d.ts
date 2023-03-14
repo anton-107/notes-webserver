@@ -3,11 +3,13 @@ export interface NotebookSection {
     id: string;
     name: string;
 }
-export type NotebookColumnValueType = "string" | "date" | "datetime" | "boolean" | "person-id" | "note-id" | "notebook-id";
+export type NotebookColumnValueType = "string" | "date" | "datetime" | "boolean" | "number" | "person-id" | "note-id" | "notebook-id";
+type NotebookColumnValueSource = "columnValues" | "extensionProperties";
 export interface NotebookTableColumn {
     name: string;
     columnType: string;
     valueType: NotebookColumnValueType;
+    valueSource: NotebookColumnValueSource;
 }
 export interface Notebook {
     id: string;
@@ -19,3 +21,4 @@ export interface Notebook {
     updatedAt: string;
     status: NotebookStatus;
 }
+export {};

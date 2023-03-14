@@ -28,6 +28,28 @@ class SourceFileHandler extends plaintext_handler_1.PlaintextNoteHandler {
             form["number-of-contributors"];
         return note;
     }
+    listSupportedColumns() {
+        return [
+            {
+                name: "Number of lines",
+                columnType: "number-of-lines",
+                valueType: "number",
+                valueSource: "extensionProperties",
+            },
+            {
+                name: "Number of changes",
+                columnType: "number-of-changes",
+                valueType: "number",
+                valueSource: "extensionProperties",
+            },
+            {
+                name: "Number of contributors",
+                columnType: "number-of-contributors",
+                valueType: "number",
+                valueSource: "extensionProperties",
+            },
+        ];
+    }
 }
 exports.SourceFileHandler = SourceFileHandler;
 //# sourceMappingURL=source-file-handler.js.map

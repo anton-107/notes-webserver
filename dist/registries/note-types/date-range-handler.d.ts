@@ -1,5 +1,6 @@
 import { FormBody } from "../../http/body-parser";
 import { Note, RenderedNote } from "../../model/note-model";
+import { NotebookTableColumn } from "../../model/notebook-model";
 import { NoteTypeHandler } from "../note-types-registry";
 export declare class DateRangeNoteHandler implements NoteTypeHandler {
     isMatchForAutoType(): boolean;
@@ -11,4 +12,5 @@ export declare class DateRangeNoteHandler implements NoteTypeHandler {
     protected htmlView(note: Note): string;
     renderCreateForm(): string;
     renderEditForm(note: Note): string;
+    listSupportedColumns(): NotebookTableColumn[];
 }

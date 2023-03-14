@@ -10,14 +10,18 @@ export type NotebookColumnValueType =
   | "date"
   | "datetime"
   | "boolean"
+  | "number"
   | "person-id"
   | "note-id"
   | "notebook-id";
+
+type NotebookColumnValueSource = "columnValues" | "extensionProperties";
 
 export interface NotebookTableColumn {
   name: string;
   columnType: string;
   valueType: NotebookColumnValueType;
+  valueSource: NotebookColumnValueSource;
 }
 
 export interface Notebook {

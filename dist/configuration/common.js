@@ -39,26 +39,31 @@ notebookTableColumnsRegistry.addColumn({
     name: "Due date",
     columnType: "due-date",
     valueType: "date",
+    valueSource: "columnValues",
 });
 notebookTableColumnsRegistry.addColumn({
     name: "Start date",
     columnType: "start-date",
     valueType: "date",
+    valueSource: "columnValues",
 });
 notebookTableColumnsRegistry.addColumn({
     name: "End date",
     columnType: "end-date",
     valueType: "date",
+    valueSource: "columnValues",
 });
 notebookTableColumnsRegistry.addColumn({
     name: "Assignee",
     columnType: "task-assignee",
     valueType: "person-id",
+    valueSource: "columnValues",
 });
 notebookTableColumnsRegistry.addColumn({
     name: "Completed",
     columnType: "task-completed",
     valueType: "boolean",
+    valueSource: "columnValues",
 });
 const noteTypesRegistry = new note_types_registry_1.NoteTypesRegistry();
 noteTypesRegistry.addNoteTypeHandler(new plaintext_handler_1.PlaintextNoteHandler({ notebookTableColumnsRegistry }));
@@ -67,6 +72,7 @@ noteTypesRegistry.addNoteTypeHandler(new personal_date_range_handler_1.PersonalD
 noteTypesRegistry.addNoteTypeHandler(new notes_container_handler_1.NotesContainerHandler());
 noteTypesRegistry.addNoteTypeHandler(new youtube_video_handler_1.YoutubeVideoHandler({ notebookTableColumnsRegistry }));
 noteTypesRegistry.addNoteTypeHandler(new source_file_handler_1.SourceFileHandler({ notebookTableColumnsRegistry }));
+notebookTableColumnsRegistry.addColumnsFromNoteTypesRegistry(noteTypesRegistry);
 const postProcessorRegistry = new post_processor_1.PostProcessorRegistry();
 let configurationCache = undefined;
 function resetConfigurationCache() {

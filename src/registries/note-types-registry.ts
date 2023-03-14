@@ -1,5 +1,6 @@
 import { FormBody } from "../http/body-parser";
 import { Note, RenderedNote } from "../model/note-model";
+import { NotebookTableColumn } from "../model/notebook-model";
 
 export interface NoteTypeHandler {
   typeName(): string;
@@ -14,6 +15,7 @@ export interface NoteTypeHandler {
     form: FormBody
   ): Note;
   isMatchForAutoType(content: string): boolean;
+  listSupportedColumns(): NotebookTableColumn[];
 }
 
 export class NoteTypesRegistry {

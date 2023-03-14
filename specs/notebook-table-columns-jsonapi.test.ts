@@ -48,5 +48,15 @@ defineFeature(feature, (test) => {
       /^json query '([^']+)' returns value '([^']+)'$/,
       (query, fieldValue) => testScenario.checkJSONQuery(query, fieldValue)
     );
+
+    then(
+      /^json query '([^']+)' returns value '([^']+)'$/,
+      (query, fieldValue) => testScenario.checkJSONQuery(query, fieldValue)
+    );
+
+    then(
+      /^json query '([^']+)' returns value '([^']+)'$/,
+      (query, fieldValue) => testScenario.checkJSONQuery(query, fieldValue)
+    );
   });
 });

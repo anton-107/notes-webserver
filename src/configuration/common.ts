@@ -50,26 +50,31 @@ notebookTableColumnsRegistry.addColumn({
   name: "Due date",
   columnType: "due-date",
   valueType: "date",
+  valueSource: "columnValues",
 });
 notebookTableColumnsRegistry.addColumn({
   name: "Start date",
   columnType: "start-date",
   valueType: "date",
+  valueSource: "columnValues",
 });
 notebookTableColumnsRegistry.addColumn({
   name: "End date",
   columnType: "end-date",
   valueType: "date",
+  valueSource: "columnValues",
 });
 notebookTableColumnsRegistry.addColumn({
   name: "Assignee",
   columnType: "task-assignee",
   valueType: "person-id",
+  valueSource: "columnValues",
 });
 notebookTableColumnsRegistry.addColumn({
   name: "Completed",
   columnType: "task-completed",
   valueType: "boolean",
+  valueSource: "columnValues",
 });
 
 const noteTypesRegistry = new NoteTypesRegistry();
@@ -85,6 +90,8 @@ noteTypesRegistry.addNoteTypeHandler(
 noteTypesRegistry.addNoteTypeHandler(
   new SourceFileHandler({ notebookTableColumnsRegistry })
 );
+
+notebookTableColumnsRegistry.addColumnsFromNoteTypesRegistry(noteTypesRegistry);
 
 const postProcessorRegistry = new PostProcessorRegistry();
 let configurationCache: ServiceConfiguration | undefined = undefined;

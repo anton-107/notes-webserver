@@ -72,6 +72,9 @@ class PlaintextNoteHandler {
             },
         };
     }
+    listSupportedColumns() {
+        return [];
+    }
 }
 exports.PlaintextNoteHandler = PlaintextNoteHandler;
 //# sourceMappingURL=plaintext-handler.js.map
