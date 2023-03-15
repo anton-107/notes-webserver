@@ -41,19 +41,19 @@ export class SourceFileHandler
     return [
       {
         name: "Number of lines",
-        columnType: "number-of-lines",
+        columnType: "numberOfLines",
         valueType: "number",
         valueSource: "extensionProperties",
       },
       {
         name: "Number of changes",
-        columnType: "number-of-changes",
+        columnType: "numberOfChanges",
         valueType: "number",
         valueSource: "extensionProperties",
       },
       {
         name: "Number of contributors",
-        columnType: "number-of-contributors",
+        columnType: "numberOfContributors",
         valueType: "number",
         valueSource: "extensionProperties",
       },
