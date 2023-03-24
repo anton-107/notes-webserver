@@ -14,13 +14,15 @@ export interface NoteAttachment {
   owner: string;
 }
 
+export type NoteExtensionProperties = { [key: string]: string };
+
 export interface Note {
   id: string;
   notebookID: string;
   owner: string;
   type: NoteType;
   content: string;
-  extensionProperties?: { [key: string]: string };
+  extensionProperties?: NoteExtensionProperties;
   columnValues?: { [key: string]: NotebookColumnValueType };
 }
 export interface RenderedNote extends Note {

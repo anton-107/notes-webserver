@@ -1,5 +1,5 @@
 import { FormBody } from "../../../http/body-parser";
-import { Note } from "../../../model/note-model";
+import { Note, NoteExtensionProperties } from "../../../model/note-model";
 import { NotebookTableColumn } from "../../../model/notebook-model";
 import { NoteTypeHandler } from "../../note-types-registry";
 import { PlaintextNoteHandler } from "../plaintext-handler";
@@ -23,18 +23,12 @@ export class SourceFileHandler
     if (!note.extensionProperties) {
       note.extensionProperties = {};
     }
-    note.extensionProperties.numberOfLines = form["number-of-lines"];
-    note.extensionProperties.numberOfChanges = form["number-of-changes"];
-    note.extensionProperties.numberOfContributors =
-      form["number-of-contributors"];
+    this.populateExtensionPropertiesFromForm(note.extensionProperties, form);
     return note;
   }
   public mapRequestToNewEntity(username: string, form: FormBody): Note {
     const note = super.mapRequestToNewEntity(username, form);
-    note.extensionProperties.numberOfLines = form["number-of-lines"];
-    note.extensionProperties.numberOfChanges = form["number-of-changes"];
-    note.extensionProperties.numberOfContributors =
-      form["number-of-contributors"];
+    this.populateExtensionPropertiesFromForm(note.extensionProperties, form);
     return note;
   }
   public listSupportedColumns(): NotebookTableColumn[] {
@@ -58,5 +52,13 @@ export class SourceFileHandler
         valueSource: "extensionProperties",
       },
     ];
+  }
+  private populateExtensionPropertiesFromForm(
+    extensionProperties: NoteExtensionProperties,
+    form: FormBody
+  ) {
+    extensionProperties.numberOfLines = form["number-of-lines"];
+    extensionProperties.numberOfChanges = form["number-of-changes"];
+    extensionProperties.numberOfContributors = form["number-of-contributors"];
   }
 }
