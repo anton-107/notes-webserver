@@ -4,6 +4,17 @@ import { NotebookTableColumn } from "../../../model/notebook-model";
 import { NoteTypeHandler } from "../../note-types-registry";
 import { PlaintextNoteHandler } from "../plaintext-handler";
 
+interface Contributor {
+  name: string;
+  numberOfChanges: number;
+  firstChangeTimestamp: number;
+  lastChangeTimestamp: number;
+}
+
+export type SourceFileHandlerExtensionProperties = NoteExtensionProperties & {
+  contributors?: Contributor[];
+};
+
 export class SourceFileHandler
   extends PlaintextNoteHandler
   implements NoteTypeHandler
@@ -51,14 +62,32 @@ export class SourceFileHandler
         valueType: "number",
         valueSource: "extensionProperties",
       },
+      {
+        name: "Contributors",
+        columnType: "contributors",
+        valueType: "list-of-objects",
+        valueSource: "extensionProperties",
+      },
     ];
   }
   private populateExtensionPropertiesFromForm(
-    extensionProperties: NoteExtensionProperties,
+    extensionProperties: SourceFileHandlerExtensionProperties,
     form: FormBody
   ) {
     extensionProperties.numberOfLines = form["number-of-lines"];
     extensionProperties.numberOfChanges = form["number-of-changes"];
     extensionProperties.numberOfContributors = form["number-of-contributors"];
+
+    if ("contributors" in form) {
+      const contributors: Contributor[] = JSON.parse(form["contributors"]);
+      extensionProperties.contributors = contributors.map((c) => {
+        return {
+          name: String(c.name),
+          numberOfChanges: parseInt(String(c.numberOfChanges)),
+          firstChangeTimestamp: parseInt(String(c.firstChangeTimestamp)),
+          lastChangeTimestamp: parseInt(String(c.lastChangeTimestamp)),
+        };
+      });
+    }
   }
 }

@@ -13,7 +13,8 @@ export type NotebookColumnValueType =
   | "number"
   | "person-id"
   | "note-id"
-  | "notebook-id";
+  | "notebook-id"
+  | "list-of-objects";
 
 type NotebookColumnValueSource = "columnValues" | "extensionProperties";
 

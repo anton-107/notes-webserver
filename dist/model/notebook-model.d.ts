@@ -3,7 +3,7 @@ export interface NotebookSection {
     id: string;
     name: string;
 }
-export type NotebookColumnValueType = "string" | "date" | "datetime" | "boolean" | "number" | "person-id" | "note-id" | "notebook-id";
+export type NotebookColumnValueType = "string" | "date" | "datetime" | "boolean" | "number" | "person-id" | "note-id" | "notebook-id" | "list-of-objects";
 type NotebookColumnValueSource = "columnValues" | "extensionProperties";
 export interface NotebookTableColumn {
     name: string;
