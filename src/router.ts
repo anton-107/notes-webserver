@@ -169,6 +169,7 @@ export const routes: Route[] = [
     path: "/notebook/:notebookID/note",
     import: join(__dirname, "./routes/note/get-all-notes-in-notebook"),
     action: getAllNotesInNotebookHandler.name,
+    timeoutInSeconds: 10,
   },
   {
     method: "POST",

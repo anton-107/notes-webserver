@@ -160,6 +160,7 @@ exports.routes = [
         path: "/notebook/:notebookID/note",
         import: (0, path_1.join)(__dirname, "./routes/note/get-all-notes-in-notebook"),
         action: get_all_notes_in_notebook_1.getAllNotesInNotebookHandler.name,
+        timeoutInSeconds: 10,
     },
     {
         method: "POST",

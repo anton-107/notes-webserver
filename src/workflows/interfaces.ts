@@ -12,6 +12,7 @@ export interface WorkflowExecutor {
 export interface WorkflowTask {
   type: string;
   action: Action | undefined;
+  catch?: string;
 }
 export interface Workflow {
   name: string;

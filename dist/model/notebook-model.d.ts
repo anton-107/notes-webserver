@@ -1,4 +1,4 @@
-export type NotebookStatus = "" | "MARKED_FOR_DELETION";
+export type NotebookStatus = "" | "MARKED_FOR_DELETION" | "DELETION_FAILED";
 export interface NotebookSection {
     id: string;
     name: string;
