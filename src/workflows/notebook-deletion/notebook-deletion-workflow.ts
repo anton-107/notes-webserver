@@ -14,7 +14,7 @@ export const notebookDeletionWorkflow: WorkflowTask[] = [
       import: join(__dirname, "./actions/mark-as-deletion-failed-action"),
       action: markAsDeletionFailed.name,
     },
-  }
+  },
   {
     type: "action",
     action: {

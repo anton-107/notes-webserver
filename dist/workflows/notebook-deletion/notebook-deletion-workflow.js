@@ -8,6 +8,14 @@ const mark_as_deletion_failed_action_1 = require("./actions/mark-as-deletion-fai
 const verify_no_notes_in_notebook_action_1 = require("./actions/verify-no-notes-in-notebook-action");
 exports.notebookDeletionWorkflow = [
     {
+        type: "catch",
+        action: {
+            actionName: "mark-as-deletion-failed",
+            import: (0, path_1.join)(__dirname, "./actions/mark-as-deletion-failed-action"),
+            action: mark_as_deletion_failed_action_1.markAsDeletionFailed.name,
+        },
+    },
+    {
         type: "action",
         action: {
             actionName: "delete-all-notes-in-notebook",
@@ -33,14 +41,6 @@ exports.notebookDeletionWorkflow = [
             action: delete_notebook_action_1.deleteNotebook.name,
         },
         catch: "mark-as-deletion-failed",
-    },
-    {
-        type: "catch",
-        action: {
-            actionName: "mark-as-deletion-failed",
-            import: (0, path_1.join)(__dirname, "./actions/mark-as-deletion-failed-action"),
-            action: mark_as_deletion_failed_action_1.markAsDeletionFailed.name,
-        },
     },
 ];
 //# sourceMappingURL=notebook-deletion-workflow.js.map

@@ -21,7 +21,7 @@ export class MarkAsDeletionFailedAction {
     );
 
     if (!notebook) {
-      throw Error('Notebook is not found');
+      throw Error("Notebook is not found");
     }
 
     notebook.status = "DELETION_FAILED";
