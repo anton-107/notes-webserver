@@ -1,4 +1,5 @@
-import { Person } from "../../model/person-model";
+import { Person } from "notes-model/dist/person-model";
+
 import { PersonStore } from "../../stores/person/person-store";
 import { PostProcessor } from "../post-processor";
 

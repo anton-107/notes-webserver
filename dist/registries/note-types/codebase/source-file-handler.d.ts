@@ -1,6 +1,6 @@
+import { Note, NoteExtensionProperties } from "notes-model/dist/note-model";
+import { NotebookTableColumn } from "notes-model/dist/notebook-model";
 import { FormBody } from "../../../http/body-parser";
-import { Note, NoteExtensionProperties } from "../../../model/note-model";
-import { NotebookTableColumn } from "../../../model/notebook-model";
 import { NoteTypeHandler } from "../../note-types-registry";
 import { PlaintextNoteHandler } from "../plaintext-handler";
 interface Contributor {

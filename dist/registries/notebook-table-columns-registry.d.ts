@@ -1,4 +1,4 @@
-import { NotebookTableColumn } from "../model/notebook-model";
+import { NotebookTableColumn } from "notes-model/dist/notebook-model";
 import { NoteTypesRegistry } from "./note-types-registry";
 export declare class NotebookTableColumnsRegistry {
     private columns;

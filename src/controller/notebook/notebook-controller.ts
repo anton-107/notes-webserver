@@ -1,9 +1,9 @@
+import { Notebook } from "notes-model/dist/notebook-model";
 import { generate } from "short-uuid";
 
 import { FormBody } from "../../http/body-parser";
 import { HttpResponse, HttpStatus } from "../../http/http";
 import { Logger } from "../../logger/logger";
-import { Notebook } from "../../model/notebook-model";
 import { NoteTypesRegistry } from "../../registries/note-types-registry";
 import { NotebookTableColumnsRegistry } from "../../registries/notebook-table-columns-registry";
 import { NoteStore } from "../../stores/note/note-store";

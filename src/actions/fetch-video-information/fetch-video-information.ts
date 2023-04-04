@@ -1,8 +1,8 @@
+import { NoteAttachment } from "notes-model/dist/note-model";
 import { generate } from "short-uuid";
 
 import { dependenciesConfiguration } from "../../configuration/configuration";
 import { Logger } from "../../logger/logger";
-import { NoteAttachment } from "../../model/note-model";
 import { AttachmentsStore } from "../../stores/attachments/attachments-store";
 import { NoteAttachmentsStore } from "../../stores/note/note-attachments-store";
 import { StreamEvent, unmarshallRecordToNote } from "../dynamodb-stream-source";

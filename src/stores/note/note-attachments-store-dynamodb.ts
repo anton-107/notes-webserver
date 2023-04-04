@@ -6,9 +6,9 @@ import {
   table,
 } from "@aws/dynamodb-data-mapper-annotations";
 import { AttributePath, FunctionExpression } from "@aws/dynamodb-expressions";
+import { NoteAttachment } from "notes-model/dist/note-model";
 
 import { Logger } from "../../logger/logger";
-import { NoteAttachment } from "../../model/note-model";
 import { NoteAttachmentsStore } from "./note-attachments-store";
 
 const NOTE_ATTACHMENTS__TABLE_NAME = "notes-webserver-notebook";

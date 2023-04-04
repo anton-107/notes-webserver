@@ -1,4 +1,4 @@
-import { NoteAttachment } from "../../model/note-model";
+import { NoteAttachment } from "notes-model/dist/note-model";
 
 export interface NoteAttachmentsStore {
   add(attachment: NoteAttachment): Promise<void>;

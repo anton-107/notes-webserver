@@ -1,5 +1,5 @@
+import { Notebook, NotebookTableColumn } from "notes-model/dist/notebook-model";
 import { HttpResponse } from "../../http/http";
-import { Notebook, NotebookTableColumn } from "../../model/notebook-model";
 import { EntityView } from "../entity-view";
 import { NotebookHtmlView } from "./notebook-html-view";
 export declare class NotebookJsonView extends NotebookHtmlView implements EntityView<Notebook> {

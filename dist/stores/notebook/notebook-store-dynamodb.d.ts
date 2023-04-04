@@ -1,6 +1,6 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
+import { Notebook, NotebookSection, NotebookStatus, NotebookTableColumn } from "notes-model/dist/notebook-model";
 import { Logger } from "../../logger/logger";
-import { Notebook, NotebookSection, NotebookStatus, NotebookTableColumn } from "../../model/notebook-model";
 import { NotebookStore } from "./notebook-store";
 export declare class NotebookEntity implements Notebook {
     owner: string;

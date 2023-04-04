@@ -1,4 +1,4 @@
-import { Notebook } from "../../model/notebook-model";
+import { Notebook } from "notes-model/dist/notebook-model";
 import { EntityStore } from "../entity-store";
 export interface NotebookStore extends EntityStore<Notebook> {
     add(notebook: Notebook): Promise<void>;

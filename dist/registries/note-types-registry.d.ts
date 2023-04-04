@@ -1,6 +1,6 @@
+import { Note, RenderedNote } from "notes-model/dist/note-model";
+import { NotebookTableColumn } from "notes-model/dist/notebook-model";
 import { FormBody } from "../http/body-parser";
-import { Note, RenderedNote } from "../model/note-model";
-import { NotebookTableColumn } from "../model/notebook-model";
 export interface NoteTypeHandler {
     typeName(): string;
     typeDisplayName(): string;

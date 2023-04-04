@@ -1,8 +1,8 @@
+import { Note } from "notes-model/dist/note-model";
 import { FormBody } from "../../http/body-parser";
 import { CORSHeaders } from "../../http/cors-headers";
 import { HttpResponse } from "../../http/http";
 import { Logger } from "../../logger/logger";
-import { Note } from "../../model/note-model";
 import { NoteTypesRegistry } from "../../registries/note-types-registry";
 import { AttachmentsStore } from "../../stores/attachments/attachments-store";
 import { NoteAttachmentsStore } from "../../stores/note/note-attachments-store";

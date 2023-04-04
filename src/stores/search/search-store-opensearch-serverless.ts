@@ -1,7 +1,7 @@
+import { SearchResult } from "notes-model/dist/search-result-model";
 import { OpenSearchClient } from "opensearch-module/dist/opensearch-client";
 
 import { Logger } from "../../logger/logger";
-import { SearchResult } from "../../model/search-result-model";
 import { SearchStore } from "./search-store";
 
 interface SearchStoreOpensearchServerlessProperties {

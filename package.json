@@ -66,6 +66,7 @@
     "qs": "^6.11.0",
     "short-uuid": "^4.2.0",
     "uuid": "^9.0.0",
-    "youtube-module": "anton-107/youtube-module"
+    "youtube-module": "anton-107/youtube-module",
+    "notes-model": "anton-107/notes-model"
   }
 }

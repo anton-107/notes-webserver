@@ -6,14 +6,14 @@ import {
   table,
 } from "@aws/dynamodb-data-mapper-annotations";
 import { AttributePath, FunctionExpression } from "@aws/dynamodb-expressions";
-
-import { Logger } from "../../logger/logger";
 import {
   Notebook,
   NotebookSection,
   NotebookStatus,
   NotebookTableColumn,
-} from "../../model/notebook-model";
+} from "notes-model/dist/notebook-model";
+
+import { Logger } from "../../logger/logger";
 import { NotebookStore } from "./notebook-store";
 
 const NOTEBOOK_TABLE_NAME = "notes-webserver-notebook";

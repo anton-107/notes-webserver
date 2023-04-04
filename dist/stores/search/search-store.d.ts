@@ -1,4 +1,4 @@
-import { SearchResult } from "../../model/search-result-model";
+import { SearchResult } from "notes-model/dist/search-result-model";
 import { NoteStore } from "../note/note-store";
 import { NotebookStore } from "../notebook/notebook-store";
 export interface SearchStore {

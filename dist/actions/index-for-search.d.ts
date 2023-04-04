@@ -1,7 +1,7 @@
 import { Note } from "aws-sdk/clients/securityhub";
+import { Notebook } from "notes-model/dist/notebook-model";
+import { Person } from "notes-model/dist/person-model";
 import { OpenSearchClient } from "opensearch-module/dist/opensearch-client";
-import { Notebook } from "../model/notebook-model";
-import { Person } from "../model/person-model";
 type IndexableEntity = Notebook | Note | Person;
 interface IndexForSearchProperties {
     openSearchClient: OpenSearchClient;

@@ -5,9 +5,9 @@ import {
   rangeKey,
   table,
 } from "@aws/dynamodb-data-mapper-annotations";
+import { Person } from "notes-model/dist/person-model";
 
 import { Logger } from "../../logger/logger";
-import { Person } from "../../model/person-model";
 import { PersonStore } from "./person-store";
 
 const PERSON_TABLE_NAME = "notes-webserver-people";

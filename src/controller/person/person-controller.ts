@@ -1,7 +1,7 @@
+import { Person } from "notes-model/dist/person-model";
 import { generate } from "short-uuid";
 
 import { FormBody } from "../../http/body-parser";
-import { Person } from "../../model/person-model";
 import { EntityController } from "../entity-controller";
 
 export class PersonController extends EntityController<Person> {

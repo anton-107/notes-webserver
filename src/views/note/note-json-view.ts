@@ -1,5 +1,6 @@
+import { Note } from "notes-model/dist/note-model";
+
 import { HttpResponse, HttpStatus } from "../../http/http";
-import { Note } from "../../model/note-model";
 import { EntityView } from "../entity-view";
 import { NoteHtmlView } from "./note-html-view";
 

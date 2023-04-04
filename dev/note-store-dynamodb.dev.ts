@@ -1,9 +1,9 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
 import { DynamoDB } from "aws-sdk";
+import { Note } from "notes-model/dist/note-model";
 import { generate } from "short-uuid";
 
 import { LoggerBunyan } from "../src/logger/logger-bunyan";
-import { Note } from "../src/model/note-model";
 import { NoteStoreDynamodb } from "../src/stores/note/note-store-dynamodb";
 
 const SAMPLE_NOTEBOOK_ID = "16gZ3KwMfLGLWta9W3rf4q";

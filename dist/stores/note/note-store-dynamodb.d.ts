@@ -1,7 +1,7 @@
 import { DataMapper } from "@aws/dynamodb-data-mapper";
+import { Note, NoteType } from "notes-model/dist/note-model";
+import { NotebookColumnValueType } from "notes-model/dist/notebook-model";
 import { Logger } from "../../logger/logger";
-import { Note, NoteType } from "../../model/note-model";
-import { NotebookColumnValueType } from "../../model/notebook-model";
 import { NoteStore } from "./note-store";
 export declare class NoteEntity implements Note {
     owner: string;

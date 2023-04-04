@@ -1,9 +1,9 @@
 import { getSchema } from "@aws/dynamodb-data-mapper";
 import { unmarshallItem } from "@aws/dynamodb-data-marshaller";
 import { DynamoDBStreams } from "aws-sdk";
+import { Note } from "notes-model/dist/note-model";
+import { Notebook } from "notes-model/dist/notebook-model";
 
-import { Note } from "../model/note-model";
-import { Notebook } from "../model/notebook-model";
 import { NoteEntity } from "../stores/note/note-store-dynamodb";
 import { NotebookEntity } from "../stores/notebook/notebook-store-dynamodb";
 

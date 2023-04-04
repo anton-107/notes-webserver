@@ -1,5 +1,5 @@
+import { Person } from "notes-model/dist/person-model";
 import { FormBody } from "../../http/body-parser";
-import { Person } from "../../model/person-model";
 import { EntityController } from "../entity-controller";
 export declare class PersonController extends EntityController<Person> {
     protected getEntityName(): string;

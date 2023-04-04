@@ -395,10 +395,6 @@ module.exports = {
         //       },
         //     },
         //     {
-        //       criteria: { source: "^src/model" },
-        //       attributes: { fillcolor: "#ccccff" }
-        //     },
-        //     {
         //       criteria: { source: "^src/view" },
         //       attributes: { fillcolor: "#ccffcc" }
         //     },
@@ -415,10 +411,6 @@ module.exports = {
         //     {
         //       criteria: { "rules[0].severity": "info" },
         //       attributes: { fontcolor: "blue", color: "blue" }
-        //     },
-        //     {
-        //       criteria: { resolved: "^src/model" },
-        //       attributes: { color: "#0000ff77" }
         //     },
         //     {
         //       criteria: { resolved: "^src/view" },

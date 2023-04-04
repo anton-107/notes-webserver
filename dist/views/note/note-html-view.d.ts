@@ -1,6 +1,6 @@
+import { Note } from "notes-model/dist/note-model";
 import { CORSHeaders } from "../../http/cors-headers";
 import { HttpResponse } from "../../http/http";
-import { Note } from "../../model/note-model";
 import { NoteTypeHandler, NoteTypesRegistry } from "../../registries/note-types-registry";
 import { EntityView } from "../entity-view";
 import { HtmlViewProperties } from "../interfaces";

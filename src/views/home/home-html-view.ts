@@ -1,5 +1,6 @@
-import { Notebook } from "../../model/notebook-model";
-import { Person } from "../../model/person-model";
+import { Notebook } from "notes-model/dist/notebook-model";
+import { Person } from "notes-model/dist/person-model";
+
 import { HtmlViewProperties } from "../interfaces";
 
 export class HomeHtmlView {

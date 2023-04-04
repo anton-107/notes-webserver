@@ -1,6 +1,6 @@
+import { Person } from "notes-model/dist/person-model";
 import { CORSHeaders } from "../../http/cors-headers";
 import { HttpResponse } from "../../http/http";
-import { Person } from "../../model/person-model";
 import { EntityView } from "../entity-view";
 import { HtmlViewProperties } from "../interfaces";
 import { PersonHtmlView } from "./person-html-view";

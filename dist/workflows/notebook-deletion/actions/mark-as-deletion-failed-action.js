@@ -10,7 +10,7 @@ class MarkAsDeletionFailedAction {
         this.properties.logger.info("Running MarkAsDeletionFailedAction for the following notebook id: ", { entityID: event.notebookID, username: event.owner, data: event });
         const notebook = await this.properties.notebookStore.getOne(event.owner, event.notebookID);
         if (!notebook) {
-            throw Error('Notebook is not found');
+            throw Error("Notebook is not found");
         }
         notebook.status = "DELETION_FAILED";
         await this.properties.notebookStore.editOne(notebook);

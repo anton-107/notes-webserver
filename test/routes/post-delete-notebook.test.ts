@@ -1,11 +1,11 @@
 import { Authenticator } from "authentication-module/dist/authenticator";
+import { Notebook } from "notes-model/dist/notebook-model";
 import { anything, instance, mock, when } from "ts-mockito";
 
 import { notebookControllerConfiguration } from "../../src/configuration/configuration";
 import { NotebookController } from "../../src/controller/notebook/notebook-controller";
 import { HttpStatus } from "../../src/http/http";
 import { ResponseType } from "../../src/http/response-type-parser";
-import { Notebook } from "../../src/model/notebook-model";
 import {
   InMemoryNotebookStore,
   NotebookStore,

@@ -1,5 +1,6 @@
+import { Notebook, NotebookTableColumn } from "notes-model/dist/notebook-model";
+
 import { HttpResponse, HttpStatus } from "../../http/http";
-import { Notebook, NotebookTableColumn } from "../../model/notebook-model";
 import { EntityView } from "../entity-view";
 import { NotebookHtmlView } from "./notebook-html-view";
 

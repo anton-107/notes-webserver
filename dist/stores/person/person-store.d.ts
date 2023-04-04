@@ -1,4 +1,4 @@
-import { Person } from "../../model/person-model";
+import { Person } from "notes-model/dist/person-model";
 import { EntityStore } from "../entity-store";
 export interface PersonStore extends EntityStore<Person> {
     add(person: Person): Promise<void>;

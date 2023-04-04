@@ -1,6 +1,7 @@
+import { Notebook } from "notes-model/dist/notebook-model";
+
 import { CORSHeaders } from "../../http/cors-headers";
 import { HttpResponse, HttpStatus } from "../../http/http";
-import { Notebook } from "../../model/notebook-model";
 import { EntityView } from "../entity-view";
 import { HtmlViewProperties } from "../interfaces";
 

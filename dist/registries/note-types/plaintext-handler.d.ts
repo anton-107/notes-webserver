@@ -1,6 +1,6 @@
+import { Note, RenderedNote } from "notes-model/dist/note-model";
+import { NotebookTableColumn } from "notes-model/dist/notebook-model";
 import { FormBody } from "../../http/body-parser";
-import { Note, RenderedNote } from "../../model/note-model";
-import { NotebookTableColumn } from "../../model/notebook-model";
 import { NoteTypeHandler } from "../note-types-registry";
 import { NotebookTableColumnsRegistry } from "../notebook-table-columns-registry";
 interface PlaintextNoteHandlerProperties {

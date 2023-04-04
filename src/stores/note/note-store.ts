@@ -1,4 +1,5 @@
-import { Note } from "../../model/note-model";
+import { Note } from "notes-model/dist/note-model";
+
 import { EntityStore } from "../entity-store";
 
 export interface NoteStore extends EntityStore<Note> {

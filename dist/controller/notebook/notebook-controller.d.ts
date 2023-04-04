@@ -1,7 +1,7 @@
+import { Notebook } from "notes-model/dist/notebook-model";
 import { FormBody } from "../../http/body-parser";
 import { HttpResponse } from "../../http/http";
 import { Logger } from "../../logger/logger";
-import { Notebook } from "../../model/notebook-model";
 import { NoteTypesRegistry } from "../../registries/note-types-registry";
 import { NotebookTableColumnsRegistry } from "../../registries/notebook-table-columns-registry";
 import { NoteStore } from "../../stores/note/note-store";

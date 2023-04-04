@@ -1,11 +1,11 @@
-import { generate } from "short-uuid";
-
-import { FormBody } from "../../http/body-parser";
-import { Note, RenderedNote } from "../../model/note-model";
+import { Note, RenderedNote } from "notes-model/dist/note-model";
 import {
   NotebookColumnValueType,
   NotebookTableColumn,
-} from "../../model/notebook-model";
+} from "notes-model/dist/notebook-model";
+import { generate } from "short-uuid";
+
+import { FormBody } from "../../http/body-parser";
 import { NoteTypeHandler } from "../note-types-registry";
 import { NotebookTableColumnsRegistry } from "../notebook-table-columns-registry";
 

@@ -1,4 +1,4 @@
-import { Person } from "../../model/person-model";
+import { Person } from "notes-model/dist/person-model";
 
 export class PersonSelectorHtmlMacro {
   public renderPersonSelectorMacro(

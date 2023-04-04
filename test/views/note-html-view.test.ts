@@ -1,6 +1,6 @@
+import { Note } from "notes-model/dist/note-model";
 import { instance, mock, when } from "ts-mockito";
 
-import { Note } from "../../src/model/note-model";
 import { NoteTypesRegistry } from "../../src/registries/note-types-registry";
 import { NoteHtmlView } from "../../src/views/note/note-html-view";
 

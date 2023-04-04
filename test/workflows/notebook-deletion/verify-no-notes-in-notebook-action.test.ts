@@ -1,7 +1,7 @@
+import { Note } from "notes-model/dist/note-model";
 import { instance, mock, when } from "ts-mockito";
 
 import { LoggerBunyan } from "../../../src/logger/logger-bunyan";
-import { Note } from "../../../src/model/note-model";
 import { NoteStore } from "../../../src/stores/note/note-store";
 import {
   verifyNoNotesInNotebook,
