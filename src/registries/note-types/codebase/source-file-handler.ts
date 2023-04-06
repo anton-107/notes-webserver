@@ -1,20 +1,14 @@
-import { Note, NoteExtensionProperties } from "notes-model/dist/note-model";
+import { Note } from "notes-model/dist/note-model";
+import {
+  SourceFileContributor,
+  SourceFileHandlerExtensionProperties,
+  SourceFileNoteCreateUpdateRequest,
+} from "notes-model/dist/note-types/codebase/source-file";
 import { NotebookTableColumn } from "notes-model/dist/notebook-model";
 
 import { FormBody } from "../../../http/body-parser";
 import { NoteTypeHandler } from "../../note-types-registry";
 import { PlaintextNoteHandler } from "../plaintext-handler";
-
-interface Contributor {
-  name: string;
-  numberOfChanges: number;
-  firstChangeTimestamp: number;
-  lastChangeTimestamp: number;
-}
-
-export type SourceFileHandlerExtensionProperties = NoteExtensionProperties & {
-  contributors?: Contributor[];
-};
 
 export class SourceFileHandler
   extends PlaintextNoteHandler
@@ -72,15 +66,17 @@ export class SourceFileHandler
     ];
   }
   private populateExtensionPropertiesFromForm(
-    extensionProperties: SourceFileHandlerExtensionProperties,
-    form: FormBody
+    extensionProperties: Partial<SourceFileHandlerExtensionProperties>,
+    form: Partial<SourceFileNoteCreateUpdateRequest>
   ) {
     extensionProperties.numberOfLines = form["number-of-lines"];
     extensionProperties.numberOfChanges = form["number-of-changes"];
     extensionProperties.numberOfContributors = form["number-of-contributors"];
 
     if ("contributors" in form) {
-      const contributors: Contributor[] = JSON.parse(form["contributors"]);
+      const contributors: SourceFileContributor[] = JSON.parse(
+        form["contributors"]
+      );
       extensionProperties.contributors = contributors.map((c) => {
         return {
           name: String(c.name),
