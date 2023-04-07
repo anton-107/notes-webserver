@@ -48,7 +48,7 @@ describe("SourceFileHandler handler", () => {
     expect(entity.extensionProperties.numberOfContributors).toBe("3");
 
     const extensionProperties: SourceFileHandlerExtensionProperties =
-      entity.extensionProperties;
+      entity.extensionProperties as unknown as SourceFileHandlerExtensionProperties;
     if (!extensionProperties.contributors) {
       throw "Expected entity to have contributors in extensionProperties";
     }
