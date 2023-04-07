@@ -1,8 +1,7 @@
+import { SourceFileHandlerExtensionProperties } from "notes-model/dist/note-types/codebase/source-file";
+
 import { NotebookTableColumnsRegistry } from "../../src/registries/notebook-table-columns-registry";
-import {
-  SourceFileHandler,
-  SourceFileHandlerExtensionProperties,
-} from "./../../src/registries/note-types/codebase/source-file-handler";
+import { SourceFileHandler } from "./../../src/registries/note-types/codebase/source-file-handler";
 
 describe("SourceFileHandler handler", () => {
   it("should define names", () => {
