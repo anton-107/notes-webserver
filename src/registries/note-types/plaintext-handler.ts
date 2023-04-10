@@ -53,7 +53,7 @@ export class PlaintextNoteHandler implements NoteTypeHandler {
       if (!r.extensionProperties) {
         r.extensionProperties = {};
       }
-      r.extensionProperties.manualOrder = form["note-manual-order"];
+      r.extensionProperties.manualOrder = Number(form["note-manual-order"]);
     }
     if ("table-columns" in form) {
       if (!r.columnValues) {
@@ -86,7 +86,7 @@ export class PlaintextNoteHandler implements NoteTypeHandler {
       content: form["note-content"],
       extensionProperties: {
         section: form["note-section"],
-        manualOrder: form["note-manual-order"],
+        manualOrder: Number(form["note-manual-order"]),
       },
     };
   }

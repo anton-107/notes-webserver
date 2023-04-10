@@ -84,6 +84,6 @@ describe("Plaintext handler", () => {
     if (!note.extensionProperties) {
       throw Error("Expected extensionProperties to be defined");
     }
-    expect(note.extensionProperties.manualOrder).toBe("42");
+    expect(note.extensionProperties.manualOrder).toBe(42);
   });
 });
