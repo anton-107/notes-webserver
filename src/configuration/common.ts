@@ -54,15 +54,15 @@ notebookTableColumnsRegistry.addColumn({
 });
 notebookTableColumnsRegistry.addColumn({
   name: "Start date",
-  columnType: "start-date",
+  columnType: "dateRangeStart",
   valueType: "date",
-  valueSource: "columnValues",
+  valueSource: "extensionProperties",
 });
 notebookTableColumnsRegistry.addColumn({
   name: "End date",
-  columnType: "end-date",
+  columnType: "dateRangeEnd",
   valueType: "date",
-  valueSource: "columnValues",
+  valueSource: "extensionProperties",
 });
 notebookTableColumnsRegistry.addColumn({
   name: "Assignee",
